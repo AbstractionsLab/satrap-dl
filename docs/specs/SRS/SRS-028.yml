@@ -1,0 +1,24 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Input validation
+importance: null
+level: 28
+links:
+- MRS-053: 23rMZA4dq4ocITQjNG56k9FKt5pG9_FW1GjC8rDXTdQ=
+normative: true
+rationale: See specification body
+ref: ''
+release: Alpha
+reviewed: y-eOBAV7bA2YnR1pnlewJMkJgymrLYVjt3svxMsZvUA=
+text: |
+  SATRAP-DL components receiving input to the system SHALL validate the input and reject it in case the validation fails.
+  The validation may include integrity checks, syntactic checks, semantic checks, parameter out-of-range checks, etc.
+
+  ### Rationale
+  To prevent code injection.
+type: S
+urgency: 5
+vm: I

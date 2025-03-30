@@ -1,0 +1,51 @@
+{
+	"STIXDomainObject": [
+		"attack-pattern",
+		"campaign",
+		"course-of-action",
+		"grouping",
+		"identity",
+		"indicator",
+		"infrastructure",
+		"intrusion-set",
+		"location",
+		"malware",
+		"malware-analysis",
+		"note",
+		"observed-data",
+		"opinion",
+		"report",
+		"threat-actor",
+		"tool",
+		"vulnerability"
+	],
+	"STIXRelationshipObject": [
+		"relationship",
+		"sighting"
+	],
+	"STIXCyberObservable": [
+		"artifact",
+		"autonomous-system",
+		"directory",
+		"domain-name",
+		"email-addr",
+		"email-message",
+		"file",
+		"ipv4-addr",
+		"ipv6-addr",
+		"mac-addr",
+		"mutex",
+		"network-traffic",
+		"process",
+		"software",
+		"url",
+		"user-account",
+		"windows-registry-key",
+		"x509-certificate"
+	],
+	"STIXMetaObject": [
+		"language-content",
+		"marking-definition",
+		"extension-definition"
+	]
+}

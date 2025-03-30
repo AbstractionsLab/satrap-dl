@@ -1,0 +1,43 @@
+active: true
+derived: false
+header: |
+  STIX-specific ETL design
+level: 2
+links:
+- ARC-001: y3hraERh10v0ZeagXw10yVa2irVB_Wq1bOHAkBVKLUM=
+- ARC-002: Ui5Z6JsqJkwmNktqyF6bqwgovVGHvHZbHdsvs4Hlrjs=
+- ARC-003: R0GD-wyqQaUFXEDlm6ChoGsrdZGrFgK3Vhcompn3I5g=
+- ARC-004: YQ8rkbIXe2QD1DWLdeWsLSHiG8a-BZ0uA6j3ggLhWVA=
+normative: true
+ref: ''
+references:
+- keyword: Downloader(Extractor)
+  path: satrap/etl/extract/extractor.py
+  type: file
+- keyword: STIXExtractor(Extractor)
+  path: satrap/etl/extract/extractor.py
+  type: file
+- keyword: STIXtoTypeQLTransformer(Transformer)
+  path: satrap/etl/transform/transformer.py
+  type: file
+- keyword: TypeDBLoader(Loader)
+  path: satrap/etl/load/loader.py
+  type: file
+- keyword: ETLOrchestrator
+  path: satrap/etl/etlorchestrator.py
+  type: file
+reviewed: QKUbZi1wA7Hy1FuUH6nGEvfSaK7VeLXB7L25e90Nl3Y=
+text: |
+  ## STIX-specific ETL class diagram
+
+  A concrete class definition aimed at ingesting MITRE ATT&CK data, based on inheritance from the abstract classes system is depicted below
+
+  ![Concrete STIX-specific ETL class diagram](assets/2C0A2B_DIA_Specific-ETL-design.drawio.png "Concrete STIX-specific ETL class diagram"){: width="50%"}
+
+  For instance, to provide an implementation of the ETL process to ingest MITRE ATT&CK data in STIX 2.1 format, transform and load into a TypeDB database with a schema close to STIX 2.1, concrete implementations of the ETL classes are required.
+
+  For this, we use 2 extractors, namely a Downloader which downloads a file and saves it and a STIXExtractor which reads a STIX 2.1 JSON file and provides its content as Python objects.
+
+  Then, a transformer called STIXtoTypeQLTransformer will take these STIX 2.1 objects and transform them to TypeQL insertion query objects according to the defined schema.
+
+  After the transformer has finished its work, the TypeDBLoader can take these insertion query objects and insert them into the TypeDB database instance.

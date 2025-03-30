@@ -1,0 +1,40 @@
+{
+	"type": "bundle",
+	"id": "bundle--1f126d0c-356c-43af-88f8-7a3b695dee83",
+	"spec_version": "2.1",
+	"objects": [
+		{
+			"type": "malware-analysis",
+			"spec_version": "2.1",
+			"id": "malware-analysis--d25167b7-fed0-4068-9ccd-a73dd2c5b07c",
+			"created": "2020-01-16T18:52:24.277Z",
+			"modified": "2020-01-16T18:52:24.277Z",
+			"product": "microsoft",
+			"host_vm_ref": "software--8bcf14e9-2ba2-44ef-9e32-fbbc9d2608b7",
+			"operating_system_ref": "software--f3c97285-f912-4ee4-9751-52a8e7ad1521",
+			"installed_software_refs": [
+				"software--8bcf14e9-2ba2-44ef-9e32-fbbc9d2608b7",
+				"software--f3c97285-f912-4ee4-9751-52a8e7ad1521"
+			],
+			"analysis_engine_version": "5.1.0",
+			"analysis_definition_version": "053514-0062",
+			"analysis_started": "2012-02-11T08:36:14Z",
+			"analysis_ended": "2012-02-11T08:36:14Z",
+			"result": "malicious",
+			"analysis_sco_refs": "software--8bcf14e9-2ba2-44ef-9e32-fbbc9d2608b7"
+		},
+		{
+			"type": "software",
+			"id": "software--f3c97285-f912-4ee4-9751-52a8e7ad1521",
+			"name": "Windows 10",
+			"vendor": "Microsoft",
+			"version": "10.0"
+		},
+		{
+            "type": "software",
+            "spec_version": "2.1",
+            "id": "software--8bcf14e9-2ba2-44ef-9e32-fbbc9d2608b7",
+            "name": "Word"
+        }
+	]
+}

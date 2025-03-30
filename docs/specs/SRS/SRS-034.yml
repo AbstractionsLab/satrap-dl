@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Detailed event logging
+importance: null
+level: 34
+links:
+- MRS-053: 23rMZA4dq4ocITQjNG56k9FKt5pG9_FW1GjC8rDXTdQ=
+normative: true
+rationale: See specification body
+ref: ''
+release: Beta
+reviewed: PEoqTQSENBUBRtW716hyGwy_ON4b8jH4Wp74pgKPpnI=
+text: |
+  SATRAP-DL logs SHALL be stored in a secure location and SHALL be accessible only to authorized personnel.
+
+  ### Rationale
+  To provide information for debugging purposes.
+type: S
+urgency: 3
+vm: T

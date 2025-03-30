@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Log validation
+importance: null
+level: 36
+links:
+- MRS-053: 23rMZA4dq4ocITQjNG56k9FKt5pG9_FW1GjC8rDXTdQ=
+normative: true
+rationale: See specification body
+ref: ''
+release: Alpha
+reviewed: 4qzwuAt0dhjCrTAkntYSp_LIq3mze4SUdoPHgrCkLD8=
+text: |
+  Log strings SHALL be sanitized and validated before logging to prevent log injection attacks.
+
+  ### Rationale
+  To prevent log injection attacks.
+type: S
+urgency: 4
+vm: I

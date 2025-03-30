@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Frontend terminology
+importance: 5
+level: 30
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: _Z9RI5us1_Us07Gw3vmdADOSYuRCK4wEMwYeLqLEfOc=
+text: |
+  Wherever applicable, the frontend SHALL use terms specified in relevant standards to refer to CTI concepts.
+
+  ### Rationale
+  Among other features, usage of a common vocabulary is essential for the adoption of tools in a given application domain.
+type: I
+urgency: 5
+vm: I

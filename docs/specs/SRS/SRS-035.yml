@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Consistent logging format
+importance: null
+level: 35
+links:
+- MRS-053: 23rMZA4dq4ocITQjNG56k9FKt5pG9_FW1GjC8rDXTdQ=
+normative: true
+rationale: See specification body
+ref: ''
+release: Beta
+reviewed: ewRuy953r_w_jX0Rt3il1mgENkIoRIcpPvTG6FPGmXc=
+text: |
+  SATRAP-DL logs SHALL be stored for at least X time duration according to a data retention policy.
+
+  ### Rationale
+  To generate human-readable and informative logs.
+type: C
+urgency: 1
+vm: T

@@ -1,0 +1,113 @@
+{
+	"title": "STIX Objects",
+	"description": "Information about mapping of STIX Objects",
+	"type": "object",
+	"patternProperties": {
+		"^.*$": {
+			"description": "A STIX Object",
+			"type": "object",
+			"properties": {
+				"typedb-thing-type": {
+					"description": "The entity name of the SO in TypeDB",
+					"type": "string"
+				},
+				"subtypes": {
+					"type": "object",
+					"description": "Subtype definitions of the TypeDB schema",
+					"patternProperties": {
+                        "^.*$": {
+                            "description": "The mapping depending on an attribute",
+                            "type": "object",
+                            "properties": {
+                                "_": {
+                                    "description": "default mapping",
+                                    "type": "string"
+                                }
+                            },
+                            "patternProperties": {
+                                "^.*$": {
+                                    "description": "typedb type for this value",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "minProperties": 0,
+                    "maxProperties": 1
+				},
+				"attributes": {
+					"description": "The attributes of the SO",
+					"type": "object",
+					"patternProperties": {
+						"^.*$": {
+							"description": "An attribute of the SO",
+							"type": "object",
+							"properties": {
+								"stix_value_type": {
+									"description": "The value type in STIX of the attribute",
+									"type": "string"
+								},
+								"typedb_name": {
+									"description": "The name of the attribute in TypeDB",
+									"type": "string"
+								},
+								"typedb_value_type": {
+									"description": "The value type for the attribute in TypeDB",
+									"type": "string"
+								}
+							},
+							"required": ["stix_value_type", "typedb_name", "typedb_value_type"],
+							"additionalProperties": false
+						}
+					}
+				},
+				"extensions": {
+					"description": "The extensions",
+					"type": "object",
+					"patternProperties": {
+						"^.*$": {
+							"description": "A STIX Extension",
+							"type": "object",
+							"properties": {
+								"typedb-thing-type": {
+									"description": "The TypeDB entity type of the extension",
+									"type": "string"
+								},
+								"attributes": {
+									"description": "The attributes of the extension",
+									"type": "object",
+									"patternProperties": {
+										"^.+$": {
+											"description": "An attribute of an extension",
+											"type": "object",
+											"properties": {
+												"stix_value_type": {
+													"description": "",
+													"type": "string"
+												},
+												"typedb_name": {
+													"description": "",
+													"type": "string"
+												},
+												"typedb_value_type": {
+													"description": "",
+													"type": "string"
+												}
+											},
+											"required": ["stix_value_type", "typedb_name", "typedb_value_type"],
+											"additionalProperties": false
+										}
+									}
+								}
+							},
+							"required": ["typedb-thing-type", "attributes"],
+							"additionalProperties": false
+						}
+					}
+				}
+			},
+			"required": ["typedb-thing-type", "attributes", "extensions"],
+			"additionalProperties": false
+		}
+	}
+}

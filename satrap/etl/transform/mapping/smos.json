@@ -1,0 +1,109 @@
+{
+	"language-content": {
+		"typedb-thing-type": "language-content",
+        "subtypes": {},
+		"attributes": {
+			"object_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "object_ref",
+                "typedb_value_type": "string"
+            },
+            "object_modified": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "object_modified",
+                "typedb_value_type": "datetime"
+            },
+            "contents": {
+                "stix_value_type": "dictionary",
+                "typedb_name": "contents",
+                "typedb_value_type": "dictionary"
+            }
+		},
+		"extensions": {}
+	},
+	"marking-definition": {
+		"typedb-thing-type": "marking-definition",
+        "subtypes": {
+            "definition_type": {
+                "statement": "statement-marking",
+                "tlp": "tlp-marking"
+            }
+        },
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "definition_type": {
+                "stix_value_type": "string",
+                "typedb_name": "empty",
+                "typedb_value_type": "empty"
+            },
+            "definition": {
+                "stix_value_type": "dictionary",
+                "typedb_name": "empty",
+                "typedb_value_type": "empty"
+            }
+		},
+		"extensions": {
+            "definition-statement": {
+                "typedb-thing-type": "statement-marking",
+                "attributes": {
+                    "statement": {
+                        "stix_value_type": "string",
+                        "typedb_name": "statement",
+                        "typedb_value_type": "string"
+                    }
+                }
+            },
+            "definition-tlp": {
+                "typedb-thing-type": "tlp-marking",
+                "attributes": {
+                    "tlp": {
+                        "stix_value_type": "string",
+                        "typedb_name": "tlp",
+                        "typedb_value_type": "string"
+                    }
+                }
+            }
+        }
+	},
+	"extension-definition": {
+		"typedb-thing-type": "extension-definition",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "schema": {
+                "stix_value_type": "string",
+                "typedb_name": "schema",
+                "typedb_value_type": "string"
+            },
+            "version": {
+                "stix_value_type": "string",
+                "typedb_name": "version",
+                "typedb_value_type": "string"
+            },
+            "extension_types": {
+                "stix_value_type": "list:enum",
+                "typedb_name": "extension_types",
+                "typedb_value_type": "list:string"
+            },
+            "extension_properties": {
+                "stix_value_type": "list:string",
+                "typedb_name": "extension_properties",
+                "typedb_value_type": "list:string"
+            }
+		},
+		"extensions": {}
+	}
+}

@@ -1,0 +1,36 @@
+active: true
+derived: false
+header: |
+  ETL high-level design
+level: 3
+links:
+- SRS-001: pjW33itUMmuBlkeFyifz9qmQuxEyMRQYxfril8LzbqQ=
+- SRS-002: y-K7fzatyspwF-eUuMgBeeRKuyfMxN_uBnIsHxGuIoY=
+- SRS-003: LxxQmTtjr1VCKCU4SSe_RxJBbg3oWKalSGHfHszlOQU=
+- SRS-004: WtPILkZXY8bGJIcal0A59ZvdN0_ir9hX3CBSkzQVDj8=
+- SRS-005: QtZElsH-7thYduu1tiZf5RjTYRQIVsakKrWnXsoxuHI=
+- SRS-006: HG9puhk88_hS3t_FelJWke_Rn2By-IztyiwYjVTlMfI=
+- SRS-007: ljaC6FWdXHJZT9dTbBS5IA0eI_Hia-1e76dE4EIqb6Y=
+- SRS-008: NmMgjxpBx1sxR4cXdeDBoUbGuveUJ65M652LBRUJQwM=
+- SRS-009: fOJUxXb1ZkLKu_tXQB1YRkjURV22fQZ9Ui58qfZyZUI=
+- SRS-010: twOoOAiUm60hTdOuHjanycuH95Q2ss17VjxMXIp4vgE=
+- SRS-011: ETbPRqecrMui0WtpvNNIxJSj49lufTA_r59-2lqRukE=
+- SRS-012: kln5-EHm7_kb-V39NFEmtLx_VsyHh3LJHhqsBYl-4dU=
+- SRS-013: _-52wsqzBH38P2GsR97elPIAd7VN1u0EApe3o9t8XZM=
+- SRS-014: Yho5Ybo9RrmxIq6jkrTgIR7aL1YiBItPAXR9JV6JxLs=
+- SRS-015: j3Zo3zW0RodtKJSLPPCN2FQTJP4UTpRujoOtIIPCMZg=
+- SRS-017: 1wWQFa1yfEo2xmmAKtrHaPpv0I61UEUWPrTrkjg6k4s=
+- SRS-018: Uq9lmjcdZE9SPt3vcOwTjNnIYUfVCLTbMS0sFL-cISs=
+- SRS-019: awmYMENbkqzpK4Ygklc-TOgDFjY6fj_jpQVOjjLU05I=
+- SRS-020: DomAVDAmtqQngfGzl77c_jR0VucRHKV7f5Mmwfw8NxM=
+- SRS-023: AiFtErbnKOAtXA0uRCMxFI2LakS0y4qpYcypgJGyM2k=
+- SRS-024: 2e3QqyW1JYouOTKfB-hiLU_2XvWG3hkD-OkqpwTE_vA=
+- SRS-028: 9WR8UFirv91BkzwM4XpOP1HKc2EVyyCE16R2qwyrv6Y=
+- SRS-029: Pk0FbFzcKzxInVFQXjxKzD0F4W7L4tq0FUBHIXds2wI=
+normative: true
+ref: ''
+reviewed: bM1iwbP92O98c77fheOFa1N-73hJDbMwP5pNBSH0XJc=
+text: |
+  An overview of the main external systems and internal components of SATRAP involved in the ETL process is shown in the following diagram.
+
+  ![ETL system components](assets/2C0A1A_DIA_ETL-components-c4.png){: width="80%"}

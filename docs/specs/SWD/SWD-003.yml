@@ -1,0 +1,25 @@
+active: true
+derived: false
+header: |
+  ETL system flow
+level: 3
+links:
+- ARC-001: y3hraERh10v0ZeagXw10yVa2irVB_Wq1bOHAkBVKLUM=
+- ARC-002: Ui5Z6JsqJkwmNktqyF6bqwgovVGHvHZbHdsvs4Hlrjs=
+- ARC-003: R0GD-wyqQaUFXEDlm6ChoGsrdZGrFgK3Vhcompn3I5g=
+- ARC-004: YQ8rkbIXe2QD1DWLdeWsLSHiG8a-BZ0uA6j3ggLhWVA=
+normative: true
+ref: ''
+reviewed: xdHaQmsV6mygp5fWK6ncUTkQdK6muQdT8NJFygfV-jo=
+text: |
+  ## Top-level ETL sequence diagram
+
+  Only the interaction of the ETL Orchestrator with the top level components shown above are given.
+
+  ![Sequence diagram for top-level-components of the ETL system](assets/2C0A2C_DIA_ETL-TopLevelComponents-SeqDiagram.png "Sequence diagram for top-level-components of the ETL system"){: width="50%"}
+
+  The MITRE ATT&CK data file is downloaded by the Downloader. Then, the STIX objects are read and parsed by the STIXExtractor. With this, the extraction process is completed.
+
+  Next, the STIXtoTypeQLTransformer transforms each STIX Object into TypeDB insert queries.
+
+  Once they are transformed, they are loaded into a TypeDB database by the TypeDBLoader in 3 steps. First, entities that represent STIX objects, then relations that represent STIX objects and at last relations that represent embedded relations.

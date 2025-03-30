@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Semantic relations preservation
+importance: 5
+level: 15
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: sNPEgAT7Qcfkk3x0f7RF3okqlfyONrYaKUqcnkTlS7c=
+text: |
+  The data integration module SHALL store imported threat data in the CTI SKB by maintaining the semantic relations defined in the input data.
+
+  ### Rationale
+  To ensure integrity of imported threat data.
+type: A
+urgency: 5
+vm: R

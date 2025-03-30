@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Extensibility of the data model
+importance: null
+level: 4
+links:
+- MRS-003: ly2WUSwZsmQs0RXIfkGAUOTXZgalwrpuzxpZVUhke0U=
+normative: true
+rationale: See specification body
+ref: ''
+release: Alpha
+reviewed: WgheF-JjZsGxfFbtn9P2G-gdNS4xa3_A2dT9rSusABI=
+text: |
+  The data model of the CTI SKB SHALL be extensible to accommodate for the integration of new information (e.g., facts, entities, or relationships) without requiring a complete redesign.
+
+  ### Rationale
+  Extensibility of the data model allows for gradual enrichment of the CTI SKB by combining multiple threat frameworks, as CTI might not be expressible in a single one.
+type: A
+urgency: 5
+vm: R

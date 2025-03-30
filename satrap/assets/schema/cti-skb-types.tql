@@ -1,0 +1,1874 @@
+#
+# Copyright (C) 2021 Vaticle
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+#
+#
+# Copyright (C) 2025 itrust Abstractions Lab
+#
+# This file was inspired by but presents a major revision of the source file at
+# https://github.com/typedb-osi/typedb-cti/blob/master/schema/cti-schema.tql.
+# Names of SROs are aligned with the STIX 2.1 specifications, multiple elements 
+# were redesigned and missing ones have been included.
+#
+# Moreover, the original file is incompatible with versions >= 2.25.0 of TypeDB.
+# See details at https://github.com/vaticle/typedb/releases/tag/2.25.0
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You may obtain a copy of the GNU Affero General Public License
+# at <https://www.gnu.org/licenses/>.
+
+
+define
+stix-object sub entity, abstract,
+    # Required
+    # the value of 'type' is already modelled by the subtypes of stix-object 
+    owns stix-id @key,
+    plays object-refs:referred,
+    plays data-marking:object-marked;
+    
+    stix-core-object sub stix-object, abstract,
+        # Optional
+        # ToDo: owns extensions;
+
+        # Common relations for SDOs and SCOs. Defined in 3.7.
+        # WARNING: 'Note' (4.13) does not have these relationships,
+        # yet, we decided to keep this design and enforce compliance
+        # at the application level
+        plays derived-from:parent,
+        plays derived-from:child,
+        # for duplicate-of, related-to and custom-relationship
+        plays stix-relationship-object:source-role,
+        plays stix-relationship-object:target-role;
+    
+        # SDO
+        stix-domain-object sub stix-core-object,
+            # Required (toDo 3.0: add @card(1..1))
+            owns spec-version,
+            owns created,
+            owns modified,
+        
+            # Optional
+            owns revoked,
+            owns label,
+            owns confidence,
+            owns lang,
+            
+            plays created-by-ref:object-created,
+            plays external-referencing:referrer,
+            plays sighting:sighting-of;
+            
+        # SCO
+        stix-cyber-observable-object sub stix-core-object,
+            # Optional
+            owns spec-version,
+            owns defanged,
+
+            plays analysis-sco-refs:captured-sco,
+            plays observed-data-object-refs:referred,
+            plays file-references:contained-sco,
+            plays consists-of:part;
+
+    stix-meta-object sub stix-object, abstract,
+        # Required
+        owns spec-version,
+        owns created,
+
+        plays created-by-ref:object-created,
+        plays external-referencing:referrer;
+
+
+##### 2 Common Data Types #####
+
+# 2.3 Dictionary
+has-dictionary sub relation,
+    # the name of the property of type dictionary
+    owns name,
+    relates owner, # 1
+    relates item; # many
+
+item sub entity, abstract,
+    owns item-key,
+    plays has-dictionary:item;
+    
+    string-item sub item,
+        owns string-item-value;
+        
+    int-item sub item,
+        owns int-item-value;
+
+# 2.5 External Reference
+external-reference sub entity,
+    # Required
+    owns source-name, 
+    # Optional but at least one of
+    owns description,
+    owns url-value, 
+    owns external-id,
+
+    plays has-hash:resource,
+    plays external-referencing:referenced;
+
+# external_references
+external-referencing sub relation,
+    relates referrer, # before: referencing
+    relates referenced;
+
+# 2.7 Hashes
+has-hash sub relation,
+    relates resource,
+    relates hash;
+
+hash sub entity,
+    owns hash-value, # todo 3.0: add card(1..1)
+    # ToDo: at most 1 hash of each subtype is allowed
+    plays has-hash:hash,
+    plays file-header-hash:hash;
+
+    md5 sub hash;
+    sha-1 sub hash; 
+    sha-256 sub hash;
+    sha-512 sub hash; 
+    sha3-256 sub hash; 
+    sha3-512 sub hash;
+    ssdeep sub hash; 
+    tlsh sub hash; 
+
+# hash for file headers in 6.7.6
+file-header-hash sub relation,
+    relates win-pe-bin-file,
+    relates hash;
+
+# 2.11 Kill Chain Phase
+kill-chain-phase sub entity,
+    # Required
+    owns kill-chain-name, 
+    owns phase-name,
+
+    plays kill-chain-ttp-association:kill-chain-step;
+
+# SDO used in a kill chain phase
+kill-chain-ttp-association sub relation,
+    relates kill-chain-step,
+    relates used-sdo;
+
+
+# 3.7 Common Relationships 
+# Relation types that are shared by SDOs and SCOs
+
+derived-from sub stix-relationship-object,
+    # WARNING: the specification of STIX2.1 describes 'source' as the parent
+    # and 'target' as the child object in the relation 'source derived-from target',
+    # which reads in the opposite direction of the intuitive meaning
+    relates parent as source-role,
+    relates child as target-role;
+
+duplicate-of sub stix-relationship-object;
+
+related-to sub stix-relationship-object;
+
+
+##### 4 STIX™ Domain Objects #####
+
+# 4.1 
+attack-pattern sub stix-domain-object,
+    # Required ... ToDo v3.0 - add card(1..1)
+    owns name,
+    # Optional
+    owns description,
+    owns alias,
+
+    # Relations defined as properties in STIX
+    plays kill-chain-ttp-association:used-sdo,
+
+    # Relations
+    plays delivers:carrier,
+    plays targets:threat,
+    plays uses:user,
+    # Reverse Relations
+    plays indicates:indicated,
+    plays mitigates:mitigated,
+    plays uses:used; 
+
+    # Embedded Relations
+    # Creation
+    # Object marking ref
+    
+# 4.2 Campaign
+campaign sub stix-domain-object,
+    # Required ... ToDo v3.0 - add card(1..1)
+    owns name, 
+    # Optional 
+    owns description, 
+    owns alias, 
+    owns first-seen,
+    owns last-seen,
+    owns objective,
+
+    # Relations
+    plays attributed-to:attribution,
+    plays compromises:threat,
+    plays originates-from:outcome,
+    plays targets:threat,
+    plays uses:user,
+    
+    # Reverse Relations
+    plays indicates:indicated;
+
+    # Embedded relations
+    # Creation
+    # Object marking
+
+# 4.3 Course of Action
+# This SDO is a stub in STIX2.1. 
+# To be expanded in future releases.
+course-of-action sub stix-domain-object,
+    # Required
+    owns name,
+    # Optional
+    owns description, 
+    # RESERVED for use in future versions
+    #owns action,
+
+    # Common Relations
+    plays investigates:investigator,
+    plays mitigates:mitigation,
+    plays remediates:remedy;
+
+    # Reverse Relations
+    # NA
+
+    # Embedded relations
+    # Creation
+    # Object marking ref
+    
+# 4.4 Grouping 
+grouping sub stix-domain-object,
+    # Required
+    owns context,
+    # Optional
+    owns name, 
+    owns description,
+
+    # Common Relations
+    # NA 
+
+    # Reverse Relations
+    # NA
+
+    # Embedded Relations
+    # Creation
+    # Object markings
+    # Required
+    plays object-refs:referrer;
+
+ # 4.5 Identity
+identity sub stix-domain-object,
+    # Required
+    owns name,
+    # Optional
+    owns description, 
+    owns job-role,
+    owns sector, # ToDo: see if adding vocabulary is worth
+    owns contact-information,
+    # Originally modelled as subtypes. 
+    # Since the subtypes have no specific distinct behavior
+    # it seems to be better to constraint the value with a regex
+    owns identity-class,
+
+    # Common Relations
+    plays located-at:located,
+
+    # Reverse Relations
+    plays targets:target,
+    plays attributed-to:attributee, 
+    plays impersonates:impersonated,
+
+    # Embedded Relations
+    plays created-by-ref:creator,
+    # Object marking ref
+    plays sighting:where-sighted;
+
+# 4.6 Incident
+# Note: The Incident object in STIX 2.1 is a stub. It is included to support basic use cases 
+# but does not contain properties to represent metadata about incidents. Future STIX 2 releases 
+# will expand it to include these capabilities.  Its suggested use is as an extension point for 
+# an Incident object defined using the extension facility described in section 7.3.
+incident sub stix-domain-object,
+    # Required
+    owns name, 
+    # Optional
+    owns description;
+
+# 4.7 Indicator
+indicator sub stix-domain-object, 
+    # Required
+    owns pattern, 
+    owns pattern-type,
+    owns valid-from,
+    # Optional
+    owns name, 
+    owns description, 
+    owns indicator-type,
+    owns pattern-version,
+    owns valid-until,
+
+    # Relations defined as properties in STIX
+    plays kill-chain-ttp-association:used-sdo,
+
+    # Relations
+    plays indicates:indicator,
+    plays based-on:conclusion,
+
+    # Reverse Relations
+    plays investigates:investigated,
+    plays mitigates:mitigated;
+
+    # Embedded Relations
+    # Creation
+    # Object marking ref
+
+# 4.8 Infrastructure 
+infrastructure sub stix-domain-object,
+    # Required
+    owns name,
+    # Optional
+    owns description,
+    owns infrastructure-type,
+    owns alias, # 0 or more    
+    owns first-seen,
+    owns last-seen,
+
+    plays kill-chain-ttp-association:used-sdo, 
+
+    # Relations
+    plays communicates-with:agent,
+    plays consists-of:whole,
+    plays controls:controller,
+    plays delivers:carrier,
+    plays has-vulnerability:asset,
+    plays hosts:host,
+    plays located-at:located,
+    plays uses:user,
+
+    # Reverse Relations
+    plays communicates-with:resource,
+    plays consists-of:part,
+    plays controls:controlled,
+    plays compromises:compromised,
+    plays beacons-to:receiver,
+    plays exfiltrates-to:receiver,
+    plays hosts:guest,
+    plays indicates:indicated,
+    plays ownership:owned,
+    plays targets:target,
+    plays uses:used;
+
+    # Object marking ref
+
+# 4.9 Intrusion Set
+intrusion-set sub stix-domain-object,
+    # Required
+    owns name,
+    # Optional 
+    owns description, 
+    owns alias, 
+    owns first-seen,
+    owns last-seen,
+    owns goals, 
+    owns resource-level, 
+    owns primary-motivation, 
+    owns secondary-motivation,
+
+    # Relations
+    plays attributed-to:attribution,
+    plays compromises:threat,
+    plays hosts:host,
+    plays ownership:owner,
+    plays originates-from:outcome,
+    plays targets:threat, 
+    plays uses:user,
+
+    # Reverse Relations
+    plays attributed-to:attributee, 
+    plays authored-by:author,
+    plays indicates:indicated;
+
+    # Embedded Relations
+    # Creation
+    # Object marking 
+
+# 4.10 Location
+location sub stix-domain-object,
+    # Required (at least one of)
+    owns region,
+    owns country,
+    # or the set:
+    owns latitude,
+    owns longitude,
+    # Optional
+    owns name, 
+    owns description,
+    owns administrative-area,
+    owns city,
+    owns street-address,
+    owns postal-code,
+    # only if latitude and longitude are present
+    owns precision,
+
+    # Reverse relations
+    plays located-at:location,
+    plays originates-from:origin,
+    plays targets:target,
+    plays sighting:where-sighted;
+
+     # Embedded Relations
+    # Creation
+    # Object marking
+
+# 4.11 Malware
+malware sub stix-domain-object, abstract,
+    # Required: note that this attribute determines the subtype
+    # that needs to implement this type
+    # owns is-family,
+    # Optional
+    owns description, 
+    owns malware-type,
+    owns alias,
+    owns first-seen,
+    owns last-seen,
+    owns architecture-execution-env,
+    owns implementation-language,
+    owns capability,
+    
+    # Relations defined as properties in STIX
+    plays kill-chain-ttp-association:used-sdo,
+    plays execution:executable, # operating_system_refs
+    plays malware-sample:associated-to, # sample_refs
+
+    # Common Relations
+    plays authored-by:instance,
+    plays beacons-to:agent,
+    plays exfiltrates-to:agent,
+    plays communicates-with:agent,
+    plays controls:controller,
+    plays downloads:downloader,
+    plays drops:agent,
+    plays exploits:agent,
+    plays originates-from:outcome,
+    plays targets:threat,
+    plays uses:user,
+
+    # Reverse Relations
+    plays delivers:delivered,
+    plays indicates:indicated,
+    plays mitigates:mitigated,
+    plays remediates:remediated,
+    plays uses:used,
+    plays controls:controlled,
+    plays characterizes:characterized,
+    plays analysis-of:analyzed,
+    plays downloads:resource,
+    plays drops:resource,
+
+    # Embedded Relations
+    # Creation
+    # Object marking
+    # Sample ref
+
+    #--- N1: temporary; to be checked how to go back
+    # to variant-of-instance and -family ---
+    plays variant-of:original,
+    plays variant-of:variant;
+    # --- end ---
+
+    malware-instance sub malware,
+        owns name;
+        #--- N1: commented temporarily (see comment N1 above) ---
+        # plays variant-of-family:variant,
+        # plays variant-of-instance:variant,
+        # plays variant-of-instance:source;
+        #------ end -----
+
+    malware-family sub malware,
+        owns name @key;
+        #--- N1: commented temporarily (see N1 above) ---
+        # plays variant-of-family:source,
+        # plays variant-of-family:variant;
+        #-------- end -----
+
+# 4.12 Malware Analysis
+malware-analysis sub stix-domain-object,
+    # Required
+    owns product,
+    # Optional
+    owns version,
+    owns configuration-version,
+    owns module,
+    owns analysis-engine-version,
+    owns analysis-definition-version,
+    owns submitted,
+    owns analysis-started,
+    owns analysis-ended,
+    owns result-name,
+    owns result,
+
+    # Relations defined as properties in STIX
+    plays analysis-sco-refs:analysis,
+    plays dynamic-analysis-component:analysis,
+    plays malware-analysis-sample:associated-to, # sample_refs
+
+    # Relations
+    plays characterizes:characterizer,
+    plays analysis-of:analysis;
+
+# 4.13 Note
+note sub stix-domain-object, 
+    # Required
+    owns content,
+    # Optional
+    owns abstract-note, 
+    owns author,
+
+    # Relations 
+    # NA
+
+    # Embedded Relations
+    # Creation
+    # Object marking
+    plays object-refs:referrer;
+
+# 4.14
+observed-data sub stix-domain-object,
+    # Required
+    owns first-observed, 
+    owns last-observed, 
+    owns number-observed,
+    # 'objects' has been deprecated and thus is not modelled
+
+    # Reverse Relations
+    plays based-on:evidence,
+    plays consists-of:part,
+    plays sighting:observed,
+
+    # Embedded Relations
+    # Creation
+    # Object marking
+    plays observed-data-object-refs:referrer;
+
+# 4.15 Opinion
+opinion sub stix-domain-object,
+    #Required
+    owns opinion-enum,
+    # Optional
+    owns explanation,
+    owns author,
+
+    # Embedded relations
+    # Creation
+    # Object marking
+    plays object-refs:referrer;
+
+# 4.16 Report
+report sub stix-domain-object, 
+    # Required
+    owns name,
+    owns published,
+    # Optional
+    owns description,
+    owns report-type, 
+
+    # Embedded relations
+    # Creation 
+    # Object Marking
+    plays object-refs:referrer;
+
+# 4.17
+threat-actor sub stix-domain-object,
+    # Required
+    owns name,
+    # Optional
+    owns description, 
+    owns threat-actor-type,
+    owns alias,
+    owns first-seen,
+    owns last-seen,
+    owns job-role,
+    owns goals,
+    owns sophistication,
+    owns resource-level, 
+    owns primary-motivation,
+    owns secondary-motivation,
+    owns personal-motivation,
+
+    # Common Relations
+    plays attributed-to:attribution,
+    plays compromises:threat,
+    plays hosts:host,
+    plays ownership:owner,
+    plays impersonates:impersonator,
+    plays located-at:located,
+    plays targets:threat,
+    plays uses:user,
+
+    # Reverse Relations
+    plays attributed-to:attributee,
+    plays authored-by:author,
+    plays indicates:indicated;
+
+    # Embedded relations
+    # Creation 
+    # Object Marking
+
+# 4.18 Tool
+tool sub stix-domain-object,
+    # Required
+    owns name,
+    # Optional
+    owns description,
+    owns tool-type,
+    owns alias, 
+    owns tool-version,
+
+    # Relations defined as properties in STIX
+    plays kill-chain-ttp-association:used-sdo,
+
+    # Common Relations
+    plays delivers:carrier,
+    plays drops:agent,
+    plays has-vulnerability:asset,
+    plays targets:threat,
+    plays uses:user,
+
+    # Reverse Relations
+    plays hosts:guest,
+    plays downloads:resource,
+    plays drops:resource,
+    plays indicates:indicated,
+    plays mitigates:mitigated,
+    plays uses:used;
+
+    # Embedded Relations
+    # Creation
+    # Object Marking
+
+# 4.19 Vulnerability
+vulnerability sub stix-domain-object,
+    # Required
+    owns name,
+    # Optional 
+    owns description,
+
+    # Reverse Relations
+     plays targets:target,
+     plays exploits:exploited,
+     plays mitigates:mitigated,
+     plays remediates:remediated,
+     plays has-vulnerability:vulnerability;
+
+     #Embedded Relations
+     # Creation
+     # Object Marking
+
+
+
+##### 5 STIX™ Relationships Objects #####
+
+stix-relationship-object sub relation, abstract,
+    # Required (toDo 3.0: add @card(1..1)
+    owns stix-id @key, 
+    owns spec-version,
+    owns created,
+    owns modified,
+    # Optional
+    owns revoked, 
+    owns label,
+    owns confidence,
+    owns lang,
+    # owns extensions,
+    owns description,
+    owns start-time,
+    owns stop-time,
+
+    # these roles have to be fulfilled by SDOs or SCOs
+    relates source-role,
+    relates target-role,
+    
+    plays created-by-ref:object-created,
+    plays external-referencing:referrer,
+    plays data-marking:object-marked,
+    plays object-refs:referred;
+
+    # 5.2 Sighting
+    sighting sub stix-relationship-object, 
+        owns first-seen,
+        owns last-seen,
+        owns sighting-count,
+        owns summary,
+        
+        relates sighting-of, 
+        relates observed,
+        relates where-sighted;
+
+ 
+ ##### 6 STIX™ Cyber-observable Objects ##### 
+
+# 6.1 Artifact Object
+artifact sub stix-cyber-observable-object,
+    # Required (one of)
+    owns payload-bin,
+    owns url-value,
+    # Optional
+    owns mime-type,
+    owns encryption-algorithm,
+    owns decryption-key,
+
+    plays has-hash:resource, # property 'hashes'
+    plays email-sending:raw-email,
+    plays body-raw-ref:non-textual-body,
+    plays file-references:content,
+    plays network-traffic-src:payload,
+    plays network-traffic-dst:payload,
+    plays message-body-data-ref:contained-data,
+    plays malware-sample:mw-sco-sample,
+    plays malware-analysis-sample:mwa-sco-sample;
+
+
+# 6.2 Autonomous System Object
+autonomous-system sub stix-cyber-observable-object,
+    # Required
+    owns number,
+    # Optional
+    owns name,
+    owns rir,
+    
+    plays ip-belongs-to:autonomous-sys;
+
+# 6.3 Directory Object
+directory sub stix-cyber-observable-object,
+    # Required
+    owns path,
+    # Optional
+    owns path-enc,
+    owns ctime,
+    owns mtime,
+    owns atime,
+
+    plays contains-refs:container,
+    plays contains-refs:content,
+    plays file-references:parent-directory;
+
+# 6.4 Domain Name Object
+domain-name sub stix-cyber-observable-object,
+    # Required
+    owns dn-value,
+
+    plays dns-resolves-to:domain-name,
+    plays dns-resolves-to:ip-dn,
+    plays network-traffic-src:source,
+    plays network-traffic-dst:destination,
+    plays communicates-with:resource;
+
+# 6.5 Email Address Object
+email-addr sub stix-cyber-observable-object,
+    # Required
+    owns ea-value,
+    # Optional
+    owns display-name,
+     
+    plays email-addr-belongs-to:address,
+    plays email-sending:from,
+    plays email-sending:sender,
+    plays email-sending:to,
+    plays email-sending:cc,
+    plays email-sending:bcc;
+
+# 6.6 Email Message
+email-message sub stix-cyber-observable-object,
+    # Required
+    owns is-multipart,
+    # Optional
+    owns date,
+    owns content-type,
+    owns message-id,
+    owns subject,
+    owns received-lines, # List of type string
+    owns body,
+    
+    plays has-dictionary:owner, # additional_header_fields
+    plays email-sending:email-message,
+    plays body-multipart:message;
+
+email-mime-part-type sub entity,
+    # Required (one of)
+    owns body,
+    plays body-raw-ref:mime-part,
+    # Optional
+    owns content-type, 
+    owns content-disposition,
+
+    plays body-multipart:mime-part;
+
+# 6.7 File
+file sub stix-cyber-observable-object,
+    # Required (one of)
+    owns name,
+    plays has-hash:resource,
+    # Optional
+    owns size,
+    owns name-enc,
+    owns magic-number-hex,
+    owns mime-type,
+    owns ctime,
+    owns mtime,
+    owns atime, 
+
+    plays contains-refs:content,
+    plays body-raw-ref:non-textual-body,
+    plays file-references:file,
+    plays service-dll:dll,
+    plays process-refs:image,
+    plays downloads:resource,
+    plays drops:resource,
+    plays malware-sample:mw-sco-sample,
+    plays malware-analysis-sample:mwa-sco-sample;
+
+    archive-ext sub file,
+        # Optional
+        owns comment,
+        # Required
+        plays contains-refs:container;
+
+    ntfs-ext sub file,
+        # Required one of
+        owns sid, 
+        plays has-alt-data-stream:ntfs-file;
+
+        alternative-data-stream-type sub entity,
+            # Required
+            owns name,
+            # Optional 
+            owns size,
+            plays has-hash:resource,
+            plays has-alt-data-stream:stream;
+
+    pdf-ext sub file,
+        owns version,
+        owns is-optimized,
+        owns pdfid0,
+        owns pdfid1,
+        plays has-dictionary:owner; # document-info-dict
+
+    raster-image-ext sub file,
+        # Required at least one of
+        owns image-height,
+        owns image-width,
+        owns bits-per-pixel,
+        plays has-dictionary:owner; # exif-tags
+
+    windows-pebinary-ext sub file,
+        # Required  
+        owns pe-type,
+        # Optional
+        owns imphash,
+        owns machine-hex,
+        owns number-of-sections,
+        owns time-date-stamp,
+        owns pointer-to-symbol-table-hex,
+        owns number-of-symbols,
+        owns size-of-optional-header,
+        owns characteristics-hex,
+        plays file-header-hash:win-pe-bin-file,
+        plays optional-header:pe-bin-file,
+        plays sections-metadata:pe-bin-file;
+
+        windows-pe-optional-header-type sub entity, 
+            owns magic-hex,
+            owns major-linker-version,
+            owns minor-linker-version,
+            owns size-of-code,
+            owns size-of-initialized-data,
+            owns size-of-uninitialized-data,
+            owns address-of-entry-point,
+            owns base-of-code,
+            owns base-of-data,
+            owns image-base,
+            owns section-alignment,
+            owns file-alignment,
+            owns major-os-version,
+            owns minor-os-version,
+            owns major-image-version,
+            owns minor-image-version,
+            owns major-subsystem-version,
+            owns minor-subsystem-version,
+            owns win32-version-value-hex,
+            owns size-of-image,
+            owns size-of-headers,
+            owns checksum-hex,
+            owns subsystem-hex,
+            owns dll-characteristics-hex,
+            owns size-of-stack-reserve,
+            owns size-of-stack-commit,
+            owns size-of-heap-reserve,
+            owns size-of-heap-commit,
+            owns loader-flags-hex,
+            owns number-of-rva-and-sizes,
+            plays has-hash:resource,
+            plays optional-header:header;
+
+        windows-pe-section-type sub entity,
+            # Required
+            owns name,
+            # Optional 
+            owns size, 
+            owns entropy, 
+            plays has-hash:resource,
+            plays sections-metadata:section;
+
+# 6.8, 6.9 IP Address
+ip-addr sub stix-cyber-observable-object, abstract,
+    # Required
+    owns ip-value,
+
+    plays ip-resolves-to:ip,
+    plays ip-belongs-to:ip,
+    plays network-traffic-src:source,
+    plays network-traffic-dst:destination,
+    plays communicates-with:resource,
+    plays dns-resolves-to:ip-dn;
+
+    ipv4-addr sub ip-addr;
+    ipv6-addr sub ip-addr;
+
+# 6.10 MAC Address
+mac-addr sub stix-cyber-observable-object,
+    # Required
+    owns mac-value,
+
+    plays ip-resolves-to:mac,
+    plays network-traffic-src:source,
+    plays network-traffic-dst:destination;
+    
+
+# 6.11 Mutex
+mutex sub stix-cyber-observable-object,
+    # Required
+    owns name; 
+
+# 6.12 Network Traffic
+network-traffic sub stix-cyber-observable-object,
+    owns start, 
+    owns end,
+    owns is-active, 
+    owns protocol,
+    plays has-dictionary:owner, # ipfix
+
+    plays network-traffic-src:traffic,
+    plays network-traffic-dst:traffic,
+    plays encapsulation:encapsulating,
+    plays encapsulation:encapsulated,
+    plays process-refs:opened-connection,
+    plays malware-analysis-sample:mwa-sco-sample;
+
+    http-request-ext sub network-traffic,
+        # Required
+        owns request-method,
+        owns request-value,
+        # Optional
+        owns request-version,
+        owns message-body-length,
+        plays message-body-data-ref:http-request;
+        # N2: 'request-header' can be added as a 'has-dictionary' relation with
+        # name 'request-header'. The 'has-dictionary:owner' role of 'network traffic'
+        # is inherited and allows for the creation of this property.
+
+    icmp-ext sub network-traffic,
+        # Required
+        owns icmp-type-hex,
+        owns icmp-code-hex;
+
+    socket-ext sub network-traffic,
+        # Required
+        owns address-family,
+        # Optional
+        owns is-blocking,
+        owns is-listening,
+        owns socket-type, 
+        owns socket-descriptor,
+        owns socket-handle;
+        # N2: see N2 in 'http-request-ext' as an analogous explanation
+        # for the 'options' property of this STIX object
+        
+    tcp-ext sub network-traffic,
+        owns src-flags-hex,
+        owns dst-flags-hex;
+
+# 6.13 Process 
+process sub stix-cyber-observable-object,
+    owns is-hidden, 
+    owns pid,
+    owns created-time,
+    owns cwd,
+    owns command-line,
+    plays has-dictionary:owner, # environment-variables
+
+    plays process-refs:process,
+    plays process-hierarchy:parent,
+    plays process-hierarchy:child,
+    plays process-creator-user-ref:process;
+
+    windows-process-ext sub process,
+        owns aslr-enabled,
+        owns dep-enabled,
+        owns priority,
+        owns owner-sid,
+        owns window-title,
+        owns integrity-level;
+        # N2: see N2 in 'http-request-ext' as an analogous explanation
+        # for the 'startup-info' property of this STIX object
+
+    windows-service-ext sub process, 
+        owns service-name,
+        owns description,
+        owns display-name,
+        owns group-name,
+        owns start-type,
+        owns service-type,
+        owns service-status,
+        plays service-dll:loading-process;
+
+# 6.14 Software
+software sub stix-cyber-observable-object,
+    # Required
+    owns name,
+    # Optional
+    owns cpe, 
+    owns swid,
+    owns language,
+    owns vendor,
+    owns version,
+
+    plays dynamic-analysis-component:host-vm, 
+    plays dynamic-analysis-component:operating-system,
+    plays dynamic-analysis-component:installed-software,
+    plays execution:operating-system;
+
+# 6.15 URL
+url sub stix-cyber-observable-object,
+    # Required
+    owns url-value,
+    plays communicates-with:resource;
+
+# 6.16 User Account
+user-account sub stix-cyber-observable-object,
+    owns user-id,
+    owns credential,
+    owns account-login,
+    owns account-type,
+    owns display-name,
+    owns is-service-account,
+    owns is-privileged,
+    owns can-escalate-privs,
+    owns is-disabled,
+    owns account-created,
+    owns account-expires,
+    owns credential-last-changed,
+    owns account-first-login,
+    owns account-last-login,
+
+    plays creator-user-ref:creator-acc,
+    plays email-addr-belongs-to:account;
+
+    unix-account-ext sub user-account, 
+        owns gid,
+        owns unix-group,
+        owns home-dir,
+        owns shell;
+
+# 6.17 Windows Registry Key
+windows-registry-key sub stix-cyber-observable-object,
+    # Required one of
+    owns registry-key, 
+    owns modified-time, 
+    owns number-of-subkeys,
+
+    plays win-reg-creator-user-ref:registry-key,
+    plays win-registry-pair:registry-key;
+
+windows-registry-value-type sub stix-cyber-observable-object,
+    # Required one of
+    owns name, 
+    owns data,
+    owns data-type,
+    plays win-registry-pair:value;
+
+# 6.18 X.509 Certificate
+x509-certificate sub stix-cyber-observable-object,
+    # Required one of
+    owns is-self-signed, 
+    owns version,
+    owns serial-number,
+    owns signature-algorithm,
+    owns issuer,
+    owns validity-not-before,
+    owns validity-not-after,
+    owns subject,
+    owns subject-public-key-algorithm,
+    owns subject-public-key-modulus,
+    owns subject-public-key-exponent,
+    plays has-hash:resource;
+
+    x509-v3-extensions sub x509-certificate,
+        owns basic-constraints,
+        owns name-constraints,
+        owns policy-constraints,
+        owns key-usage,
+        owns extended-key-usage,
+        owns subject-key-identifier,
+        owns authority-key-identifier,
+        owns subject-alternative-name,
+        owns issuer-alternative-name,
+        owns subject-directory-attributes,
+        owns crl-distribution-points,
+        owns inhibit-any-policy,
+        owns private-key-usage-period-not-before,
+        owns private-key-usage-period-not-after,
+        owns certificate-policies,
+        owns policy-mappings;
+
+
+
+##### RELATIONSHIPS - APPENDIX B #####
+
+analysis-of sub stix-relationship-object,
+    relates analysis as source-role,
+    relates analyzed as target-role;
+
+    static-analysis-of sub analysis-of;
+    dynamic-analysis-of sub analysis-of;
+
+attributed-to sub stix-relationship-object, 
+    relates attributee as target-role,
+    relates attribution as source-role;
+
+authored-by sub stix-relationship-object,
+    relates author as target-role,
+    relates instance as source-role;
+
+based-on sub stix-relationship-object,
+    relates conclusion as source-role,
+    relates evidence as target-role;
+
+beacons-to sub stix-relationship-object,
+    relates agent as source-role,
+    relates receiver as target-role;
+
+characterizes sub stix-relationship-object,
+    relates characterized as target-role,
+    relates characterizer as source-role;
+    
+compromises sub stix-relationship-object,
+    relates threat as source-role,
+    relates compromised as target-role;
+
+communicates-with sub stix-relationship-object,
+    relates agent as source-role,
+    relates resource as target-role;
+
+controls sub stix-relationship-object,
+    relates controller as source-role,
+    relates controlled as target-role;
+
+consists-of sub stix-relationship-object,
+    relates whole as source-role,
+    relates part as target-role;
+    
+delivers sub stix-relationship-object, 
+    relates carrier as source-role,
+    relates delivered as target-role;
+
+downloads sub stix-relationship-object,
+    relates downloader as source-role,
+    relates resource as target-role;
+
+drops sub stix-relationship-object,
+    relates agent as source-role,
+    relates resource as target-role;
+
+exfiltrates-to sub stix-relationship-object,
+    relates agent as source-role,
+    relates receiver as target-role;
+
+exploits sub stix-relationship-object,
+    relates agent as source-role,
+    relates exploited as target-role;
+
+has-vulnerability sub stix-relationship-object,
+    relates asset as source-role,
+    relates vulnerability as target-role;
+
+hosts sub stix-relationship-object,
+    relates host as source-role,
+    relates guest as target-role;
+
+impersonates sub stix-relationship-object,
+    relates impersonator as source-role,
+    relates impersonated as target-role;
+
+indicates sub stix-relationship-object, 
+    relates indicator as source-role,
+    relates indicated as target-role;
+
+investigates sub stix-relationship-object,
+    relates investigator as source-role,
+    relates investigated as target-role;
+
+located-at sub stix-relationship-object,
+    relates located as source-role,
+    relates location as target-role;
+
+mitigates sub stix-relationship-object,
+    relates mitigated as target-role,
+    relates mitigation as source-role;
+    
+originates-from sub stix-relationship-object,
+    relates outcome as source-role,
+    relates origin as target-role;
+
+ownership sub stix-relationship-object,
+    relates owner as source-role,
+    relates owned as target-role;
+
+remediates sub stix-relationship-object,
+    relates remedy as source-role,
+    relates remediated as target-role;
+
+targets sub stix-relationship-object, 
+    relates threat as source-role,
+    relates target as target-role;
+    
+uses sub stix-relationship-object,
+    relates user as source-role,
+    relates used as target-role;
+
+# added temporarily, related to N1
+variant-of sub stix-relationship-object,
+    relates original as target-role,
+    relates variant as source-role;
+
+# for all the relationships that are not defined in the STIX2.1 spec;
+# the relationship_type is stored as an attribute
+custom-relationship sub stix-relationship-object,
+    owns relation-name;
+
+#--- N1: commented temporarily (see N1 in Malware) ---
+# variant-of-family sub stix-relationship-object,
+#     relates original as target-role,
+#     relates variant as source-role;
+
+# variant-of-instance sub stix-relationship-object,
+#     relates original as target-role,
+#     relates variant as source-role;
+#-------- end --------
+
+
+##### RELATIONS defined as properties in STIX #####
+
+# common property
+created-by-ref sub relation,
+    relates object-created,
+    relates creator;
+
+# object_refs (4.4)
+object-refs sub relation,
+    relates referred,
+    relates referrer;
+    
+# sample_refs (4.11, 4.12)
+sample sub relation, abstract,
+    relates sampled,
+    relates sco-sample;
+
+    malware-sample sub sample,
+        relates associated-to as sampled,
+        # 'artifact' and 'file'
+        relates mw-sco-sample as sco-sample;
+
+    malware-analysis-sample sub sample,
+        relates associated-to as sampled,
+        # 'artifact', 'file' and 'network-traffic'
+        relates mwa-sco-sample as sco-sample;
+
+# In 4.11, operating_system_refs
+execution sub relation,
+    relates operating-system, 
+    relates executable;
+
+# In 4.12
+analysis-sco-refs sub relation,
+    relates analysis,
+    relates captured-sco;
+
+# host_vm_ref, operating_system_ref and installed_software_refs
+dynamic-analysis-component sub relation,
+    relates analysis,
+    relates host-vm,
+    relates operating-system,
+    relates installed-software;
+
+# object_refs (4.14)
+observed-data-object-refs sub relation, 
+    relates referred,
+    relates referrer;
+
+# contains_refs of 6.3 and 6.7.2
+contains-refs sub relation, 
+    relates container,
+    relates content;
+
+# 6.4 resolves_to_refs, resolves-to
+# domain-name to (ipv4-addr|ipv6-addr|domain-name)
+dns-resolves-to sub relation,
+    relates domain-name,
+    relates ip-dn;
+
+# 6.5 belongs_to_ref(email-addr,user-account)
+email-addr-belongs-to sub relation,
+    relates address,
+    relates account;
+
+# 6.6 all the x_ref(s) refer to the same message
+email-sending sub relation, 
+    relates email-message, # 1
+    relates from, #0..1
+    relates sender, #0..1
+    relates to, # *
+    relates cc, # *
+    relates bcc, # *
+    relates raw-email; # 0..1
+
+body-multipart sub relation,
+    relates message,
+    relates mime-part;
+
+# 6.6.2 body_raw_ref
+body-raw-ref sub relation,
+    relates mime-part,
+    relates non-textual-body;
+
+# 6.7 parent_directory_ref, contains_refs, content_ref
+file-references sub relation,
+    relates file,
+    relates parent-directory,
+    relates contained-sco,
+    relates content;
+
+has-alt-data-stream sub relation,
+    relates ntfs-file, #1
+    relates stream; # many
+
+optional-header sub relation,
+    relates pe-bin-file,
+    relates header;
+
+sections-metadata sub relation,
+    relates pe-bin-file,
+    relates section;
+
+# 6.8, 6.9
+ip-resolves-to sub relation,
+    relates ip,
+    relates mac;
+
+ip-belongs-to sub relation,
+    relates ip,
+    relates autonomous-sys;
+
+# 6.12
+network-traffic-src sub relation, 
+    relates traffic,
+    relates source, 
+    relates payload, 
+    owns src-port,
+    owns src-byte-count,
+    owns src-packets;
+
+network-traffic-dst sub relation, 
+    relates traffic,
+    relates destination,
+    relates payload,
+    owns dst-port, 
+    owns dst-byte-count,
+    owns dst-packets; 
+
+encapsulation sub relation,
+    relates encapsulating,
+    relates encapsulated;
+
+message-body-data-ref sub relation,
+    relates contained-data,
+    relates http-request;
+
+# 6.13 
+process-refs sub relation,
+    relates process, # 1
+    relates opened-connection, # *
+    relates image; # 0..1
+
+process-hierarchy sub relation,
+    relates parent, # 0..1
+    relates child; # *
+
+service-dll sub relation,
+    relates loading-process,
+    relates dll;
+
+creator-user-ref sub relation,
+    relates creator-acc,
+    relates creation;
+    
+    process-creator-user-ref sub creator-user-ref,
+        relates process as creation;
+
+# 6.17
+    win-reg-creator-user-ref sub creator-user-ref,
+        relates registry-key as creation;
+        
+win-registry-pair sub relation,
+    relates registry-key,
+    relates value;
+
+
+##### 7 STIX™ Meta Objects #####
+
+# 7.1 Language Content 
+
+# owns spec-version
+
+# 7.2 Data markings - describe how data can be used/shared
+# E.g, with the restriction that it must not be re-shared, or that it must be encrypted at rest. 
+# These definitions can be applied to:
+# - complete STIX Objects (object markings)
+# - individual properties of STIX Objects (granular markings)
+data-marking sub relation, abstract,
+    relates marking,
+    relates object-marked;
+
+# 7.2.1
+marking-definition sub stix-meta-object,
+    owns name,
+    plays data-marking:marking;
+
+    # marking definition types in STIX2.1: 
+    # Statement (text statements) and
+    statement-marking sub marking-definition, 
+        owns statement; 
+
+    # TLP (TLP levels)
+    tlp-marking sub marking-definition,
+        owns tlp @key;
+
+# 7.2.2
+object-marking sub data-marking;
+# 7.2.3
+granular-marking sub data-marking,
+    # Required either lang or a player for marking
+    # but not both
+    owns lang,
+    # the affected property is needed in addition to the object-marked
+    relates property-marked;
+
+
+
+ ##### ATTRIBUTES #####
+
+stix-string-att sub attribute, value string, abstract,
+    plays granular-marking:property-marked;
+stix-double-att sub attribute, value double, abstract,
+    plays granular-marking:property-marked;
+stix-long-att sub attribute, value long, abstract,
+    plays granular-marking:property-marked;
+stix-boolean-att sub attribute, value boolean, abstract,
+    plays granular-marking:property-marked;
+stix-timestamp-att sub attribute, value datetime, abstract,
+    plays granular-marking:property-marked;
+
+# 2. From common data types
+source-name sub stix-string-att;
+description sub stix-string-att;
+url-value sub stix-string-att;
+external-id sub stix-string-att;
+# ... this might not be useful as the regex is lost by subtypes
+hex sub attribute, value string,
+    regex "^([0-9a-f]{2})+$";
+hash-value sub stix-string-att;
+kill-chain-name sub stix-string-att; 
+phase-name sub stix-string-att;
+item-key sub stix-string-att;
+string-item-value sub stix-string-att;
+int-item-value sub stix-long-att;
+
+# 3.2 From common properties
+
+# stix-type sub attribute, value string,
+spec-version sub stix-string-att;
+# id: <object-type>--<UUID> (sec 2.9 and 3.1)
+# UUIDv5 for SCOs, UUIDv4 for the rest; the difference relies
+# on the generation algorithm but the format is the same
+stix-id sub stix-string-att,
+    regex "^[a-z0-9]+(-[a-z0-9]+)*--[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$";
+created sub stix-timestamp-att;
+modified sub stix-timestamp-att;
+revoked sub stix-boolean-att;
+label sub stix-string-att;
+confidence sub stix-long-att;
+lang sub stix-string-att;
+defanged sub stix-boolean-att;
+
+# 4. From SDOs
+name sub stix-string-att; 
+alias sub stix-string-att;
+
+first-seen sub stix-timestamp-att;
+last-seen sub stix-timestamp-att;
+objective sub stix-string-att;
+
+context sub stix-string-att;
+
+job-role sub stix-string-att;
+sector sub stix-string-att; 
+contact-information sub stix-string-att; 
+# 10.8 Identity Class Vocabulary (identity-class-ov)
+# probably not needed as using the vocabulary is only suggested (SHOULD)
+identity-class sub stix-string-att,
+    regex "^(individual|group|system|organization|class|unknown)$";
+
+# 10.10  Indicator Type Vocabulary (indicator-type-ov)
+# probably not needed as using the vocabulary is only suggested (SHOULD)
+indicator-type sub stix-string-att,
+    regex "^(anomalous-activity|anonymization|benign|compromised|malicious-activity|attribution|unknown)$";
+pattern sub stix-string-att; 
+pattern-type sub stix-string-att; 
+pattern-version sub stix-string-att; 
+valid-from sub stix-timestamp-att;
+valid-until sub stix-timestamp-att;
+
+infrastructure-type sub stix-string-att;
+
+goals sub stix-string-att; 
+resource-level sub stix-string-att; 
+primary-motivation sub stix-string-att; 
+secondary-motivation sub stix-string-att;
+
+latitude sub stix-double-att;
+longitude sub stix-double-att;
+precision sub stix-double-att;
+region sub stix-string-att,
+    regex "^(africa|eastern-africa|middle-africa|northern-africa|southern-africa|western-africa|americas|caribbean|central-america|latin-america-caribbean|northern-america|south-america|asia|central-asia|eastern-asia|southern-asia|south-eastern-asia|western-asia|europe|eastern-europe|northern-europe|southern-europe|western-europe|oceania|antarctica|australia-new-zealand|melanesia|micronesia|polynesia)$";
+country sub stix-string-att; 
+administrative-area sub stix-string-att; 
+city sub stix-string-att; 
+street-address sub stix-string-att; 
+postal-code sub stix-string-att; 
+
+malware-type sub stix-string-att;
+architecture-execution-env sub stix-string-att; 
+implementation-language sub stix-string-att; 
+capability sub stix-string-att; 
+
+product sub stix-string-att;
+version sub stix-string-att;
+configuration-version sub stix-string-att;
+module sub stix-string-att;
+analysis-engine-version sub stix-string-att;
+analysis-definition-version sub stix-string-att;
+submitted sub stix-timestamp-att;
+analysis-started sub stix-timestamp-att;
+analysis-ended sub stix-timestamp-att;
+result-name sub stix-string-att;
+result sub stix-string-att;
+
+abstract-note sub stix-string-att;
+content sub stix-string-att;
+author sub stix-string-att;
+
+first-observed sub stix-timestamp-att;
+last-observed sub stix-timestamp-att;
+number-observed sub stix-long-att;
+
+explanation sub stix-string-att;
+# 10.18 Opinion Enumeration
+opinion-enum sub stix-string-att,
+    regex "^(strongly-disagree|disagree|neutral|agree|strongly-agree)$";
+
+report-type sub stix-string-att;
+published sub stix-timestamp-att;
+
+threat-actor-type sub stix-string-att;
+sophistication sub stix-string-att; 
+personal-motivation sub stix-string-att;
+
+tool-type sub stix-string-att;
+tool-version sub stix-string-att;
+
+# From Relations
+start-time sub stix-timestamp-att;
+stop-time sub stix-timestamp-att;
+
+sighting-count sub stix-long-att;
+summary sub stix-boolean-att;
+
+# From SCOs
+mime-type sub stix-string-att;
+payload-bin sub stix-string-att;
+encryption-algorithm sub stix-string-att,
+    regex "^(AES-256-GCM|ChaCha20-Poly1305|mime-type-indicated)$";
+decryption-key sub stix-string-att;
+
+number sub stix-long-att;
+rir sub stix-string-att;
+
+path sub stix-string-att;
+path-enc sub stix-string-att;
+ctime sub stix-timestamp-att;
+mtime sub stix-timestamp-att;
+atime sub stix-timestamp-att;
+
+dn-value sub stix-string-att;
+
+ea-value sub stix-string-att;
+display-name sub stix-string-att;
+
+is-multipart sub stix-boolean-att;
+date sub stix-timestamp-att;
+content-type sub stix-string-att;
+message-id sub stix-string-att;
+subject sub stix-string-att;
+received-lines sub stix-string-att;
+body sub stix-string-att;
+content-disposition sub stix-string-att;
+
+size sub stix-long-att; 
+name-enc sub stix-string-att;
+magic-number-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+
+comment sub stix-string-att;
+sid sub stix-string-att;
+
+is-optimized sub stix-boolean-att;
+pdfid0 sub stix-string-att;
+pdfid1 sub stix-string-att;
+
+image-height sub stix-long-att;
+image-width sub stix-long-att;
+bits-per-pixel sub stix-long-att;
+
+pe-type sub stix-string-att;
+imphash sub stix-string-att;
+machine-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+number-of-sections sub stix-long-att;
+time-date-stamp sub stix-timestamp-att;
+pointer-to-symbol-table-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+number-of-symbols sub stix-long-att;
+size-of-optional-header sub stix-long-att;
+characteristics-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+
+magic-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+major-linker-version sub stix-long-att;
+minor-linker-version sub stix-long-att;
+size-of-code sub stix-long-att;
+size-of-initialized-data sub stix-long-att;
+size-of-uninitialized-data sub stix-long-att;
+address-of-entry-point sub stix-long-att;
+base-of-code sub stix-long-att;
+base-of-data sub stix-long-att;
+image-base sub stix-long-att;
+section-alignment sub stix-long-att;
+file-alignment sub stix-long-att;
+major-os-version sub stix-long-att;
+minor-os-version sub stix-long-att;
+major-image-version sub stix-long-att;
+minor-image-version sub stix-long-att;
+major-subsystem-version sub stix-long-att;
+minor-subsystem-version sub stix-long-att;
+win32-version-value-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+size-of-image sub stix-long-att;
+size-of-headers sub stix-long-att;
+checksum-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+subsystem-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+dll-characteristics-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+size-of-stack-reserve sub stix-long-att;
+size-of-stack-commit sub stix-long-att;
+size-of-heap-reserve sub stix-long-att;
+size-of-heap-commit sub stix-long-att;
+loader-flags-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+number-of-rva-and-sizes sub stix-long-att;
+
+entropy sub stix-double-att;
+
+ip-value sub stix-string-att;
+
+mac-value sub stix-string-att;
+
+start sub stix-timestamp-att;
+end sub stix-timestamp-att;
+is-active sub stix-boolean-att;
+src-port sub stix-long-att;
+dst-port sub stix-long-att;
+protocol sub stix-string-att;
+src-byte-count sub stix-long-att;
+dst-byte-count sub stix-long-att;
+src-packets sub stix-long-att;
+dst-packets sub stix-long-att;
+    
+request-method sub stix-string-att;
+request-value sub stix-string-att;
+request-version sub stix-string-att;
+message-body-length sub stix-long-att;
+
+icmp-type-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+icmp-code-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+
+address-family sub stix-string-att,
+    regex "^(AF_UNSPEC|AF_INET|AF_IPX|AF_APPLETALK|AF_NETBIOS|AF_INET6|AF_IRDA|AF_BTH)$";
+is-blocking sub stix-boolean-att;
+is-listening sub stix-boolean-att;
+socket-type sub stix-string-att,
+    regex "^(SOCK_STREAM|AF_ISOCK_DGRAMNET|SOCK_RAW|SOCK_RDM|SOCK_SEQPACKET)$";
+socket-descriptor sub stix-long-att;
+socket-handle sub stix-long-att;
+
+src-flags-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+dst-flags-hex sub stix-string-att,
+    regex "^([0-9a-f]{2})+$";
+
+is-hidden sub stix-boolean-att;
+pid sub stix-long-att;
+created-time sub stix-timestamp-att;
+cwd sub stix-string-att;
+command-line sub stix-string-att;
+
+aslr-enabled sub stix-boolean-att;
+dep-enabled sub stix-boolean-att;
+priority sub stix-string-att;
+owner-sid sub stix-string-att;
+window-title sub stix-string-att;
+integrity-level sub stix-string-att,
+    regex "^(low|medium|high|system)$";
+
+service-name sub stix-string-att;
+display-name sub stix-string-att;
+group-name sub stix-string-att;
+start-type sub stix-string-att,
+    regex "^(SERVICE_AUTO_START|SERVICE_BOOT_START|SERVICE_DEMAND_START|SERVICE_DISABLED|SERVICE_SYSTEM_ALERT)$";
+service-type sub stix-string-att,
+    regex "^(SERVICE_KERNEL_DRIVER|SERVICE_FILE_SYSTEM_DRIVER|SERVICE_WIN32_OWN_PROCESS|SERVICE_WIN32_SHARE_PROCESS)$";
+service-status sub stix-string-att,
+    regex "^(SERVICE_CONTINUE_PENDING|SERVICE_PAUSE_PENDING|SERVICE_PAUSED|SERVICE_RUNNING|SERVICE_START_PENDING|SERVICE_STOP_PENDING|SERVICE_STOPPED)$";
+
+cpe sub stix-string-att;
+swid sub stix-string-att;
+language sub stix-string-att;
+vendor sub stix-string-att;
+version sub stix-string-att;
+
+user-id sub stix-string-att;
+credential sub stix-string-att;
+account-login sub stix-string-att;
+account-type sub stix-string-att;
+display-name sub stix-string-att;
+is-service-account sub stix-boolean-att;
+is-privileged sub stix-boolean-att;
+can-escalate-privs sub stix-boolean-att;
+is-disabled sub stix-boolean-att;
+account-created sub stix-timestamp-att;
+account-expires sub stix-timestamp-att;
+credential-last-changed sub stix-timestamp-att;
+account-first-login sub stix-timestamp-att;
+account-last-login sub stix-timestamp-att;
+
+gid sub stix-long-att;
+unix-group sub stix-string-att;
+home-dir sub stix-string-att;
+shell sub stix-string-att;
+
+registry-key sub stix-string-att;
+modified-time sub stix-timestamp-att; 
+number-of-subkeys sub stix-long-att; 
+
+data sub stix-string-att;
+data-type sub stix-string-att,
+    regex "^(REG_NONE|REG_SZ|REG_EXPAND_SZ|REG_BINARY|REG_DWORD|REG_DWORD_BIG_ENDIAN|REG_DWORD_LITTLE_ENDIAN|REG_LINK|REG_MULTI_SZ|REG_RESOURCE_LIST|REG_FULL_RESOURCE_DESCRIPTION|REG_RESOURCE_REQUIREMENTS_LIST|REG_QWORD|REG_INVALID_TYPE)$";
+
+is-self-signed sub stix-boolean-att;
+serial-number sub stix-string-att;
+signature-algorithm sub stix-string-att;
+issuer sub stix-string-att;
+validity-not-before sub stix-timestamp-att;
+validity-not-after sub stix-timestamp-att;
+subject-public-key-algorithm sub stix-string-att;
+subject-public-key-modulus sub stix-string-att;
+subject-public-key-exponent sub stix-long-att;
+
+basic-constraints sub stix-string-att;
+name-constraints sub stix-string-att;
+policy-constraints sub stix-string-att;
+key-usage sub stix-string-att;
+extended-key-usage sub stix-string-att;
+subject-key-identifier sub stix-string-att;
+authority-key-identifier sub stix-string-att;
+subject-alternative-name sub stix-string-att;
+issuer-alternative-name sub stix-string-att;
+subject-directory-attributes sub stix-string-att;
+crl-distribution-points sub stix-string-att;
+inhibit-any-policy sub stix-string-att;
+private-key-usage-period-not-before sub stix-timestamp-att;
+private-key-usage-period-not-after sub stix-timestamp-att;
+certificate-policies sub stix-string-att;
+policy-mappings sub stix-string-att;
+
+# From meta Objects
+statement sub stix-string-att;
+tlp sub stix-string-att,
+    regex "^(white|green|amber|red)$";
+
+# From custom-relationship
+relation-name sub stix-string-att;

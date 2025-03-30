@@ -1,0 +1,25 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Design and implementation principles
+importance: null
+level: 24
+links:
+- MRS-044: null
+- MRS-046: z3uElRPYC2epZA6LGpWWUonyLUP-ouf2yjgNshTLyB0=
+normative: true
+rationale: See specification body
+ref: ''
+release: Alpha
+reviewed: qkFuyhwhoU7Ts1z07Ql2QK-cYTmw66uuzgWYvZwtxGo=
+text: |
+  The design and implementation of  SATRAP-DL SHALL adhere to software best practices such as naming convention,
+  clean code, SOLID principles, etc.
+
+  ### Rationale
+  Among others, for maintainability, security, reliability and robustness fo code.
+type: A, S, Q
+urgency: 5
+vm: R

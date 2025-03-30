@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Frontend query status
+importance: 5
+level: 27
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: nXKydVbI-K-IdVgi1IFN-WlO-9BxQa0lJA6c94QJ4bQ=
+text: |
+  The frontend SHALL inform the user about the status of their queries, e.g., when the result is ready, a set wait time is exceeded, or errors have occurred, etc.
+
+  ### Rationale
+  For supporting a good user experience (UX).
+type: F
+urgency: 5
+vm: T

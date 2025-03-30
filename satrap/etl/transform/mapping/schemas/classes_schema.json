@@ -1,0 +1,14 @@
+{
+	"title": "Class distinction",
+	"description": "Which STIX type belongs to which STIX class, e.g. attack-pattern is a STIX DomainObject",
+	"type": "object",
+	"patternProperties": {
+		"^.*$": {
+			"description": "An object class",
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		}
+	}
+}

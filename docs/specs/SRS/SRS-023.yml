@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  CTI representation in STIX 2.1
+importance: null
+level: 23
+links:
+- MRS-045: C3V4OYjHpDfaWIroC30b-tMxZrFo6VwclQXeoDK_oCU=
+normative: true
+rationale: See specification body
+ref: ''
+release: Alpha
+reviewed: 3e8XWyi25r9H4AEwljc4j9uJyvU6adOrLIKOjqoyinA=
+text: |
+  SATRAP-DL SHALL use STIX 2.1 as the default standard format for CTI representation.
+
+  ### Rationale
+  For interoperability
+type: C
+urgency: 5
+vm: R, I

@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Policy-driven automated SKB update
+importance: 4
+level: 9
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Beta
+reviewed: tVnYiqIrZlb_C3zyIgBqLw5d0GVA6n5zLPRPPZ2r9dQ=
+text: |
+  SATRAP-DL SHALL provide an automated process to maintain the CTI SKB up to date according to some update policy.
+
+  ### Rationale
+  To automatically address one of the major challenges related to keeping up with the fast evolving nature of CTI.
+type: F
+urgency: 4
+vm: R

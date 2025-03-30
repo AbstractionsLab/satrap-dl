@@ -1,0 +1,123 @@
+{
+	"relationship": {
+		"typedb-thing-type": "stix-relationship-object",
+		"subtypes": {
+			"relationship_type": {
+                "analysis-of": "analysis-of",
+                "attributed-to": "attributed-to",
+                "authored-by": "authored-by",
+                "based-on": "based-on",
+                "beacons-to": "beacons-to",
+                "characterizes": "characterizes",
+                "communicates-with": "communicates-with",
+                "compromises": "compromises",
+                "controls": "controls",
+                "consists-of": "consists-of",
+                "delivers": "delivers",
+                "derived-from": "derived-from",
+                "downloads": "downloads",
+                "drops": "drops",
+                "duplicate-of": "duplicate-of",
+                "dynamic-analysis-of": "dynamic-analysis-of",
+                "exfiltrates-to": "exfiltrates-to",
+                "exploits": "exploits",
+                "has": "has-vulnerability",
+                "hosts": "hosts",
+                "impersonates": "impersonates",
+                "indicates": "indicates",
+                "investigates": "investigates",
+                "located-at": "located-at",
+                "mitigates": "mitigates",
+                "originates-from": "originates-from",
+                "owns": "ownership",
+                "related-to": "related-to",
+                "remediates": "remediates",
+                "static-analysis-of": "static-analysis-of",
+                "targets": "targets",
+                "uses": "uses",
+                "variant-of": "variant-of",
+				"_": "custom-relationship"
+            }
+		},
+		"attributes": {
+			"relationship_type": {
+				"stix_value_type": "string",
+				"typedb_name": "relationship_type",
+				"typedb_value_type": "empty"
+			},
+			"description": {
+				"stix_value_type": "string",
+				"typedb_name": "description",
+				"typedb_value_type": "string"
+			},
+			"source_ref": {
+				"stix_value_type": "identifier",
+				"typedb_name": "source_ref",
+				"typedb_value_type": "roleplayer"
+			},
+			"target_ref": {
+				"stix_value_type": "identifier",
+				"typedb_name": "target_ref",
+				"typedb_value_type": "roleplayer"
+			},
+			"start_time": {
+				"stix_value_type": "timestamp",
+				"typedb_name": "start-time",
+				"typedb_value_type": "datetime"
+			},
+			"stop_time": {
+				"stix_value_type": "timestamp",
+				"typedb_name": "stop-time",
+				"typedb_value_type": "datetime"
+			}
+		},
+		"extensions": {}
+	},
+	"sighting": {
+		"typedb-thing-type": "sighting",
+		"subtypes": {},
+		"attributes": {
+			"description": {
+				"stix_value_type": "string",
+				"typedb_name": "description",
+				"typedb_value_type": "string"
+			},
+			"first_seen": {
+				"stix_value_type": "timestamp",
+				"typedb_name": "first-seen",
+				"typedb_value_type": "datetime"
+			},
+			"last_seen": {
+				"stix_value_type": "timestamp",
+				"typedb_name": "last-seen",
+				"typedb_value_type": "datetime"
+			},
+			"count": {
+				"stix_value_type": "integer",
+				"typedb_name": "sighting-count",
+				"typedb_value_type": "long"
+			},
+			"sighting_of_ref": {
+				"stix_value_type": "identifier",
+				"typedb_name": "sighting_of_ref",
+				"typedb_value_type": "roleplayer"
+			},
+			"observed_data_refs": {
+				"stix_value_type": "list:identifier",
+				"typedb_name": "observed_data_refs",
+				"typedb_value_type": "roleplayer"
+			},
+			"where_sighted_refs": {
+				"stix_value_type": "identifier",
+				"typedb_name": "where_sighted_refs",
+				"typedb_value_type": "roleplayer"
+			},
+			"summary": {
+				"stix_value_type": "boolean",
+				"typedb_name": "summary",
+				"typedb_value_type": "boolean"
+			}
+		},
+		"extensions": {}
+	}
+}

@@ -1,0 +1,8 @@
+settings:
+  digits: 3
+  itemformat: yaml
+  parent: ARC 
+  prefix: SWD
+  sep: '-'
+extensions:
+  item_sha_required: true

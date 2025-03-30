@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "satrap"
+version = "0.1.0"
+description = "SATRAP, short for Semi-Automated Threat Reconnaissance and Analysis Platform, is an open-source, cross-platform software aimed at supporting computer-aided analysis of cyber threat intelligence leveraging automated reasoning."
+authors = ["Itzel Vazquez Sandoval <itzel@abstractionslab.lu>", "Arash Atashpendar <arash@abstractionslab.lu>", "Sven Angel <sven.angel@proton.me>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<=3.11"
+typedb-driver = "^2.29.0"
+requests = "^2.32.3"
+jsonschema = "^4.23.0"
+stix2 = "^3.0.1"
+tabulate = "^0.9.0"
+pyyaml = "^6.0.2"
+
+[tool.poetry.group.doc.dependencies]
+ipykernel = "^6.29.5"
+ipywidgets = "^8.1.5"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+satrap = "satrap.frontend.satrap_cli:cli"

@@ -1,0 +1,785 @@
+{
+	"attack-pattern": {
+		"typedb-thing-type": "attack-pattern",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name", 
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description", 
+                "typedb_value_type": "string"
+            },
+            "aliases": {
+                "stix_value_type": "list:string",
+                "typedb_name": "alias", 
+                "typedb_value_type": "list:string"
+            },
+            "kill_chain_phases": {
+                "stix_value_type": "list:kill-chain-phase",
+                "typedb_name": "kill-chain-phase", 
+                "typedb_value_type": "list:composite:kill-chain-phase"
+            }
+		},
+		"extensions": {}
+	},
+	"campaign": {
+		"typedb-thing-type": "campaign",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name", 
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "aliases": {
+                "stix_value_type": "list:string",
+                "typedb_name": "alias",
+                "typedb_value_type": "list:string"
+            },
+            "first_seen": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "first-seen",
+                "typedb_value_type": "datetime"
+            },
+            "last_seen": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "last-seen",
+                "typedb_value_type": "datetime"
+            },
+            "objective": {
+                "stix_value_type": "string",
+                "typedb_name": "objective",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	},
+	"course-of-action": {
+		"typedb-thing-type": "course-of-action",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "action": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "action",
+                "typedb_value_type": "empty"
+            }
+		},
+		"extensions": {}
+	},
+	"grouping": {
+		"typedb-thing-type": "grouping",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "context": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "context",
+                "typedb_value_type": "string"
+            },
+            "object_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "referrer::referred",
+                "typedb_value_type": "list:relation:object-refs"
+            }
+		},
+		"extensions": {}
+	},
+	"identity": {
+		"typedb-thing-type": "identity",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "roles": {
+                "stix_value_type": "list:string",
+                "typedb_name": "job-role",
+                "typedb_value_type": "list:string"
+            },
+            "identity_class": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "identity-class",
+                "typedb_value_type": "string"
+            },
+            "sectors": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "sector",
+                "typedb_value_type": "list:string"
+            },
+            "contact_information": {
+                "stix_value_type": "string",
+                "typedb_name": "contact-information",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	},
+	"incident": {
+		"typedb-thing-type": "incident",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	},
+	"indicator": {
+		"typedb-thing-type": "indicator",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "indicator_types": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "indicator-type",
+                "typedb_value_type": "list:string"
+            },
+            "pattern": {
+                "stix_value_type": "string",
+                "typedb_name": "pattern",
+                "typedb_value_type": "string"
+            },
+            "pattern_type": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "pattern-type",
+                "typedb_value_type": "string"
+            },
+            "pattern_version": {
+                "stix_value_type": "string",
+                "typedb_name": "pattern-version",
+                "typedb_value_type": "string"
+            },
+            "valid_from": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "valid-from",
+                "typedb_value_type": "datetime"
+            },
+            "valid_until": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "valid-until",
+                "typedb_value_type": "datetime"
+            },
+            "kill_chain_phases": {
+                "stix_value_type": "list:kill-chain-phase",
+                "typedb_name": "kill-chain-phase",
+                "typedb_value_type": "list:composite:kill-chain-phase"
+            }
+		},
+		"extensions": {}
+	},
+	"infrastructure": {
+		"typedb-thing-type": "infrastructure",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "infrastructure_types": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "infrastructure-type",
+                "typedb_value_type": "list:string"
+            },
+            "aliases": {
+                "stix_value_type": "list:string",
+                "typedb_name": "alias",
+                "typedb_value_type": "list:string"
+            },
+            "kill_chain_phases": {
+                "stix_value_type": "list:kill-chain-phase",
+                "typedb_name": "kill-chain-phase",
+                "typedb_value_type": "list:composite:kill-chain-phase"
+            },
+            "first_seen": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "first-seen",
+                "typedb_value_type": "datetime"
+            },
+            "last_seen": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "last-seen",
+                "typedb_value_type": "datetime"
+            }
+		},
+		"extensions": {}
+	},
+	"intrusion-set": {
+		"typedb-thing-type": "intrusion-set",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "aliases": {
+                "stix_value_type": "list:string",
+                "typedb_name": "alias",
+                "typedb_value_type": "list:string"
+            },
+            "first_seen": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "first-seen",
+                "typedb_value_type": "datetime"
+            },
+            "last_seen": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "last-seen",
+                "typedb_value_type": "datetime"
+            },
+            "goals": {
+                "stix_value_type": "list:string",
+                "typedb_name": "goals",
+                "typedb_value_type": "list:string"
+            },
+            "resource_level": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "resource-level",
+                "typedb_value_type": "string"
+            },
+            "primary_motivation": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "primary-motivation",
+                "typedb_value_type": "string"
+            },
+            "secondary_motivations": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "secondary-motivation",
+                "typedb_value_type": "list:string"
+            }
+		},
+		"extensions": {}
+	},
+	"location": {
+		"typedb-thing-type": "location",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "latitude": {
+                "stix_value_type": "float",
+                "typedb_name": "latitude",
+                "typedb_value_type": "double"
+            },
+            "longitude": {
+                "stix_value_type": "float",
+                "typedb_name": "longitude",
+                "typedb_value_type": "double"
+            },
+            "precision": {
+                "stix_value_type": "float",
+                "typedb_name": "precision",
+                "typedb_value_type": "double"
+            },
+            "region": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "region",
+                "typedb_value_type": "string"
+            },
+            "country": {
+                "stix_value_type": "string",
+                "typedb_name": "country",
+                "typedb_value_type": "string"
+            },
+            "administrative_area": {
+                "stix_value_type": "string",
+                "typedb_name": "administrative-area",
+                "typedb_value_type": "string"
+            },
+            "city": {
+                "stix_value_type": "string",
+                "typedb_name": "city",
+                "typedb_value_type": "string"
+            },
+            "street_address": {
+                "stix_value_type": "string",
+                "typedb_name": "street-address",
+                "typedb_value_type": "string"
+            },
+            "postal_code": {
+                "stix_value_type": "string",
+                "typedb_name": "postal-code",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	},
+	"malware": {
+		"typedb-thing-type": "malware",
+        "subtypes": {
+			"is_family": {
+				"true": "malware-family",
+				"false": "malware-instance"
+			}
+		},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "malware_types": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "malware-type",
+                "typedb_value_type": "list:string"
+            },
+            "is_family": {
+                "stix_value_type": "boolean",
+                "typedb_name": "is-family",
+                "typedb_value_type": "empty"
+            },
+            "aliases": {
+                "stix_value_type": "list:string",
+                "typedb_name": "alias",
+                "typedb_value_type": "list:string"
+            },
+            "kill_chain_phases": {
+                "stix_value_type": "list:kill-chain-phase",
+                "typedb_name": "kill-chain-phase",
+                "typedb_value_type": "list:composite:kill-chain-phase"
+            },
+            "first_seen": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "first-seen",
+                "typedb_value_type": "datetime"
+            },
+            "last_seen": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "last-seen",
+                "typedb_value_type": "datetime"
+            },
+            "operating_system_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "executable::operating-system",
+                "typedb_value_type": "list:relation:execution"
+            },
+            "architecture_execution_envs": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "architecture-execution-env",
+                "typedb_value_type": "list:string"
+            },
+            "implementation_languages": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "implementation-language",
+                "typedb_value_type": "list:string"
+            },
+            "capabilities": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "capability",
+                "typedb_value_type": "list:string"
+            },
+            "sample_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "associated-to::mw-sco-sample",
+                "typedb_value_type": "list:relation:malware-sample"
+            }
+		},
+		"extensions": {}
+	},
+	"malware-analysis": {
+		"typedb-thing-type": "malware-analysis",
+        "subtypes": {},
+		"attributes": {
+			"product": {
+                "stix_value_type": "string",
+                "typedb_name": "product",
+                "typedb_value_type": "string"
+            },
+            "version": {
+                "stix_value_type": "string",
+                "typedb_name": "version",
+                "typedb_value_type": "string"
+            },
+            "host_vm_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "analysis::host-vm",
+                "typedb_value_type": "relation:dynamic-analysis-component"
+            },
+            "operating_system_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "analysis::operating-system",
+                "typedb_value_type": "relation:dynamic-analysis-component"
+            },
+            "installed_software_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "analysis::installed-software",
+                "typedb_value_type": "list:relation:dynamic-analysis-component"
+            },
+            "configuration_version": {
+                "stix_value_type": "string",
+                "typedb_name": "configuration-version",
+                "typedb_value_type": "string"
+            },
+            "modules": {
+                "stix_value_type": "list:string",
+                "typedb_name": "module",
+                "typedb_value_type": "list:string"
+            },
+            "analysis_engine_version": {
+                "stix_value_type": "string",
+                "typedb_name": "analysis-engine-version",
+                "typedb_value_type": "string"
+            },
+            "analysis_definition_version": {
+                "stix_value_type": "string",
+                "typedb_name": "analysis-definition-version",
+                "typedb_value_type": "string"
+            },
+            "submitted": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "submitted",
+                "typedb_value_type": "datetime"
+            },
+            "analysis_started": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "analysis-started",
+                "typedb_value_type": "datetime"
+            },
+            "analysis_ended": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "analysis-ended",
+                "typedb_value_type": "datetime"
+            },
+            "result": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "result",
+                "typedb_value_type": "string"
+            },
+			"result_name": {
+				"stix_value_type": "string",
+				"typedb_name": "result-name",
+				"typedb_value_type": "string"
+			},
+            "analysis_sco_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "analysis::captured-sco",
+                "typedb_value_type": "list:relation:analysis-sco-refs"
+            },
+			"sample_ref": {
+				"stix_value_type": "identifier",
+				"typedb_name": "associated-to::mwa-sco-sample",
+				"typedb_value_type": "relation:malware-analysis-sample"
+			}
+		},
+		"extensions": {}
+	},
+	"note": {
+		"typedb-thing-type": "note",
+        "subtypes": {},
+		"attributes": {
+			"abstract": {
+                "stix_value_type": "string",
+                "typedb_name": "abstract-note",
+                "typedb_value_type": "string"
+            },
+            "content": {
+                "stix_value_type": "string",
+                "typedb_name": "content",
+                "typedb_value_type": "string"
+            },
+            "authors": {
+                "stix_value_type": "list:string",
+                "typedb_name": "author",
+                "typedb_value_type": "list:string"
+            },
+            "object_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "referrer::referred",
+                "typedb_value_type": "list:relation:object-refs"
+            }
+		},
+		"extensions": {}
+	},
+	"observed-data": {
+		"typedb-thing-type": "observed-data",
+        "subtypes": {},
+		"attributes": {
+			"first_observed": {
+				"stix_value_type": "timestamp",
+				"typedb_name": "first-observed",
+				"typedb_value_type": "datetime"
+			},
+			"last_observed": {
+				"stix_value_type": "timestamp",
+				"typedb_name": "last-observed",
+				"typedb_value_type": "datetime"
+			},
+			"number_observed": {
+				"stix_value_type": "integer",
+				"typedb_name": "number-observed",
+				"typedb_value_type": "long"
+			},
+			"objects": {
+				"stix_value_type": "observable-container",
+				"typedb_name": "objects",
+				"typedb_value_type": "empty"
+			},
+			"object_refs": {
+				"stix_value_type": "list:identifier",
+				"typedb_name": "referrer::referred",
+				"typedb_value_type": "list:relation:observed-data-object-refs"
+			}
+		},
+		"extensions": {}
+	},
+	"opinion": {
+		"typedb-thing-type": "opinion",
+        "subtypes": {},
+		"attributes": {
+			"explanation": {
+                "stix_value_type": "string",
+                "typedb_name": "explanation",
+                "typedb_value_type": "string"
+            },
+            "authors": {
+                "stix_value_type": "list:string",
+                "typedb_name": "author",
+                "typedb_value_type": "list:string"
+            },
+            "opinion": {
+                "stix_value_type": "enum",
+                "typedb_name": "opinion-enum",
+                "typedb_value_type": "string"
+            },
+            "object_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "referrer::referred",
+                "typedb_value_type": "list:relation:object-refs"
+            }
+		},
+		"extensions": {}
+	},
+	"report": {
+		"typedb-thing-type": "report",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "report_types": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "report-type",
+                "typedb_value_type": "list:string"
+            },
+            "published": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "published",
+                "typedb_value_type": "datetime"
+            },
+            "object_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "referrer::referred",
+                "typedb_value_type": "list:relation:object-refs"
+            }
+		},
+		"extensions": {}
+	},
+	"threat-actor": {
+		"typedb-thing-type": "threat-actor",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "threat_actor_types": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "threat-actor-type",
+                "typedb_value_type": "list:string"
+            },
+            "aliases": {
+                "stix_value_type": "list:string",
+                "typedb_name": "alias",
+                "typedb_value_type": "list:string"
+            },
+            "first_seen": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "first-seen",
+                "typedb_value_type": "datetime"
+            },
+            "last_seen": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "last-seen",
+                "typedb_value_type": "datetime"
+            },
+            "roles": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "job-role",
+                "typedb_value_type": "list:string"
+            },
+            "goals": {
+                "stix_value_type": "list:string",
+                "typedb_name": "goals",
+                "typedb_value_type": "list:string"
+            },
+            "sophistication": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "sophistication",
+                "typedb_value_type": "string"
+            },
+            "resource_level": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "resource-level",
+                "typedb_value_type": "string"
+            },
+            "primary_motivation": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "primary-motivation",
+                "typedb_value_type": "string"
+            },
+            "secondary_motivations": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "secondary-motivations",
+                "typedb_value_type": "list:string"
+            },
+            "personal_motivations": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "personal-motivation",
+                "typedb_value_type": "list:string"
+            }
+		},
+		"extensions": {}
+	},
+	"tool": {
+		"typedb-thing-type": "tool",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            },
+            "tool_types": {
+                "stix_value_type": "list:open-vocab",
+                "typedb_name": "tool-type",
+                "typedb_value_type": "list:string"
+            },
+            "aliases": {
+                "stix_value_type": "list:string",
+                "typedb_name": "alias",
+                "typedb_value_type": "list:string"
+            },
+            "kill_chain_phases": {
+                "stix_value_type": "list:kill-chain-phase",
+                "typedb_name": "kill_chain_phase",
+                "typedb_value_type": "list:composite:kill-chain-phase"
+            },
+            "tool_version": {
+                "stix_value_type": "string",
+                "typedb_name": "tool-version",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	},
+	"vulnerability": {
+		"typedb-thing-type": "vulnerability",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "description": {
+                "stix_value_type": "string",
+                "typedb_name": "description",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	}
+}

@@ -1,0 +1,332 @@
+{
+	"windows-registry-value-type": {
+		"typedb-name": "windows-registry-value-type",
+		"helper-relation": {
+			"relation-name": "win-registry-pair",
+			"object-role": "registry-key",
+			"value-role": "value"
+		},
+		"attributes": {
+			"name": {
+				"stix_value_type": "string",
+				"typedb_name": "name",
+				"typedb_value_type": "string"
+			},
+			"data": {
+				"stix_value_type": "string",
+				"typedb_name": "data",
+				"typedb_value_type": "string"
+			},
+			"data_type": {
+				"stix_value_type": "enum",
+				"typedb_name": "data-type",
+				"typedb_value_type": "string"
+			}
+		}
+	},
+	"windows-pe-section-type": {
+		"typedb-name": "windows-pe-section-type",
+		"helper-relation": {
+			"relation-name": "sections-metadata",
+			"object-role": "pe-bin-file",
+			"value-role": "section"
+		},
+		"attributes": {
+			"name": {
+				"stix_value_type": "string",
+				"typedb_name": "name",
+				"typedb_value_type": "string"
+			},
+			"size": {
+				"stix_value_type": "integer",
+				"typedb_name": "size",
+				"typedb_value_type": "long"
+			},
+			"entropy": {
+				"stix_value_type": "float",
+				"typedb_name": "entropy",
+				"typedb_value_type": "double"
+			},
+			"hashes": {
+				"stix_value_type": "hashes",
+				"typedb_name": "hashes",
+				"typedb_value_type": "key-value:hashes"
+			}
+		}
+	},
+	"windows-pe-optional-header-type": {
+		"typedb-name": "windows-pe-optional-header-type",
+		"helper-relation": {
+			"relation-name": "optional-header",
+			"object-role": "pe-bin-file",
+			"value-role": "header"
+		},
+		"attributes": {
+			"magic_hex": {
+				"stix_value_type": "hex",
+				"typedb_name": "magic-hex",
+				"typedb_value_type": "string"
+			},
+			"major_linker_version": {
+				"stix_value_type": "integer",
+				"typedb_name": "major-linker-version",
+				"typedb_value_type": "long"
+			},
+			"minor_linker_version": {
+				"stix_value_type": "integer",
+				"typedb_name": "minor-linker-version",
+				"typedb_value_type": "long"
+			},
+			"size_of_code": {
+				"stix_value_type": "integer",
+				"typedb_name": "size-of-code",
+				"typedb_value_type": "long"
+			},
+			"size_of_initialized_data": {
+				"stix_value_type": "integer",
+				"typedb_name": "size-of-initialized-data",
+				"typedb_value_type": "long"
+			},
+			"size_of_uninitialized_data": {
+				"stix_value_type": "integer",
+				"typedb_name": "size-of-uninitialized-data",
+				"typedb_value_type": "long"
+			},
+			"address_of_entry_point": {
+				"stix_value_type": "integer",
+				"typedb_name": "address-of-entry-point",
+				"typedb_value_type": "long"
+			},
+			"base_of_code": {
+				"stix_value_type": "integer",
+				"typedb_name": "base-of-code",
+				"typedb_value_type": "long"
+			},
+			"base_of_data": {
+				"stix_value_type": "integer",
+				"typedb_name": "base-of-data",
+				"typedb_value_type": "long"
+			},
+			"image_base": {
+				"stix_value_type": "integer",
+				"typedb_name": "image-base",
+				"typedb_value_type": "long"
+			},
+			"section_alignment": {
+				"stix_value_type": "integer",
+				"typedb_name": "section-alignment",
+				"typedb_value_type": "long"
+			},
+			"file_alignment": {
+				"stix_value_type": "integer",
+				"typedb_name": "file-alignment",
+				"typedb_value_type": "long"
+			},
+			"major_os_version": {
+				"stix_value_type": "integer",
+				"typedb_name": "major-os-version",
+				"typedb_value_type": "long"
+			},
+			"minor_os_version": {
+				"stix_value_type": "integer",
+				"typedb_name": "minor-os-version",
+				"typedb_value_type": "long"
+			},
+			"major_image_version": {
+				"stix_value_type": "integer",
+				"typedb_name": "major-image-version",
+				"typedb_value_type": "long"
+			},
+			"minor_image_version": {
+				"stix_value_type": "integer",
+				"typedb_name": "minor-image-version",
+				"typedb_value_type": "long"
+			},
+			"major_subsystem_version": {
+				"stix_value_type": "integer",
+				"typedb_name": "major-subsystem-version",
+				"typedb_value_type": "long"
+			},
+			"minor_subsystem_version": {
+				"stix_value_type": "integer",
+				"typedb_name": "minor-subsystem-version",
+				"typedb_value_type": "long"
+			},
+			"win32_version_value_hex": {
+				"stix_value_type": "hex",
+				"typedb_name": "win32-version-value-hex",
+				"typedb_value_type": "string"
+			},
+			"size_of_image": {
+				"stix_value_type": "integer",
+				"typedb_name": "size-of-image",
+				"typedb_value_type": "long"
+			},
+			"size_of_headers": {
+				"stix_value_type": "integer",
+				"typedb_name": "size-of-headers",
+				"typedb_value_type": "long"
+			},
+			"checksum_hex": {
+				"stix_value_type": "hex",
+				"typedb_name": "checksum-hex",
+				"typedb_value_type": "string"
+			},
+			"subsystem_hex": {
+				"stix_value_type": "hex",
+				"typedb_name": "subsystem-hex",
+				"typedb_value_type": "string"
+			},
+			"dll_characteristics_hex": {
+				"stix_value_type": "hex",
+				"typedb_name": "dll-characteristics-hex",
+				"typedb_value_type": "string"
+			},
+			"size_of_stack_reserve": {
+				"stix_value_type": "integer",
+				"typedb_name": "size-of-stack-reserve",
+				"typedb_value_type": "long"
+			},
+			"size_of_stack_commit": {
+				"stix_value_type": "integer",
+				"typedb_name": "size-of-stack-commit",
+				"typedb_value_type": "long"
+			},
+			"size_of_heap_reserve": {
+				"stix_value_type": "integer",
+				"typedb_name": "size-of-heap-reserve",
+				"typedb_value_type": "long"
+			},
+			"size_of_heap_commit": {
+				"stix_value_type": "integer",
+				"typedb_name": "size-of-heap-commit",
+				"typedb_value_type": "long"
+			},
+			"loader_flags_hex": {
+				"stix_value_type": "hex",
+				"typedb_name": "loader-flags-hex",
+				"typedb_value_type": "string"
+			},
+			"number_of_rva_and_sizes": {
+				"stix_value_type": "integer",
+				"typedb_name": "number-of-rva-and-sizes",
+				"typedb_value_type": "long"
+			},
+			"hashes": {
+				"stix_value_type": "hashes",
+				"typedb_name": "hashes",
+				"typedb_value_type": "key-value:hashes"
+			}
+		}
+	},
+	"alternate-data-stream-type": {
+		"typedb-name": "alternative-data-stream-type",
+		"helper-relation": {
+			"relation-name": "has-alt-data-stream",
+			"object-role": "ntfs-file",
+			"value-role": "stream"
+		},
+		"attributes": {
+			"name": {
+				"stix_value_type": "string",
+				"typedb_name": "name",
+				"typedb_value_type": "string"
+			},
+			"hashes": {
+				"stix_value_type": "hashes",
+				"typedb_name": "hashes",
+				"typedb_value_type": "key-value:hashes"
+			},
+			"size": {
+				"stix_value_type": "integer",
+				"typedb_name": "size",
+				"typedb_value_type": "long"
+			}
+		}
+	},
+	"email-mime-part-type": {
+		"typedb-name": "email-mime-part-type",
+		"helper-relation": {
+			"relation-name": "body-multipart",
+			"object-role": "message",
+			"value-role": "mime-part"
+		},
+		"attributes": {
+			"body": {
+				"stix_value_type": "string",
+				"typedb_name": "body",
+				"typedb_value_type": "string"
+			},
+			"body_raw_ref": {
+				"stix_value_type": "identifier",
+				"typedb_name": "mime-part::non-textual-body",
+				"typedb_value_type": "empty"
+			},
+			"content_type": {
+				"stix_value_type": "string",
+				"typedb_name": "content-type",
+				"typedb_value_type": "string"
+			},
+			"content_disposition": {
+				"stix_value_type": "string",
+				"typedb_name": "content-disposition",
+				"typedb_value_type": "string"
+			}
+		}
+	},
+	"external-reference": {
+		"typedb-name": "external-reference",
+		"helper-relation": {
+			"relation-name": "external-referencing",
+			"object-role": "referrer",
+			"value-role": "referenced"
+		},
+		"attributes": {
+			"source_name": {
+				"stix_value_type": "string",
+				"typedb_name": "source-name", 
+				"typedb_value_type": "string"
+			},
+			"description": {
+				"stix_value_type": "string",
+				"typedb_name": "description", 
+				"typedb_value_type": "string"
+			},
+			"url": {
+				"stix_value_type": "string",
+				"typedb_name": "url-value", 
+				"typedb_value_type": "string"
+			},
+			"hashes": {
+				"stix_value_type": "hashes",
+				"typedb_name": "hashes", 
+				"typedb_value_type": "key-value:hashes"
+			},
+			"external_id": {
+				"stix_value_type": "string",
+				"typedb_name": "external-id", 
+				"typedb_value_type": "string"
+			}
+		}
+	},
+	"kill-chain-phase": {
+		"typedb-name": "kill-chain-phase",
+		"helper-relation": {
+			"relation-name": "kill-chain-ttp-association",
+			"object-role": "used-sdo",
+			"value-role": "kill-chain-step"
+		},
+		"attributes": {
+			"kill_chain_name": {
+				"stix_value_type": "string",
+				"typedb_name": "kill-chain-name",
+				"typedb_value_type": "string"
+			},
+			"phase_name": {
+				"stix_value_type": "string",
+				"typedb_name": "phase-name",
+				"typedb_value_type": "string"
+			}
+		}
+	}
+}

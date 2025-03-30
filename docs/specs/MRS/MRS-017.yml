@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Conformance with user settings
+importance: 5
+level: 17
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: m6xKq4JtVdtZII7YJILwfgSTcFuQvw8iHYM3M092rjw=
+text: |
+  The data integration SHALL execute its data import function according to settings defined by the user.
+
+  ### Rationale
+  To ensure enforcement of user defined settings
+type: F
+urgency: 5
+vm: T

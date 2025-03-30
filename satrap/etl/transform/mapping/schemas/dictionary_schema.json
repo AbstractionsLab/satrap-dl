@@ -1,0 +1,59 @@
+{
+	"title": "Dictionary data",
+	"description": "How to translate dictionaries",
+	"type": "object",
+	"properties": {
+		"relation": {
+			"description": "The data of the relation that connects the items with the main object",
+			"type": "object",
+			"properties": {
+				"relation-name": {
+					"description": "The name of the relation",
+					"type": "string"
+				},
+				"item-role": {
+					"description": "The role name of the item's role",
+					"type": "string"
+				},
+				"object-role": {
+					"description": "The role name of the object's role",
+					"type": "string"
+				}
+			},
+			"required": ["relation-name", "item-role", "object-role"],
+			"additionalProperties": false
+		},
+		"attribute_property": {
+			"description": "The attribute name for the name of the STIX property",
+			"type": "string"
+		},
+		"attribute_key": {
+			"description": "The attribute name for the key attribute",
+			"type": "string"
+		},
+		"subitems": {
+			"description": "Which entity and value attribute to use for a specified value type",
+			"type": "object",
+			"patternProperties": {
+				"^.+$": {
+					"description": "Which entity and value attribute to use",
+					"type": "object",
+					"properties": {
+						"entity": {
+							"description": "The name of the item entity",
+							"type": "string"
+						},
+						"value-attribute": {
+							"description": "The name of the value attribute",
+							"type": "string"
+						}
+					},
+					"required": ["entity", "value-attribute"],
+					"additionalProperties": false
+				}
+			}
+		}
+	},
+	"required": ["relation", "attribute_property", "attribute_key", "subitems"],
+	"additionalProperties": false
+}

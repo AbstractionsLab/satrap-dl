@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head><title>Doorstop</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="assets/doorstop/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/doorstop/general.css" />
+  <link type="text/css" rel="stylesheet" href="assets/doorstop/sidebar.css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+  });
+  </script>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-2 hidden-sm hidden-xs">
+          <nav id="TOC" class="nav nav-stacked fixed sidebar">
+              <h3>Table of Contents</h3>
+<ul>
+<li><a href="#SWD-001">1 Top-level ETL design</a></li>
+<li><a href="#SWD-002">2 STIX-specific ETL design</a></li>
+<li><a href="#SWD-003">3 ETL system flow</a></li>
+<li><a href="#SWD-004">4 TypeDB utilities</a></li>
+<li><a href="#SWD-005">5 Transformer class diagram</a></li>
+<li><a href="#SWD-006">6 Transformer flow</a></li>
+<li><a href="#SWD-007">7 ETL full class diagram</a></li>
+</ul>
+          </nav>
+      </div>
+      <div class="col-lg-8" id="main">
+        <h1 id="SWD-001">1 Top-level ETL design <small>SWD-001</small></h1>
+<h2>Abstract class diagram</h2>
+<p>The top level design of the ETL system, i.e., the software design of implementation independent components, is depicted below</p>
+<p><img alt="ETL top-level abstract class design" src="assets/2C0A2A_DIA_etl_abstract_design.drawio.png" title="ETL top-level abstract class design" width="50%" /></p>
+<p>An <em>Extractor</em> is responsible for fetching raw data. At this stage, the retrieved data is not transformed yet. The data can for example be downloaded and saved to a file, but reading from a file and returning the data internally is also possible.</p>
+<p>A <em>Transformer</em> will then take the extracted data and transform it into another format. This could for example consist of converting date formatting or a transformation of complex numbers from the algebraic form to the polar form, to give two simple examples.</p>
+<p>The <em>Loader</em> will load the data that has been prepared by the transformer into another data repository. Often, this means that data is loaded into a database.</p>
+<p>These 3 components are managed by the ETL Orchestrator, i.e., it uses them to get the desired result. This is the abstract and implementation independent idea of the ETL process.</p>
+<blockquote>
+<p><code>satrap/etl/etlorchestrator.py</code> (line 11)
+<code>satrap/etl/extract/extractor.py</code> (line 16)
+<code>satrap/etl/transform/transformer.py</code> (line 15)
+<code>satrap/etl/load/loader.py</code> (line 11)</p>
+</blockquote>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<h1 id="SWD-002">2 STIX-specific ETL design <small>SWD-002</small></h1>
+<h2>STIX-specific ETL class diagram</h2>
+<p>A concrete class definition aimed at ingesting MITRE ATT&amp;CK data, based on inheritance from the abstract classes system is depicted below</p>
+<p><img alt="Concrete STIX-specific ETL class diagram" src="assets/2C0A2B_DIA_Specific-ETL-design.drawio.png" title="Concrete STIX-specific ETL class diagram" width="50%" /></p>
+<p>For instance, to provide an implementation of the ETL process to ingest MITRE ATT&amp;CK data in STIX 2.1 format, transform and load into a TypeDB database with a schema close to STIX 2.1, concrete implementations of the ETL classes are required.</p>
+<p>For this, we use 2 extractors, namely a Downloader which downloads a file and saves it and a STIXExtractor which reads a STIX 2.1 JSON file and provides its content as Python objects.</p>
+<p>Then, a transformer called STIXtoTypeQLTransformer will take these STIX 2.1 objects and transform them to TypeQL insertion query objects according to the defined schema.</p>
+<p>After the transformer has finished its work, the TypeDBLoader can take these insertion query objects and insert them into the TypeDB database instance.</p>
+<blockquote>
+<p><code>satrap/etl/extract/extractor.py</code> (line 51)
+<code>satrap/etl/extract/extractor.py</code> (line 88)
+<code>satrap/etl/transform/transformer.py</code> (line 30)
+<code>satrap/etl/load/loader.py</code> (line 25)
+<code>satrap/etl/etlorchestrator.py</code> (line 11)</p>
+</blockquote>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<h1 id="SWD-003">3 ETL system flow <small>SWD-003</small></h1>
+<h2>Top-level ETL sequence diagram</h2>
+<p>Only the interaction of the ETL Orchestrator with the top level components shown above are given.</p>
+<p><img alt="Sequence diagram for top-level-components of the ETL system" src="assets/2C0A2C_DIA_ETL-TopLevelComponents-SeqDiagram.png" title="Sequence diagram for top-level-components of the ETL system" width="50%" /></p>
+<p>The MITRE ATT&amp;CK data file is downloaded by the Downloader. Then, the STIX objects are read and parsed by the STIXExtractor. With this, the extraction process is completed.</p>
+<p>Next, the STIXtoTypeQLTransformer transforms each STIX Object into TypeDB insert queries.</p>
+<p>Once they are transformed, they are loaded into a TypeDB database by the TypeDBLoader in 3 steps. First, entities that represent STIX objects, then relations that represent STIX objects and at last relations that represent embedded relations.</p>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<h1 id="SWD-004">4 TypeDB utilities <small>SWD-004</small></h1>
+<p>As the ETL process will load the data into a TypeDB database, dedicated functionality for TypeDB objects is required.
+Instead of hardcoding this functionality like string creation for the insert queries into the main ETL components, a separate typedb package is created that handles all functionality that is only TypeDB functionality and can be used in more contexts than just ETL systems.</p>
+<p>A class diagram for a full overview is provided below:</p>
+<p><img alt="TypeDB package overview" src="assets/2C0A2D_DIA_TypeDB-PackageOverview.drawio.png" title="TypeDB package overview" width="60%" /></p>
+<p><strong>VariableDealer</strong> This class has two static functions get_variable and reset. The VariableDealer is responsible for distributing variables for TypeQL queries that are always unique. This is required so different statements in a single insert query do not affect each other</p>
+<p><strong>Entity &amp; Relation</strong> The Entity and the Relation classes represent TypeDB’s entity and relation objects. The classes are mainly data classes. They have a common supertype Thing analogous to TypeDB’s thing type (which is deprecated and will be removed in TypeDB 3.01) that has the functionality for assigning variables and attributes. In addition, relations have roles and roleplayers.</p>
+<p><strong>InsertQuery</strong> The InsertQuery data class represents insert queries that consist of match and insert statements.</p>
+<p><strong>TypeQLBuilder</strong> The TypeQLBuilder builds queries as strings for certain TypeDB Objects. For example it can build the string representation for InsertQuery objects.</p>
+<p><strong>TypeDBInserter</strong> The TypeDBInserter handles insertions into a TypeDB database with its insert method. For communication with the database, it makes use of the official TypeDB driver package. There are two ways to use this class, either in a <code>with</code> block or as usual. The usage in the <code>with</code> block automatically takes care of creating and closing the TypeDBDriver connnection, while using the Inserter without the <code>with</code> block allows using it when the driver has already been set up by another class or is still needed after the inserter finished his work. The insertion queries are passed as strings.</p>
+<blockquote>
+<p><code>satrap/datamanagement/typedb/inserthandler.py</code> (line 8)
+<code>satrap/datamanagement/typedb/dataobjects.py</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<h1 id="SWD-005">5 Transformer class diagram <small>SWD-005</small></h1>
+<h2>Design ideas</h2>
+<p>In the ETL stack, the transformation process is arguably the most complex one. For every STIX Object, we need to define
+how to translate it to the defined TypeDB object. A partial class diagram of the Transformer is given below, but note that only the most important functions are listed and sometimes, function signatures are left out in case they can be determined by inheritance. The complete diagram can be found further below.</p>
+<p><img alt="Transformer class diagram" src="assets/2C0A2E_DIA_Transformer-ClassDiagram.drawio.png" title="Transformer class diagram" width="100%" /></p>
+<p>The idea of the transformer for STIX 2.1 to TypeDB is that it transforms each STIX object in sequence. Thanks to our TypeDB schema being very close to STIX 2.1, this process is simplified. It also allows for concurrency in case a sequential implementation is too slow. For this, the Transformer instantiates a <code>STIXObjectConverter</code> subclass (for each STIX object) that knows how to transform the underlying STIX Object. This class holds the main functionality of the Transformer. We distinguish between SDOs, SROs, SCOs, SMOs, and Custom Objects, primarily because SROs will create relations while SDOs and SCOs create entities and SMOs may rely on individual conversion techniques. Currently, only STIX Core Objects are implemented. They have a common Converter superclass <code>STIXCoreObjectConverter</code>.</p>
+<p>When the <code>convert_to_typeql</code> method is called, this converter will</p>
+<ol>
+<li>determine the TypeDB object type and initialize the entity/ relation</li>
+<li>convert the main properties</li>
+<li>convert the properties of the extension if one exists</li>
+</ol>
+<p>For step (1), the Converter will determine the TypeDB object type using the <code>STIXtoTypeDBMapper</code> and will then initialize the TypeDB object that represents the STIX object. The method that is used here is defined for each subclass of the <code>STIXCoreObjectConverter</code> as the object depends on the STIX category. So for SDOs and SCOs, entities are created, and for SROs, relations are created. Here, the Converter makes use of the <code>Entity</code> and <code>Relation</code> data classes from the <code>typedb</code> package.
+For (2), the Converter iterates over the STIX properties and determines with the help of the <code>STIXtoTypeDBMapper</code> how to transform each attribute, i.e. which name and which value type to use for the TypeDB attribute. For the conversion of the values, the <code>ValueConverter</code> is used. For each value type, a dedicated subclass is defined. These subclasses then know how to interpret and convert the value from STIX 2.1 JSON to the TypeDB implementation.
+The third step (3) works similar to the property conversion (2) as the extension has already been considered in step (1) for the object type, so again, only properties have to be converted.</p>
+<p>The most challenging part is the building and execution order of the insert queries. The data class <code>InsertQuery</code>, that stores the match and insert statements as entities or relations, is not enough here. A mechanism is needed to determine which parts of the query can be executed at which time. Embedded relations, for example, match on a different object by an id. However, it is possible that this referenced object has not yet been inserted into the database. Therefore, some statements have to wait. Also SROs can only be safely inserted once every other STIX Object has been inserted. Therefore, a class called <code>QueryBundle</code> is used that distinguishes between the main STIX Object, entities and relations that represent more complex attributes, such as an <code>external-reference</code>, and embedded relations.
+The order is as follows: First, all STIX Objects that are translated as entities have to be inserted (e.g. SDOs), then all STIX objects that are relations (these are SROs) can be inserted and at last, the embedded relations may be inserted (because embedded relations can also reference SROs). The entities and relations that represent attributes have to be inserted after, but in the same query as the main STIX Object, because these entities do not have ids and can therefore not be uniquely matched later on.</p>
+<p>After the transformation process finished, insert query objects are returned instead of insert query strings. The objects can be turned to strings with a single function call to the <code>TypeQLBuilder</code>, using the <code>build_insert_query</code> function. But this step is done in the loader to keep some flexibility here. For more explanations to this topic, please see the <em>loading</em> chapter.</p>
+<h2>Mapping</h2>
+<p>There are many STIX Objects and much more properties defined on them, as well as extensions. Therefore, it needs to be stored somewhere how to transform each STIX object, e.g. which attribute names to choose for the STIX properties. These information are stored in separate mapping files in the JSON format. The <code>STIXtoTypeDBMapper</code> class handles these files. Other classes can then call its functions to get these information, e.g. they can ask for the attribute name of a STIX property of a certain STIX object type. For more information, please see the <em>Mapping</em> chapter in the <em>implementation</em> part.</p>
+<h2>Class diagram explainer</h2>
+<dl>
+<dt>STIXObjectConverter</dt>
+<dd>The STIXObjectConverter converts a whole STIX Object to the necessary TypeQL insertion queries. During this process, it uses other components such as the <code>ValueConverter</code> for converting its attributes. Each subclass takes care of the conversion of a complete STIX Object class.</dd>
+<dt>ValueConverter</dt>
+<dd>The ValueConverter is responsible for converting a single value from STIX 2.1 to TypeDB. Because some values translate to more complex structures, such as relations, not only values are returned, but whole insertion queries, too. The subclasses represent a value type each. The <code>StringConverter</code> for example converts values in JSON String format to TypeDB string values, while the <code>CompositeValueConverter</code> takes care of values that are structured, i.e. consist of several values, such as external references.</dd>
+<dt>ValueConverterAdapter</dt>
+<dd>As the return types of the ValueConverters' <code>convert_to_typeql</code> differ, the ValueConverterAdapter is responsible for creating a tuple of values and QueryBundles for each ValueConverter such that the STIXObjectConverter does not need to take care of type matching.</dd>
+<dt>STIXtoTypeDBMapper</dt>
+<dd>The STIXtoTypeDBMapper takes care of accessing the mapping that defines for each object, attribute, relation and composite type how it should be transformed, i.e. which names and values are used in the corresponding TypeDB element.</dd>
+<dt>QueryBundle</dt>
+<dd>The QueryBundle collects insert queries that are created by the ValueConverters needed to insert the transformed values. In contrast to simple lists, the QueryBundle takes care of sorting the insert queries correctly such that insert queries are inserted in the correct order. This is for example important for inserting embedded relations after the referenced object has been inserted.</dd>
+<dt>Identification</dt>
+<dd>Some ValueConverters need to know the TypeDB object type of the main object or their id. For this, the <code>Identification</code> class is used. This class contains all the data needed to create different references to the main object.</dd>
+</dl>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<h1 id="SWD-006">6 Transformer flow <small>SWD-006</small></h1>
+<h2>Transformer sequence diagram</h2>
+<p>The sequence diagram of the transformation process can be seen below:</p>
+<p><img alt="Transformer sequence diagram" src="assets/2C0A2F_DIA_Transformer-SeqDiagram.png" title="Transformer sequence diagram" width="80%" /></p>
+<p>Only function calls and interactions that are relevant to understand the information flow are shown. Especially interaction with plain data classes that are not used by the <code>STIXtoTypeQLTransformer</code> itself are left out, i.e. the creation of <code>Entity</code> or <code>Relation</code> objects that are inserted into <code>InsertQuery</code> objects which are again part of the <code>QueryBundle</code>. In addition, the <code>convert_to_typeql</code> functions differ a lot depending on the value type. For primitive data types, the functions indeed do not interact with other classes. However, for more complex data types, the <code>ValueConverter</code> interacts with the <code>STIXtoTypeDBMapper</code> to ask for information about the conversion steps and of course with the <code>Identity</code>, <code>Entity</code>, <code>Relation</code>, <code>InsertQuery</code> and therefore also with the <code>QueryBundle</code>.</p>
+<p>To provide an example, the sequence diagram for a function call of <code>convert_to_typeql</code> of a composite value can be seen below:</p>
+<p><img alt="Sequence diagram for the value conversion of a composite value" src="assets/2C0A2G_DIA_CompositeValue-SeqDiagram.png" title="Sequence diagram for the value conversion of a composite value" width="100%" /></p>
+<p>It can be seen that for every value in a composite value's properties, the ValueConverter is needed to convert the value. This is not shown in this sequence diagram as this sequence diagram already explains this step.</p>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<h1 id="SWD-007">7 ETL full class diagram <small>SWD-007</small></h1>
+<p>The full class diagram of the ETL is given below.</p>
+<p><img alt="Complete ETL class diagram" src="assets/2C0A2H_DIA_ETL-Complete-ClassDiagram.drawio.png" title="Complete ETL class diagram" width="100%" /></p>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+      </div>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="assets/doorstop/jquery.min.js"></script>
+<script src="assets/doorstop/bootstrap.min.js"></script>
+<script>
+    $(function() {
+        $("table").addClass("table");
+        $("nav ul").addClass("nav nav-stacked");
+        $("nav").affix();
+        $('body').scrollspy({
+          target: '.sidebar'
+        });
+        $("#main a").attr("target", "parent");
+
+  $(window).on('hashchange', function() {
+    $(window).scrollTop($(location.hash.toLowerCase()).offset().top);});
+  });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  File-based SKB update
+importance: 3
+level: 33
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: vQcmYRe15wrGdYXeDovbPk4BkJvKtTCBKrRPRkm-Nu8=
+text: |
+  The frontend MAY allow the user to update the SKB by loading CTI content from files encoded using a predefined format (e.g., JSON) and according to a well-defined specification (e.g., STIX).
+
+  ### Rationale
+  To keep the CTI updated by the users themselves.
+type: F
+urgency: 2
+vm: T

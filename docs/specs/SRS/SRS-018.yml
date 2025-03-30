@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  IDPS-ESCAPE ingestion policy
+importance: null
+level: 18
+links:
+- MRS-039: QC80VU_bV9rRwFZ8wstygICf0FoSjLl-mpf79TAOfS4=
+normative: true
+rationale: See specification body
+ref: ''
+release: Beta
+reviewed: 0Mpuj8wM-FC2eaIySWCAVCqKmZh_wjXnHZRfkJRAgrc=
+text: |
+  The automated data retrieval mechanism of SATRAP-DL for ingesting IDPS-ESCAPE data SHALL operate according to the settings specified in a pre-defined policy.
+
+  ### Rationale
+  For scenarios that deal with CTI generation and operation, we consider that a knowledge base requires information from at least three categories. This requirement addresses the integration of behavioral data.
+type: F
+urgency: 4
+vm: T

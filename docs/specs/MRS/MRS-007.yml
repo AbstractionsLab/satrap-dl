@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Semantic CTI and MITRE D3FEND
+importance: 3
+level: 7
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Beta
+reviewed: 7QnC71ciUd5ajMnQxwhpH339QDlsl15UddjIOfmVUnw=
+text: |
+  The CTI SKB SHOULD contain data from existing open-source semantic CTI repositories, including at least MITRE D3FEND.
+
+  ### Rationale
+  To incorporate other efforts dealing with semantic CTI.
+type: Q
+urgency: 3
+vm: R,I

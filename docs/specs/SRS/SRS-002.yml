@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Database paradigm
+importance: null
+level: 2
+links:
+- MRS-002: u_r8ImVBTTNJcPDrAsGg8YC-ATB2--QysmotkLumFb0=
+normative: true
+rationale: See specification body
+ref: ''
+release: Alpha
+reviewed: ZqUnYHQsKmAu4o9N5Goz06NBQVMo5nv8dUlfaw_CxG8=
+text: |
+  SATRAP-DL SHALL rely on a database paradigm that allows for knowledge representation based on semantics as opposed to based on structure of the information. Possible candidates are the PERA model and the graph model implemented by TypeDB and, e.g., Neo4J respectively.
+
+  ### Rationale
+  To enable intrinsic semantic search capabilities and automated reasoning over the data model.
+type: A
+urgency: 5
+vm: R

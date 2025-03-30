@@ -1,0 +1,24 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Open-source licensing
+importance: null
+level: 27
+links:
+- MRS-051: sCx2rOthf3mDJvxHytQ6rsW6bXjB_S7oml0EOG80fNI=
+normative: true
+rationale: See specification body
+ref: ''
+release: Alpha
+reviewed: 3K0vHMYtRIA09AsSmgYHUyD5Gb1ihPM6HpuhwNNRZpk=
+text: |
+  Third-party libraries used in SATRAP-DL SHALL have open source licenses that do not restrict the privileges
+  granted by the license selected for SATRAP-DL.
+
+  ### Rationale
+  To avoid the introduction of limitations in the distribution and use of SATRAP-DL derived from the use of third-party software.
+type: C
+urgency: 3
+vm: A

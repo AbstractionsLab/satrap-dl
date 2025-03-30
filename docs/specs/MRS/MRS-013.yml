@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  OSINT ingestion
+importance: 5
+level: 13
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Beta
+reviewed: LnI6fm7juREUigcnDiYpRv2ruijYwSU6t0WLupiNe84=
+text: |
+  The CyFORT CTI repository SHOULD ingest open-source threat intelligence (OSINT), e.g. government feeds, according to predefined parameters, such as sources and frequency.
+
+  ### Rationale
+  To integrate relevant and up to date publicly available data about threats around the world.
+type: F
+urgency: 4
+vm: I

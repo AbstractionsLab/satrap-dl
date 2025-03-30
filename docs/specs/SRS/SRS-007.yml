@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Semantic data integrity
+importance: null
+level: 7
+links:
+- MRS-008: 5wRPnhE8Q9jriIeLZBpW-cRvX7vGVdNdkLjn0i2WGi0=
+normative: true
+rationale: See specification body
+ref: ''
+release: Alpha
+reviewed: U3FBGwjgeDaw6_6a56JiyvJZH479xl_GlBV1CLLf97I=
+text: |
+  The data model SHALL enforce semantic integrity ensuring that relationships and constraints adhere to the intended meaning. Semantic data integrity can be enforced by measures such as data validation with respect to schemas and relationships constraints, automated checks for data redundancy and inference powered with a reasoning engine.
+
+  ### Rationale
+  To ensure consistency, accuracy and reliability of data, preventing among others contradictory and repeated data to be stored.
+type: S
+urgency: 5
+vm: R

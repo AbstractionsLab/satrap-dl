@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Query parameterization
+importance: 5
+level: 23
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: M_CZmCG7Ip_dMzwRCevGjWuLOkt59YN8P2HlfDDy60Q=
+text: |
+  The frontend SHALL allow the user to customize parametrized pre-defined CTI queries in a high-level language/representation.
+
+  ### Rationale
+  For usability and adoption by removing the need for end users to know the native CTI SKB query language.
+type: F
+urgency: 5
+vm: T

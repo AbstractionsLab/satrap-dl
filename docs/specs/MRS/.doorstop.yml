@@ -1,0 +1,31 @@
+settings:
+  digits: 3
+  itemformat: yaml
+  prefix: MRS
+  sep: '-'
+
+attributes:
+  defaults:
+    type: 'F'
+    rationale: ""
+    importance: "5"
+    urgency: "5"
+    vm: 'T'
+    acceptance-criteria: |
+      Successful validation according to the
+      corresponding test case specification
+    release: "Alpha"
+
+  publish:
+    - type
+    - importance
+    - urgency
+    - vm
+    - release
+  
+  reviewed:
+    - type
+    - importance
+    - urgency
+    - vm
+    - release

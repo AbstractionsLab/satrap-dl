@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Automated reasoning
+importance: 5
+level: 18
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: 7iwpowKvcB3iIZGB2jFMv4uPjvhb38BtzKkx8Ej-qMI=
+text: |
+  SATRAP-DL SHALL provide native automated reasoning capabilities over the information in the CTI SKB to infer new relations and provide insights to the CTI analyst.
+
+  ### Rationale
+  Automated reasoning capabilities are expected not only to simplify analysis tasks over large amounts of data, but also to efficiently infer relations that would otherwise require dedicated time and effort from a CTI analyst.
+type: A
+urgency: 5
+vm: R

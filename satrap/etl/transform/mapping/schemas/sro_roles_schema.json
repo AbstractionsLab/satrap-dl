@@ -1,0 +1,19 @@
+{
+	"title": "SRO Role definitions",
+	"description": "The roles assigned to target and source of SROs",
+	"type": "object",
+	"patternProperties": {
+		"^.+$": {
+			"description": "A relationship type",
+			"type": "object",
+			"patternProperties": {
+				"^.+$": {
+					"description": "An arbitrary role defined on this object",
+					"type": "string"
+				}
+			},
+			"required": [],
+			"additionalProperties": false
+		}
+	}
+}

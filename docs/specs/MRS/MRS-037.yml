@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  SATRAP as software library
+importance: 4
+level: 35
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: dVSs9DmA40K6dcPAzMfO9JJ17NWIVtCZ81KVAprmm4c=
+text: |
+  SATRAP-DL SHALL include a native library grouping together a set of low-level algorithms to provide high-level CTI analysis services (functionality) and to facilitate the use of SATRAP as a software library for developing other applications.
+
+  ### Rationale
+  For interoperability with the ecosystem, to enable the automation of the CTI lifecycle through the integration of multiple complementary solutions.
+type: A
+urgency: 3
+vm: I

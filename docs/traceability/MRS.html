@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html>
+<head><title>Doorstop</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="assets/doorstop/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/doorstop/general.css" />
+  <link type="text/css" rel="stylesheet" href="assets/doorstop/sidebar.css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+  });
+  </script>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-2 hidden-sm hidden-xs">
+          <nav id="TOC" class="nav nav-stacked fixed sidebar">
+              <h3>Table of Contents</h3>
+<ul>
+<li><a href="#MRS-001">1 Semantic data model</a></li>
+<li><a href="#MRS-002">2 CTI knowledge base</a></li>
+<li><a href="#MRS-003">3 CTI SKB extensibility</a></li>
+<li><a href="#MRS-004">4 SKB data model flexibility</a></li>
+<li><a href="#MRS-005">5 Default CTI content</a></li>
+<li><a href="#MRS-006">6 Domain-specific CTI</a></li>
+<li><a href="#MRS-007">7 Semantic CTI and MITRE D3FEND</a></li>
+<li><a href="#MRS-008">8 CTI SKB data integrity</a></li>
+<li><a href="#MRS-009">9 Policy-driven automated SKB update</a></li>
+<li><a href="#MRS-010">10 Removal of expired intelligence</a></li>
+<li><a href="#MRS-011">11 Ingestion of standardized CTI</a></li>
+<li><a href="#MRS-012">12 CyFORT CTI repository</a></li>
+<li><a href="#MRS-013">13 OSINT ingestion</a></li>
+<li><a href="#MRS-014">14 Automated CTI enrichment</a></li>
+<li><a href="#MRS-015">15 Semantic relations preservation</a></li>
+<li><a href="#MRS-016">16 Configuration management</a></li>
+<li><a href="#MRS-017">17 Conformance with user settings</a></li>
+<li><a href="#MRS-018">18 Automated reasoning</a></li>
+<li><a href="#MRS-019">19 CTI sharing</a></li>
+<li><a href="#MRS-020">20 Interactive frontend</a></li>
+<li><a href="#MRS-021">21 Self-defined CTI queries</a></li>
+<li><a href="#MRS-022">22 Saved queries</a></li>
+<li><a href="#MRS-023">23 Query parameterization</a></li>
+<li><a href="#MRS-024">24 Frontend and CTI SKB mediator</a></li>
+<li><a href="#MRS-025">25 Reasoning engine controller</a></li>
+<li><a href="#MRS-026">26 Query result viewer</a></li>
+<li><a href="#MRS-027">27 Frontend query status</a></li>
+<li><a href="#MRS-028">28 Native query execution</a></li>
+<li><a href="#MRS-029">29 Frontend design</a></li>
+<li><a href="#MRS-030">30 Frontend terminology</a></li>
+<li><a href="#MRS-031">31 Frontend STIX compliance</a></li>
+<li><a href="#MRS-032">32 User-controlled CTI curation</a></li>
+<li><a href="#MRS-033">33 File-based SKB update</a></li>
+<li><a href="#MRS-034">34 Frontend cross-platform support</a></li>
+<li><a href="#MRS-037">35 SATRAP as software library</a></li>
+<li><a href="#MRS-038">36 Platform-independent API</a></li>
+<li><a href="#MRS-039">37 CTI ingestion from IDPS-ESCAPE</a></li>
+<li><a href="#MRS-040">38 Automated CTI ingestion</a></li>
+<li><a href="#MRS-041">39 Inferred CTI export</a></li>
+<li><a href="#MRS-042">40 TIP inference connector</a></li>
+<li><a href="#MRS-043">41 TIP enrichment connector</a></li>
+<li><a href="#MRS-044">42 Modular architecture</a></li>
+<li><a href="#MRS-045">43 STIX compliance</a></li>
+<li><a href="#MRS-046">44 C5-DEC compliance</a></li>
+<li><a href="#MRS-051">45 Open-source releases</a></li>
+<li><a href="#MRS-053">46 Secure programming compliance</a></li>
+<li><a href="#MRS-056">47 Access control</a></li>
+<li><a href="#MRS-057">48 Secure channel to TIP</a></li>
+<li><a href="#MRS-058">49 Secure channel to IDPS-ESCAPE</a></li>
+</ul>
+          </nav>
+      </div>
+      <div class="col-lg-8" id="main">
+        <h1 id="MRS-001">1 Semantic data model <small>MRS-001</small></h1>
+<p>The data model of SATRAP-DL SHALL build upon knowledge representation formalisms that natively capture the semantics of information.</p>
+<h3>Rationale</h3>
+<p>Flexible storage and management of contextualized CTI and support for automated reasoning</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-001">SRS-001 Data modelling language</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-002">2 CTI knowledge base <small>MRS-002</small></h1>
+<p>SATRAP-DL SHALL host a native semantic CTI repository (a.k.a. CTI semantic knowledge base or CTI SKB) to enable by design the storage, management, and retrieval of information by means of semantic technologies.</p>
+<h3>Rationale</h3>
+<p>The main goal of the project is to enrich the automation capabilities of current approaches by working with semantically enriched data and automated reasoning on such data.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-002">SRS-002 Database paradigm</a>, <a href="SRS.html#SRS-003">SRS-003 Semantic search</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-003">3 CTI SKB extensibility <small>MRS-003</small></h1>
+<p>The CTI SKB SHALL support the integration of new concepts (e.g., facts, entities, or relationships) while maintaining the existing core data model.</p>
+<h3>Rationale</h3>
+<p>Extensibility of the data model allows for gradual enrichment of the CTI SKB by combining multiple threat frameworks, as CTI might not be expressible in a single one.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-004">SRS-004 Extensibility of the data model</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-004">4 SKB data model flexibility <small>MRS-004</small></h1>
+<p>The CTI SKB SHALL rely on a database solution supporting structural modifications to the data model without requiring a data schema migration, e.g., in a relational DBMS needing a schema migration tool.</p>
+<h3>Rationale</h3>
+<p>CTI relationships are complex and often uncertain, thus, subject to frequent changes. A flexible data model accommodates for those evolving requirements.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-005">SRS-005 NoSQL data model</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R,T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-005">5 Default CTI content <small>MRS-005</small></h1>
+<p>The CTI SKB SHALL contain some cyber threat intelligence (CTI) content such as cyber attack campaigns and intrusion sets (including TTPs) by default, e.g., the ATT&amp;CK data sets published by MITRE.</p>
+<h3>Rationale</h3>
+<p>Ground knowledge (terminological axioms in DL) of the knowledge base</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-006">SRS-006 Integration of common CTI</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-006">6 Domain-specific CTI <small>MRS-006</small></h1>
+<p>The CTI SKB SHOULD contain publicly available domain-specific CTI content about less commonly documented threats, such as those dealing with PQC schemes.</p>
+<h3>Rationale</h3>
+<p>To enrich the CTI SKB ground knowledge and enlarge the scope of coverage.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>3</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R,I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>FID (First Industrial Deployment)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-007">7 Semantic CTI and MITRE D3FEND <small>MRS-007</small></h1>
+<p>The CTI SKB SHOULD contain data from existing open-source semantic CTI repositories, including at least MITRE D3FEND.</p>
+<h3>Rationale</h3>
+<p>To incorporate other efforts dealing with semantic CTI.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>3</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R,I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-008">8 CTI SKB data integrity <small>MRS-008</small></h1>
+<p>The CTI SKB technology choice SHALL enforce data integrity by design.</p>
+<h3>Rationale</h3>
+<p>To ensure consistency, stability, accuracy and reliability of data, preventing among others contradictory and repeated data to be stored.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-007">SRS-007 Semantic data integrity</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-009">9 Policy-driven automated SKB update <small>MRS-009</small></h1>
+<p>SATRAP-DL SHALL provide an automated process to maintain the CTI SKB up to date according to some update policy.</p>
+<h3>Rationale</h3>
+<p>To automatically address one of the major challenges related to keeping up with the fast evolving nature of CTI.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-010">10 Removal of expired intelligence <small>MRS-010</small></h1>
+<p>SATRAP-DL MAY enforce an automated process to deal with the identification and removal of expired intelligence in the CTI SKB.</p>
+<h3>Rationale</h3>
+<p>To maintain an up to date CTI SKB.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>3</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>1</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>FID (First Industrial Deployment)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-011">11 Ingestion of standardized CTI <small>MRS-011</small></h1>
+<p>The data integration module SHALL allow for the import of threat data expressed in a standard CTI representation format, such as STIX.</p>
+<h3>Rationale</h3>
+<p>To enable the ingestion of data observed in a specific system, thereby allowing to effectively tailor the CTI knowledge obtained from the world to protect the referred system.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-008">SRS-008 ETL orchestrator</a>, <a href="SRS.html#SRS-009">SRS-009 ETL Transformer</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-012">12 CyFORT CTI repository <small>MRS-012</small></h1>
+<p>The SATRAP-DL system SHALL implement a mechanism for raw (i.e., prior to SATRAP inference) CTI storage in a CTI repository maintained using at least one open-source TIP with sharing capabilities (e.g., MISP or OpenCTI). This upstream SATRAP CTI repository maintained by one or more open-source TIPs will be referred to as the CyFORT CTI repository.</p>
+<h3>Rationale</h3>
+<p>To leverage the mature and robust data collection, storage and sharing capabilities of existing TIPs and because many CSIRT/CERT and SOC teams already maintain their repositories in such platforms.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-011">SRS-011 Ingestion of internal and external CTI</a>, <a href="SRS.html#SRS-044">SRS-044 Open-source TIP integration</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-013">13 OSINT ingestion <small>MRS-013</small></h1>
+<p>The CyFORT CTI repository SHOULD ingest open-source threat intelligence (OSINT), e.g. government feeds, according to predefined parameters, such as sources and frequency.</p>
+<h3>Rationale</h3>
+<p>To integrate relevant and up to date publicly available data about threats around the world.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-014">14 Automated CTI enrichment <small>MRS-014</small></h1>
+<p>The data integration module SHOULD automatically enrich the information imported from external systems with CTI available in the CyFORT CTI repository.</p>
+<h3>Rationale</h3>
+<p>To address one of the major challenges for incident responders, namely, manual data correlation and contextualization of collected IoCs.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-012">SRS-012 Inference rules</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-015">15 Semantic relations preservation <small>MRS-015</small></h1>
+<p>The data integration module SHALL store imported threat data in the CTI SKB by maintaining the semantic relations defined in the input data.</p>
+<h3>Rationale</h3>
+<p>To ensure integrity of imported threat data.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-013">SRS-013 STIX 2.1 data model</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-016">16 Configuration management <small>MRS-016</small></h1>
+<p>The data integration module SHALL provide a configuration management mechanism with a set of predefined values for the user to adjust settings related to the data ingestion process.</p>
+<h3>Rationale</h3>
+<p>To allow tunning the system performance.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-041">SRS-041 Configuration management mechanism</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-017">17 Conformance with user settings <small>MRS-017</small></h1>
+<p>The data integration SHALL execute its data import function according to settings defined by the user.</p>
+<h3>Rationale</h3>
+<p>To ensure enforcement of user defined settings</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-041">SRS-041 Configuration management mechanism</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-018">18 Automated reasoning <small>MRS-018</small></h1>
+<p>SATRAP-DL SHALL provide native automated reasoning capabilities over the information in the CTI SKB to infer new relations and provide insights to the CTI analyst.</p>
+<h3>Rationale</h3>
+<p>Automated reasoning capabilities are expected not only to simplify analysis tasks over large amounts of data, but also to efficiently infer relations that would otherwise require dedicated time and effort from a CTI analyst.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-014">SRS-014 Native reasoning engine</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-019">19 CTI sharing <small>MRS-019</small></h1>
+<p>SATRAP-DL SHOULD facilitate sharing of CTI stored in the CTI SKB by exporting to a machine-readable format expressing standardized CTI.</p>
+<h3>Rationale</h3>
+<p>Providing tools that simplify CTI sharing potentially encourages this activity, which is one of factors that contributes to faster detection and response times.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-020">20 Interactive frontend <small>MRS-020</small></h1>
+<p>SATRAP-DL SHALL provide and/or incorporate at least one frontend to enable interactive analysis of CTI, e.g., a command line interface (CLI), a web interface, a Jupyter Notebook or a desktop GUI application.</p>
+<h3>Rationale</h3>
+<p>To enhance and extend the toolset for CTI analysts.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a>, <a href="SRS.html#SRS-042">SRS-042 Command line interface (CLI)</a>, <a href="SRS.html#SRS-043">SRS-043 TypeDB Studio</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-021">21 Self-defined CTI queries <small>MRS-021</small></h1>
+<p>The SATRAP-DL frontend SHALL allow the user to run self-defined CTI queries using a high-level language/representation, e.g., Python code encapsulating TypeQL.</p>
+<h3>Rationale</h3>
+<p>To provide enhanced capabilities accessible to end users for performing CTI analysis according to their investigative needs and objectives.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-022">22 Saved queries <small>MRS-022</small></h1>
+<p>The frontend SHALL allow the user to save self-defined CTI queries using a high-level language/representation.</p>
+<h3>Rationale</h3>
+<p>To provide enhanced capabilities accessible to end users for performing CTI analysis according to their investigative needs and objectives.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-023">23 Query parameterization <small>MRS-023</small></h1>
+<p>The frontend SHALL allow the user to customize parametrized pre-defined CTI queries in a high-level language/representation.</p>
+<h3>Rationale</h3>
+<p>For usability and adoption by removing the need for end users to know the native CTI SKB query language.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-024">24 Frontend and CTI SKB mediator <small>MRS-024</small></h1>
+<p>SATRAP-DL SHALL have a control module (a.k.a. the controller) in charge of the CTI analysis operational logic, i.e., charged with orchestrating the interaction between the frontend and the CTI SKB.</p>
+<h3>Rationale</h3>
+<p>For separation of duties in SATRAP-DL.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-008">SRS-008 ETL orchestrator</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-025">25 Reasoning engine controller <small>MRS-025</small></h1>
+<p>The controller SHALL process CTI queries provided via the frontend, relay them to the reasoning engine and return a response based on the engine output.</p>
+<h3>Rationale</h3>
+<p>Instead of navigating the data space, CTI analysts can directly ask what they want to learn about the CTI data and obtain answers automatically.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-008">SRS-008 ETL orchestrator</a>, <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-026">26 Query result viewer <small>MRS-026</small></h1>
+<p>The SATRAP-DL frontend SHALL display the data set resulting from a user query to the user.</p>
+<h3>Rationale</h3>
+<p>For providing a natural user experience (UX), users expect to get an answer in the interface where they asked a question.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-027">27 Frontend query status <small>MRS-027</small></h1>
+<p>The frontend SHALL inform the user about the status of their queries, e.g., when the result is ready, a set wait time is exceeded, or errors have occurred, etc.</p>
+<h3>Rationale</h3>
+<p>For supporting a good user experience (UX).</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-028">28 Native query execution <small>MRS-028</small></h1>
+<p>The SATRAP-DL frontend SHALL provide the means to execute queries in the native query language of the CTI SKB.</p>
+<h3>Rationale</h3>
+<p>For convenience of advanced users.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-043">SRS-043 TypeDB Studio</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-029">29 Frontend design <small>MRS-029</small></h1>
+<p>The frontend design SHALL adhere to well-established guidelines for UI design.</p>
+<h3>Rationale</h3>
+<p>To facilitate ease of use, intuitiveness, and efficiency in completing tasks.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a>, <a href="SRS.html#SRS-043">SRS-043 TypeDB Studio</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-030">30 Frontend terminology <small>MRS-030</small></h1>
+<p>Wherever applicable, the frontend SHALL use terms specified in relevant standards to refer to CTI concepts.</p>
+<h3>Rationale</h3>
+<p>Among other features, usage of a common vocabulary is essential for the adoption of tools in a given application domain.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>I</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-031">31 Frontend STIX compliance <small>MRS-031</small></h1>
+<p>When terms coming from different CTI sources are used to refer to the same CTI concept, the frontend SHOULD provide a mapping to the equivalent concept in STIX.</p>
+<h3>Rationale</h3>
+<p>Among other features, usage of a common vocabulary is essential for the adoption of tools in a given application domain.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-032">32 User-controlled CTI curation <small>MRS-032</small></h1>
+<p>The frontend SHOULD allow the user to update the information stored in its CTI SKB.</p>
+<h3>Rationale</h3>
+<p>To enable CTI curation by the users themselves.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-043">SRS-043 TypeDB Studio</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>3</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-033">33 File-based SKB update <small>MRS-033</small></h1>
+<p>The frontend MAY allow the user to update the SKB by loading CTI content from files encoded using a predefined format (e.g., JSON) and according to a well-defined specification (e.g., STIX).</p>
+<h3>Rationale</h3>
+<p>To keep the CTI updated by the users themselves.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-042">SRS-042 Command line interface (CLI)</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>3</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-034">34 Frontend cross-platform support <small>MRS-034</small></h1>
+<p>The frontend SHALL be cross-platform compatible, either by providing dedicated platform-dependent deployment artifacts (e.g., build binaries for GNU/Linux and MacOS) or rely on technology enabling cross-platform support by design, e.g., web-based stacks or containerization solutions.</p>
+<h3>Rationale</h3>
+<p>For portability and compatibility with prevailing operating systems</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a>, <a href="SRS.html#SRS-042">SRS-042 Command line interface (CLI)</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-037">35 SATRAP as software library <small>MRS-037</small></h1>
+<p>SATRAP-DL SHALL include a native library grouping together a set of low-level algorithms to provide high-level CTI analysis services (functionality) and to facilitate the use of SATRAP as a software library for developing other applications.</p>
+<h3>Rationale</h3>
+<p>For interoperability with the ecosystem, to enable the automation of the CTI lifecycle through the integration of multiple complementary solutions.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-038">36 Platform-independent API <small>MRS-038</small></h1>
+<p>SATRAP-DL SHALL provide a platform-independent API (e.g., a web-based one such as a REST API) enabling programmatic access to the data and services provided by the SATRAP-DL system.</p>
+<h3>Rationale</h3>
+<p>To enable automatic generation of documentation and automated API testing and validation, providing a language-agnostic and human and machine readable specification.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-016">SRS-016 API based on OAS</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-039">37 CTI ingestion from IDPS-ESCAPE <small>MRS-039</small></h1>
+<p>SATRAP-DL, through its CyFORT CTI repository handled by an open-source TIP (e.g., MISP), SHALL ingest CTI from the monitoring subsystem of IDPS-ESCAPE using a standard CTI representation format following a pre-defined integration policy.</p>
+<h3>Rationale</h3>
+<p>To provide integration between the different components in the CyFORT stack.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-017">SRS-017 Integration of behavioral data</a>, <a href="SRS.html#SRS-018">SRS-018 IDPS-ESCAPE ingestion policy</a>, <a href="SRS.html#SRS-044">SRS-044 Open-source TIP integration</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-040">38 Automated CTI ingestion <small>MRS-040</small></h1>
+<p>The SATRAP-DL system SHOULD automatically ingest monitoring events (e.g., alerts, notifications) from the IDPS-ESCAPE central server using a standard CTI representation format and according to a pre-defined integration policy.</p>
+<h3>Rationale</h3>
+<p>To provide integration between the different components in the CyFORT stack.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-041">39 Inferred CTI export <small>MRS-041</small></h1>
+<p>The SATRAP-DL system SHALL provide the means to export inferred CTI to at least one CTI representation standard, e.g., STIX.</p>
+<h3>Rationale</h3>
+<p>For interoperability with tools in the ecosystem.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-019">SRS-019 CTI export to STIX</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-042">40 TIP inference connector <small>MRS-042</small></h1>
+<p>The SATRAP-DL system SHALL provide an enrichment mechanism to automatically run inference rules on newly ingested CTI entering the SATRAP TIP (maintaining the CyFORT CTI repository) according to an integration policy.</p>
+<h3>Rationale</h3>
+<p>For persistence of the analysis results in a standard human readable format, useful for sharing the findings.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-011">SRS-011 Ingestion of internal and external CTI</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-043">41 TIP enrichment connector <small>MRS-043</small></h1>
+<p>The SATRAP-DL system SHALL provide an enrichment mechanism to automatically repopulate the SATRAP TIP (maintaining the CyFORT CTI repository) with new inferred CTI derived using the SATRAP <strong>TIP inference connector</strong> according to an integration policy.</p>
+<h3>Rationale</h3>
+<p>For sharing CTI findings into central repositories of an organization, which could be further shared with external communities.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-011">SRS-011 Ingestion of internal and external CTI</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-044">42 Modular architecture <small>MRS-044</small></h1>
+<p>The design of SATRAP-DL SHALL follow a modular architecture according to software design criteria specified, e.g., in the SWEBOK.</p>
+<h3>Rationale</h3>
+<p>As an open-source project, extensions by the community are expected, e.g., for supporting standards and tool interoperability. This requirement aims to facilitate smooth code integration.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-020">SRS-020 System configuration file</a>, <a href="SRS.html#SRS-021">SRS-021 Centralized logging</a>, <a href="SRS.html#SRS-022">SRS-022 Centralized exception handling</a>, <a href="SRS.html#SRS-024">SRS-024 Design and implementation principles</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-045">43 STIX compliance <small>MRS-045</small></h1>
+<p>The SATRAP-DL system SHALL use the STIX (Structured Threat Information eXpression) language and serialization format for structured CTI representation.</p>
+<h3>Rationale</h3>
+<p>For interoperability</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-023">SRS-023 CTI representation in STIX 2.1</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-046">44 C5-DEC compliance <small>MRS-046</small></h1>
+<p>The development of SATRAP-DL SHALL conform to the C5-DEC SSDLC method.</p>
+<h3>Rationale</h3>
+<p>To enforce security by design and a rigorous development process.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-024">SRS-024 Design and implementation principles</a>, <a href="SRS.html#SRS-025">SRS-025 Code readability</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-051">45 Open-source releases <small>MRS-051</small></h1>
+<p>The source code, API specifications and technical documentation of SATRAP-DL SHALL be made available under open and permissive licenses to entities with legitimate interest in the cybersecurity dataspace.</p>
+<h3>Rationale</h3>
+<p>An open-source release allows contributions and usage by the community, which in turn foster adoption and exchange of feedback.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-026">SRS-026 Public release</a>, <a href="SRS.html#SRS-027">SRS-027 Open-source licensing</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-053">46 Secure programming compliance <small>MRS-053</small></h1>
+<p>Software components of SATRAP-DL SHALL be implemented in agreement with secure coding best practices, such as those specified in the C5-DEC SSDLC.</p>
+<h3>Rationale</h3>
+<p>To enforce security by design as per the CyFORT SSDLC.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-028">SRS-028 Input validation</a>, <a href="SRS.html#SRS-029">SRS-029 Input sanitization</a>, <a href="SRS.html#SRS-030">SRS-030 Resource management</a>, <a href="SRS.html#SRS-031">SRS-031 Code static analysis</a>, <a href="SRS.html#SRS-032">SRS-032 Dependencies management</a>, <a href="SRS.html#SRS-033">SRS-033 Functional ETL events logging</a>, <a href="SRS.html#SRS-034">SRS-034 Detailed event logging</a>, <a href="SRS.html#SRS-035">SRS-035 Consistent logging format</a>, <a href="SRS.html#SRS-036">SRS-036 Log validation</a>, <a href="SRS.html#SRS-037">SRS-037 Sensitive information</a>, <a href="SRS.html#SRS-038">SRS-038 Software identification</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I, R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-056">47 Access control <small>MRS-056</small></h1>
+<p>The SATRAP-DL connectors (for ingestion and enrichment) SHALL rely on the integrated open-source TIP (i.e., SATRAP TIP maintaining CyFORT CTI repository) built-in functionality to enforce access control and role-based access management.</p>
+<h3>Rationale</h3>
+<p>Separation of roles should be implemented to address security concerns, and to provide information and relevant functionalities according to the type of user.</p>
+<p><em>Child links:</em> <a href="SRS.html#SRS-040">SRS-040 Authentication and authorization</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-057">48 Secure channel to TIP <small>MRS-057</small></h1>
+<p>The communication between separate components of SATRAP-DL crossing through different trust boundaries SHALL occur over confidential and authenticated channels.</p>
+<h3>Rationale</h3>
+<p>The data to be queried over is likely to include not only OSINT but also information collected from internal tools that might be available only to authorized users.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="MRS-058">49 Secure channel to IDPS-ESCAPE <small>MRS-058</small></h1>
+<p>The communication between IDPS-ESCAPE and SATRAP-DL SHALL occur over confidential and authenticated channels if such channels are not located within the same trust boundaries.</p>
+<h3>Rationale</h3>
+<p>As this integration is likely to exchange internal information, the communication channel should be by default protected from external parties.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+      </div>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="assets/doorstop/jquery.min.js"></script>
+<script src="assets/doorstop/bootstrap.min.js"></script>
+<script>
+    $(function() {
+        $("table").addClass("table");
+        $("nav ul").addClass("nav nav-stacked");
+        $("nav").affix();
+        $('body').scrollspy({
+          target: '.sidebar'
+        });
+        $("#main a").attr("target", "parent");
+
+  $(window).on('hashchange', function() {
+    $(window).scrollTop($(location.hash.toLowerCase()).offset().top);});
+  });
+</script>
+</body>
+</html>
+

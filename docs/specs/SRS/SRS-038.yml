@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Software identification
+importance: null
+level: 38
+links:
+- MRS-053: 23rMZA4dq4ocITQjNG56k9FKt5pG9_FW1GjC8rDXTdQ=
+normative: true
+rationale: See specification body
+ref: ''
+release: Beta
+reviewed: vBcZeGHBwd4q89RHAwmnqnHxV1By97jzBFS3mB-bfjc=
+text: |
+  The deployment build of SATRAP-DL SHALL provide a way to retrieve its version and other identification details via the frontend.
+
+  ### Rationale
+  To inform the user of the specific version of the system that is being used, often required for consulting user manuals, reporting bugs, etc.
+type: F,S
+urgency: 3
+vm: T

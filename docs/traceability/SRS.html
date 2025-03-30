@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html>
+<head><title>Doorstop</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="assets/doorstop/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/doorstop/general.css" />
+  <link type="text/css" rel="stylesheet" href="assets/doorstop/sidebar.css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+  });
+  </script>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-2 hidden-sm hidden-xs">
+          <nav id="TOC" class="nav nav-stacked fixed sidebar">
+              <h3>Table of Contents</h3>
+<ul>
+<li><a href="#SRS-001">1 Data modelling language</a></li>
+<li><a href="#SRS-002">2 Database paradigm</a></li>
+<li><a href="#SRS-003">3 Semantic search</a></li>
+<li><a href="#SRS-004">4 Extensibility of the data model</a></li>
+<li><a href="#SRS-005">5 NoSQL data model</a></li>
+<li><a href="#SRS-006">6 Integration of common CTI</a></li>
+<li><a href="#SRS-007">7 Semantic data integrity</a></li>
+<li><a href="#SRS-008">8 ETL orchestrator</a></li>
+<li><a href="#SRS-009">9 ETL Transformer</a></li>
+<li><a href="#SRS-010">10 Database manager</a></li>
+<li><a href="#SRS-011">11 Ingestion of internal and external CTI</a></li>
+<li><a href="#SRS-012">12 Inference rules</a></li>
+<li><a href="#SRS-013">13 STIX 2.1 data model</a></li>
+<li><a href="#SRS-014">14 Native reasoning engine</a></li>
+<li><a href="#SRS-015">15 Jupyter Notebook frontend</a></li>
+<li><a href="#SRS-016">16 API based on OAS</a></li>
+<li><a href="#SRS-017">17 Integration of behavioral data</a></li>
+<li><a href="#SRS-018">18 IDPS-ESCAPE ingestion policy</a></li>
+<li><a href="#SRS-019">19 CTI export to STIX</a></li>
+<li><a href="#SRS-020">20 System configuration file</a></li>
+<li><a href="#SRS-021">21 Centralized logging</a></li>
+<li><a href="#SRS-022">22 Centralized exception handling</a></li>
+<li><a href="#SRS-023">23 CTI representation in STIX 2.1</a></li>
+<li><a href="#SRS-024">24 Design and implementation principles</a></li>
+<li><a href="#SRS-025">25 Code readability</a></li>
+<li><a href="#SRS-026">26 Public release</a></li>
+<li><a href="#SRS-027">27 Open-source licensing</a></li>
+<li><a href="#SRS-028">28 Input validation</a></li>
+<li><a href="#SRS-029">29 Input sanitization</a></li>
+<li><a href="#SRS-030">30 Resource management</a></li>
+<li><a href="#SRS-031">31 Code static analysis</a></li>
+<li><a href="#SRS-032">32 Dependencies management</a></li>
+<li><a href="#SRS-033">33 Functional ETL events logging</a></li>
+<li><a href="#SRS-034">34 Detailed event logging</a></li>
+<li><a href="#SRS-035">35 Consistent logging format</a></li>
+<li><a href="#SRS-036">36 Log validation</a></li>
+<li><a href="#SRS-037">37 Sensitive information</a></li>
+<li><a href="#SRS-038">38 Software identification</a></li>
+<li><a href="#SRS-040">40 Authentication and authorization</a></li>
+<li><a href="#SRS-041">41 Configuration management mechanism</a></li>
+<li><a href="#SRS-042">42 Command line interface (CLI)</a></li>
+<li><a href="#SRS-043">43 TypeDB Studio</a></li>
+<li><a href="#SRS-044">44 Open-source TIP integration</a></li>
+</ul>
+          </nav>
+      </div>
+      <div class="col-lg-8" id="main">
+        <h1 id="SRS-001">1 Data modelling language <small>SRS-001</small></h1>
+<p>The data model of SATRAP-DL SHALL be specified using a data modelling language based on description logics, such as OWL, or on type theory such as TypeQL.</p>
+<h3>Rationale</h3>
+<p>To enforce a rigorous logical model specification close to the conceptual model where the semantics of information are captured.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-001">MRS-001 Semantic data model</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="TST.html#TST-001">TST-001 TC: Verify data modelling artifacts</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-002">2 Database paradigm <small>SRS-002</small></h1>
+<p>SATRAP-DL SHALL rely on a database paradigm that allows for knowledge representation based on semantics as opposed to based on structure of the information. Possible candidates are the PERA model and the graph model implemented by TypeDB and, e.g., Neo4J respectively.</p>
+<h3>Rationale</h3>
+<p>To enable intrinsic semantic search capabilities and automated reasoning over the data model.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-002">MRS-002 CTI knowledge base</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="TST.html#TST-001">TST-001 TC: Verify data modelling artifacts</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-003">3 Semantic search <small>SRS-003</small></h1>
+<p>The system SHALL support querying the CTI SKB based on semantic criteria.</p>
+<h3>Rationale</h3>
+<p>To enable users to perform meaningful searches and data manipulation based on semantics rather than just data structure.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-002">MRS-002 CTI knowledge base</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="TST.html#TST-001">TST-001 TC: Verify data modelling artifacts</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-004">4 Extensibility of the data model <small>SRS-004</small></h1>
+<p>The data model of the CTI SKB SHALL be extensible to accommodate for the integration of new information (e.g., facts, entities, or relationships) without requiring a complete redesign.</p>
+<h3>Rationale</h3>
+<p>Extensibility of the data model allows for gradual enrichment of the CTI SKB by combining multiple threat frameworks, as CTI might not be expressible in a single one.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-003">MRS-003 CTI SKB extensibility</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="TST.html#TST-001">TST-001 TC: Verify data modelling artifacts</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-005">5 NoSQL data model <small>SRS-005</small></h1>
+<p>The data model of the CTI SKB SHALL rely on either a NoSQL graph-based or a document-based database solution or a type-theoretic polymorphic entity-relation-attribute (PERA) data model to allow for the addition of new entities and relationships without requiring a schema migration.</p>
+<h3>Rationale</h3>
+<p>Flexibility enables further customization for specific domains, such as healthcare or military related ones.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-004">MRS-004 SKB data model flexibility</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="TST.html#TST-001">TST-001 TC: Verify data modelling artifacts</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-006">6 Integration of common CTI <small>SRS-006</small></h1>
+<p>SATRAP-DL SHALL provide a mechanism for retrieving datasets from MITRE ATT&amp;CK in STIX 2.1, ingesting the payload via an ETL pipeline and loading the transformed content into the CTI SKB.</p>
+<h3>Rationale</h3>
+<p>For scenarios that deal with CTI generation and operation, we consider that a knowledge base requires information from at least three categories. This requirement addresses the integration of common cybersecurity knowledge.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-005">MRS-005 Default CTI content</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-008">TST-008 Test setup + MITRE ATT&amp;CK ingestion</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-007">7 Semantic data integrity <small>SRS-007</small></h1>
+<p>The data model SHALL enforce semantic integrity ensuring that relationships and constraints adhere to the intended meaning. Semantic data integrity can be enforced by measures such as data validation with respect to schemas and relationships constraints, automated checks for data redundancy and inference powered with a reasoning engine.</p>
+<h3>Rationale</h3>
+<p>To ensure consistency, accuracy and reliability of data, preventing among others contradictory and repeated data to be stored.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-008">MRS-008 CTI SKB data integrity</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-007">TST-007 TC: Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-008">8 ETL orchestrator <small>SRS-008</small></h1>
+<p>The ETL module SHALL provide a component in charge of orchestrating the ingestion of datasets in STIX 2.1 and the insertion of the content into the CTI SKB.</p>
+<h3>Rationale</h3>
+<p>To provide a single means of data ingestion regardless of the data source, enforcing separation of duties and modularity in the design.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-011">MRS-011 Ingestion of standardized CTI</a>, <a href="MRS.html#MRS-024">MRS-024 Frontend and CTI SKB mediator</a>, <a href="MRS.html#MRS-025">MRS-025 Reasoning engine controller</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-009">TST-009 Verify ETL architecture</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-009">9 ETL Transformer <small>SRS-009</small></h1>
+<p>The ETL module SHALL provide a component in charge of transforming data in STIX 2.1 format into the representation language of the the CTI SKB schema.</p>
+<h3>Rationale</h3>
+<p>To address data parsing enforcing separation of duties and modularity.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-011">MRS-011 Ingestion of standardized CTI</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-009">TST-009 Verify ETL architecture</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-010">10 Database manager <small>SRS-010</small></h1>
+<p>The system SHALL have a component in charge of managing database operations and connections.</p>
+<h3>Rationale</h3>
+<p>To deal with database management enforcing separation of duties and modularity.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-011">MRS-011 Ingestion of standardized CTI</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-009">TST-009 Verify ETL architecture</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-011">11 Ingestion of internal and external CTI <small>SRS-011</small></h1>
+<p>SATRAP-DL SHALL implement a mechanism for programmatically fetching data from MISP or OpenCTI via API access or wrapper libraries (e.g., PyMISP)
+in STIX 2.1 format, making them available for other system components to adequately process and insert the information into the CTI SKB.</p>
+<h3>Rationale</h3>
+<p>For scenarios that deal with CTI generation and operation, we consider that a knowledge base requires information from at least three categories. This requirement addresses the integration of internal and external CTI.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-012">MRS-012 CyFORT CTI repository</a>, <a href="MRS.html#MRS-042">MRS-042 TIP inference connector</a>, <a href="MRS.html#MRS-043">MRS-043 TIP enrichment connector</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-012">12 Inference rules <small>SRS-012</small></h1>
+<p>SATRAP-DL SHALL implement inference rules that allow for the automated derivation of knowledge over existing relations in the CTI SKB.</p>
+<h3>Rationale</h3>
+<p>To address one of the major challenges for incident responders, namely, manual data correlation and contextualization of collected IoCs.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-014">MRS-014 Automated CTI enrichment</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-010">TST-010 Verify CTI SKB inference rules</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>A</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-013">13 STIX 2.1 data model <small>SRS-013</small></h1>
+<p>The data model of SATRAP-DL SHALL be aligned with the data model of STIX 2.1.</p>
+<h3>Rationale</h3>
+<p>Such a design enables a direct mapping of the imported data into the concepts in the database and allows for the use of the integrity checks defined over the database model.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-015">MRS-015 Semantic relations preservation</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-004">TST-004 TC: Verify data model</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>A</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-014">14 Native reasoning engine <small>SRS-014</small></h1>
+<p>SATRAP-DL SHALL use a DBMS technology that integrates or has compatibility with a reasoning engine. The preferred solution is TypeDB.</p>
+<h3>Rationale</h3>
+<p>A native implementation of the KB and reasoning engine in one platform typically optimizes performance as it allows for the implementation of efficient data management strategies.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-018">MRS-018 Automated reasoning</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="TST.html#TST-003">TST-003 TC: Verify STIX and reasoning engine</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R, I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-015">15 Jupyter Notebook frontend <small>SRS-015</small></h1>
+<p>SATRAP-DL SHALL implement an analysis frontend in the form of a Jupyter notebook that makes use of the SATRAP-DL analysis toolbox SDK to offer an initial set of predefined CTI investigations operations forming a reusable playbook.</p>
+<h3>Rationale</h3>
+<p>For interoperability with the ecosystem, to enable the automation of the CTI lifecycle through the integration of multiple complementary solutions.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-020">MRS-020 Interactive frontend</a>, <a href="MRS.html#MRS-021">MRS-021 Self-defined CTI queries</a>, <a href="MRS.html#MRS-022">MRS-022 Saved queries</a>, <a href="MRS.html#MRS-023">MRS-023 Query parameterization</a>, <a href="MRS.html#MRS-025">MRS-025 Reasoning engine controller</a>, <a href="MRS.html#MRS-026">MRS-026 Query result viewer</a>, <a href="MRS.html#MRS-027">MRS-027 Frontend query status</a>, <a href="MRS.html#MRS-029">MRS-029 Frontend design</a>, <a href="MRS.html#MRS-030">MRS-030 Frontend terminology</a>, <a href="MRS.html#MRS-031">MRS-031 Frontend STIX compliance</a>, <a href="MRS.html#MRS-034">MRS-034 Frontend cross-platform support</a>, <a href="MRS.html#MRS-037">MRS-037 SATRAP as software library</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-011">TST-011 Test Jupyter notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-016">16 API based on OAS <small>SRS-016</small></h1>
+<p>The API of SATRAP-DL SHALL comply with the OpenAPI Specification (OAS) standard.</p>
+<h3>Rationale</h3>
+<p>To enable automatic generation of documentation, automated API testing and validation, and a language-agnostic human and machine-readable specification.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-038">MRS-038 Platform-independent API</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-017">17 Integration of behavioral data <small>SRS-017</small></h1>
+<p>SATRAP-DL SHALL implement a mechanism for programmatically retrieving data in STIX 2.1 from IDPS-ESCAPE via API access,
+making it available for other system components to adequately process and insert the information into the CTI SKB.</p>
+<h3>Rationale</h3>
+<p>For scenarios that deal with CTI generation and operation, we consider that a knowledge base requires information from at least three categories. This requirement addresses the integration of behavioral data.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-039">MRS-039 CTI ingestion from IDPS-ESCAPE</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-018">18 IDPS-ESCAPE ingestion policy <small>SRS-018</small></h1>
+<p>The automated data retrieval mechanism of SATRAP-DL for ingesting IDPS-ESCAPE data SHALL operate according to the settings specified in a pre-defined policy.</p>
+<h3>Rationale</h3>
+<p>For scenarios that deal with CTI generation and operation, we consider that a knowledge base requires information from at least three categories. This requirement addresses the integration of behavioral data.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-039">MRS-039 CTI ingestion from IDPS-ESCAPE</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-019">19 CTI export to STIX <small>SRS-019</small></h1>
+<p>SATRAP-DL SHALL provide a feature for exporting the results of queries processed by the CTI analysis toolbox (run over the CTI SKB) in STIX format.</p>
+<h3>Rationale</h3>
+<p>For persistence of the analysis results in a standard human readable format, useful for sharing the findings.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-041">MRS-041 Inferred CTI export</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-020">20 System configuration file <small>SRS-020</small></h1>
+<p>SATRAP-DL SHALL allow for customization of system parameters (e.g., logging severity: debug, info, warn, error;
+db connections; file paths) in a dedicated configuration file.</p>
+<h3>Rationale</h3>
+<p>In agreement with clean code and best practices for software development, to promote code maintainability.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-005">TST-005 TC: Verify centralized management</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-021">21 Centralized logging <small>SRS-021</small></h1>
+<p>The logs of the system SHALL be handled in a central location.</p>
+<h3>Rationale</h3>
+<p>In agreement with clean code and best practices for software development, to promote code maintainability.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="TST.html#TST-005">TST-005 TC: Verify centralized management</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-022">22 Centralized exception handling <small>SRS-022</small></h1>
+<p>SATRAP-DL SHALL manage exceptions in a centralized manner, e.g., by maintaining all the error codes in a configuration file.</p>
+<h3>Rationale</h3>
+<p>In agreement with clean code and best practices for software development, to promote code maintainability.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="TST.html#TST-005">TST-005 TC: Verify centralized management</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-023">23 CTI representation in STIX 2.1 <small>SRS-023</small></h1>
+<p>SATRAP-DL SHALL use STIX 2.1 as the default standard format for CTI representation.</p>
+<h3>Rationale</h3>
+<p>For interoperability</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-045">MRS-045 STIX compliance</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="TST.html#TST-003">TST-003 TC: Verify STIX and reasoning engine</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R, I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-024">24 Design and implementation principles <small>SRS-024</small></h1>
+<p>The design and implementation of  SATRAP-DL SHALL adhere to software best practices such as naming convention,
+clean code, SOLID principles, etc.</p>
+<h3>Rationale</h3>
+<p>Among others, for maintainability, security, reliability and robustness fo code.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a>, <a href="MRS.html#MRS-046">MRS-046 C5-DEC compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-002">TST-002 TC: Verify software engineering</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A, S, Q</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-025">25 Code readability <small>SRS-025</small></h1>
+<p>The source code of SATRAP-DL SHALL be self explanatory and well documented.</p>
+<h3>Rationale</h3>
+<p>To support maintainability, extensibility and adoption of the software.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-046">MRS-046 C5-DEC compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-006">TST-006 TC: Verify code clarity</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-026">26 Public release <small>SRS-026</small></h1>
+<p>The source code of SATRAP-DL SHALL be released in a GitHub public repository.</p>
+<h3>Rationale</h3>
+<p>Open-source releases allow contributions and usage by the community, which in turn foster adoption and constant exchange of feedback.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-051">MRS-051 Open-source releases</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-018">TST-018 Verify release and licensing</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-027">27 Open-source licensing <small>SRS-027</small></h1>
+<p>Third-party libraries used in SATRAP-DL SHALL have open source licenses that do not restrict the privileges
+granted by the license selected for SATRAP-DL.</p>
+<h3>Rationale</h3>
+<p>To avoid the introduction of limitations in the distribution and use of SATRAP-DL derived from the use of third-party software.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-051">MRS-051 Open-source releases</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-018">TST-018 Verify release and licensing</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>A</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-028">28 Input validation <small>SRS-028</small></h1>
+<p>SATRAP-DL components receiving input to the system SHALL validate the input and reject it in case the validation fails.
+The validation may include integrity checks, syntactic checks, semantic checks, parameter out-of-range checks, etc.</p>
+<h3>Rationale</h3>
+<p>To prevent code injection.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-007">TST-007 TC: Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-029">29 Input sanitization <small>SRS-029</small></h1>
+<p>SATRAP-DL components SHALL perform sanitization of input and output (data passed across a trust boundary).
+Sanitization may include removing, replacing, encoding, or escaping unwanted characters.</p>
+<h3>Rationale</h3>
+<p>To prevent code injection.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-007">TST-007 TC: Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-030">30 Resource management <small>SRS-030</small></h1>
+<p>Network connections and other resources accessed SHALL be properly terminated when no further required.</p>
+<h3>Rationale</h3>
+<p>To prevent data leakage or DoS attacks.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 TC: Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-031">31 Code static analysis <small>SRS-031</small></h1>
+<p>The code of SATRAP-DL SHALL be statically analyzed using an appropriate software  to identify potential issues. The static analysis of Python code shall aim to detect:</p>
+<ul>
+<li>error handling</li>
+<li>commented-out code</li>
+<li>input validation</li>
+<li>code injection</li>
+<li>concurrency and race conditions (if applicable)</li>
+<li>canonical representation vulnerabilities</li>
+<li>minimum amount of dependencies</li>
+</ul>
+<h3>Rationale</h3>
+<p>To detect common security vulnerabilities in an automated way.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I, A</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-032">32 Dependencies management <small>SRS-032</small></h1>
+<p>All software dependencies including third-party libraries SHALL be listed and maintained in a configuration file.</p>
+<h3>Rationale</h3>
+<p>To enforce a centralized control over external dependencies.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 TC: Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-033">33 Functional ETL events logging <small>SRS-033</small></h1>
+<p>SATRAP-DL SHALL log at least one timestamped event with an associated log level recording the ETL execution status (success/failure) per each phase, i.e., extraction, transformation, and loading.</p>
+<h3>Rationale</h3>
+<p>To provide information for security investigations.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-012">TST-012 Test ETL logging</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-034">34 Detailed event logging <small>SRS-034</small></h1>
+<p>SATRAP-DL logs SHALL be stored in a secure location and SHALL be accessible only to authorized personnel.</p>
+<h3>Rationale</h3>
+<p>To provide information for debugging purposes.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-035">35 Consistent logging format <small>SRS-035</small></h1>
+<p>SATRAP-DL logs SHALL be stored for at least X time duration according to a data retention policy.</p>
+<h3>Rationale</h3>
+<p>To generate human-readable and informative logs.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>1</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-036">36 Log validation <small>SRS-036</small></h1>
+<p>Log strings SHALL be sanitized and validated before logging to prevent log injection attacks.</p>
+<h3>Rationale</h3>
+<p>To prevent log injection attacks.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 TC: Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-037">37 Sensitive information <small>SRS-037</small></h1>
+<p>SATRAP-DL SHALL not log sensitive information such as passwords or entity identifiers.</p>
+<h3>Rationale</h3>
+<p>To avoid intended or unintended leakage of sensitive information.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 TC: Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-038">38 Software identification <small>SRS-038</small></h1>
+<p>The deployment build of SATRAP-DL SHALL provide a way to retrieve its version and other identification details via the frontend.</p>
+<h3>Rationale</h3>
+<p>To inform the user of the specific version of the system that is being used, often required for consulting user manuals, reporting bugs, etc.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F,S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-040">40 Authentication and authorization <small>SRS-040</small></h1>
+<p>The SATRAP-DL subsystem integrated with the SATRAP TIP for automated ingestion and enrichment SHALL rely on the SATRAP TIP built-in solution for user authentication and authorization, e.g., OpenCTI or MISP LDAP or native user management.</p>
+<h3>Rationale</h3>
+<p>To enforce user identification and resource access authorization by building on well-established solutions.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-056">MRS-056 Access control</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-041">41 Configuration management mechanism <small>SRS-041</small></h1>
+<p>The system SHALL provide a configuration management mechanism with a set of predefined values for the user to adjust various system settings.</p>
+<h3>Rationale</h3>
+<p>To enforce a centralized user-configurable mechanism for managing system settings.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-016">MRS-016 Configuration management</a>, <a href="MRS.html#MRS-017">MRS-017 Conformance with user settings</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-013">TST-013 Inspect settings for CM</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-042">42 Command line interface (CLI) <small>SRS-042</small></h1>
+<p>The SATRAP-DL system SHALL provide a command line interface (CLI) for users to interact with the system.
+The CLI shall support at least the following commands:</p>
+<ul>
+<li><code>setup</code>: Initialize the backend CTI SKB.</li>
+<li><code>etl</code>: Launch the ETL pipeline.</li>
+<li><code>help</code>: Display a list of available commands and their descriptions.</li>
+</ul>
+<p>This will allow users to quickly set up the backend CTI SKB and launch the ETL pipeline without needing to navigate through a graphical user interface (GUI).
+The CLI will also provide a help command to assist users in understanding the available commands and their usage.</p>
+<h3>Rationale</h3>
+<p>To provide easy and efficient access to core data processing functionality through a command line interface (CLI) for users who prefer command line tools.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-020">MRS-020 Interactive frontend</a>, <a href="MRS.html#MRS-033">MRS-033 File-based SKB update</a>, <a href="MRS.html#MRS-034">MRS-034 Frontend cross-platform support</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-014">TST-014 Test command line interface (CLI)</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-043">43 TypeDB Studio <small>SRS-043</small></h1>
+<p>The SATRAP-DL system SHALL adopt TypeDB Studio as a Graphical User Interface (GUI) for users to interact with the SATRAP CTI SKB using the native TypeQL query language.</p>
+<h3>Rationale</h3>
+<p>To provide the means to the user to execute queries in the native query language of the CTI SKB.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-020">MRS-020 Interactive frontend</a>, <a href="MRS.html#MRS-028">MRS-028 Native query execution</a>, <a href="MRS.html#MRS-029">MRS-029 Frontend design</a>, <a href="MRS.html#MRS-032">MRS-032 User-controlled CTI curation</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-008">TST-008 Test setup + MITRE ATT&amp;CK ingestion</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-044">44 Open-source TIP integration <small>SRS-044</small></h1>
+<p>The SATRAP-DL system SHALL adopt both MISP and OpenCTI as open-source TIPs (Threat Intelligence Platform) to
+manage threat intelligence data.</p>
+<h3>Rationale</h3>
+<p>To host and manage CTI data, by relying on stable and mature solutions, without reinventing the wheel.
+The choice of integrating a well-established open-source TIP would</p>
+<ul>
+<li>provide a solution capable of ingesting, storing,
+and distributing threat intelligence data from various sources, including
+open-source feeds, commercial feeds, and internal sources.</li>
+<li>provide a user-friendly interface for analysts to search, filter, and visualize
+threat intelligence data.</li>
+<li>support integration with other security  tools and platforms, such as SIEM (Security Information and Event Management)
+systems, SOAR (Security Orchestration, Automation, and Response) platforms,
+and threat intelligence sharing platforms.</li>
+<li>support standardized formats for threat intelligence data, such as STIX (Structured
+Threat Information Expression) and TAXII (Trusted Automated Exchange of
+Indicator Information), to facilitate interoperability with other systems.</li>
+<li>support the ability to create and manage threat intelligence
+feeds, including the ability to schedule updates and manage data retention
+policies.</li>
+<li>support the ability to create and manage threat intelligence reports, including the ability to generate reports in
+various formats, such as PDF, HTML, and CSV.</li>
+<li>support the ability to create and manage threat intelligence dashboards, including the
+ability to customize the layout and content of the dashboards.</li>
+<li>support the ability to create and manage threat intelligence alerts,
+including the ability to configure alert thresholds and notification
+mechanisms.</li>
+</ul>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-012">MRS-012 CyFORT CTI repository</a>, <a href="MRS.html#MRS-039">MRS-039 CTI ingestion from IDPS-ESCAPE</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-017">TST-017 Verify open-source TIP integration</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+      </div>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="assets/doorstop/jquery.min.js"></script>
+<script src="assets/doorstop/bootstrap.min.js"></script>
+<script>
+    $(function() {
+        $("table").addClass("table");
+        $("nav ul").addClass("nav nav-stacked");
+        $("nav").affix();
+        $('body').scrollspy({
+          target: '.sidebar'
+        });
+        $("#main a").attr("target", "parent");
+
+  $(window).on('hashchange', function() {
+    $(window).scrollTop($(location.hash.toLowerCase()).offset().top);});
+  });
+</script>
+</body>
+</html>
+

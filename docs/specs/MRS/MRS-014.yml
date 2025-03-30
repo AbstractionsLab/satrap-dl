@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Automated CTI enrichment
+importance: 5
+level: 14
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: xDuXmQI6SsdWOmzipMU9XZXFZQAbTFCCUjbEQqZ4nuQ=
+text: |
+  The data integration module SHOULD automatically enrich the information imported from external systems with CTI available in the CyFORT CTI repository.
+
+  ### Rationale
+  To address one of the major challenges for incident responders, namely, manual data correlation and contextualization of collected IoCs.
+type: F
+urgency: 4
+vm: T

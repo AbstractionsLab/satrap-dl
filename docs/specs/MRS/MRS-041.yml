@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Inferred CTI export
+importance: 5
+level: 39
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Beta
+reviewed: MwoT3OIfTfqVHUIJFwyw0QY2jTRuSUOtJ6KnUL0x_-8=
+text: |
+  The SATRAP-DL system SHALL provide the means to export inferred CTI to at least one CTI representation standard, e.g., STIX.
+
+  ### Rationale
+  For interoperability with tools in the ecosystem.
+type: F
+urgency: 4
+vm: T

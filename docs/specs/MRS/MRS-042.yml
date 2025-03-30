@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  TIP inference connector
+importance: 5
+level: 40
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Beta
+reviewed: Sr30gBLHvGRDy-6UTA9-IqK08O8OL75ykbBZY0l8Uoc=
+text: |
+  The SATRAP-DL system SHALL provide an enrichment mechanism to automatically run inference rules on newly ingested CTI entering the SATRAP TIP (maintaining the CyFORT CTI repository) according to an integration policy.
+
+  ### Rationale
+  For persistence of the analysis results in a standard human readable format, useful for sharing the findings.
+type: F
+urgency: 2
+vm: T

@@ -1,0 +1,143 @@
+{
+	"analysis-of": {
+		"target_ref": "analyzed",
+		"source_ref": "analysis"
+	},
+	"attributed-to": {
+		"target_ref": "attributee",
+		"source_ref": "attribution"
+	},
+	"authored-by": {
+		"target_ref": "author",
+		"source_ref": "instance"
+	},
+	"based-on": {
+		"target_ref": "evidence",
+		"source_ref": "conclusion"
+	},
+	"beacons-to": {
+		"target_ref": "receiver",
+		"source_ref": "agent"
+	},
+	"characterizes": {
+		"target_ref": "characterized",
+		"source_ref": "characterizer"
+	},
+	"communicates-with": {
+		"target_ref": "resource",
+		"source_ref": "agent"
+	},
+	"compromises": {
+		"target_ref": "compromised",
+		"source_ref": "threat"
+	},
+	"controls": {
+		"target_ref": "controlled",
+		"source_ref": "controller"
+	},
+	"consists-of": {
+		"target_ref": "part",
+		"source_ref": "whole"
+	},
+	"delivers": {
+		"target_ref": "delivered",
+		"source_ref": "carrier"
+	},
+	"derived-from": {
+		"target_ref": "child",
+		"source_ref": "parent"
+	},
+	"downloads": {
+		"target_ref": "resource",
+		"source_ref": "downloader"
+	},
+	"drops": {
+		"target_ref": "resource",
+		"source_ref": "agent"
+	},
+	"duplicate-of": {
+		"target_ref": "target-role",
+		"source_ref": "source-role"
+	},
+	"dynamic-analysis-of": {
+		"target_ref": "analyzed",
+		"source_ref": "analysis"
+	},
+	"exfiltrates-to": {
+		"target_ref": "receiver",
+		"source_ref": "agent"
+	},
+	"exploits": {
+		"target_ref": "exploited",
+		"source_ref": "agent"
+	},
+	"has-vulnerability": {
+		"target_ref": "vulnerability",
+		"source_ref": "asset"
+	},
+	"hosts": {
+		"target_ref": "guest",
+		"source_ref": "host"
+	},
+	"impersonates": {
+		"target_ref": "impersonated",
+		"source_ref": "impersonator"
+	},
+	"indicates": {
+		"target_ref": "indicated",
+		"source_ref": "indicator"
+	},
+	"investigates": {
+		"target_ref": "investigated",
+		"source_ref": "investigator"
+	},
+	"located-at": {
+		"target_ref": "location",
+		"source_ref": "located"
+	},
+	"mitigates": {
+		"target_ref": "mitigated",
+		"source_ref": "mitigation"
+	},
+	"originates-from": {
+		"target_ref": "origin",
+		"source_ref": "outcome"
+	},
+	"ownership": {
+		"target_ref": "owned",
+		"source_ref": "owner"
+	},
+	"related-to": {
+		"target_ref": "target-role",
+		"source_ref": "source-role"
+	},
+	"remediates": {
+		"target_ref": "remediated",
+		"source_ref": "remedy"
+	},
+	"sighting": {
+		"sighting_of_ref": "sighting-of",
+		"observed_data_refs": "observed",
+		"where_sighted_refs": "where-sighted"
+	},
+	"static-analysis-of": {
+		"target_ref": "analyzed",
+		"source_ref": "analysis"
+	},
+	"targets": {
+		"target_ref": "target",
+		"source_ref": "threat"
+	},
+	"uses": {
+		"target_ref": "used",
+		"source_ref": "user"
+	},
+	"variant-of": {
+		"target_ref": "original",
+		"source_ref": "variant"
+	},
+	"custom-relationship": {
+		"target_ref": "target-role",
+		"source_ref": "source-role"
+	}
+}

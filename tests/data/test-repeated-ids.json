@@ -1,0 +1,37 @@
+{
+	"type": "bundle",
+	"id": "bundle--423cac6c-245f-4a75-808b-117a1d161893",
+	"objects": [
+	  {
+		"type": "indicator",
+		"id": "indicator--7a536280-ec50-4f95-86ce-f1fd179a68fe",
+		"spec_version": "2.1",
+		"created": "2024-07-23T14:24:42.000Z",
+		"name": "Malicious IP 1",
+		"pattern": "[ipv4-addr:value = '192.168.1.1']",
+		"pattern_type": "stix",
+		"valid_from": "2024-07-23T14:24:42.000Z"
+	  },
+	  {
+		"type": "indicator",
+		"id": "indicator--7a536280-ec50-4f95-86ce-f1fd179a68fe",
+		"spec_version": "2.1",
+		"created": "2024-07-23T14:24:42.000Z",
+		"name": "Malicious IP 1",
+		"pattern": "[ipv4-addr:value = '192.168.1.1']",
+		"pattern_type": "stix",
+		"valid_from": "2024-07-23T14:24:42.000Z"
+	  },
+	 {
+		"id": "malware--838f647e-8ff8-48bd-bbd5-613cee7736cb",
+		"type": "malware",
+		"created": "2020-09-15T15:18:11.971Z",
+		"modified": "2020-10-06T20:09:57.659Z",
+		"name": "FakeSpy",
+		"description": "[FakeSpy](https://attack.mitre.org/software/S0509) is Android spyware that has been operated by the Chinese threat actor behind the Roaming Mantis campaigns.(Citation: Cybereason FakeSpy)",
+		"x_mitre_version": "1.0",
+		"spec_version": "2.1",
+		"is_family": true
+	  }
+	]
+}

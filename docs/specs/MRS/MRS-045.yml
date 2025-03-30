@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  STIX compliance
+importance: 5
+level: 43
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: C3V4OYjHpDfaWIroC30b-tMxZrFo6VwclQXeoDK_oCU=
+text: |
+  The SATRAP-DL system SHALL use the STIX (Structured Threat Information eXpression) language and serialization format for structured CTI representation.
+
+  ### Rationale
+  For interoperability
+type: C
+urgency: 5
+vm: T

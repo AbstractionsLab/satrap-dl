@@ -1,0 +1,99 @@
+{
+    "type": "bundle",
+    "id": "bundle--1f126d0c-356c-43af-88f8-7a3b695dee83",
+    "spec_version": "2.1",
+    "objects": [
+		{
+			"type": "indicator",
+			"id": "indicator--ab5211c5-1b0d-4d80-8e9e-a1bb0f75dc70",
+			"spec_version": "2.1",
+			"created": "2024-07-23T14:25:00.000Z",
+			"name": "Suspicious Domain 1",
+			"pattern": "[domain-name:value = 'example.com']",
+			"pattern_type": "stix",
+			"valid_from": "2024-07-23T14:25:00.000Z"
+		},
+		{
+            "type": "campaign",
+            "id": "campaign--b4e5a4a9-f3be-4631-ba8f-da6ebb067fac",
+            "modified": "2022-09-22T20:26:23.226Z",
+            "name": "C0011",
+            "description": "[C0011](https://attack.mitre.org/campaigns/C0011) was a suspected cyber espionage campaign conducted by [Transparent Tribe](https://attack.mitre.org/groups/G0134) that targeted students at universities and colleges in India. Security researchers noted this campaign against students was a significant shift from [Transparent Tribe](https://attack.mitre.org/groups/G0134)'s historic targeting Indian government, military, and think tank personnel, and assessed it was still ongoing as of July 2022.(Citation: Cisco Talos Transparent Tribe Education Campaign July 2022) ",
+            "aliases": [
+                "C0011"
+            ],
+            "first_seen": "2021-12-01T06:00:00.000Z",
+            "last_seen": "2022-07-01T05:00:00.000Z",
+            "created": "2022-09-22T17:12:02.893Z",
+            "spec_version": "2.1"
+		},
+		{
+            "modified": "2024-04-10T22:30:51.062Z",
+            "name": "Transparent Tribe",
+            "description": "[Transparent Tribe](https://attack.mitre.org/groups/G0134) is a suspected Pakistan-based threat group that has been active since at least 2013, primarily targeting diplomatic, defense, and research organizations in India and Afghanistan.(Citation: Proofpoint Operation Transparent Tribe March 2016)(Citation: Kaspersky Transparent Tribe August 2020)(Citation: Talos Transparent Tribe May 2021)",
+            "aliases": [
+                "Transparent Tribe",
+                "COPPER FIELDSTONE",
+                "APT36",
+                "Mythic Leopard",
+                "ProjectM"
+            ],
+            "type": "intrusion-set",
+            "id": "intrusion-set--e44e0985-bc65-4a8f-b578-211c858128e3",
+            "created": "2021-09-02T15:14:33.738Z",
+			"spec_version": "2.1"
+		},
+		{
+            "type": "relationship",
+            "id": "relationship--751e795e-7c1a-4ba1-bb20-636aed025df9",
+            "relationship_type": "attributed-to",
+            "created": "2022-09-22T17:12:46.793Z",
+            "revoked": false,
+            "external_references": [
+                {
+                    "source_name": "Cisco Talos Transparent Tribe Education Campaign July 2022",
+                    "description": "N. Baisini. (2022, July 13). Transparent Tribe begins targeting education sector in latest campaign. Retrieved September 22, 2022.",
+                    "url": "https://blog.talosintelligence.com/2022/07/transparent-tribe-targets-education.html"
+                }
+            ],
+            "modified": "2022-09-22T17:12:46.793Z",
+            "description": "(Citation: Cisco Talos Transparent Tribe Education Campaign July 2022)",
+            "source_ref": "campaign--b4e5a4a9-f3be-4631-ba8f-da6ebb067fac",
+            "target_ref": "intrusion-set--e44e0985-bc65-4a8f-b578-211c858128e3",
+            "spec_version": "2.1"
+		},
+		{
+            "type": "grouping",
+            "spec_version": "2.1",
+            "id": "grouping--84e4d88f-44ea-4bcd-bbf3-b2c1c320bcb3",
+            "created": "2015-12-21T19:59:11.000Z",
+            "modified": "2015-12-21T19:59:11.000Z",
+            "name": "The Black Vine Cyberespionage Group",
+            "description": "A simple collection of Black Vine Cyberespionage Group attributed intel",
+            "context": "suspicious-activity",
+            "object_refs": [
+                "indicator--ab5211c5-1b0d-4d80-8e9e-a1bb0f75dc70",
+                "campaign--b4e5a4a9-f3be-4631-ba8f-da6ebb067fac",
+                "relationship--751e795e-7c1a-4ba1-bb20-636aed025df9"
+            ]
+        },
+        {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--84e4d88f-44ea-4bcd-bbf3-b2c1c320bcbd",
+            "created": "2015-12-21T19:59:11.000Z",
+            "modified": "2016-05-21T19:59:11.000Z",
+            "name": "The Black Vine Cyberespionage Group report",
+            "description": "A simple report with an indicator and campaign",
+            "published": "2016-01-20T17:00:00.000Z",
+            "report_types": [
+              "campaign"
+            ],
+            "object_refs": [
+                "indicator--ab5211c5-1b0d-4d80-8e9e-a1bb0f75dc70",
+                "campaign--b4e5a4a9-f3be-4631-ba8f-da6ebb067fac",
+                "relationship--751e795e-7c1a-4ba1-bb20-636aed025df9"
+            ]
+        }
+	]
+}

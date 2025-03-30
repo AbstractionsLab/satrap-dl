@@ -1,0 +1,146 @@
+#
+# Copyright (C) 2021 Vaticle
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+#
+# Copyright (C) 2025 itrust Abstractions Lab
+#
+# This file is based on the source file for TypeQL v2.10.0 at
+# https://github.com/typedb-osi/typedb-cti/blob/master/schema/cti-rules.tql
+# The original typedb-cti rules and comments have been modified
+# and revised in alignment with the SATRAP CTI SKB schema types.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You may obtain a copy of the GNU Affero General Public License
+# at <https://www.gnu.org/licenses/>.
+
+
+define
+
+### SATRAP inference relations ###
+
+indirectly-uses sub uses,
+    relates indirect-user as user;
+targets-by-attribution sub targets,
+    relates attributed-threat as threat;
+
+identity
+    plays indirectly-uses:indirect-user,
+    plays targets-by-attribution:attributed-threat;
+attack-pattern plays indirectly-uses:indirect-user;
+campaign plays indirectly-uses:indirect-user;
+infrastructure plays indirectly-uses:indirect-user;
+intrusion-set 
+    plays indirectly-uses:indirect-user,
+    plays targets-by-attribution:attributed-threat;
+malware plays indirectly-uses:indirect-user;
+threat-actor 
+    plays indirectly-uses:indirect-user,
+    plays targets-by-attribution:attributed-threat;
+tool plays indirectly-uses:indirect-user;
+
+
+### RULES ###
+
+# If: x uses z, y uses z, and x != z
+# then: x uses z by transitivity
+# Example:
+# If an intrusion set uses a malware, and that malware uses a specific attack pattern,
+# then we infer that such an intrusion set uses that specific attack pattern
+rule transitive-use:
+when {
+    $x isa stix-domain-object, has name $name_x;
+    $y isa stix-domain-object, has name $name_y;
+    $z isa stix-domain-object, has name $name_z;
+    not {$x is $z;}; 
+    $use_xy (user: $x, used: $y) isa uses;
+    $use_yz (user: $y, used: $z) isa uses;
+} then {
+    (indirect-user: $x, used: $z) isa indirectly-uses;
+};
+
+
+# If: y is attributed to x, and y uses z
+# then: x uses z
+# Example:
+# If an identity has been attributed to a threat actor,
+# and that identity uses a malware, then we conclude that
+# the threat actor uses the malware (through the identiy)
+rule usage-via-attribution:
+when {
+    (attribution: $x, attributee: $y) isa attributed-to;
+    (user: $x, used: $z) isa uses;
+} then {
+    (indirect-user: $y, used: $z) isa indirectly-uses;
+};
+
+
+# If: y has been attributed to x, and y targets z
+# then: x targets z
+# Example:
+# If an intrusion set, e.g. "APT29", has been attributed to the identity "Bravo",
+# and APT29 targets a location, for example New York,
+# we can infer that "Bravo" targets the location New York
+rule targeting-via-attribution:
+when {
+    (attribution: $x, attributee: $y) isa attributed-to;
+    (threat: $x, target: $z) isa targets;
+} then {
+    (attributed-threat: $y, target: $z) isa targets-by-attribution;
+};
+
+
+# This rule infers a relation between a course of action and an intursion set
+# if the course of action mitigates an SDO used by an intrusion set. 
+# Note: because of the "transitive-use" rule, the SDO and the intrusion set 
+# may not be directly connected.
+# Example:
+# The entity type `course-of-action` with name "Restrict File and Directory Permissions" 
+# mitigates the attack-pattern "Indicator Blocking". In turn, "indicator Blocking" is used 
+# by an intrusion-set with name "BlackTech". Then, "Restrict File and Directory Permissions"
+# is related to "BlackTech" in the sense that is a relevant partial mitigation.
+rule course-of-action-for-intrusion-set:
+when {
+    $course-of-action isa course-of-action;
+    $sdo isa stix-domain-object, has name $sdo_name;
+    $intrusion-set isa intrusion-set;
+    $mitigation (mitigation: $course-of-action, mitigated: $sdo) isa mitigates;
+    $use (user: $intrusion-set, used: $sdo) isa uses;
+} then {
+    (source-role: $course-of-action, target-role: $intrusion-set) isa related-to;
+};
+
+## Relevant if inferred relations are to be exported, deferred for now
+# rule  desc-course-of-action-for-intrusion-set:
+# when {
+#     $course-of-action isa course-of-action;
+#     $intrusion-set isa intrusion-set;
+#     $r (source-role: $course-of-action, target-role: $intrusion-set) isa related-to;
+# } then {
+#     $r has description "This course of action mitigates at least one attack pattern used by the intrusion set";
+# };

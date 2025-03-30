@@ -1,0 +1,61 @@
+{
+	"title": "Mapping of composite types from STIX to TypeDB",
+	"description": "How composite STIX types are translated to TypeDB",
+	"type": "object",
+	"patternProperties": {
+		"^.*$": {
+			"description": "A composite type",
+			"type": "object",
+			"properties": {
+				"typedb-name": {
+					"description": "The name of the composite type in TypeDB",
+					"type": "string"
+				},
+				"helper-relation": {
+					"description": "",
+					"type": "object",
+					"properties": {
+						"relation-name": {
+							"description": "The name of the helper relation",
+							"type": "string"
+						},
+						"object-role": {
+							"description": "The role of the object in the helper relation",
+							"type": "string"
+						},
+						"value-role": {
+							"description": "The role of the value in the helper relation",
+							"type": "string"
+						}
+					}
+				},
+				"attributes": {
+					"description": "The attributes of the composite type",
+					"type": "object",
+					"patternProperties": {
+						"^.*$": {
+							"description": "An attribute of the composite type",
+							"type": "object",
+							"properties": {
+								"stix_value_type": {
+									"description": "The value type in STIX of the attribute",
+									"type": "string"
+								},
+								"typedb_name": {
+									"description": "The name of the attribute in TypeDB",
+									"type": "string"
+								},
+								"typedb_value_type": {
+									"description": "The value type for the attribute in TypeDB",
+									"type": "string"
+								}
+							},
+							"required": ["stix_value_type", "typedb_name", "typedb_value_type"],
+							"additionalProperties": false
+						}
+					}
+				}
+			}
+		}
+	}
+}

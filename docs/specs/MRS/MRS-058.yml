@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Secure channel to IDPS-ESCAPE
+importance: 4
+level: 49
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Beta
+reviewed: S-LBGmA19K1O3q2KC9e2WlTR29VnRIYDQMAHld33ggU=
+text: |
+  The communication between IDPS-ESCAPE and SATRAP-DL SHALL occur over confidential and authenticated channels if such channels are not located within the same trust boundaries.
+
+  ### Rationale
+  As this integration is likely to exchange internal information, the communication channel should be by default protected from external parties.
+type: S
+urgency: 4
+vm: T

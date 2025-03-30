@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  CTI sharing
+importance: 5
+level: 19
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Beta
+reviewed: j6N09JlbVdnF1SIupFLB-eMY7_0somgvG7UU9QTNcKs=
+text: |
+  SATRAP-DL SHOULD facilitate sharing of CTI stored in the CTI SKB by exporting to a machine-readable format expressing standardized CTI.
+
+  ### Rationale
+  Providing tools that simplify CTI sharing potentially encourages this activity, which is one of factors that contributes to faster detection and response times.
+type: F
+urgency: 3
+vm: T

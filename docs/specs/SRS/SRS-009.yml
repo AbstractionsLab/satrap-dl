@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  ETL Transformer
+importance: null
+level: 9
+links:
+- MRS-011: 2cll7CVGYILM2_Ia6Ty6xXJ7dC3D_HvB29TymBkZ25A=
+normative: true
+rationale: See specification body
+ref: ''
+release: Alpha
+reviewed: kKw73a2P8FE2p-kn9ZVgJF2FU1fNw9sr0TKc-3vguVs=
+text: |
+  The ETL module SHALL provide a component in charge of transforming data in STIX 2.1 format into the representation language of the the CTI SKB schema.
+
+  ### Rationale
+  To address data parsing enforcing separation of duties and modularity.
+type: A
+urgency: 5
+vm: R

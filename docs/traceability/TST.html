@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html>
+<head><title>Doorstop</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="assets/doorstop/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/doorstop/general.css" />
+  <link type="text/css" rel="stylesheet" href="assets/doorstop/sidebar.css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+  });
+  </script>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-2 hidden-sm hidden-xs">
+          <nav id="TOC" class="nav nav-stacked fixed sidebar">
+              <h3>Table of Contents</h3>
+<ul>
+<li><a href="#TST-001">1 TC: Verify data modelling artifacts</a></li>
+<li><a href="#TST-002">2 TC: Verify software engineering</a></li>
+<li><a href="#TST-003">3 TC: Verify STIX and reasoning engine</a></li>
+<li><a href="#TST-004">4 TC: Verify data model</a></li>
+<li><a href="#TST-005">5 TC: Verify centralized management</a></li>
+<li><a href="#TST-006">6 TC: Verify code clarity</a></li>
+<li><a href="#TST-007">7 TC: Verify secure programming</a></li>
+<li><a href="#TST-008">8 Test setup + MITRE ATT&amp;CK ingestion</a></li>
+<li><a href="#TST-009">9 Verify ETL architecture</a></li>
+<li><a href="#TST-010">10 Verify CTI SKB inference rules</a></li>
+<li><a href="#TST-011">11 Test Jupyter notebook frontend</a></li>
+<li><a href="#TST-012">12 Test ETL logging</a></li>
+<li><a href="#TST-013">13 Inspect settings for CM</a></li>
+<li><a href="#TST-014">14 Test command line interface (CLI)</a></li>
+<li><a href="#TST-017">15 Verify open-source TIP integration</a></li>
+<li><a href="#TST-018">16 Verify release and licensing</a></li>
+</ul>
+          </nav>
+      </div>
+      <div class="col-lg-8" id="main">
+        <h1 id="TST-001">1 TC: Verify data modelling artifacts <small>TST-001</small></h1>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL system concept documents</li>
+<li>Access to the SATRAP-DL database schema</li>
+<li>Access to the SATRAP-DL system deployment artifacts</li>
+<li>Access to the SATRAP-DL source code</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Review the SATRAP-DL system concept documents, database schema, deployment artifacts and source code to verify the linked requirements related to data modelling, database paradigm, integration of semantic search capable technology and flexibility of DBMS.</li>
+<li>Check for alignment by comparing the system concept documents with the database schema and deployment artifacts to ensure that there is consistency between them, e.g., that the database schema accurately reflects the data model specified in the documents.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p>As the verification method of this TC is review of design, the expected outcomes are already embedded in the test steps.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-001">SRS-001 Data modelling language</a>, <a href="SRS.html#SRS-002">SRS-002 Database paradigm</a>, <a href="SRS.html#SRS-003">SRS-003 Semantic search</a>, <a href="SRS.html#SRS-004">SRS-004 Extensibility of the data model</a>, <a href="SRS.html#SRS-005">SRS-005 NoSQL data model</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-001">TRA-001 TCER: modelling</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Review of design (R)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>1</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-002">2 TC: Verify software engineering <small>TST-002</small></h1>
+<p>Verify that the design and implementation of SATRAP-DL adheres to software best practices.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to SATRAP-DL source code</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Verify the consistent use of naming conventions.</li>
+<li>Verify adherence to SOLID, the 5 principles of object-oriented design SOLID principles.</li>
+</ol>
+<h2>Expected outcome</h2>
+<ol>
+<li>Naming convention either explicitly defined or referenced (e.g., inherited from PEP-8) and the implementation largely complies with the choice.</li>
+<li>Main architectural modules adhere to the SOLID design principles.</li>
+</ol>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-024">SRS-024 Design and implementation principles</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-002">TRA-002 TCER: SW engineering</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Review of design (R)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>3</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-003">3 TC: Verify STIX and reasoning engine <small>TST-003</small></h1>
+<p>Verify usage of DBMS equipped with automated reasoning and the use of the STIX 2.1 standard for CTI representation.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to SATRAP-DL database</li>
+<li>Access to SATRAP-DL source code</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Verify that the DBMS technology used in SATRAP-DL integrates or has compatibility with an automated reasoning engine, with the preferred solution being TypeDB.</li>
+<li>Verify that SATRAP-DL uses STIX 2.1 as the default standard format for CTI representation.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p>Embedded in test steps.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-014">SRS-014 Native reasoning engine</a>, <a href="SRS.html#SRS-023">SRS-023 CTI representation in STIX 2.1</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-003">TRA-003 TCER: STIX and reasoning</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Review of design (R), Inspection (I)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>1</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-004">4 TC: Verify data model <small>TST-004</small></h1>
+<p>Analyze data model adherence to that of STIX 2.1.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL database schema</li>
+<li>Access to the SATRAP-DL source code</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Verify that the data model of SATRAP-DL is aligned with the data model of STIX 2.1: check for correct mapping and interpretation for all non-custom properties.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p>Embedded in test steps.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-013">SRS-013 STIX 2.1 data model</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-004">TRA-004 TCER: data model</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Analysis (A)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>5</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-005">5 TC: Verify centralized management <small>TST-005</small></h1>
+<p>Verify centralized management of system parameters customization (e.g., logging severity, db connections, file paths) via a dedicated configuration file, log storage, exception types and error messages.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL source code</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Verify that system parameters for logging severity can be customized in a centralized manner: e.g., logging severity: debug, info, warn, error</li>
+<li>Verify that system parameters for db connections can be customized in a centralized manner.</li>
+<li>Verify that system parameters for file paths can be managed from a dedicated, centralized configuration file.</li>
+<li>Verify that there is a designated centralized location for storing logs.</li>
+<li>Verify that exceptions are specified in a centralized manner, e.g., by maintaining all the error codes in a configuration file.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p>Embedded in test steps.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-020">SRS-020 System configuration file</a>, <a href="SRS.html#SRS-021">SRS-021 Centralized logging</a>, <a href="SRS.html#SRS-022">SRS-022 Centralized exception handling</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-005">TRA-005 TCER: centralized management</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Inspection (I)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>2</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-006">6 TC: Verify code clarity <small>TST-006</small></h1>
+<p>Verify source code documentation and readability quality, as well as release on GitHub.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to SATRAP-DL source code</li>
+<li>Access to GitHub</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Verify that the source code of SATRAP-DL, at the level of class and function definitions, is implemented either in a self-explanatory manner or that it is well documented within the source code, e.g., using doc strings.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p>Embedded in test steps.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-025">SRS-025 Code readability</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-006">TRA-006 TCER: code clarity</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Inspection (I)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>3</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-007">7 TC: Verify secure programming <small>TST-007</small></h1>
+<p>Ensure various input sanitization and validation security measures are in place.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL data models and database schema</li>
+<li>Access to the SATRAP-DL source code</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Verify that SATRAP-DL components receiving input validate the input and reject it in case the validation fails; the validation may include integrity checks, syntactic checks, semantic checks, parameter out-of-range checks, etc.</li>
+<li>Verify that SATRAP-DL perform sanitization of input and output (data passed across a trust boundary); sanitization may include removing, replacing, encoding, or escaping unwanted characters.</li>
+<li>Verify that network connections and other resources accessed are properly terminated when they are no longer required.</li>
+<li>Verify that all software dependencies including 3rd-party libraries are listed and maintained in a configuration file.</li>
+<li>Verify that log strings are sanitized and validated before being logging to prevent log injection attacks.</li>
+<li>Verify that SATRAP-DL does not log sensitive information such as passwords or entity identifiers.</li>
+<li>Verify that the data model enforces semantic integrity ensuring that relationships and constraints adhere to the intended meaning; this can be based on measures such as data validation with respect to schemas and relationship constraints, technical possibility of automated checks for data redundancy and inference powered by a reasoning engine.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p>Embedded in test steps.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-007">SRS-007 Semantic data integrity</a>, <a href="SRS.html#SRS-028">SRS-028 Input validation</a>, <a href="SRS.html#SRS-029">SRS-029 Input sanitization</a>, <a href="SRS.html#SRS-030">SRS-030 Resource management</a>, <a href="SRS.html#SRS-032">SRS-032 Dependencies management</a>, <a href="SRS.html#SRS-036">SRS-036 Log validation</a>, <a href="SRS.html#SRS-037">SRS-037 Sensitive information</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-007">TRA-007 TCER: secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Inspection (I), Review of design (R)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>3</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-008">8 Test setup + MITRE ATT&amp;CK ingestion <small>TST-008</small></h1>
+<p>Test the SATRAP initialization and setup/deployment scripts and its mechanism for retrieving datasets from MITRE ATT&amp;CK in STIX 2.1, and making them available for other system components to adequately process and insert the information into the CTI SKB.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL deployment artifacts</li>
+<li>Access to the internet or a pre-downloaded copy of MITRE ATT&amp;CK data sets in STIX 2.1, e.g., the enterprise TTPs</li>
+<li>TypeDB Docker container pulled and running using the <code>init-satrap.sh</code> script</li>
+<li>SATRAP Docker network created using the <code>init-satrap.sh</code> script</li>
+<li>SATRAP volume for persistent TypeDB storage created using the <code>init-satrap.sh</code> script</li>
+<li>Docker Engine (or daemon) running with the right privileges for the testing user</li>
+<li><code>TypeDB Studio</code> version <code>2.28.6</code> installed: <a href="https://github.com/typedb/typedb-studio/releases/tag/2.28.6">Link to GitHub release</a> (alternatively you can interact with the TypeDB backend directly via its CLI)</li>
+<li>A plain/empty project created in TypeDB Studio</li>
+<li>SATRAP Docker container created using the <code>build-satrap.sh</code> script</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Run the SATRAP <code>setup</code> CLI command to create the SATRAP TypeDB data schema for STIX 2.1 and load it into the CTI SKB.</li>
+</ol>
+<pre><code>$ ./satrap.sh setup
+
+Starting SATRAP...
+Database 'satrap-skb-alpha' will be created at 'typedb:1729'
+Do you want to continue? (y/n): y
+Database 'satrap-skb-alpha' successfully created from:
+Schema: /home/alab/cti-analysis-platform/satrap/assets/schema/cti-skb-types.tql
+Rules: /home/alab/cti-analysis-platform/satrap/assets/schema/cti-skb-rules.tql
+</code></pre>
+<ol start="2">
+<li>Run the SATRAP <code>etl</code> CLI command to run the ETL (Extract, Transform, Load) pipeline for the ATT&amp;CK enterprise TTP data set selected by default, confirm by typing <code>yes</code> and pressing enter.</li>
+</ol>
+<pre><code>$ ./satrap.sh etl
+
+Starting SATRAP...
+
+The ETL process will be executed with the following parameters (modify at 'satrap_params.yml'):
+
+Extraction datasource: https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack.json
+Load into: database 'satrap-skb-alpha' at typedb:1729
+
+Do you want to continue? (yes/no): yes
+
+Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/info.log
+</code></pre>
+<h2>Expected outcome</h2>
+<ol>
+<li>Start <code>TypeDB Studio</code>, select your database as shown below (<code>satrap-skb-alpha</code>):</li>
+</ol>
+<p><img alt="TypeDB Studio database selection" src="assets/typedb-studio-db-selection.png" title="TypeDB Studio database selection" width="60%" /></p>
+<ul>
+<li>Open your previously created TypeDB project (or create a fresh one)</li>
+<li>Press the <code>Export Schema Types</code> button from the TypeDB Browser, as shown below</li>
+</ul>
+<p><img alt="TypeDB Studio Data Schema Types export" src="assets/typedb-studio-export-schema-types.png" title="TypeDB Studio Data Schema Types export" width="20%" /></p>
+<ul>
+<li>Save the exported content in a <code>.tql</code> file, e.g., <code>test-schema.tql</code> and compare the content of this file with the evidence provided in our test data (a simple <code>diff</code> will do); the path to the reference schema is indicated here.</li>
+</ul>
+<ol start="2">
+<li>Once the ETL execution is finished, the printout in the terminal should read a total of <code>215498</code> entries. Note that the correctness of the actual mappings and correspondence soundness between the transformed content loaded into TypeDB is tested via our comprehensive unit test suites found under <code>tests</code> folder at the project root, which can be run using our <code>run_tests.sh</code> script.</li>
+</ol>
+<blockquote>
+<p><code>docs/specs/TST/assets/satrap-schema-types.tql</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-006">SRS-006 Integration of common CTI</a>, <a href="SRS.html#SRS-043">SRS-043 TypeDB Studio</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-008">TRA-008 TCER: MITRE ATT&amp;CK ingestion</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>2</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-009">9 Verify ETL architecture <small>TST-009</small></h1>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL system concept documents</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Verify that the ETL module of SATRAP-DL provides a component in charge of orchestrating the ingestion of datasets in STIX 2.1 and the insertion of the content into the CTI SKB.</li>
+<li>Verify that the ETL module of SATRAP-DL provides a component in charge of transforming data in STIX 2.1 format into the representation language of the the CTI SKB schema.</li>
+<li>Verify that SATRAP-DL provides a component in charge of managing database operations and connections.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p>Embedded in test steps.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-008">SRS-008 ETL orchestrator</a>, <a href="SRS.html#SRS-009">SRS-009 ETL Transformer</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-009">TRA-009 TCER: ETL architecture</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Review of design (R)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>2</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-010">10 Verify CTI SKB inference rules <small>TST-010</small></h1>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL source code</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Verify that SATRAP-DL implements inference rules that allow for the automated derivation of knowledge over existing relations in the CTI SKB by inspecting the CTI SKB inference rule definition file and CTI SKB type definitions files stored in the <code>satrap/assets/schema</code> folder.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p>Embedded in test steps.</p>
+<blockquote>
+<p><code>satrap/assets/schema/cti-skb-rules.tql</code>
+<code>satrap/assets/schema/cti-skb-types.tql</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-012">SRS-012 Inference rules</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-010">TRA-010 TCER: CTI SKB inference</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Analysis (A)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>5</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-011">11 Test Jupyter notebook frontend <small>TST-011</small></h1>
+<p>Test that the provided Jupyter notebook frontend executes as expected.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to source code of SATRAP-DL</li>
+<li>Access to SATRAP-DL deployment artifacts</li>
+<li>Access to the internet or a pre-downloaded copy of MITRE ATT&amp;CK data sets in STIX 2.1, e.g., the enterprise TTPs</li>
+<li>TypeDB Docker container pulled and running using the <code>init-satrap.sh</code> script</li>
+<li>SATRAP Docker network created using the <code>init-satrap.sh</code> script</li>
+<li>SATRAP volume for persistent TypeDB storage created using the <code>init-satrap.sh</code> script</li>
+<li><a href="https://docs.docker.com/engine/">Docker Engine</a> (or daemon) running with the right privileges for the testing user</li>
+<li><code>TypeDB Studio</code> version <code>2.28.6</code> installed (alternatively you can interact with the TypeDB backend directly via its CLI)</li>
+<li>A plain/empty project created in TypeDB Studio</li>
+<li>SATRAP Docker container created using the <code>build-satrap.sh</code> script</li>
+<li>Microsoft <a href="https://code.visualstudio.com/">VS Code Studio</a> installed (v1.98.2)</li>
+<li>Microsoft VS Code Studio <a href="https://code.visualstudio.com/docs/devcontainers/containers">Dev Containers</a> installed, i.e., the VS Code <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">extension</a> (v0.401.0)</li>
+</ul>
+<h3>Test dependencies</h3>
+<ul>
+<li><strong>TST-008</strong> executed successfully</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Open the source code of SATRAP-DL (here we assume the use of VS Code) and open the project in the dev container (see the README).</li>
+<li>Navigate to the VS Code Studio terminal and create a new Terminal (if a prompt not available) to access the SATRAP container file system and run <code>poetry shell</code>, followed by <code>poetry install</code>.</li>
+<li>Navigate to the folder <code>satrap/frontend/quick_start.ipynb</code> and using the <code>Select kernel</code> button, choose the Python environment that was just activated and prepared using the commands in the previous step.</li>
+<li>Run each cell from top to bottom in order.</li>
+</ol>
+<h2>Expected outcome</h2>
+<ol start="4">
+<li>The obtained outcome must match the test data evidence available in <code>satrap/docs/specs/TST/assets/quick_start-test-reference.ipynb</code>.</li>
+</ol>
+<blockquote>
+<p><code>docs/specs/TST/TST-008.md</code>
+<code>docs/specs/TST/assets/quick_start-test-reference.ipynb</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-011">TRA-011 TCER: Jupyter Notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>2</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-012">12 Test ETL logging <small>TST-012</small></h1>
+<p>Validate the logging feature of the ETL subsystem.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to source code of SATRAP-DL</li>
+<li>Access to SATRAP-DL deployment artifacts</li>
+<li>Access to the internet or a pre-downloaded copy of MITRE ATT&amp;CK data sets in STIX 2.1, e.g., the enterprise TTPs</li>
+<li>TypeDB Docker container pulled and running using the <code>init-satrap.sh</code> script</li>
+<li>SATRAP Docker network created using the <code>init-satrap.sh</code> script</li>
+<li>SATRAP volume for persistent TypeDB storage created using the <code>init-satrap.sh</code> script</li>
+<li>Docker Engine (or daemon) running with the right privileges for the testing user</li>
+<li><code>TypeDB Studio</code> version <code>2.28.6</code> installed (alternatively you can interact with the TypeDB backend directly via its CLI)</li>
+<li>A plain/empty project created in TypeDB Studio</li>
+<li>SATRAP Docker container created using the <code>build-satrap.sh</code> script</li>
+</ul>
+<h3>Test dependencies</h3>
+<ul>
+<li><strong>TST-008</strong> executed successfully</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Run <code>./satrap.sh etl</code> to launch the default ETL job, fetching a MITRE ATT&amp;CK Mobile data set.</li>
+</ol>
+<h2>Expected outcome</h2>
+<ol>
+<li>Check the generated log in the <code>satrap/assets/logs</code> folder (under date folders and timestamped files according to ETL execution time) to validate the following:</li>
+</ol>
+<ul>
+<li>a log entry is generated at the beginning of the job, indicating the start time</li>
+<li>each log entry recording an event comes with a log level: DEBUG, INFO, WARNING, ERROR, CRITICAL</li>
+<li>there is at least a log entry for each ETL phase (i.e., extraction, transformation and loading) describing the status in terms of success/failure and some minimal hint or additional information explaining or complementing the execution status.</li>
+</ul>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-033">SRS-033 Functional ETL events logging</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-012">TRA-012 TCER: ETL logging</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>2</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-013">13 Inspect settings for CM <small>TST-013</small></h1>
+<p>Inspect the centralized settings file to verify that some of its content is read from a user-controller configuration management file allowing configuration management without requiring software rebuild.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL source code</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Navigate to the <code>settings.py</code> file at <code>satrap/settings.py</code>.</li>
+<li>Navigate to the YAML configuration management file <code>satrap/assets/satrap_params.yml</code> exposed to and managed by the user.</li>
+<li>Check that the YAML file is read into memory (e.g., in a Python dictionary).</li>
+<li>Check that at least one parameter in <code>settings.py</code> is read from the in-memory copy of the <code>satrap_params.yml</code> file.</li>
+</ol>
+<h2>Expected outcome</h2>
+<ol start="4">
+<li>At least one entry containing a runtime variable assignment making use of the in-memory copy of the configuration/parameters YAML file, e.g.,</li>
+</ol>
+<pre><code>VARIABLE = satrap_parameters_dictionary.get('key-1').get('key-2')
+</code></pre>
+<blockquote>
+<p><code>satrap/assets/satrap_params.yml</code>
+<code>satrap/settings.py</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-041">SRS-041 Configuration management mechanism</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-013">TRA-013 TCER: CM settings</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Inspection (I)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>2</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-014">14 Test command line interface (CLI) <small>TST-014</small></h1>
+<p>Test that a command line interface is implemented and that it provides at least the commands specified in the software requirement specification (SRS) this test traces to.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to source code of SATRAP-DL</li>
+<li>Access to SATRAP-DL deployment artifacts</li>
+<li>Access to the internet or a pre-downloaded copy of MITRE ATT&amp;CK data sets in STIX 2.1, e.g., the enterprise TTPs</li>
+<li>TypeDB Docker container pulled and running using the <code>init-satrap.sh</code> script</li>
+<li>SATRAP Docker network created using the <code>init-satrap.sh</code> script</li>
+<li>SATRAP volume for persistent TypeDB storage created using the <code>init-satrap.sh</code> script</li>
+<li>Docker Engine (or daemon) running with the right privileges for the testing user</li>
+<li>A plain/empty project created in TypeDB Studio</li>
+<li>SATRAP Docker container created using the <code>build-satrap.sh</code> script</li>
+</ul>
+<h3>Test dependencies</h3>
+<ul>
+<li><strong>TST-008</strong> executed successfully</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Run <code>./satrap.sh rules</code></li>
+<li>Run <code>./satrap.sh stats</code></li>
+<li>Run <code>./satrap.sh techniques</code></li>
+<li>Run <code>./satrap.sh mitigations</code></li>
+<li>Run <code>./satrap.sh search campaign--0c259854-4044-4f6c-ac49-118d484b3e3b</code></li>
+<li>Run <code>./satrap.sh info_mitre T1027.001</code></li>
+</ol>
+<h2>Expected outcome</h2>
+<ol>
+<li>The execution of this step prints out the following</li>
+</ol>
+<pre><code>Inference rules defined in the knowledge base:
+targeting-via-attribution
+course-of-action-for-intrusion-set
+usage-via-attribution
+transitive-use
+</code></pre>
+<ol start="2">
+<li>The execution of this step prints out the following</li>
+</ol>
+<pre><code>+-----------------------+------------------------+
+| STIX Domain Objects   |   Total in the CTI SKB |
++=======================+========================+
+| course-of-action      |                    285 |
++-----------------------+------------------------+
+| attack-pattern        |                    668 |
++-----------------------+------------------------+
+| malware-family        |                    624 |
++-----------------------+------------------------+
+| campaign              |                     34 |
++-----------------------+------------------------+
+| tool                  |                     89 |
++-----------------------+------------------------+
+| identity              |                      1 |
++-----------------------+------------------------+
+| intrusion-set         |                    170 |
++-----------------------+------------------------+
+</code></pre>
+<ol start="3">
+<li>The execution of this step prints out the following:</li>
+</ol>
+<p>See <code>docs/specs/TST/assets/satrap-cli-techniques-evidence.txt</code></p>
+<ol start="4">
+<li>The execution of this step prints out the following</li>
+</ol>
+<p>See <code>docs/specs/TST/assets/satrap-cli-mitigations-evidence.txt</code></p>
+<ol start="5">
+<li>The execution of this step prints out the following</li>
+</ol>
+<pre><code>+---------------------+---------------------------------------------------------+
+| Property            | Value                                                   |
++=====================+=========================================================+
+| type                | campaign                                                |
++---------------------+---------------------------------------------------------+
+| first-seen          | 2022-10-01 04:00                                        |
++---------------------+---------------------------------------------------------+
+| created             | 2024-06-10 18:57                                        |
++---------------------+---------------------------------------------------------+
+| name                | KV Botnet Activity                                      |
++---------------------+---------------------------------------------------------+
+| last-seen           | 2024-01-01 05:00                                        |
++---------------------+---------------------------------------------------------+
+| alias               | KV Botnet Activity                                      |
++---------------------+---------------------------------------------------------+
+| description         | [KV Botnet                                              |
+|                     | Activity](https://attack.mitre.org/campaigns/C0035)     |
+|                     | consisted of exploitation of primarily “end-of-life”    |
+|                     | small office-home office (SOHO) equipment from          |
+|                     | manufacturers such as Cisco, NETGEAR, and DrayTek. [KV  |
+|                     | Botnet                                                  |
+|                     | Activity](https://attack.mitre.org/campaigns/C0035) was |
+|                     | used by [Volt                                           |
+|                     | Typhoon](https://attack.mitre.org/groups/G1017) to      |
+|                     | obfuscate connectivity to victims in multiple critical  |
+|                     | infrastructure segments, including energy and           |
+|                     | telecommunication companies and entities based on the   |
+|                     | US territory of Guam. While the KV Botnet is the most   |
+|                     | prominent element of this campaign, it overlaps with    |
+|                     | another botnet cluster referred to as the JDY           |
+|                     | cluster.(Citation: Lumen KVBotnet 2023) This botnet was |
+|                     | disrupted by US law enforcement entities in early 2024  |
+|                     | after periods of activity from October 2022 through     |
+|                     | January 2024.(Citation: DOJ KVBotnet 2024)              |
++---------------------+---------------------------------------------------------+
+| revoked             | false                                                   |
++---------------------+---------------------------------------------------------+
+| modified            | 2024-10-03 10:11                                        |
++---------------------+---------------------------------------------------------+
+| stix-id             | campaign--0c259854-4044-4f6c-ac49-118d484b3e3b          |
++---------------------+---------------------------------------------------------+
+| spec-version        | 2.1                                                     |
++---------------------+---------------------------------------------------------+
+| created-by          | The MITRE Corporation                                   |
++---------------------+---------------------------------------------------------+
+| external-references | ['Lumen KVBotnet 2023', 'mitre-attack', 'DOJ KVBotnet   |
+| by                  | 2024']                                                  |
++---------------------+---------------------------------------------------------+
+</code></pre>
+<ol start="6">
+<li>The execution of this step prints out the following</li>
+</ol>
+<pre><code>+---------------------+---------------------------------------------------------+
+| Property            | Value                                                   |
++=====================+=========================================================+
+| type                | attack-pattern                                          |
++---------------------+---------------------------------------------------------+
+| created             | 2020-02-05 14:04                                        |
++---------------------+---------------------------------------------------------+
+| name                | Binary Padding                                          |
++---------------------+---------------------------------------------------------+
+| description         | Adversaries may use binary padding to add junk data and |
+|                     | change the on-disk representation of malware. This can  |
+|                     | be done without affecting the functionality or behavior |
+|                     | of a binary, but can increase the size of the binary    |
+|                     | beyond what some security tools are capable of handling |
+|                     | due to file size limitations.   Binary padding          |
+|                     | effectively changes the checksum of the file and can    |
+|                     | also be used to avoid hash-based blocklists and static  |
+|                     | anti-virus signatures.(Citation: ESET OceanLotus) The   |
+|                     | padding used is commonly generated by a function to     |
+|                     | create junk data and then appended to the end or        |
+|                     | applied to sections of malware.(Citation: Securelist    |
+|                     | Malware Tricks April 2017) Increasing the file size may |
+|                     | decrease the effectiveness of certain tools and         |
+|                     | detection capabilities that are not designed or         |
+|                     | configured to scan large files. This may also reduce    |
+|                     | the likelihood of being collected for analysis. Public  |
+|                     | file scanning services, such as VirusTotal, limits the  |
+|                     | maximum size of an uploaded file to be                  |
+|                     | analyzed.(Citation: VirusTotal FAQ)                     |
++---------------------+---------------------------------------------------------+
+| revoked             | false                                                   |
++---------------------+---------------------------------------------------------+
+| modified            | 2023-03-30 21:01                                        |
++---------------------+---------------------------------------------------------+
+| stix-id             | attack-pattern--5bfccc3f-2326-4112-86cc-c1ece9d8a2b5    |
++---------------------+---------------------------------------------------------+
+| spec-version        | 2.1                                                     |
++---------------------+---------------------------------------------------------+
+| created-by          | The MITRE Corporation                                   |
++---------------------+---------------------------------------------------------+
+| external-references | ['ESET OceanLotus', 'Securelist Malware Tricks April    |
+| by                  | 2017', 'mitre-attack', 'VirusTotal FAQ']                |
++---------------------+---------------------------------------------------------+
+</code></pre>
+<blockquote>
+<p><code>docs/specs/TST/assets/satrap-cli-techniques-evidence.txt</code>
+<code>docs/specs/TST/assets/satrap-cli-mitigations-evidence.txt</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-042">SRS-042 Command line interface (CLI)</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-014">TRA-014 TCER: SATRAP CLI</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>2</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-017">15 Verify open-source TIP integration <small>TST-017</small></h1>
+<p>This test case is aimed at validating the adoption of open-soure TIPs by the SATRAP design.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL system concept documents</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Review the SATRAP-DL system concept documents to confirm that SATRAP adopts both MISP and OpenCTI as open-source TIPs (Threat Intelligence Platform) to manage cyber threat intelligence content and maintain the CyFORT CTI repository.</li>
+</ol>
+<h2>Expected outcome</h2>
+<ol>
+<li>Embedded in test steps</li>
+</ol>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-044">SRS-044 Open-source TIP integration</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-015">TRA-015 TCER: Open-source TIP adoption</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Review of design (R)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>1</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-018">16 Verify release and licensing <small>TST-018</small></h1>
+<p>Verify the release model and licensing approach adopted for SATRAP-DL.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL source code</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Verify that the source code of SATRAP-DL is released on GitHub via a public repository.</li>
+<li>Verify that 3rd-party libraries used in SATRAP-DL, if any, have open source licenses that do not restrict the privileges granted by the license selected for SATRAP-DL.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p>Embedded in test steps.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-026">SRS-026 Public release</a>, <a href="SRS.html#SRS-027">SRS-027 Open-source licensing</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-016">TRA-016 TCER: release + licensing</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Inspection (I)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>1</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+      </div>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="assets/doorstop/jquery.min.js"></script>
+<script src="assets/doorstop/bootstrap.min.js"></script>
+<script>
+    $(function() {
+        $("table").addClass("table");
+        $("nav ul").addClass("nav nav-stacked");
+        $("nav").affix();
+        $('body').scrollspy({
+          target: '.sidebar'
+        });
+        $("#main a").attr("target", "parent");
+
+  $(window).on('hashchange', function() {
+    $(window).scrollTop($(location.hash.toLowerCase()).offset().top);});
+  });
+</script>
+</body>
+</html>
+

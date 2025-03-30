@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Configuration management
+importance: 5
+level: 16
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: bSSpt3fLcdJ2z5NyewR3FBo5dPwXTYXh-J5UuuIblLA=
+text: |
+  The data integration module SHALL provide a configuration management mechanism with a set of predefined values for the user to adjust settings related to the data ingestion process.
+
+  ### Rationale
+  To allow tunning the system performance.
+type: F
+urgency: 3
+vm: T

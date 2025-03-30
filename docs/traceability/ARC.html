@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head><title>Doorstop</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="assets/doorstop/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/doorstop/general.css" />
+  <link type="text/css" rel="stylesheet" href="assets/doorstop/sidebar.css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+  });
+  </script>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-2 hidden-sm hidden-xs">
+          <nav id="TOC" class="nav nav-stacked fixed sidebar">
+              <h3>Table of Contents</h3>
+<ul>
+<li><a href="#ARC-001">1 System structure overview</a></li>
+<li><a href="#ARC-002">2 Logical view of SATRAP-DL</a></li>
+<li><a href="#ARC-003">3 ETL high-level design</a></li>
+<li><a href="#ARC-004">4 ETL components</a></li>
+</ul>
+          </nav>
+      </div>
+      <div class="col-lg-8" id="main">
+        <h1 id="ARC-001">1 System structure overview <small>ARC-001</small></h1>
+<p>This UML composite structure diagram shows the overview of SATRAP-DL along with the systems on which it has some dependency.</p>
+<p><img alt="Composite structure diagram of SATRAP-DL" src="assets/2B1D0_DIA_composite-structure.png" />.</p>
+<p>Roughly, the components are described as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Component name</th>
+<th>Component description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CTI Knowledge representation system</td>
+<td>Semantic Knowledge Base of CTI (CTI SKB) defined on a strongly-typed data model, plus an automated logic-based reasoning engine.</td>
+</tr>
+<tr>
+<td>Data manager</td>
+<td>Manages the interactions and connection to the knowledge base</td>
+</tr>
+<tr>
+<td>ETL module</td>
+<td>Enables ingesting data from diverse categories into the CTI SKB, for instance, cybersecurity knowledge (e.g., datasets from MITRE ATT&amp;CK), behavioral data (from SIEMs, SOARs, etc.) and external CTI (from platforms like MISP).</td>
+</tr>
+<tr>
+<td>CTI analysis engine</td>
+<td>Implements queries tailored for the automation of Cyber Threat Intelligence (CTI) analysis tasks.</td>
+</tr>
+<tr>
+<td>Controller</td>
+<td>Responsible for handling the interaction between the SATRAP-DL management console and the ETL module .</td>
+</tr>
+<tr>
+<td>SATRAP-DL services</td>
+<td>Make SATRAP-DL's functionality accessible via a Python library and a language-independent API.</td>
+</tr>
+<tr>
+<td>SATRAP-DL frontend</td>
+<td>A suite of user interfaces for executing and visualizing results of analytic queries over the CTI SKB and performing data management and admin tasks in the CTI SKB.</td>
+</tr>
+</tbody>
+</table>
+<p>More details are available as part of the system concept in the file <code>2B1D_REP_CyFORT-SATRAP-DL-SystemArchitecture_v1.1</code>.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-001">SRS-001 Data modelling language</a>, <a href="SRS.html#SRS-002">SRS-002 Database paradigm</a>, <a href="SRS.html#SRS-003">SRS-003 Semantic search</a>, <a href="SRS.html#SRS-004">SRS-004 Extensibility of the data model</a>, <a href="SRS.html#SRS-005">SRS-005 NoSQL data model</a>, <a href="SRS.html#SRS-007">SRS-007 Semantic data integrity</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a>, <a href="SRS.html#SRS-011">SRS-011 Ingestion of internal and external CTI</a>, <a href="SRS.html#SRS-012">SRS-012 Inference rules</a>, <a href="SRS.html#SRS-014">SRS-014 Native reasoning engine</a>, <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a>, <a href="SRS.html#SRS-017">SRS-017 Integration of behavioral data</a>, <a href="SRS.html#SRS-020">SRS-020 System configuration file</a>, <a href="SRS.html#SRS-021">SRS-021 Centralized logging</a>, <a href="SRS.html#SRS-022">SRS-022 Centralized exception handling</a>, <a href="SRS.html#SRS-028">SRS-028 Input validation</a>, <a href="SRS.html#SRS-029">SRS-029 Input sanitization</a></p>
+<p><em>Child links:</em> <a href="SWD.html#SWD-001">SWD-001 Top-level ETL design</a>, <a href="SWD.html#SWD-002">SWD-002 STIX-specific ETL design</a>, <a href="SWD.html#SWD-003">SWD-003 ETL system flow</a>, <a href="SWD.html#SWD-004">SWD-004 TypeDB utilities</a>, <a href="SWD.html#SWD-005">SWD-005 Transformer class diagram</a>, <a href="SWD.html#SWD-006">SWD-006 Transformer flow</a>, <a href="SWD.html#SWD-007">SWD-007 ETL full class diagram</a></p>
+<h1 id="ARC-002">2 Logical view of SATRAP-DL <small>ARC-002</small></h1>
+<p>The following UML package diagram depicts the logical view of SATRAP-DL.</p>
+<p><img alt="Package diagram of SATRAP-DL" src="assets/2B1D0_DIA_logical-view.png" /></p>
+<p>Details on the architecture are available as part of the system concept in the file <code>2B1D_REP_CyFORT-SATRAP-DL-SystemArchitecture_v1.1</code>.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-001">SRS-001 Data modelling language</a>, <a href="SRS.html#SRS-002">SRS-002 Database paradigm</a>, <a href="SRS.html#SRS-003">SRS-003 Semantic search</a>, <a href="SRS.html#SRS-004">SRS-004 Extensibility of the data model</a>, <a href="SRS.html#SRS-005">SRS-005 NoSQL data model</a>, <a href="SRS.html#SRS-007">SRS-007 Semantic data integrity</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a>, <a href="SRS.html#SRS-011">SRS-011 Ingestion of internal and external CTI</a>, <a href="SRS.html#SRS-012">SRS-012 Inference rules</a>, <a href="SRS.html#SRS-014">SRS-014 Native reasoning engine</a>, <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a>, <a href="SRS.html#SRS-017">SRS-017 Integration of behavioral data</a>, <a href="SRS.html#SRS-020">SRS-020 System configuration file</a>, <a href="SRS.html#SRS-021">SRS-021 Centralized logging</a>, <a href="SRS.html#SRS-022">SRS-022 Centralized exception handling</a>, <a href="SRS.html#SRS-028">SRS-028 Input validation</a>, <a href="SRS.html#SRS-029">SRS-029 Input sanitization</a></p>
+<p><em>Child links:</em> <a href="SWD.html#SWD-001">SWD-001 Top-level ETL design</a>, <a href="SWD.html#SWD-002">SWD-002 STIX-specific ETL design</a>, <a href="SWD.html#SWD-003">SWD-003 ETL system flow</a>, <a href="SWD.html#SWD-004">SWD-004 TypeDB utilities</a>, <a href="SWD.html#SWD-005">SWD-005 Transformer class diagram</a>, <a href="SWD.html#SWD-006">SWD-006 Transformer flow</a>, <a href="SWD.html#SWD-007">SWD-007 ETL full class diagram</a></p>
+<h1 id="ARC-003">3 ETL high-level design <small>ARC-003</small></h1>
+<p>An overview of the main external systems and internal components of SATRAP involved in the ETL process is shown in the following diagram.</p>
+<p><img alt="ETL system components" src="assets/2C0A1A_DIA_ETL-components-c4.png" width="80%" /></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-001">SRS-001 Data modelling language</a>, <a href="SRS.html#SRS-002">SRS-002 Database paradigm</a>, <a href="SRS.html#SRS-003">SRS-003 Semantic search</a>, <a href="SRS.html#SRS-004">SRS-004 Extensibility of the data model</a>, <a href="SRS.html#SRS-005">SRS-005 NoSQL data model</a>, <a href="SRS.html#SRS-006">SRS-006 Integration of common CTI</a>, <a href="SRS.html#SRS-007">SRS-007 Semantic data integrity</a>, <a href="SRS.html#SRS-008">SRS-008 ETL orchestrator</a>, <a href="SRS.html#SRS-009">SRS-009 ETL Transformer</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a>, <a href="SRS.html#SRS-011">SRS-011 Ingestion of internal and external CTI</a>, <a href="SRS.html#SRS-012">SRS-012 Inference rules</a>, <a href="SRS.html#SRS-013">SRS-013 STIX 2.1 data model</a>, <a href="SRS.html#SRS-014">SRS-014 Native reasoning engine</a>, <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a>, <a href="SRS.html#SRS-017">SRS-017 Integration of behavioral data</a>, <a href="SRS.html#SRS-018">SRS-018 IDPS-ESCAPE ingestion policy</a>, <a href="SRS.html#SRS-019">SRS-019 CTI export to STIX</a>, <a href="SRS.html#SRS-020">SRS-020 System configuration file</a>, <a href="SRS.html#SRS-023">SRS-023 CTI representation in STIX 2.1</a>, <a href="SRS.html#SRS-024">SRS-024 Design and implementation principles</a>, <a href="SRS.html#SRS-028">SRS-028 Input validation</a>, <a href="SRS.html#SRS-029">SRS-029 Input sanitization</a></p>
+<p><em>Child links:</em> <a href="SWD.html#SWD-001">SWD-001 Top-level ETL design</a>, <a href="SWD.html#SWD-002">SWD-002 STIX-specific ETL design</a>, <a href="SWD.html#SWD-003">SWD-003 ETL system flow</a>, <a href="SWD.html#SWD-004">SWD-004 TypeDB utilities</a>, <a href="SWD.html#SWD-005">SWD-005 Transformer class diagram</a>, <a href="SWD.html#SWD-006">SWD-006 Transformer flow</a>, <a href="SWD.html#SWD-007">SWD-007 ETL full class diagram</a></p>
+<h1 id="ARC-004">4 ETL components <small>ARC-004</small></h1>
+<p>The following diagram depicts the main components of the ETL system.</p>
+<p><img alt="ETL system components" src="assets/2C0A1B_DIA_ETL-components.png" /></p>
+<p>Roughly, the <code>ETLOrchestrator</code> is in charge of the logic for executing the ETL process assisted by an <code>Extractor</code>, a <code>Transformer</code> and a <code>Loader</code>.</p>
+<p>A suitable <code>Extractor</code> fetches data from an external source and creates and stores a datasource in STIX 2.1 format in a predefined folder. For the initial version, we will only consider an extractor for datasources already in STIX 2.1, namely the <code>STIXExtractor</code>. In future phases, the integration of data in other formats can be supported by extending the architecture with new Extractors.</p>
+<p>The ETL subsystem interacts with the following components:</p>
+<ul>
+<li><strong>Controller</strong>: this is the component that triggers the ETL process according to predefined settings.</li>
+<li><strong>STIX datasets</strong>: a predefined folder in the file system storing datasets in STIX2.1 JSON format.</li>
+<li><strong>CTI SKB</strong>: the database of SATRAP in TypeDB.</li>
+<li><strong>Data Management</strong>: includes components aimed at handling data, such as the DB manager which manages the connections and operations over the CTI SKB. Some of the functions in this class are: <code>connect_to_DB</code>, <code>create_db</code>, <code>setup_schema</code>, <code>load_db_data</code>, <code>insert</code> and <code>delete</code>.</li>
+</ul>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-001">SRS-001 Data modelling language</a>, <a href="SRS.html#SRS-002">SRS-002 Database paradigm</a>, <a href="SRS.html#SRS-003">SRS-003 Semantic search</a>, <a href="SRS.html#SRS-004">SRS-004 Extensibility of the data model</a>, <a href="SRS.html#SRS-005">SRS-005 NoSQL data model</a>, <a href="SRS.html#SRS-006">SRS-006 Integration of common CTI</a>, <a href="SRS.html#SRS-007">SRS-007 Semantic data integrity</a>, <a href="SRS.html#SRS-008">SRS-008 ETL orchestrator</a>, <a href="SRS.html#SRS-009">SRS-009 ETL Transformer</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a>, <a href="SRS.html#SRS-011">SRS-011 Ingestion of internal and external CTI</a>, <a href="SRS.html#SRS-012">SRS-012 Inference rules</a>, <a href="SRS.html#SRS-013">SRS-013 STIX 2.1 data model</a>, <a href="SRS.html#SRS-014">SRS-014 Native reasoning engine</a>, <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a>, <a href="SRS.html#SRS-017">SRS-017 Integration of behavioral data</a>, <a href="SRS.html#SRS-018">SRS-018 IDPS-ESCAPE ingestion policy</a>, <a href="SRS.html#SRS-019">SRS-019 CTI export to STIX</a>, <a href="SRS.html#SRS-020">SRS-020 System configuration file</a>, <a href="SRS.html#SRS-023">SRS-023 CTI representation in STIX 2.1</a>, <a href="SRS.html#SRS-024">SRS-024 Design and implementation principles</a>, <a href="SRS.html#SRS-028">SRS-028 Input validation</a>, <a href="SRS.html#SRS-029">SRS-029 Input sanitization</a></p>
+<p><em>Child links:</em> <a href="SWD.html#SWD-001">SWD-001 Top-level ETL design</a>, <a href="SWD.html#SWD-002">SWD-002 STIX-specific ETL design</a>, <a href="SWD.html#SWD-003">SWD-003 ETL system flow</a>, <a href="SWD.html#SWD-004">SWD-004 TypeDB utilities</a>, <a href="SWD.html#SWD-005">SWD-005 Transformer class diagram</a>, <a href="SWD.html#SWD-006">SWD-006 Transformer flow</a>, <a href="SWD.html#SWD-007">SWD-007 ETL full class diagram</a></p>
+      </div>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="assets/doorstop/jquery.min.js"></script>
+<script src="assets/doorstop/bootstrap.min.js"></script>
+<script>
+    $(function() {
+        $("table").addClass("table");
+        $("nav ul").addClass("nav nav-stacked");
+        $("nav").affix();
+        $('body').scrollspy({
+          target: '.sidebar'
+        });
+        $("#main a").attr("target", "parent");
+
+  $(window).on('hashchange', function() {
+    $(window).scrollTop($(location.hash.toLowerCase()).offset().top);});
+  });
+</script>
+</body>
+</html>
+

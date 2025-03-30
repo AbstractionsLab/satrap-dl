@@ -1,0 +1,14 @@
+{
+    "type": "bundle",
+    "id": "bundle--1f126d0c-356c-43af-88f8-7a3b695dee83",
+    "spec_version": "2.1",
+    "objects": [		
+		{
+			"id": "attack-pattern--0042a9f5-f053-4769-b3ef-9ad018dfa298",
+			"type": "attack-pattern",
+			"modified": "2022-04-25T14:00:00.188Z",
+			"name": "Extra Window Memory Injection",
+			"spec_version": "2.1"
+		}
+	]
+}

@@ -1,0 +1,19 @@
+# Execution configuration parameters
+
+typedb:
+  # name of the typedb container in satrap-net
+  host: "typedb"
+  port: "1729"
+  db_name: "satrap-skb-alpha"
+
+log:
+  # dev, testing, prod (see user manual)
+  env: "prod"
+
+etl:
+  # url of a stix2.1 datasource. E.g., MITRE ATT&CK ICS
+  # extract_src: "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/ics-attack/ics-attack.json"
+
+tl:
+  # local path of a stix2.1 file
+  # transform_src: ""

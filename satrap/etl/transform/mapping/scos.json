@@ -1,0 +1,1188 @@
+{
+	"artifact": {
+		"typedb-thing-type": "artifact",
+        "subtypes": {},
+		"attributes": {
+			"mime_type": {
+                "stix_value_type": "string",
+                "typedb_name": "mime-type",
+                "typedb_value_type": "string"
+            },
+            "payload_bin": {
+                "stix_value_type": "binary",
+                "typedb_name": "payload-bin",
+                "typedb_value_type": "string"
+            },
+            "url": {
+                "stix_value_type": "string",
+                "typedb_name": "url-value",
+                "typedb_value_type": "string"
+            },
+            "hashes": {
+                "stix_value_type": "hashes",
+                "typedb_name": "hashes",
+                "typedb_value_type": "key-value:hashes"
+            },
+            "encryption_algorithm": {
+                "stix_value_type": "enum",
+                "typedb_name": "encryption-algorithm",
+                "typedb_value_type": "string"
+            },
+            "decryption_key": {
+                "stix_value_type": "string",
+                "typedb_name": "decryption-key",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	},
+	"autonomous-system": {
+		"typedb-thing-type": "autonomous-system",
+        "subtypes": {},
+		"attributes": {
+			"number": {
+                "stix_value_type": "integer",
+                "typedb_name": "number",
+                "typedb_value_type": "long"
+            },
+            "name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "rir": {
+                "stix_value_type": "string",
+                "typedb_name": "rir",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	},
+	"directory": {
+		"typedb-thing-type": "directory",
+        "subtypes": {},
+		"attributes": {
+			"path": {
+                "stix_value_type": "string",
+                "typedb_name": "path",
+                "typedb_value_type": "string"
+            },
+            "path_enc": {
+                "stix_value_type": "string",
+                "typedb_name": "path-enc",
+                "typedb_value_type": "string"
+            },
+            "ctime": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "ctime",
+                "typedb_value_type": "datetime"
+            },
+            "mtime": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "mtime",
+                "typedb_value_type": "datetime"
+            },
+            "atime": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "atime",
+                "typedb_value_type": "datetime"
+            },
+            "contains_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "container::content",
+                "typedb_value_type": "list:relation:contains-refs"
+            }
+		},
+		"extensions": {}
+	},
+	"domain-name": {
+		"typedb-thing-type": "domain-name",
+        "subtypes": {},
+		"attributes": {
+			"value": {
+                "stix_value_type": "string",
+                "typedb_name": "dn-value",
+                "typedb_value_type": "string"
+            },
+            "resolves_to_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "domain-name::ip-dn",
+                "typedb_value_type": "list:relation:dns-resolves-to"
+            }
+		},
+		"extensions": {}
+	},
+	"email-addr": {
+		"typedb-thing-type": "email-addr",
+        "subtypes": {},
+		"attributes": {
+			"value": {
+                "stix_value_type": "string",
+                "typedb_name": "ea-value",
+                "typedb_value_type": "string"
+            },
+            "display_name": {
+                "stix_value_type": "string",
+                "typedb_name": "display-name",
+                "typedb_value_type": "string"
+            },
+            "belongs_to_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "address::account",
+                "typedb_value_type": "relation:email-addr-belongs-to"
+            }
+		},
+		"extensions": {}
+	},
+	"email-message": {
+		"typedb-thing-type": "email-message",
+        "subtypes": {},
+		"attributes": {
+			"is_multipart": {
+                "stix_value_type": "boolean",
+                "typedb_name": "is-multipart",
+                "typedb_value_type": "boolean"
+            },
+            "date": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "date",
+                "typedb_value_type": "datetime"
+            },
+            "content_type": {
+                "stix_value_type": "string",
+                "typedb_name": "content-type",
+                "typedb_value_type": "string"
+            },
+            "from_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "email-message::from",
+                "typedb_value_type": "relation:email-sending"
+            },
+            "sender_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "email-message::sender",
+                "typedb_value_type": "relation:email-sending"
+            },
+            "to_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "email-message::to",
+                "typedb_value_type": "list:relation:email-sending"
+            },
+            "cc_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "email-message::cc",
+                "typedb_value_type": "list:relation:email-sending"
+            },
+            "bcc_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "email-message::bcc",
+                "typedb_value_type": "list:relation:email-sending"
+            },
+            "message_id": {
+                "stix_value_type": "string",
+                "typedb_name": "message-id",
+                "typedb_value_type": "string"
+            },
+            "subject": {
+                "stix_value_type": "string",
+                "typedb_name": "subject",
+                "typedb_value_type": "string"
+            },
+            "received_lines": {
+                "stix_value_type": "list:string",
+                "typedb_name": "received-lines",
+                "typedb_value_type": "list:string"
+            },
+            "additional_header_fields": {
+                "stix_value_type": "dictionary",
+                "typedb_name": "additional_header_fields",
+                "typedb_value_type": "dictionary"
+            },
+            "body": {
+                "stix_value_type": "string",
+                "typedb_name": "body",
+                "typedb_value_type": "string"
+            },
+            "body_multipart": {
+                "stix_value_type": "list:mime-part-type",
+                "typedb_name": "body_multipart",
+                "typedb_value_type": "list:composite:email-mime-part-type"
+            },
+            "raw_email_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "email-message::raw-email",
+                "typedb_value_type": "relation:email-sending"
+            }
+		},
+		"extensions": {}
+	},
+	"file": {
+		"typedb-thing-type": "file",
+        "subtypes": {},
+		"attributes": {
+			"hashes": {
+                "stix_value_type": "hashes",
+                "typedb_name": "hashes",
+                "typedb_value_type": "key-value:hashes"
+            },
+            "size": {
+                "stix_value_type": "integer",
+                "typedb_name": "size",
+                "typedb_value_type": "long"
+            },
+            "name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "name_enc": {
+                "stix_value_type": "string",
+                "typedb_name": "name-enc",
+                "typedb_value_type": "string"
+            },
+            "magic_number_hex": {
+                "stix_value_type": "hex",
+                "typedb_name": "magic-number-hex",
+                "typedb_value_type": "string"
+            },
+            "mime_type": {
+                "stix_value_type": "string",
+                "typedb_name": "mime-type",
+                "typedb_value_type": "string"
+            },
+            "ctime": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "ctime",
+                "typedb_value_type": "datetime"
+            },
+            "mtime": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "mtime",
+                "typedb_value_type": "datetime"
+            },
+            "atime": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "atime",
+                "typedb_value_type": "datetime"
+            },
+            "parent_directory_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "file::parent-directory",
+                "typedb_value_type": "relation:file-references"
+            },
+            "contains_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "file::contained-sco",
+                "typedb_value_type": "relation:file-references"
+            },
+            "content_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "file::content",
+                "typedb_value_type": "relation:file-references"
+            }
+		},
+		"extensions": {
+            "archive-ext": {
+                "typedb-thing-type": "archive-ext",
+                "attributes": {
+                    "contains_refs": {
+                        "stix_value_type": "list:identifier",
+                        "typedb_name": "container::content",
+                        "typedb_value_type": "list:relation:contains-refs"
+                    },
+                    "comment": {
+                        "stix_value_type": "string",
+                        "typedb_name": "comment",
+                        "typedb_value_type": "string"
+                    }
+                }
+            },
+            "ntfs-ext": {
+                "typedb-thing-type": "ntfs-ext",
+                "attributes": {
+                    "sid": {
+                        "stix_value_type": "string",
+                        "typedb_name": "sid",
+                        "typedb_value_type": "string"
+                    },
+                    "alternate_data_streams": {
+                        "stix_value_type": "list:alternate-data-stream-type",
+                        "typedb_name": "alternate_data_streams",
+                        "typedb_value_type": "list:composite:alternate-data-stream-type"
+                    }
+                }
+            },
+            "pdf-ext": {
+                "typedb-thing-type": "pdf-ext",
+                "attributes": {
+                    "version": {
+                        "stix_value_type": "string",
+                        "typedb_name": "version",
+                        "typedb_value_type": "string"
+                    },
+                    "is_optimized": {
+                        "stix_value_type": "boolean",
+                        "typedb_name": "is-optimized",
+                        "typedb_value_type": "boolean"
+                    },
+                    "document_info_dict": {
+                        "stix_value_type": "dictionary",
+                        "typedb_name": "document-info-dict",
+                        "typedb_value_type": "dictionary"
+                    },
+                    "pdfid0": {
+                        "stix_value_type": "string",
+                        "typedb_name": "pdfid0",
+                        "typedb_value_type": "string"
+                    },
+                    "pdfid1": {
+                        "stix_value_type": "string",
+                        "typedb_name": "pdfid1",
+                        "typedb_value_type": "string"
+                    }
+                }
+            },
+            "raster-image-ext": {
+                "typedb-thing-type": "raster-image-ext",
+                "attributes": {
+                    "image_height": {
+                        "stix_value_type": "long",
+                        "typedb_name": "image-height",
+                        "typedb_value_type": "long"
+                    },
+                    "image_width": {
+                        "stix_value_type": "integer",
+                        "typedb_name": "image-width",
+                        "typedb_value_type": "long"
+                    },
+                    "bits_per_pixel": {
+                        "stix_value_type": "integer",
+                        "typedb_name": "bits-per-pixel",
+                        "typedb_value_type": "long"
+                    },
+                    "exif_tags": {
+                        "stix_value_type": "dictionary",
+                        "typedb_name": "exif-tags",
+                        "typedb_value_type": "dictionary"
+                    }
+                }
+            },
+            "windows-pebinary-ext": {
+                "typedb-thing-type": "windows-pebinary-ext",
+                "attributes": {
+                    "pe_type": {
+                        "stix_value_type": "open-vocab",
+                        "typedb_name": "pe-type",
+                        "typedb_value_type": "string"
+                    },
+                    "imphash": {
+                        "stix_value_type": "string",
+                        "typedb_name": "imphash",
+                        "typedb_value_type": "string"
+                    },
+                    "machine_hex": {
+                        "stix_value_type": "hex",
+                        "typedb_name": "machine-hex",
+                        "typedb_value_type": "string"
+                    },
+                    "number_of_sections": {
+                        "stix_value_type": "integer",
+                        "typedb_name": "number-of-sections",
+                        "typedb_value_type": "long"
+                    },
+                    "time_date_stamp": {
+                        "stix_value_type": "timestamp",
+                        "typedb_name": "time-date-stamp",
+                        "typedb_value_type": "datetime"
+                    },
+                    "pointer_to_symbol_table_hex": {
+                        "stix_value_type": "hex",
+                        "typedb_name": "pointer-to-symbol-table-hex",
+                        "typedb_value_type": "string"
+                    },
+                    "number_of_symbols": {
+                        "stix_value_type": "integer",
+                        "typedb_name": "number-of-symbols",
+                        "typedb_value_type": "long"
+                    },
+                    "size_of_optional_header": {
+                        "stix_value_type": "integer",
+                        "typedb_name": "size-of-optional-header",
+                        "typedb_value_type": "long"
+                    }, 
+                    "characteristics_hex": {
+                        "stix_value_type": "hex",
+                        "typedb_name": "characteristics-hex",
+                        "typedb_value_type": "string"
+                    },
+                    "file_header_hashes": {
+                        "stix_value_type": "hashes",
+                        "typedb_name": "file-header-hash",
+                        "typedb_value_type": "key-value:hashes"
+                    },
+                    "optional_header": {
+                        "stix_value_type": "windows-pe-optional-header-type",
+                        "typedb_name": "optional-header",
+                        "typedb_value_type": "composite:windows-pe-optional-header-type"
+                    },
+                    "sections": {
+                        "stix_value_type": "list:windows-pe-section-type",
+                        "typedb_name": "sections-metadata",
+                        "typedb_value_type": "list:composite:windows-pe-section-type"
+                    }
+                }
+            }
+        }
+	},
+	"ipv4-addr": {
+		"typedb-thing-type": "ipv4-addr",
+        "subtypes": {},
+		"attributes": {
+			"value": {
+                "stix_value_type": "string",
+                "typedb_name": "ip-value",
+                "typedb_value_type": "string"
+            },
+            "resolves_to_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "ip::mac",
+                "typedb_value_type": "list:relation:ip-resolves-to"
+            },
+            "belongs_to_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "ip::autonomous-sys",
+                "typedb_value_type": "list:relation:ip-belongs-to"
+            }
+		},
+		"extensions": {}
+	},
+	"ipv6-addr": {
+		"typedb-thing-type": "ipv6-addr",
+        "subtypes": {},
+		"attributes": {
+			"value": {
+                "stix_value_type": "string",
+                "typedb_name": "ip-value",
+                "typedb_value_type": "string"
+            },
+            "resolves_to_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "ip::mac",
+                "typedb_value_type": "list:relation:ip-resolves-to"
+            },
+            "belongs_to_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "ip::autonomous-sys",
+                "typedb_value_type": "list:relation:ip-belongs-to"
+            }
+		},
+		"extensions": {}
+	},
+	"mac-addr": {
+		"typedb-thing-type": "mac-addr",
+        "subtypes": {},
+		"attributes": {
+			"value": {
+                "stix_value_type": "string",
+                "typedb_name": "mac-value",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	},
+	"mutex": {
+		"typedb-thing-type": "mutex",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	},
+	"network-traffic": {
+		"typedb-thing-type": "network-traffic",
+        "subtypes": {},
+		"attributes": {
+			"start": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "start",
+                "typedb_value_type": "datetime"
+            },
+            "end": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "end",
+                "typedb_value_type": "datetime"
+            },
+            "is_active": {
+                "stix_value_type": "boolean",
+                "typedb_name": "is-active",
+                "typedb_value_type": "boolean"
+            },
+            "src_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "traffic::source",
+                "typedb_value_type": "relation:network-traffic-src"
+            },
+            "dst_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "traffic::destination",
+                "typedb_value_type": "relation:network-traffic-dst"
+            },
+            "src_port": {
+                "stix_value_type": "integer",
+                "typedb_name": "src-port",
+                "typedb_value_type": "empty"
+            },
+            "dst_port": {
+                "stix_value_type": "integer",
+                "typedb_name": "dst-port",
+                "typedb_value_type": "empty"
+            },
+            "protocols": {
+                "stix_value_type": "list:string",
+                "typedb_name": "protocol",
+                "typedb_value_type": "list:string"
+            },
+            "src_byte_count": {
+                "stix_value_type": "integer",
+                "typedb_name": "src_byte_count",
+                "typedb_value_type": "empty"
+            },
+            "dst_byte_count": {
+                "stix_value_type": "integer",
+                "typedb_name": "dst_byte_count",
+                "typedb_value_type": "empty"
+            },
+            "src_packets": {
+                "stix_value_type": "integer",
+                "typedb_name": "src_packets",
+                "typedb_value_type": "empty"
+            },
+            "dst_packets": {
+                "stix_value_type": "integer",
+                "typedb_name": "dst_packets",
+                "typedb_value_type": "empty"
+            },
+            "ipfix": {
+                "stix_value_type": "dictionary",
+                "typedb_name": "ipfix",
+                "typedb_value_type": "dictionary"
+            },
+            "src_payload_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "src_payload_ref",
+                "typedb_value_type": "empty"
+            },
+            "dst_payload_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "dst_payload_ref",
+                "typedb_value_type": "empty"
+            },
+            "encapsulates_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "encapsulating::encapsulated",
+                "typedb_value_type": "list:relation:encapsulation"
+            },
+            "encapsulated_by_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "encapsulated::encapsulating",
+                "typedb_value_type": "list:relation:encapsulation"
+            }
+		},
+		"extensions": {
+            "http-request-ext": {
+                "typedb-thing-type": "http-request-ext",
+                "attributes": {
+                    "request_method": {
+                        "stix_value_type": "string",
+                        "typedb_name": "request-method",
+                        "typedb_value_type": "string"
+                    },
+                    "request_value": {
+                        "stix_value_type": "string",
+                        "typedb_name": "request-value",
+                        "typedb_value_type": "string"
+                    },
+                    "request_version": {
+                        "stix_value_type": "string",
+                        "typedb_name": "request-version",
+                        "typedb_value_type": "string"
+                    },
+                    "request_header": {
+                        "stix_value_type": "dictionary",
+                        "typedb_name": "request-header",
+                        "typedb_value_type": "dictionary"
+                    },
+                    "message_body_length": {
+                        "stix_value_type": "integer",
+                        "typedb_name": "message-body-length",
+                        "typedb_value_type": "long"
+                    },
+                    "message_body_data_ref": {
+                        "stix_value_type": "identifier",
+                        "typedb_name": "http-request::contained-data",
+                        "typedb_value_type": "relation:message-body-data-ref"
+                    }
+                }
+            },
+            "icmp-ext": {
+                "typedb-thing-type": "icmp-ext",
+                "attributes": {
+                    "icmp_type_hex": {
+                        "stix_value_type": "hex",
+                        "typedb_name": "icmp-type-hex",
+                        "typedb_value_type": "string"
+                    },
+                    "icmp_code_hex": {
+                        "stix_value_type": "hex",
+                        "typedb_name": "icmp-code-hex",
+                        "typedb_value_type": "string"
+                    }
+                }
+            },
+            "socket-ext": {
+                "typedb-thing-type": "socket-ext",
+                "attributes": {
+                    "address_family": {
+                        "stix_value_type": "enum",
+                        "typedb_name": "address-family",
+                        "typedb_value_type": "string"
+                    },
+                    "is_blocking": {
+                        "stix_value_type": "boolean",
+                        "typedb_name": "is-blocking",
+                        "typedb_value_type": "boolean"
+                    },
+                    "is_listening": {
+                        "stix_value_type": "boolean",
+                        "typedb_name": "is-listening",
+                        "typedb_value_type": "boolean"
+                    },
+                    "options": {
+                        "stix_value_type": "dictionary",
+                        "typedb_name": "options",
+                        "typedb_value_type": "dictionary"
+                    },
+                    "socket_type": {
+                        "stix_value_type": "enum",
+                        "typedb_name": "socket-type",
+                        "typedb_value_type": "string"
+                    },
+                    "socket_descriptor": {
+                        "stix_value_type": "integer",
+                        "typedb_name": "socket-descriptor",
+                        "typedb_value_type": "long"
+                    },
+                    "socket_handle": {
+                        "stix_value_type": "integer",
+                        "typedb_name": "socket-handle",
+                        "typedb_value_type": "long"
+                    }
+                }
+            },
+            "tcp-ext": {
+                "typedb-thing-type": "tcp-ext",
+                "attributes": {
+                    "src_flags_hex": {
+                        "stix_value_type": "hex",
+                        "typedb_name": "src-flags-hex",
+                        "typedb_value_type": "string"
+                    },
+                    "dst_flags_hex": {
+                        "stix_value_type": "hex",
+                        "typedb_name": "dst-flags-hex",
+                        "typedb_value_type": "string"
+                    }
+                }
+            }
+        }
+	},
+	"process": {
+		"typedb-thing-type": "process",
+        "subtypes": {},
+		"attributes": {
+			"is_hidden": {
+                "stix_value_type": "boolean",
+                "typedb_name": "is-hidden",
+                "typedb_value_type": "boolean"
+            },
+            "pid": {
+                "stix_value_type": "integer",
+                "typedb_name": "pid",
+                "typedb_value_type": "long"
+            },
+            "created_time": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "created-time",
+                "typedb_value_type": "datetime"
+            },
+            "cwd": {
+                "stix_value_type": "string",
+                "typedb_name": "cwd",
+                "typedb_value_type": "string"
+            },
+            "command_line": {
+                "stix_value_type": "string",
+                "typedb_name": "command-line",
+                "typedb_value_type": "string"
+            },
+            "environment_variables": {
+                "stix_value_type": "dictionary",
+                "typedb_name": "environment-variables",
+                "typedb_value_type": "dictionary"
+            },
+            "opened_connection_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "process::opened-connection",
+                "typedb_value_type": "list:relation:process-refs"
+            },
+            "creator_user_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "process::creator-acc",
+                "typedb_value_type": "relation:process-creator-user-ref"
+            },
+            "image_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "process::image",
+                "typedb_value_type": "relation:process-refs"
+            },
+            "parent_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "child::parent",
+                "typedb_value_type": "relation:process-hierarchy"
+            },
+            "child_refs": {
+                "stix_value_type": "list:identifier",
+                "typedb_name": "parent::child",
+                "typedb_value_type": "list:relation:process-hierarchy"
+            }
+		},
+		"extensions": {
+            "windows-process-ext": {
+                "typedb-thing-type": "windows-process-ext",
+                "attributes": {
+                    "aslr_enabled": {
+                        "stix_value_type": "boolean",
+                        "typedb_name": "aslr-enabled",
+                        "typedb_value_type": "boolean"
+                    },
+                    "dep_enabled": {
+                        "stix_value_type": "boolean",
+                        "typedb_name": "dep-enabled",
+                        "typedb_value_type": "boolean"
+                    }, 
+                    "priority": {
+                        "stix_value_type": "string",
+                        "typedb_name": "priority",
+                        "typedb_value_type": "string"
+                    },
+                    "owner_sid": {
+                        "stix_value_type": "string",
+                        "typedb_name": "owner-sid",
+                        "typedb_value_type": "string"
+                    },
+                    "window_title": {
+                        "stix_value_type": "string",
+                        "typedb_name": "window-title",
+                        "typedb_value_type": "string"
+                    },
+                    "startup_info": {
+                        "stix_value_type": "dictionary",
+                        "typedb_name": "startup-info",
+                        "typedb_value_type": "dictionary"
+                    },
+                    "integrity_level": {
+                        "stix_value_type": "enum",
+                        "typedb_name": "integrity-level",
+                        "typedb_value_type": "string"
+                    }
+                }
+            },
+            "windows-service-ext": {
+                "typedb-thing-type": "windows-service-ext",
+                "attributes": {
+                    "service_name": {
+                        "stix_value_type": "string",
+                        "typedb_name": "service-name",
+                        "typedb_value_type": "string"
+                    },
+                    "descriptions": {
+                        "stix_value_type": "list:string",
+                        "typedb_name": "description",
+                        "typedb_value_type": "list:string"
+                    },
+                    "display_name": {
+                        "stix_value_type": "string",
+                        "typedb_name": "display-name",
+                        "typedb_value_type": "string"
+                    },
+                    "group_name": {
+                        "stix_value_type": "string",
+                        "typedb_name": "group-name",
+                        "typedb_value_type": "string"
+                    },
+                    "start_type": {
+                        "stix_value_type": "enum",
+                        "typedb_name": "start-type",
+                        "typedb_value_type": "string"
+                    },
+                    "service_dll_refs": {
+                        "stix_value_type": "list:identifier",
+                        "typedb_name": "loading-process::dll",
+                        "typedb_value_type": "list:relation:service-dll"
+                    },
+                    "service_type": {
+                        "stix_value_type": "enum",
+                        "typedb_name": "service-type",
+                        "typedb_value_type": "string"
+                    },
+                    "service_status": {
+                        "stix_value_type": "enum",
+                        "typedb_name": "service-status",
+                        "typedb_value_type": "string"
+                    }
+                }
+            }
+        }
+	},
+	"software": {
+		"typedb-thing-type": "software",
+        "subtypes": {},
+		"attributes": {
+			"name": {
+                "stix_value_type": "string",
+                "typedb_name": "name",
+                "typedb_value_type": "string"
+            },
+            "cpe": {
+                "stix_value_type": "string",
+                "typedb_name": "cpe",
+                "typedb_value_type": "string"
+            },
+			"swid": {
+				"stix_value_type": "string",
+				"typedb_name": "swid",
+				"typedb_value_type": "string"
+			},
+            "languages": {
+                "stix_value_type": "list:string",
+                "typedb_name": "language",
+                "typedb_value_type": "list:string"
+            },
+            "vendor": {
+                "stix_value_type": "string",
+                "typedb_name": "vendor",
+                "typedb_value_type": "string"
+            },
+            "version": {
+                "stix_value_type": "string",
+                "typedb_name": "version",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	},
+	"url": {
+		"typedb-thing-type": "url",
+        "subtypes": {},
+		"attributes": {
+			"value": {
+                "stix_value_type": "string",
+                "typedb_name": "url-value",
+                "typedb_value_type": "string"
+            }
+		},
+		"extensions": {}
+	},
+	"user-account": {
+		"typedb-thing-type": "user-account",
+        "subtypes": {},
+		"attributes": {
+			"user_id": {
+                "stix_value_type": "string",
+                "typedb_name": "user-id",
+                "typedb_value_type": "string"
+            },
+            "credential": {
+                "stix_value_type": "string",
+                "typedb_name": "credential",
+                "typedb_value_type": "string"
+            },
+            "account_login": {
+                "stix_value_type": "string",
+                "typedb_name": "account-login",
+                "typedb_value_type": "string"
+            },
+            "account_type": {
+                "stix_value_type": "open-vocab",
+                "typedb_name": "account-type",
+                "typedb_value_type": "string"
+            },
+            "display_name": {
+                "stix_value_type": "string",
+                "typedb_name": "display-name",
+                "typedb_value_type": "string"
+            },
+            "is_service_account": {
+                "stix_value_type": "boolean",
+                "typedb_name": "is-service-account",
+                "typedb_value_type": "boolean"
+            },
+            "is_privileged": {
+                "stix_value_type": "boolean",
+                "typedb_name": "is-privileged",
+                "typedb_value_type": "boolean"
+            },
+            "can_escalate_privs": {
+                "stix_value_type": "boolean",
+                "typedb_name": "can-escalate-privs",
+                "typedb_value_type": "boolean"
+            },
+            "is_disabled": {
+                "stix_value_type": "boolean",
+                "typedb_name": "is-disabled",
+                "typedb_value_type": "boolean"
+            },
+            "account_created": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "account-created",
+                "typedb_value_type": "datetime"
+            },
+            "account_expires": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "account-expires",
+                "typedb_value_type": "datetime"
+            },
+            "credential_last_changed": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "credential-last-changed",
+                "typedb_value_type": "datetime"
+            },
+            "account_first_login": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "account-first-login",
+                "typedb_value_type": "datetime"
+            },
+            "account_last_login": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "account-last-login",
+                "typedb_value_type": "datetime"
+            }
+		},
+		"extensions": {
+            "unix-account-ext": {
+                "typedb-thing-type": "unix-account-ext",
+                "attributes": {
+                    "gid": {
+                        "stix_value_type": "integer",
+                        "typedb_name": "gid",
+                        "typedb_value_type": "long"
+                    }, 
+                    "groups": {
+                        "stix_value_type": "list:string",
+                        "typedb_name": "unix-group",
+                        "typedb_value_type": "list:string"
+                    },
+                    "home_dir": {
+                        "stix_value_type": "string",
+                        "typedb_name": "home-dir",
+                        "typedb_value_type": "string"
+                    },
+                    "shell": {
+                        "stix_value_type": "string",
+                        "typedb_name": "shell",
+                        "typedb_value_type": "string"
+                    }
+                }
+            }
+        }
+	},
+	"windows-registry-key": {
+		"typedb-thing-type": "windows-registry-key",
+        "subtypes": {},
+		"attributes": {
+			"key": {
+                "stix_value_type": "string",
+                "typedb_name": "registry-key",
+                "typedb_value_type": "string"
+            },
+            "values": {
+                "stix_value_type": "list:windows-registry-value-type",
+                "typedb_name": "values",
+                "typedb_value_type": "list:composite:windows-registry-value-type"
+            },
+            "modified_time": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "modified-time",
+                "typedb_value_type": "datetime"
+            },
+            "creator_user_ref": {
+                "stix_value_type": "identifier",
+                "typedb_name": "registry-key::creator-acc",
+                "typedb_value_type": "relation:win-reg-creator-user-ref"
+            },
+            "number_of_subkeys": {
+                "stix_value_type": "integer",
+                "typedb_name": "number-of-subkeys",
+                "typedb_value_type": "long"
+            }
+		},
+		"extensions": {}
+	},
+	"x509-certificate": {
+		"typedb-thing-type": "x509-certificate",
+        "subtypes": {},
+		"attributes": {
+			"is_self_signed": {
+                "stix_value_type": "boolean",
+                "typedb_name": "is-self-signed",
+                "typedb_value_type": "boolean"
+            },
+            "hashes": {
+                "stix_value_type": "hashes",
+                "typedb_name": "hashes",
+                "typedb_value_type": "key-value:hashes"
+            },
+            "version": {
+                "stix_value_type": "string",
+                "typedb_name": "version",
+                "typedb_value_type": "string"
+            },
+            "serial_number": {
+                "stix_value_type": "string",
+                "typedb_name": "serial-number",
+                "typedb_value_type": "string"
+            },
+            "signature_algorithm": {
+                "stix_value_type": "string",
+                "typedb_name": "signature-algorithm",
+                "typedb_value_type": "string"
+            },
+            "issuer": {
+                "stix_value_type": "string",
+                "typedb_name": "issuer",
+                "typedb_value_type": "string"
+            },
+            "validity_not_before": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "validity-not-before",
+                "typedb_value_type": "datetime"
+            },
+            "validity_not_after": {
+                "stix_value_type": "timestamp",
+                "typedb_name": "validity-not-after",
+                "typedb_value_type": "datetime"
+            },
+            "subject": {
+                "stix_value_type": "string",
+                "typedb_name": "subject",
+                "typedb_value_type": "string"
+            },
+            "subject_public_key_algorithm": {
+                "stix_value_type": "string",
+                "typedb_name": "subject-public-key-algorithm",
+                "typedb_value_type": "string"
+            },
+            "subject_public_key_modulus": {
+                "stix_value_type": "string",
+                "typedb_name": "subject-public-key-modulus",
+                "typedb_value_type": "string"
+            },
+            "subject_public_key_exponent": {
+                "stix_value_type": "integer",
+                "typedb_name": "subject-public-key-exponent",
+                "typedb_value_type": "long"
+            }
+		},
+		"extensions": {
+            "x509_v3_extensions": {
+                "typedb-thing-type": "x509-v3-extensions",
+                "attributes": {
+                    "basic_constraints": {
+                        "stix_value_type": "string",
+                        "typedb_name": "basic-constraints",
+                        "typedb_value_type": "string"
+                    },
+                    "name_constraints": {
+                        "stix_value_type": "string",
+                        "typedb_name": "name-constraints",
+                        "typedb_value_type": "string"
+                    },
+                    "policy_constraints": {
+                        "stix_value_type": "string",
+                        "typedb_name": "policy-constraints",
+                        "typedb_value_type": "string"
+                    },
+                    "key_usage": {
+                        "stix_value_type": "string",
+                        "typedb_name": "key-usage",
+                        "typedb_value_type": "string"
+                    },
+                    "extended_key_usage": {
+                        "stix_value_type": "string",
+                        "typedb_name": "extended-key-usage",
+                        "typedb_value_type": "string"
+                    },
+                    "subject_key_identifier": {
+                        "stix_value_type": "string",
+                        "typedb_name": "subject-key-identifier",
+                        "typedb_value_type": "string"
+                    },
+                    "authority_key_identifier": {
+                        "stix_value_type": "string",
+                        "typedb_name": "authority-key-identifier",
+                        "typedb_value_type": "string"
+                    },
+                    "subject_alternative_name": {
+                        "stix_value_type": "string",
+                        "typedb_name": "subject-alternative-name",
+                        "typedb_value_type": "string"
+                    },
+                    "issuer_alternative_name": {
+                        "stix_value_type": "string",
+                        "typedb_name": "issuer-alternative-name",
+                        "typedb_value_type": "string"
+                    },
+                    "subject_directory_attributes": {
+                        "stix_value_type": "string",
+                        "typedb_name": "subject-directory-attributes",
+                        "typedb_value_type": "string"
+                    },
+                    "crl_distribution_points": {
+                        "stix_value_type": "string",
+                        "typedb_name": "crl-distribution-points",
+                        "typedb_value_type": "string"
+                    },
+                    "inhibit_any_policy": {
+                        "stix_value_type": "string",
+                        "typedb_name": "inhibit-any-policy",
+                        "typedb_value_type": "string"
+                    },
+                    "private_key_usage_period_not_before": {
+                        "stix_value_type": "timestamp",
+                        "typedb_name": "private-key-usage-period-not-before",
+                        "typedb_value_type": "datetime"
+                    },
+                    "private_key_usage_period_not_after": {
+                        "stix_value_type": "timestamp",
+                        "typedb_name": "private-key-usage-period-not-after",
+                        "typedb_value_type": "datetime"
+                    },
+                    "certificate_policies": {
+                        "stix_value_type": "string",
+                        "typedb_name": "certificate-policies",
+                        "typedb_value_type": "string"
+                    },
+                    "policy_mappings": {
+                        "stix_value_type": "string",
+                        "typedb_name": "policy-mappings",
+                        "typedb_value_type": "string"
+                    }
+                }
+            }
+        }
+	}
+}

@@ -1,0 +1,28 @@
+settings:
+  digits: 3
+  itemformat: yaml
+  parent: MRS
+  prefix: SRS
+  sep: '-'
+
+attributes:
+  defaults:
+    type: 'F'
+    rationale: ""
+    importance: "5"
+    urgency: "5"
+    release: "Alpha"
+
+  publish:
+    - release
+    - type
+    - importance
+    - urgency
+    - vm
+  
+  reviewed:
+    - type
+    - importance
+    - urgency
+    - vm
+    - release

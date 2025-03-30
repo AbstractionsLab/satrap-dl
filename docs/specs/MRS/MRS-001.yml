@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Semantic data model
+importance: 5
+level: 1
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: jE7m5ccAvPUly2SvvUMkK9Hj_tPt8HzS7xhhXnq0llQ=
+text: |
+  The data model of SATRAP-DL SHALL build upon knowledge representation formalisms that natively capture the semantics of information.
+
+  ### Rationale
+  Flexible storage and management of contextualized CTI and support for automated reasoning
+type: A
+urgency: 5
+vm: R

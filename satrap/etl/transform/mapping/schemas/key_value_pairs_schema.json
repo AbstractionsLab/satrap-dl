@@ -1,0 +1,67 @@
+{
+	"title": "Key Value Pairs",
+	"description": "How to translate key value pairs from STIX to TypeDB",
+	"type": "object",
+	"patternProperties": {
+		"^.+$": {
+			"description": "A key value pair type",
+			"type": "object",
+			"properties": {
+				"attribute_name": {
+					"description": "The name of the attribute for the value",
+					"type": "string"
+				},
+				"value_type": {
+					"description": "The value type for the values",
+					"type": "string"
+				},
+				"relation": {
+					"description": "The relation that connects items to the main object",
+					"type": "object",
+					"properties": {
+						"relation-name": {
+							"description": "The name of the relation",
+							"type": "string"
+						},
+						"item-role": {
+							"description": "The name of the role for the item",
+							"type": "string"
+						},
+						"object-role": {
+							"description": "The name of the role for the main object",
+							"type": "string"
+						}
+					},
+					"required": ["relation-name", "item-role", "object-role"],
+					"additionalProperties": false
+				},
+				"keys": {
+					"description": "Predefined keys",
+					"type": "object",
+					"patternProperties": {
+						"^.+$": {
+							"description": "The entity to use for this key",
+							"type": "string"
+						}
+					}
+				},
+				"custom": {
+					"description": "How to translate custom keys",
+					"type": "object",
+					"properties": {
+						"entity-name": {
+							"description": "The entity to use",
+							"type": "string"
+						},
+						"name-attribute": {
+							"description": "The attribute to use for the key",
+							"type": "string"
+						}
+					}
+				}
+			},
+			"required": ["attribute_name", "value_type", "relation", "keys", "custom"],
+			"additionalProperties": false
+		}
+	}
+}

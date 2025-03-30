@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Open-source releases
+importance: 5
+level: 45
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: sCx2rOthf3mDJvxHytQ6rsW6bXjB_S7oml0EOG80fNI=
+text: |
+  The source code, API specifications and technical documentation of SATRAP-DL SHALL be made available under open and permissive licenses to entities with legitimate interest in the cybersecurity dataspace.
+
+  ### Rationale
+  An open-source release allows contributions and usage by the community, which in turn foster adoption and exchange of feedback.
+type: Q
+urgency: 5
+vm: I

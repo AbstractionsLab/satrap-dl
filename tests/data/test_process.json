@@ -1,0 +1,48 @@
+
+{
+    "type": "bundle",
+    "id": "bundle--423cac6c-245f-4a75-808b-117a1d161893",
+    "spec_version": "2.1",
+    "objects": [
+        {
+            "type": "file",
+            "id": "file--fc497ad2-640c-4e94-876b-70d2e2b7af4a",
+            "spec_version": "2.1",
+            "name":  "an-image.jpg"
+        },
+        {
+            "type": "process",
+            "spec_version": "2.1",
+            "id": "process--ba8f56d2-9123-4f8e-9504-3a19c8a91b2e",
+            "command_line": "./gedit-bin --new-window",
+            "pid": 1221
+        },
+        {
+            "type": "process",
+            "spec_version": "2.1",
+            "id": "process--99ab297d-4c39-48ea-9d64-052d596864df",
+            "pid": 2217,
+            "command_line": "C:\\Windows\\System32\\sirvizio.exe /s",
+            "environment_variables": {
+                "path": "/usr/bin/"
+            },
+            "opened_connection_refs": "network-traffic--56429103-3131-4b74-8d40-a6c76815f85f",
+            "creator_user_ref": "user-account--0007698f-10c2-465a-a2a6-b4996a2f2265",
+            "image_ref": "file--fc497ad2-640c-4e94-876b-70d2e2b7af4a",
+            "parent_ref": "process--ba8f56d2-9123-4f8e-9504-3a19c8a91b2e",
+            "child_refs": [
+                "process--ba8f56d2-9123-4f8e-9504-3a19c8a91b2e"
+            ],
+            "extensions": {
+                "windows-service-ext": {
+                    "service_name": "sirvizio",
+                    "display_name": "Sirvizio",
+                    "start_type": "SERVICE_AUTO_START",
+                    "service_type": "SERVICE_WIN32_OWN_PROCESS",
+                    "service_status": "SERVICE_RUNNING",
+					"service_dll_refs": "file--fc497ad2-640c-4e94-876b-70d2e2b7af4a"
+                }
+            }
+        }
+    ]
+}

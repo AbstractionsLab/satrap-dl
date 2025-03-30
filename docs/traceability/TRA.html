@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html>
+<head><title>Doorstop</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="assets/doorstop/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/doorstop/general.css" />
+  <link type="text/css" rel="stylesheet" href="assets/doorstop/sidebar.css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+  });
+  </script>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-2 hidden-sm hidden-xs">
+          <nav id="TOC" class="nav nav-stacked fixed sidebar">
+              <h3>Table of Contents</h3>
+<ul>
+<li><a href="#TRA-001">1 TCER: modelling</a></li>
+<li><a href="#TRA-002">2 TCER: SW engineering</a></li>
+<li><a href="#TRA-003">3 TCER: STIX and reasoning</a></li>
+<li><a href="#TRA-004">4 TCER: data model</a></li>
+<li><a href="#TRA-005">5 TCER: centralized management</a></li>
+<li><a href="#TRA-006">6 TCER: code clarity</a></li>
+<li><a href="#TRA-007">7 TCER: secure programming</a></li>
+<li><a href="#TRA-008">8 TCER: MITRE ATT&amp;CK ingestion</a></li>
+<li><a href="#TRA-009">9 TCER: ETL architecture</a></li>
+<li><a href="#TRA-010">10 TCER: CTI SKB inference</a></li>
+<li><a href="#TRA-011">11 TCER: Jupyter Notebook frontend</a></li>
+<li><a href="#TRA-012">12 TCER: ETL logging</a></li>
+<li><a href="#TRA-013">13 TCER: CM settings</a></li>
+<li><a href="#TRA-014">14 TCER: SATRAP CLI</a></li>
+<li><a href="#TRA-015">15 TCER: Open-source TIP adoption</a></li>
+<li><a href="#TRA-016">16 TCER: release + licensing</a></li>
+</ul>
+          </nav>
+      </div>
+      <div class="col-lg-8" id="main">
+        <h1 id="TRA-001">1 TCER: modelling <small>TRA-001</small></h1>
+<p>This test case execution result (TCER) reports the outcome of verifying modelling artifacts.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify linked requirements</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The data model of SATRAP-DL uses a data modelling language based on type theory, namely TypeQL.</li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: SATRAP-DL relies on a database paradigm that allows for knowledge representation based on semantics and PERA model implemented by TypeDB.</li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: SATRAP-DL supports querying the CTI SKB based on semantic criteria.</li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The data model of the CTI SKB is extensible and allows for the integration of new information.</li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The data model of the CTI SKB SHALL relies on a type-theoretic polymorphic entity-relation-attribute (PERA) data model to allow for the addition of new entities and relationships without requiring a schema migration.</li>
+</ul>
+<p><strong>Test case step 2</strong>: Check for alignment between system concept and implemented system</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: alignment confirmed upon reviewing design artifacts and comparing these against the implementation.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<ul>
+<li>N/A</li>
+</ul>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<p><em>Parent links:</em> <a href="TST.html#TST-001">TST-001 TC: Verify data modelling artifacts</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-25</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>2</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-002">2 TCER: SW engineering <small>TRA-002</small></h1>
+<p>This test case execution result (TCER) reports the outcome of the verification of naming convention usage and adherence to the SOLID software engineering principles.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify consistent naming convention use</p>
+<ul>
+<li><span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>: based on a sample of the source files, most functions, classes and variables follow the PEP-8 naming convention consistently. Nevertheless, we did identify one problematic instance in the <code>log_utils.py</code> module, see the comments section below for more details.</li>
+</ul>
+<p><strong>Test case step 2</strong>: Verify adherence to SOLID</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: the 5 SOLID design principles are largely respected by the architectural modules.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>An insignificant defect was detected during test execution, i.e., thus assigning the overall highest defect category from the test step verdicts: <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span></p>
+<p>Please see the comments below for a few relevant observations.</p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>The function definition <code>testing(self, ...)</code> in <code>satrap/commons/log_utils.py</code>: a function at the module level has a <code>self</code> parameter in its signature, as opposed to being used in instance methods within class definitions to refer to the instance of the class; see linked file for exact reference.</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span>&gt;</li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<p><strong>SOLID</strong> principles: <strong>S</strong>ingle responsibility principle (SRP), <strong>O</strong>pen-closed principle (OCP), <strong>L</strong>iskov substitution principle (LSP), <strong>I</strong>nterface integration principle (ISP), <strong>D</strong>ependency inversion principle (DIP).</p>
+<blockquote>
+<p><code>satrap/commons/log_utils.py</code> (line 69)</p>
+</blockquote>
+<p><em>Parent links:</em> <a href="TST.html#TST-002">TST-002 TC: Verify software engineering</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-25</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>1 = insignificant defect</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>2</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-003">3 TCER: STIX and reasoning <small>TRA-003</small></h1>
+<p>This test case execution result (TCER) reports the outcome of STIX and reasoning engine usage verification.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify DBMS technology</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: SATRAP-DL uses a DBMS technology that comes with a reasoning engine as a key integral part, namely TypeDB.</li>
+</ul>
+<p><strong>Test case step 2</strong>: Verify use of STIX 2.1</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: SATRAP-DL uses STIX 2.1 as the default standard format for CTI representation.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<p><em>Parent links:</em> <a href="TST.html#TST-003">TST-003 TC: Verify STIX and reasoning engine</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-25</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>2</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>R,I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-004">4 TCER: data model <small>TRA-004</small></h1>
+<p>We analyze the SATRAP data model to verify adherence to that of STIX 2.1.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify data model alignment with STIX 2.1</p>
+<ul>
+<li><span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>: support for ingesting STIX 2.1 is implemented, providing a direct mapping of the imported data to equivalent concepts in the TypeDB database; however, custom and metadata objects are currently missing.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Assigned defect category: <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span></p>
+<p>STIX 2.1 is currently not complete (custom properties and meta objects currently not handled), but sufficient coverage is provided for the alpha release.</p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<p><em>Parent links:</em> <a href="TST.html#TST-004">TST-004 TC: Verify data model</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-25</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>1 = insignificant defect</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>1</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>A</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-005">5 TCER: centralized management <small>TRA-005</small></h1>
+<p>We report on our inspection to verify centralized management of system parameters customization via a dedicated configuration file, and of log storage, exception types and error messages.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p>SATRAP-DL enables customization of system parameters via a YAML file located at <code>satrap/assets/satrap_params.yml</code>, capturing logging mode, TypeDB database parameters (host, port, db name) and ETL default source files/paths.</p>
+<p><strong>Test case step 1</strong>: Verify centralized system parameterization</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The user-controlled YAML file <code>satrap_params.yml</code> captures logging mode.</li>
+</ul>
+<p><strong>Test case step 2</strong>: Verify centralized parameterization for database connections</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The user-controlled YAML file <code>satrap_params.yml</code> captures TypeDB database parameters (host, port, db name)</li>
+</ul>
+<p><strong>Test case step 3</strong>: Verify centralized parameterization file for managing file paths</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The <code>settings.py</code> encapsulates paths to various resources used throughout the code.</li>
+</ul>
+<p><strong>Test case step 4</strong>: Verify designated logs storage location</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: SATRAP-DL stores its logs under <code>satrap/assets/logs</code>, with log files organized under subfolders named by date, which in turn contain timestamped logs files capturing the name of the log producing module.</li>
+</ul>
+<p><strong>Test case step 5</strong>: Verify centralized exception definitions</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: Exceptions are defined in a centralized manner and stored in <code>satrap/commons/exceptions.py</code>.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<blockquote>
+<p><code>satrap/assets/satrap_params.yml</code> (line 3)
+<code>satrap/settings.py</code>
+<code>satrap/commons/exceptions.py</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="TST.html#TST-005">TST-005 TC: Verify centralized management</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-26</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>5</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-006">6 TCER: code clarity <small>TRA-006</small></h1>
+<p>We report on our code inspections to validate the logging feature of the ETL subsystem.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify source code clarity according to the C5-DEC method and guidelines</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The majority of the SATRAP-DL code base exhibits a high degree of consistency in terms of understandability, readability and being well-documented.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<p><em>Parent links:</em> <a href="TST.html#TST-006">TST-006 TC: Verify code clarity</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-26</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>1</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-007">7 TCER: secure programming <small>TRA-007</small></h1>
+<p>This test case execution report addresses the validation test case dealing with secure programming aspects and practices.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify components input validation</p>
+<ul>
+<li><span style="color:orange"><strong>2 = minor defect</strong></span>: while most SATRAP components receiving input perform some form of validation, we have identified a few discrepancies such as those in the ETL <code>extractor</code> module. The <code>fetch</code> functions in the <code>Downloader</code> and <code>STIXExtractor</code> do not validate the source URLs or file paths against a reference pattern or inclusion in any black or white lists. They do however perform syntactic checks directly and indirectly via the <code>validate_file</code> function in the <code>file_utils</code> module.</li>
+</ul>
+<p><strong>Test case step 2</strong>: Verify sanitization of input and output of data passing across trust boundaries</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: since integration with TIPs or other external sources residing outside the SATRAP trust boundary is currently not implemented as part of the alpha release (requirements for beta release), this sanitization requirements is considered to be satisfied.</li>
+</ul>
+<p><strong>Test case step 3</strong>: Verify resource liberation</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: the ETL subsystem and various functions making I/O operations correctly release resources, e.g., database network connections and file streams handled via <code>with</code> context managers.</li>
+</ul>
+<p><strong>Test case step 4</strong>: Verify SBOM usage</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: all software dependencies of SATRAP, thanks to use its of Poetry, are listed precisely in an inventory providing a software bill of material (SBOM), that lists all used libraries, their respective versions, along with the corresponding hashes (automatically generated lock file).</li>
+</ul>
+<p><strong>Test case step 5</strong>: Verify log string sanitization</p>
+<ul>
+<li><span style="color:orange"><strong>2 = minor defect</strong></span>: log strings are currently not sanitized and validated before being logging to prevent log injection attacks.</li>
+</ul>
+<p>Log injection vulnerabilities can emerge when writing invalidated user input to log files can allow an attacker to forge log entries or inject malicious content into the logs; the data can enter an application from an untrusted source (N/A in the alpha release of SATRAP) or it can be written to an application or system log file. (applicable to the alpha release)</p>
+<p>A note on log forging (source: <a href="https://owasp.org/www-community/attacks/Log_Injection">OWASP</a>)</p>
+<blockquote>
+<p>In the most benign case, an attacker may be able to insert false entries into the log file by providing the application with input that includes appropriate characters. If the log file is processed automatically, the attacker can render the file unusable by corrupting the format of the file or injecting unexpected characters. A more subtle attack might involve skewing the log file statistics. Forged or otherwise, corrupted log files can be used to cover an attacker’s tracks or even to implicate another party in the commission of a malicious act.</p>
+</blockquote>
+<p><strong>Test case step 6</strong>: Verify secret storage</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: Manual and automated scans (SAST) confirm the absence of logged or hardcoded sensitive information in the source code such as passwords or entity identifiers.</li>
+</ul>
+<p><strong>Test case step 7</strong>: Verify data semantic integrity enforcement</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: the TypeDB engine, together with the SATRAP data model and TypeQL types (<code>cti-skb-types.tql</code>) enforce semantic integrity ensuring that relationships and constraints adhere to the intended meaning. These enable benefitting from measures such as data validation with respect to schemas and relationship constraints, technical possibility of automated checks for data redundancy and inference powered by a reasoning engine.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Various minor issues have been identified, thus assigning the overall highest defect category from the test step verdicts: <span style="color:orange"><strong>2 = minor defect</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<blockquote>
+<p><code>satrap/etl/extract/extractor.py</code> (line 51)
+<code>satrap/etl/extract/extractor.py</code> (line 88)
+<code>satrap/commons/file_utils.py</code> (line 33)
+<code>satrap/commons/file_utils.py</code> (line 68)
+<code>satrap/assets/schema/cti-skb-types.tql</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="TST.html#TST-007">TST-007 TC: Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-26</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>2 = minor defect</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>5</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>2</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>I,R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-008">8 TCER: MITRE ATT&amp;CK ingestion <small>TRA-008</small></h1>
+<p>This test case execution report covers the validation test case specification on the ingestion of the MITRE ATT&amp;CK data set.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: aligned with test case specification</li>
+<li>Hardware deviations: aligned with test case specification</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify the execution of the SATRAP <code>setup</code> CLI command</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: the obtained result aligns with the expected outcome described in the linked validation test case specification.</li>
+</ul>
+<p><strong>Test case step 2</strong>: Verify the execution of the SATRAP <code>etl</code> CLI command</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: the obtained result aligns with the expected outcome described in the linked validation test case specification.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<p><em>Parent links:</em> <a href="TST.html#TST-008">TST-008 Test setup + MITRE ATT&amp;CK ingestion</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-27</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>2</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-009">9 TCER: ETL architecture <small>TRA-009</small></h1>
+<p>This test case execution report covers the ETL subsystem; see the linked files for precise references to the cited code modules and classes mentioned below.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify data integration module for orchestration</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: As part of its dedicated ETL subsystem, SATRAP provides a module in charge of orchestrating (<code>etlorchestrator.py</code>), another for the ingestion (<code>extractor.py</code>) of datasets in STIX 2.1 and, finally, another module for the insertion (<code>loader.py</code>) of content into the SATRAP CTI SKB, powered by TypeDB.</li>
+</ul>
+<p><strong>Test case step 2</strong>: Verify the integration module for transforming data into STIX 2.1</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: As part of its dedicated ETL subsystem, SATRAP provides a module in charge of transforming (<code>transformer.py</code>) the ingested STIX data into the representation language of the CTI SKB schema, namely TypeQL.</li>
+</ul>
+<p><strong>Test case step 3</strong>: Verify data integration module for database operations and connections</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: SATRAP provides a dedicated data management package containing various related modules, with one in particular (<code>typedbmanager.py</code>) in charge of managing database operations and connections.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<blockquote>
+<p><code>satrap/etl/etlorchestrator.py</code> (line 11)
+<code>satrap/etl/extract/extractor.py</code>
+<code>satrap/etl/transform/transformer.py</code>
+<code>satrap/etl/load/loader.py</code>
+<code>satrap/datamanagement/typedb/typedbmanager.py</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="TST.html#TST-009">TST-009 Verify ETL architecture</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-27</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>3</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-010">10 TCER: CTI SKB inference <small>TRA-010</small></h1>
+<p>This test case execution report covers the SATRAP automated reasoning and inference capabilities; see the linked files for precise references to the cited files.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify that SATRAP-DL implements inference rules for automated reasoning</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The SATRAP implementation provides a dedicated rules file (<code>cti-skb-rules.tql</code>). By analyzing the CTI SKB inference rule definition file and CTI SKB type definitions files stored in the <code>satrap/assets/schema</code>, we confirm the presence of the required artifacts enabling derivation of knowledge over existing relations in the CTI SKB powered by TypeDB.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<blockquote>
+<p><code>satrap/assets/schema/cti-skb-rules.tql</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="TST.html#TST-010">TST-010 Verify CTI SKB inference rules</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-27</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>1</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>A</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-011">11 TCER: Jupyter Notebook frontend <small>TRA-011</small></h1>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: aligned with test case specification</li>
+<li>Hardware deviations: aligned with test case specification</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Open the source code of SATRAP-DL in Microsoft VS Code Studio using the Dev Containers extension</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The project loaded successfully, with a bash session being the entry point selected by default, giving access to the SATRAP GNU/Linux container.</li>
+</ul>
+<p><strong>Test case step 2</strong>: Navigate to the VS Code Studio terminal and activate Python environment</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The SATRAP container was successfully accessed, and the commands <code>poetry shell</code> and <code>poetry install</code> also successfully run.</li>
+</ul>
+<p><strong>Test case step 3</strong>: Navigate to the folder <code>satrap/frontend/quick_start.ipynb</code> and activate kernel</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: Jupyter Notebook located successfully and kernel activated.</li>
+</ul>
+<p><strong>Test case step 4</strong>: Run each cell from top to bottom in order</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: All cells executed, and their outputs were successfully compared to the expected output reference file <code>quick_start-test-reference.ipynb</code>.</li>
+</ul>
+<p>Part 1 on "Starting with simple functions":</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: <code>satrap = CTIanalysisToolbox(TYPEDB_SERVER_ADDRESS, DB_NAME)</code></li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: <code>print(satrap.get_sdo_stats())</code></li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: <code>print(satrap.mitre_attack_techniques())</code></li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: <code>print(satrap.mitre_attack_mitigations())</code></li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: cell "Get information on a specific MITRE ATT&amp;CK element (technique, group, software, etc.) using its MITRE ATT&amp;CK id."</li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: cell "Get information about a STIX object using its STIX id."</li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: cell "Retrieve mitigations explicitly associated to a specific technique using its STIX id."</li>
+</ul>
+<p>Part 2 on "CTI analysis through automated reasoning":</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: cell "Get statistics on the usage of ATT&amp;CK techniques by groups. The output of this function is the same as when running the command <code>satrap techniques</code> on the CLI."</li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: cell <code>display(satrap.techniques_usage(infer=True))</code></li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: cell <code>techniques = satrap.techniques_used_by_group("G0025", infer=True)</code></li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: cell <code>display(satrap.related_mitigations(group_name="BlackTech"))</code></li>
+</ul>
+<p>Subsection "Explanation of inferred knowledge"</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: 1st cell starting with <code>rel_explanation = satrap.explain_if_related_mitigation("G0098", "course-of-action--20a2baeb-98c2-4901-bad7-dc62d0a03dea")</code>.</li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: 2nd cell starting with <code>reason = satrap.explain_related_techniques("ZIRCONIUM", "T1059.006")</code>.</li>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: last cell starting with <code>dg_explanation = satrap.explain_techniques_used_by_group("G0071", "Domain Groups")</code>.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>The function signature <code>t1 = satrap.get_attck_concept_info("T1027.001")</code> contains a typo: <code>attck</code> -&gt; <code>attack</code></p>
+<p>Functions are named inconsistently: there is a mix of verb-based (preferred as per C5-DEC conventions) and noun-based naming, e.g.,</p>
+<ul>
+<li><code>satrap.get_sdo_stats()</code></li>
+<li><code>satrap.mitre_attack_techniques()</code></li>
+<li><code>satrap.mitigations_for_technique()</code></li>
+<li><code>satrap.get_attck_concept_info()</code></li>
+<li><code>satrap.search_stix_object()</code></li>
+</ul>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<blockquote>
+<p><code>docs/specs/TST/assets/quick_start-test-reference.ipynb</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="TST.html#TST-011">TST-011 Test Jupyter notebook frontend</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-27</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>4</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-012">12 TCER: ETL logging <small>TRA-012</small></h1>
+<p>We ran tests to validate the logging feature of the ETL subsystem.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: aligned with test case specification</li>
+<li>Hardware deviations: aligned with test case specification</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify ETL logging by running <code>./satrap.sh etl</code> to ingest the latest version of the MITRE ATT&amp;CK Enterprise data set</p>
+<p><span style="color:green"><strong>0 = flawlesss</strong></span>: The generated log, i.e., <code>test-evidence-log.txt</code>, stored in the <code>satrap/assets/logs</code> folder was checked (stored under date folders and timestamped files according to ETL execution time) and the following items were validated:</p>
+<ul>
+<li>a log entry is generated at the beginning of the job, indicating the start time</li>
+<li>each log entry recording an event comes with a log level: DEBUG, INFO, WARNING, ERROR, CRITICAL</li>
+<li>there is at least a log entry for each ETL phase (i.e., extraction, transformation and loading) describing the status in terms of success/failure and some minimal hint or additional information explaining or complementing the execution status.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<blockquote>
+<p><code>docs/specs/TRA/assets/test-evidence-log.txt</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="TST.html#TST-012">TST-012 Test ETL logging</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-29</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>1</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-013">13 TCER: CM settings <small>TRA-013</small></h1>
+<p>We report on our inspection of the centralized settings file to verify that some of its content is read from a user-controller configuration management file allowing configuration management without requiring software rebuild.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Navigate to the <code>settings.py</code></p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The file <code>settings.py</code> was located at <code>satrap/settings.py</code>.</li>
+</ul>
+<p><strong>Test case step 2</strong>: Navigate to the YAML configuration management</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The configuration management file <code>satrap_params.yml</code> exposed to the user was found at <code>satrap/assets/satrap_params.yml</code>.</li>
+</ul>
+<p><strong>Test case step 3</strong>: Check that the YAML file is read into memory (e.g., in a Python dictionary).</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: this was validated the <code>settings.py</code> file <code>read_yaml(SATRAP_PARAMS_FILE_PATH)</code>; see linked files section for the precise, automatically retrieved line number.</li>
+</ul>
+<p><strong>Test case step 4</strong>: Check that at least one settings parameter read into memory</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: parameters in <code>settings.py</code> are populated from the in-memory copy of the <code>satrap_params.yml</code> file, with an example given below</li>
+</ul>
+<pre><code>HOST = satrap_params_dict.get('typedb').get('host','typedb')
+</code></pre>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<blockquote>
+<p><code>satrap/settings.py</code> (line 34)</p>
+</blockquote>
+<p><em>Parent links:</em> <a href="TST.html#TST-013">TST-013 Inspect settings for CM</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-28</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>4</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-014">14 TCER: SATRAP CLI <small>TRA-014</small></h1>
+<p>We report on our tests carried out using the SATRAP command line interface (CLI) to verify that it provides at least the commands specified in the software requirement specification (SRS) that the linked test case specification traces to.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: aligned with test case specification</li>
+<li>Hardware deviations: aligned with test case specification</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Run <code>./satrap.sh rules</code></p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: obtained result consistent with the expected outcome specified in the linked test case.</li>
+</ul>
+<p><strong>Test case step 2</strong>: Run <code>./satrap.sh stats</code></p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: obtained result consistent with the expected outcome specified in the linked test case.</li>
+</ul>
+<p><strong>Test case step 3</strong>: Run <code>./satrap.sh techniques</code></p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: obtained result consistent with the expected outcome specified in the linked test case.</li>
+</ul>
+<p><strong>Test case step 4</strong>: Run <code>./satrap.sh mitigations</code></p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: obtained result consistent with the expected outcome specified in the linked test case.</li>
+</ul>
+<p><strong>Test case step 5</strong>: Run <code>./satrap.sh search campaign--0c259854-4044-4f6c-ac49-118d484b3e3b</code></p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: obtained result consistent with the expected outcome specified in the linked test case.</li>
+</ul>
+<p><strong>Test case step 6</strong>: Run <code>./satrap.sh info_mitre T1027.001</code></p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: obtained result consistent with the expected outcome specified in the linked test case.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<p><em>Parent links:</em> <a href="TST.html#TST-014">TST-014 Test command line interface (CLI)</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-28</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>6</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-015">15 TCER: Open-source TIP adoption <small>TRA-015</small></h1>
+<p>We reviewed the SATRAP design artifacts to validate its adoption of open-source TIPs by design, specifically MISP and OpenCTI.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify SATRAP adoption of open-source TIPs</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: we confirmed upon reviewing the SATRAP system concept documents that it adopts both MISP and OpenCTI as TIPs.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<p><em>Parent links:</em> <a href="TST.html#TST-017">TST-017 Verify open-source TIP integration</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-28</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>1</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>R</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRA-016">16 TCER: release + licensing <small>TRA-016</small></h1>
+<p>We report on our inspection of SATRAP release and licensing model.</p>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: N/A</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify public open-source release of SATRAP source code</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: The entire source code of SATRAP was confirmed to be released on GitHub via a public repository, as per project agreements.</li>
+</ul>
+<p><strong>Test case step 2</strong>: Verify licenses of 3rd-party libraries</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawlesss</strong></span>: SATRAP software library dependencies do not restrict the privileges granted by the license selected for SATRAP-DL.</li>
+</ul>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawlesss</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawlesss</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<p><em>Parent links:</em> <a href="TST.html#TST-018">TST-018 Verify release and licensing</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2025-03-28</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>AAT</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td>0 = flawless</td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>2</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+      </div>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="assets/doorstop/jquery.min.js"></script>
+<script src="assets/doorstop/bootstrap.min.js"></script>
+<script>
+    $(function() {
+        $("table").addClass("table");
+        $("nav ul").addClass("nav nav-stacked");
+        $("nav").affix();
+        $('body').scrollspy({
+          target: '.sidebar'
+        });
+        $("#main a").attr("target", "parent");
+
+  $(window).on('hashchange', function() {
+    $(window).scrollTop($(location.hash.toLowerCase()).offset().top);});
+  });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  CTI export to STIX
+importance: null
+level: 19
+links:
+- MRS-041: null
+normative: true
+rationale: See specification body
+ref: ''
+release: Beta
+reviewed: U2t0z9MBzUS5GXFuPAR5-MNl3j3YPJ6qaR02XdiVgz8=
+text: |
+  SATRAP-DL SHALL provide a feature for exporting the results of queries processed by the CTI analysis toolbox (run over the CTI SKB) in STIX format.
+
+  ### Rationale
+  For persistence of the analysis results in a standard human readable format, useful for sharing the findings.
+type: F
+urgency: 2
+vm: T

@@ -1,0 +1,40 @@
+active: true
+derived: false
+header: |
+  Top-level ETL design
+level: 1
+links:
+- ARC-001: y3hraERh10v0ZeagXw10yVa2irVB_Wq1bOHAkBVKLUM=
+- ARC-002: Ui5Z6JsqJkwmNktqyF6bqwgovVGHvHZbHdsvs4Hlrjs=
+- ARC-003: R0GD-wyqQaUFXEDlm6ChoGsrdZGrFgK3Vhcompn3I5g=
+- ARC-004: YQ8rkbIXe2QD1DWLdeWsLSHiG8a-BZ0uA6j3ggLhWVA=
+normative: true
+ref: ''
+references:
+- keyword: ETLOrchestrator
+  path: satrap/etl/etlorchestrator.py
+  type: file
+- keyword: Extractor(ABC)
+  path: satrap/etl/extract/extractor.py
+  type: file
+- keyword: Transformer(ABC)
+  path: satrap/etl/transform/transformer.py
+  type: file
+- keyword: Loader(ABC)
+  path: satrap/etl/load/loader.py
+  type: file
+reviewed: opSfVvDVnU3WfeYVCgHYvwOG9iIqmji-vuqV03gcb2s=
+text: |
+  ## Abstract class diagram
+
+  The top level design of the ETL system, i.e., the software design of implementation independent components, is depicted below
+
+  ![ETL top-level abstract class design](assets/2C0A2A_DIA_etl_abstract_design.drawio.png "ETL top-level abstract class design"){: width="50%"}
+
+  An *Extractor* is responsible for fetching raw data. At this stage, the retrieved data is not transformed yet. The data can for example be downloaded and saved to a file, but reading from a file and returning the data internally is also possible.
+
+  A *Transformer* will then take the extracted data and transform it into another format. This could for example consist of converting date formatting or a transformation of complex numbers from the algebraic form to the polar form, to give two simple examples.
+
+  The *Loader* will load the data that has been prepared by the transformer into another data repository. Often, this means that data is loaded into a database.
+
+  These 3 components are managed by the ETL Orchestrator, i.e., it uses them to get the desired result. This is the abstract and implementation independent idea of the ETL process.

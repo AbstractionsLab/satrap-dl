@@ -1,0 +1,27 @@
+active: true
+derived: false
+header: |
+  Transformer flow
+level: 6
+links:
+- ARC-001: y3hraERh10v0ZeagXw10yVa2irVB_Wq1bOHAkBVKLUM=
+- ARC-002: Ui5Z6JsqJkwmNktqyF6bqwgovVGHvHZbHdsvs4Hlrjs=
+- ARC-003: R0GD-wyqQaUFXEDlm6ChoGsrdZGrFgK3Vhcompn3I5g=
+- ARC-004: YQ8rkbIXe2QD1DWLdeWsLSHiG8a-BZ0uA6j3ggLhWVA=
+normative: true
+ref: ''
+reviewed: HJQ2SvG7-OoHO9n8WVUlN2BrthX8GzWMMV7aiIp56XQ=
+text: |
+  ## Transformer sequence diagram
+
+  The sequence diagram of the transformation process can be seen below:
+
+  ![Transformer sequence diagram](assets/2C0A2F_DIA_Transformer-SeqDiagram.png "Transformer sequence diagram"){: width="80%"}
+
+  Only function calls and interactions that are relevant to understand the information flow are shown. Especially interaction with plain data classes that are not used by the `STIXtoTypeQLTransformer` itself are left out, i.e. the creation of `Entity` or `Relation` objects that are inserted into `InsertQuery` objects which are again part of the `QueryBundle`. In addition, the `convert_to_typeql` functions differ a lot depending on the value type. For primitive data types, the functions indeed do not interact with other classes. However, for more complex data types, the `ValueConverter` interacts with the `STIXtoTypeDBMapper` to ask for information about the conversion steps and of course with the `Identity`, `Entity`, `Relation`, `InsertQuery` and therefore also with the `QueryBundle`.
+
+  To provide an example, the sequence diagram for a function call of `convert_to_typeql` of a composite value can be seen below:
+
+  ![Sequence diagram for the value conversion of a composite value](assets/2C0A2G_DIA_CompositeValue-SeqDiagram.png "Sequence diagram for the value conversion of a composite value"){: width="100%"}
+
+  It can be seen that for every value in a composite value's properties, the ValueConverter is needed to convert the value. This is not shown in this sequence diagram as this sequence diagram already explains this step.

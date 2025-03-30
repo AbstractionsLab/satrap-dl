@@ -1,0 +1,77 @@
+{
+	"type": {
+		"stix_value_type": "string", 
+		"typedb_name": "type", 
+		"typedb_value_type": "empty"
+	},
+	"spec_version": {
+		"stix_value_type": "string", 
+		"typedb_name": "spec-version", 
+		"typedb_value_type": "string"
+	},
+	"id": {
+		"stix_value_type": "identifier", 
+		"typedb_name": "stix-id", 
+		"typedb_value_type": "string"
+	},
+	"created_by_ref": {
+		"stix_value_type": "identifier", 
+		"typedb_name": "object-created::creator", 
+		"typedb_value_type": "relation:created-by-ref"
+	},
+	"created": {
+		"stix_value_type": "timestamp", 
+		"typedb_name": "created", 
+		"typedb_value_type": "datetime"
+	},
+	"modified": {
+		"stix_value_type": "timestamp", 
+		"typedb_name": "modified", 
+		"typedb_value_type": "datetime"
+	},
+	"revoked": {
+		"stix_value_type": "boolean", 
+		"typedb_name": "revoked", 
+		"typedb_value_type": "boolean"
+	},
+	"labels": {
+		"stix_value_type": "list:string", 
+		"typedb_name": "label", 
+		"typedb_value_type": "list:string"
+	},
+	"confidence": {
+		"stix_value_type": "integer", 
+		"typedb_name": "confidence", 
+		"typedb_value_type": "long"
+	},
+	"lang": {
+		"stix_value_type": "string", 
+		"typedb_name": "lang", 
+		"typedb_value_type": "string"
+	},
+	"external_references": {
+		"stix_value_type": "list:external-reference",
+		"typedb_name": "external-reference", 
+		"typedb_value_type": "list:composite:external-reference"
+	},
+    "object_marking_refs": {
+        "stix_value_type": "list:identifier", 
+        "typedb_name": "object-marked::marking",
+        "typedb_value_type": "list:relation:object-marking"
+	},
+	"granular_markings": {
+		"stix_value_type": "list:granular-marking", 
+		"typedb_name": "TODO", 
+		"typedb_value_type": "empty"
+	},
+	"defanged": {
+		"stix_value_type": "boolean", 
+		"typedb_name": "defanged", 
+		"typedb_value_type": "boolean"
+	},
+	"extensions": {
+		"stix_value_type": "dictionary", 
+		"typedb_name": "extensions", 
+		"typedb_value_type": "empty"
+	}
+}

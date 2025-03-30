@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  C5-DEC compliance
+importance: 5
+level: 44
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: z3uElRPYC2epZA6LGpWWUonyLUP-ouf2yjgNshTLyB0=
+text: |
+  The development of SATRAP-DL SHALL conform to the C5-DEC SSDLC method.
+
+  ### Rationale
+  To enforce security by design and a rigorous development process.
+type: C
+urgency: 5
+vm: I

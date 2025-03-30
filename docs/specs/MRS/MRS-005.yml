@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Default CTI content
+importance: 5
+level: 5
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: xjTJUUKI5bXx0-2GjUwLNmr8W9Yd1zB7coCDHAP01SE=
+text: |
+  The CTI SKB SHALL contain some cyber threat intelligence (CTI) content such as cyber attack campaigns and intrusion sets (including TTPs) by default, e.g., the ATT&CK data sets published by MITRE.
+
+  ### Rationale
+  Ground knowledge (terminological axioms in DL) of the knowledge base
+type: Q
+urgency: 5
+vm: R

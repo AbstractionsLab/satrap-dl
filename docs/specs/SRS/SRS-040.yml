@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Authentication and authorization
+importance: null
+level: 40
+links:
+- MRS-056: wrosoktx7pF-MKwdo2kqYEP3m4Sr2bIYr4ra9RWXzjI=
+normative: true
+rationale: See specification body
+ref: ''
+release: Beta
+reviewed: Oixk1YXPLxZFoJKtete257mzsxah40U0HDWwLZ3v2jQ=
+text: |
+  The SATRAP-DL subsystem integrated with the SATRAP TIP for automated ingestion and enrichment SHALL rely on the SATRAP TIP built-in solution for user authentication and authorization, e.g., OpenCTI or MISP LDAP or native user management.
+
+  ### Rationale
+  To enforce user identification and resource access authorization by building on well-established solutions.
+type: S
+urgency: 3
+vm: T

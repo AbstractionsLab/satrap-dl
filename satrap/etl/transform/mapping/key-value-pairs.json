@@ -1,0 +1,23 @@
+{
+	"hashes": {
+		"attribute_name": "hash-value",
+		"value_type": "string",
+		"relation": {
+			"relation-name": "has-hash",
+			"item-role": "hash",
+			"object-role": "resource"
+		},
+		"keys": {
+			"MD5": "md5",
+			"SHA-1": "sha-1",
+			"SHA-256": "sha-256",
+			"SHA-512": "sha-512",
+			"SHA3-256": "sha3-256",
+			"SHA3-512": "sha3-512",
+			"SSDEEP": "ssdeep",
+			"TLSH": "tlsh"
+		},
+		"custom": {
+		}
+	}
+}

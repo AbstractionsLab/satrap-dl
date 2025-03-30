@@ -1,0 +1,32 @@
+active: true
+derived: false
+header: |
+  Logical view of SATRAP-DL
+level: 2
+links:
+- SRS-001: pjW33itUMmuBlkeFyifz9qmQuxEyMRQYxfril8LzbqQ=
+- SRS-002: y-K7fzatyspwF-eUuMgBeeRKuyfMxN_uBnIsHxGuIoY=
+- SRS-003: LxxQmTtjr1VCKCU4SSe_RxJBbg3oWKalSGHfHszlOQU=
+- SRS-004: WtPILkZXY8bGJIcal0A59ZvdN0_ir9hX3CBSkzQVDj8=
+- SRS-005: QtZElsH-7thYduu1tiZf5RjTYRQIVsakKrWnXsoxuHI=
+- SRS-007: ljaC6FWdXHJZT9dTbBS5IA0eI_Hia-1e76dE4EIqb6Y=
+- SRS-010: twOoOAiUm60hTdOuHjanycuH95Q2ss17VjxMXIp4vgE=
+- SRS-011: ETbPRqecrMui0WtpvNNIxJSj49lufTA_r59-2lqRukE=
+- SRS-012: kln5-EHm7_kb-V39NFEmtLx_VsyHh3LJHhqsBYl-4dU=
+- SRS-014: Yho5Ybo9RrmxIq6jkrTgIR7aL1YiBItPAXR9JV6JxLs=
+- SRS-015: j3Zo3zW0RodtKJSLPPCN2FQTJP4UTpRujoOtIIPCMZg=
+- SRS-017: 1wWQFa1yfEo2xmmAKtrHaPpv0I61UEUWPrTrkjg6k4s=
+- SRS-020: DomAVDAmtqQngfGzl77c_jR0VucRHKV7f5Mmwfw8NxM=
+- SRS-021: otMsmMxBr4O5t5ZzUT4XXy_fe3xIiwH6VDNkgcVk55U=
+- SRS-022: aB-pFPrDQRklFVzxwmkPNrukTR4ME_6Bijv3KfTDV4M=
+- SRS-028: 9WR8UFirv91BkzwM4XpOP1HKc2EVyyCE16R2qwyrv6Y=
+- SRS-029: Pk0FbFzcKzxInVFQXjxKzD0F4W7L4tq0FUBHIXds2wI=
+normative: true
+ref: ''
+reviewed: sh4MQCHAsZMRaazFkkQmx0lVd9deCHe4AwHGoXhHo8g=
+text: |
+  The following UML package diagram depicts the logical view of SATRAP-DL.
+
+  ![Package diagram of SATRAP-DL](assets/2B1D0_DIA_logical-view.png)
+
+  Details on the architecture are available as part of the system concept in the file `2B1D_REP_CyFORT-SATRAP-DL-SystemArchitecture_v1.1`.

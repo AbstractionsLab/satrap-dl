@@ -1,0 +1,17 @@
+active: true
+derived: false
+header: |
+  ETL full class diagram
+level: 7
+links:
+- ARC-001: y3hraERh10v0ZeagXw10yVa2irVB_Wq1bOHAkBVKLUM=
+- ARC-002: Ui5Z6JsqJkwmNktqyF6bqwgovVGHvHZbHdsvs4Hlrjs=
+- ARC-003: R0GD-wyqQaUFXEDlm6ChoGsrdZGrFgK3Vhcompn3I5g=
+- ARC-004: YQ8rkbIXe2QD1DWLdeWsLSHiG8a-BZ0uA6j3ggLhWVA=
+normative: true
+ref: ''
+reviewed: ZCGBv3jhPDqYdzpGHI2olUNM2EeXFh5MInmHvVb_rQo=
+text: |
+  The full class diagram of the ETL is given below.
+
+  ![Complete ETL class diagram](assets/2C0A2H_DIA_ETL-Complete-ClassDiagram.drawio.png "Complete ETL class diagram"){: width="100%"}

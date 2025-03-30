@@ -1,0 +1,27 @@
+{
+	"title": "Common attributes",
+	"description": "How to translate common STIX attributes to TypeDB",
+	"type": "object",
+	"patternProperties": {
+		"^.*$": {
+			"description": "A common attribute",
+			"type": "object",
+			"properties": {
+				"stix_value_type": {
+					"description": "The value type in STIX of the attribute",
+					"type": "string"
+				},
+				"typedb_name": {
+					"description": "The name of the attribute in TypeDB",
+					"type": "string"
+				},
+				"typedb_value_type": {
+					"description": "The value type for the attribute in TypeDB",
+					"type": "string"
+				}
+			},
+			"required": ["stix_value_type", "typedb_name", "typedb_value_type"],
+			"additionalProperties": false
+		}
+	}
+}

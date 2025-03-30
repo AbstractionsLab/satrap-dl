@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  CTI knowledge base
+importance: 5
+level: 2
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: u_r8ImVBTTNJcPDrAsGg8YC-ATB2--QysmotkLumFb0=
+text: |
+  SATRAP-DL SHALL host a native semantic CTI repository (a.k.a. CTI semantic knowledge base or CTI SKB) to enable by design the storage, management, and retrieval of information by means of semantic technologies.
+
+  ### Rationale
+  The main goal of the project is to enrich the automation capabilities of current approaches by working with semantically enriched data and automated reasoning on such data.
+type: A
+urgency: 5
+vm: R

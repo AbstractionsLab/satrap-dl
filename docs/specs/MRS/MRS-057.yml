@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Secure channel to TIP
+importance: 5
+level: 48
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Beta
+reviewed: KUj7oCtIPClSKOB06Qu6KOEgpGk-nZj3klw0J3YeH5w=
+text: |
+  The communication between separate components of SATRAP-DL crossing through different trust boundaries SHALL occur over confidential and authenticated channels.
+
+  ### Rationale
+  The data to be queried over is likely to include not only OSINT but also information collected from internal tools that might be available only to authorized users.
+type: S
+urgency: 5
+vm: T

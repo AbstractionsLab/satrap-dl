@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  NoSQL data model
+importance: null
+level: 5
+links:
+- MRS-004: YYDD22Ap6_agAINzgazKcvKHK8xzGByMmpP505G4JVM=
+normative: true
+rationale: See specification body
+ref: ''
+release: Alpha
+reviewed: AhDEZLpdlaIqB4XQ4oJmpsz0JZp0M7eWkUQEC8Bl54I=
+text: |
+  The data model of the CTI SKB SHALL rely on either a NoSQL graph-based or a document-based database solution or a type-theoretic polymorphic entity-relation-attribute (PERA) data model to allow for the addition of new entities and relationships without requiring a schema migration.
+
+  ### Rationale
+  Flexibility enables further customization for specific domains, such as healthcare or military related ones.
+type: A
+urgency: 5
+vm: R

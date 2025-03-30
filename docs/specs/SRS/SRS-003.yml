@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Semantic search
+importance: null
+level: 3
+links:
+- MRS-002: u_r8ImVBTTNJcPDrAsGg8YC-ATB2--QysmotkLumFb0=
+normative: true
+rationale: See specification body
+ref: ''
+release: Alpha
+reviewed: zR9ZfX-tS2WDVmXzBPxa417_Ce1jXThm6IHZ1vc1bPI=
+text: |
+  The system SHALL support querying the CTI SKB based on semantic criteria.
+
+  ### Rationale
+  To enable users to perform meaningful searches and data manipulation based on semantics rather than just data structure.
+type: A
+urgency: 5
+vm: R

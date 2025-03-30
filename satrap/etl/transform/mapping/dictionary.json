@@ -1,0 +1,19 @@
+{
+	"relation": {
+		"relation-name": "has-dictionary",
+		"item-role": "item",
+		"object-role": "owner"
+	},
+	"attribute_property": "name",
+	"attribute_key": "item-key",
+	"subitems": {
+		"string": {
+			"entity": "string-item",
+			"value-attribute": "string-item-value"
+		},
+		"long": {
+			"entity": "int-item",
+			"value-attribute": "int-item-value"
+		}
+	}
+}

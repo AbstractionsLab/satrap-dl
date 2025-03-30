@@ -1,0 +1,23 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  API based on OAS
+importance: null
+level: 16
+links:
+- MRS-038: f1YPpZxtR8rjg7jotH7TzaJqrNMs04DnbD1uyL3lHF4=
+normative: true
+rationale: See specification body
+ref: ''
+release: Beta 
+reviewed: Nq24f8kOPNFGF0zrY2ICQ8UN4XWOCS-jGCqjkaKzEUk=
+text: |
+  The API of SATRAP-DL SHALL comply with the OpenAPI Specification (OAS) standard.
+
+  ### Rationale
+  To enable automatic generation of documentation, automated API testing and validation, and a language-agnostic human and machine-readable specification.
+type: C
+urgency: 2
+vm: R

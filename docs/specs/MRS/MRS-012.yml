@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  CyFORT CTI repository
+importance: 5
+level: 12
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Alpha
+reviewed: kwP3oyRk3JM4haDygd_aDQtSVCax6RsOVZDJQ-lMc4k=
+text: |
+  The SATRAP-DL system SHALL implement a mechanism for raw (i.e., prior to SATRAP inference) CTI storage in a CTI repository maintained using at least one open-source TIP with sharing capabilities (e.g., MISP or OpenCTI). This upstream SATRAP CTI repository maintained by one or more open-source TIPs will be referred to as the CyFORT CTI repository.
+
+  ### Rationale
+  To leverage the mature and robust data collection, storage and sharing capabilities of existing TIPs and because many CSIRT/CERT and SOC teams already maintain their repositories in such platforms.
+type: F
+urgency: 4
+vm: R

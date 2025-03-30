@@ -1,0 +1,26 @@
+acceptance-criteria: |
+  See validation test case specification
+active: true
+derived: false
+header: |
+  Ingestion of internal and external CTI
+importance: null
+level: 11
+links:
+- MRS-012: kwP3oyRk3JM4haDygd_aDQtSVCax6RsOVZDJQ-lMc4k=
+- MRS-042: null
+- MRS-043: null
+normative: true
+rationale: See specification body
+ref: ''
+release: Beta
+reviewed: i8DcMKFUlXxEmQYsCJhDrdEItp064z2-sUySre1iWag=
+text: |
+  SATRAP-DL SHALL implement a mechanism for programmatically fetching data from MISP or OpenCTI via API access or wrapper libraries (e.g., PyMISP) 
+  in STIX 2.1 format, making them available for other system components to adequately process and insert the information into the CTI SKB.
+
+  ### Rationale
+  For scenarios that deal with CTI generation and operation, we consider that a knowledge base requires information from at least three categories. This requirement addresses the integration of internal and external CTI.
+type: F
+urgency: 4
+vm: T

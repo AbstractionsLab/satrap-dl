@@ -1,0 +1,22 @@
+acceptance-criteria: See validation test case specification
+active: true
+derived: false
+header: |
+  Automated CTI ingestion
+importance: 4
+level: 38
+links: []
+normative: true
+rationale: |
+  See specification body
+ref: ''
+release: Beta
+reviewed: I1UJdZcl8Pxfjjm0BVRcrpMrAL2uRiB1zblwsASxtJs=
+text: |
+  The SATRAP-DL system SHOULD automatically ingest monitoring events (e.g., alerts, notifications) from the IDPS-ESCAPE central server using a standard CTI representation format and according to a pre-defined integration policy.
+
+  ### Rationale
+  To provide integration between the different components in the CyFORT stack.
+type: F
+urgency: 4
+vm: T

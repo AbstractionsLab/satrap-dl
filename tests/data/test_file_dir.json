@@ -1,0 +1,24 @@
+
+{
+    "type": "bundle",
+    "id": "bundle--423cac6c-245f-4a75-808b-117a1d161893",
+    "spec_version": "2.1",
+    "objects": [
+        {
+            "type": "file",
+            "id": "file--0243bda4-7084-4ae4-803a-3697cb606d0e",
+            "spec_version": "2.1",
+            "size": 77312,
+            "parent_directory_ref": "directory--550e8400-e29b-41d4-a716-446655440000",
+            "name": "test_file.exe",
+            "content_ref": "artifact--d9b2d63d-a233-4123-847a-4f4a3b733b8f"
+        },
+        {
+            "type": "directory",
+            "spec_version": "2.1",
+            "id": "directory--550e8400-e29b-41d4-a716-446655440000",
+			"path": "C:\\Windows\\System32",
+            "contains_refs": ["file--0243bda4-7084-4ae4-803a-3697cb606d0e"]
+        }
+    ]
+}
