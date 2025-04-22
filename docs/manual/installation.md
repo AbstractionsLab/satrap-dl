@@ -12,7 +12,7 @@ git clone https://github.com/AbstractionsLab/satrap-dl.git
 
 Then, proceed with one of the methods described below.
 
-**Note:** The name of the root folder might change depending on whether the source code is cloned or downloaded. Throughout the instructions, we will assume the root folder to be `cti-analysis-platform`.
+**Note:** The name of the root folder might change depending on whether the source code is cloned or downloaded. Throughout the instructions, we will assume the root folder to be `satrap-dl`.
 
 ## SATRAP command-line interface
 The command-line interface provides commands for setting up and populating a CTI knowledge base, and exposes a minimal set of analytical functions. We recommend its use for the ingestion of content from CTI sources and maintaining the CTI knowledge base.
@@ -26,7 +26,7 @@ The command-line interface provides commands for setting up and populating a CTI
 1. In a terminal, go to the project root folder and ensure execution rights on the scripts.
 
     ```sh
-    cd cti-analysis-platform
+    cd satrap-dl
     chmod +x *.sh
     ```
 
@@ -59,7 +59,6 @@ The recommended approach to benefit from the automated analysis functionality of
 * A [Docker engine](https://docs.docker.com/engine/) installation
 * [Visual Studio Code](https://code.visualstudio.com/) (VS Code)
 * the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension for VS Code by Microsoft, to enable [development inside a container](https://code.visualstudio.com/docs/devcontainers/containers)
-* the [Jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter) extension for VS Code by Microsoft (required to run the notebooks)
 
 ### Steps
 
@@ -67,7 +66,7 @@ The recommended approach to benefit from the automated analysis functionality of
 1. In a terminal, go to the project root folder and ensure execution rights on the scripts.
 
     ```sh
-    cd cti-analysis-platform
+    cd satrap-dl
     chmod +x *.sh
     ```
 
@@ -77,7 +76,7 @@ The recommended approach to benefit from the automated analysis functionality of
     ./init-satrap.sh
     ```
 
-1. Open the project folder `cti-analysis-platform` in VS Code.
+1. Open the project folder `satrap-dl` in VS Code.
 1. To run the project inside a Docker container, select "Reopen in Container" in the notification that pops up when opening the project in VS Code. Alternatively, run the command "Dev Containers: Reopen in Container" in the VS Code command palette (`cmd/ctrl + shift + p`).
 1. In the VS Code terminal, install the project dependencies and the project in the container:
 
@@ -132,7 +131,7 @@ python -m unittest tests.etl.load.tl_sdo_test.TestTransformLoadSDO.test_opinion_
 
 - **init-satrap.sh**: creates the Docker network *satrap-net*, downloads an image of TypeDB v2.29.0, and creates a typedb volume for persistent storage. Then, runs TypeDB in *satrap-net* mapped to the created volume. TypeDB is exposed on port `1729`.
 - **build-satrap.sh**: builds a Docker image for SATRAP.
-- **satrap.sh**: creates and runs a SATRAP Docker container connected to *satrap-net*, with a volume mapping the code repository to the `/home/alab/cti-analysis-platform/satrap` folder within the SATRAP container.
+- **satrap.sh**: creates and runs a SATRAP Docker container connected to *satrap-net*, with a volume mapping the host code repository to the project home folder (`/home/root/satrap-dl`) within the SATRAP container.
 
 <br/>
 

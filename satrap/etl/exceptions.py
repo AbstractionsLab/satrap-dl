@@ -7,18 +7,24 @@ class ExtractionError(Exception):
     """
     Exception raised for errors occurring during the extraction process.
     """
-    DOWNLOAD_NO_TARGET = 101
+    NO_TARGET_FILE = 101
     FAILED_DOWNLOAD = 102
     STIX_FILE_READ_FAILED = 103
     EMPTY_STIX_FILE_READ = 104
     STIX_PARSING_FAILED = 105
+    MISP_ERROR = 106
+    STORE_MISP = 107
+    GENERIC_EXTRACTION_ERROR = 108
 
     ERROR_MESSAGES = {
         FAILED_DOWNLOAD: "Download failed",
-        DOWNLOAD_NO_TARGET: "No target storage file specified",
+        NO_TARGET_FILE: "No target storage file specified",
         STIX_FILE_READ_FAILED: "Reading of STIX source failed",
         EMPTY_STIX_FILE_READ: "The STIX Object is not a bundle or has no 'objects' property",
-        STIX_PARSING_FAILED: "Parsing of STIX datasource failed"
+        STIX_PARSING_FAILED: "Parsing of STIX datasource failed",
+        MISP_ERROR: "MISP error",
+        STORE_MISP: "Storage of STIX file of MISP events failed",
+        GENERIC_EXTRACTION_ERROR: "Error during the extraction process"
     }
 
     def __init__(self, error_code, message=None, datasrc=None, class_origin=None):
@@ -39,8 +45,8 @@ class ExtractionError(Exception):
 
         # Get the name of the calling method
         method_origin = inspect.stack()[1].function
-        # Get the name of the class if it is not None, 0, False,
-        # an empty list, string or dictionary, or other "falsy" value
+        # Get the name of the class if it is not a "falsy" value
+        # such as None, 0, False, an empty list, string, etc.
         if class_origin:
             method_origin = f"{class_origin}.{method_origin}"
         self.origin_info = f"{method_origin} extracting from {datasrc}" if datasrc else method_origin
@@ -52,7 +58,7 @@ class ExtractionError(Exception):
         super().__init__(self.message)
 
     def __str__(self):
-        return f"[Error-{self.error_code}] in {self.origin_info}: {self.message}"
+        return f"[ExtractionError-{self.error_code}] in {self.origin_info}: {self.message}"
 
 
 class MappingException(Exception):

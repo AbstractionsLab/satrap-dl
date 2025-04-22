@@ -1,13 +1,13 @@
 #!/bin/bash
-echo Starting SATRAP...
 
 # Define variables
-USER=alab
+USER=root
+SATRAP_FOLDER=satrap-dl
 CONTAINER_NAME=satrap-core
 IMAGE_NAME=satrap:0.1
 
 # Define volume mounts
-CODE_VOLUME=$(pwd):/home/$USER/cti-analysis-platform
+CODE_VOLUME=$(pwd):/home/$USER/$SATRAP_FOLDER
 
 if [ "$#" -lt 1 ]
 then

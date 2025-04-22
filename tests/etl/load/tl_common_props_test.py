@@ -5,6 +5,7 @@ import uuid
 from satrap.etl.etlorchestrator import ETLOrchestrator
 from satrap.datamanagement.typedb import typedbmanager as TypeDBMgr
 from satrap.etl.exceptions import STIXParsingError
+from satrap.etl.extract.extract_constants import STIX_READER
 import tests.etl.load as test_utils
 
 class TestTLCommonProps(unittest.TestCase):
@@ -21,7 +22,7 @@ class TestTLCommonProps(unittest.TestCase):
         TypeDBMgr.create_database(cls.server, cls.db, reset=True)
 
     def setUp(self):
-        self.orchestrator = ETLOrchestrator()
+        self.orchestrator = ETLOrchestrator(STIX_READER)
 
     @classmethod
     def tearDownClass(cls):

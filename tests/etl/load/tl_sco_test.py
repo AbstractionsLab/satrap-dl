@@ -4,6 +4,7 @@ import os
 from satrap.datamanagement.typedb.inserthandler import TypeDBBatchInsertHandler
 from satrap.etl.etlorchestrator import ETLOrchestrator
 from satrap.etl.exceptions import STIXParsingError
+from satrap.etl.extract.extract_constants import STIX_READER
 import satrap.etl.transform.stix_typeql_constants as constants
 from satrap.datamanagement.typedb import typedbmanager as TypeDBMgr
 import tests.etl.load as test_utils
@@ -22,7 +23,7 @@ class TestTransformLoadSCO(unittest.TestCase):
         TypeDBMgr.create_database(cls.server, cls.db, reset=True)
 
     def setUp(self):
-        self.orchestrator = ETLOrchestrator()
+        self.orchestrator = ETLOrchestrator(STIX_READER)
 
     @classmethod
     def tearDownClass(cls):
@@ -173,8 +174,7 @@ class TestTransformLoadSCO(unittest.TestCase):
 
     def test_file_dir_refs(self):
         test_file = "tests/data/test_file_dir.json"
-        self.orchestrator.transform(test_file)
-        self.orchestrator.load(self.server, self.db)
+        self.orchestrator.transform_load(test_file, self.server, self.db)
 
         validation_query = ("match "
                     "{$s has stix-id 'file--0243bda4-7084-4ae4-803a-3697cb606d0e';} or "
@@ -701,8 +701,7 @@ class TestTransformLoadSCO(unittest.TestCase):
         process_test_file = "tests/data/test_process.json"
         sco_id = "process--99ab297d-4c39-48ea-9d64-052d596864df"
 
-        self.orchestrator.transform(process_test_file)
-        self.orchestrator.load(self.server, self.db)
+        self.orchestrator.transform_load(process_test_file, self.server, self.db)
 
         self.assertTrue(
             test_utils.check_relation_exists(

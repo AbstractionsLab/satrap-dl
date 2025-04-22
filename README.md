@@ -31,7 +31,7 @@ At its core, SATRAP implements a **knowledge representation system (KRS)** consi
 
 Concretely, users execute certain analytic queries over a CTI knowledge base and SATRAP provides an explainable answer, meaning that the deductive steps that lead to such an answer can be traced. Unlike with regular database queries, the answer might include not only information persisted in the CTI knowledge base, but also non-explicit relations logically derived by an automated reasoning engine from the actual information in the CTI knowledge base.
 
-This automation intends to support memory-intensive analytic tasks, typically concerning correlating CTI and drawing logical conclusions from large amounts of information. This in turn enables to better allocate already scare resources by allowing analysts to shift their expertise to formulating appropriate questions and translating the results into actionable intelligence.
+This automation intends to support memory-intensive analytic tasks, typically concerning correlating CTI and drawing logical conclusions from large amounts of information. This in turn enables to better allocate already scarce resources by allowing analysts to shift their expertise to formulating appropriate questions and translating the results into actionable intelligence.
 
 The set of analytic features offered by SATRAP is foreseen to complement features of existing open-source threat intelligence platforms, such as [MISP](https://misp-project.org/) and [OpenCTI](https://github.com/OpenCTI-Platform/opencti). Integration with such tools for automated inference over CTI streams is expected in future releases, although manual content transfer between SATRAP and such TIPs is already supported by the current release.
 
@@ -49,14 +49,14 @@ The set of analytic features offered by SATRAP is foreseen to complement feature
   * a common language for reasoning over CTI
 * A predefined set of inference rules and queries, extensible with user-defined ones
 * An intuitive language for defining new derivation rules in terms of STIX2.1 concepts, thanks to the underlying semantic technology
-* A CTI Knowledge base that can be directly queried in [TypeQL](https://typedb.com/docs/typeql/2.x/), the native language of TypeDB
+* A CTI knowledge base that can be directly queried in [TypeQL](https://typedb.com/docs/typeql/2.x/), the native language of TypeDB
 
 
 ### Interfaces
 - A command-line interface (SATRAP CLI) for efficient user interaction
 - A light-weight Python library (`CTIAnalysisToolbox`) providing a preliminary toolbox of analytic functions for supporting CTI investigations. These functions perform automated reasoning over the information in the knowledge base.
-- Frontend based on Jupyter Notebooks importing the CTIAnalysisToolbox for creating playbooks or user-defined queries
-- [TypeDB Studio](https://typedb.com/docs/manual/2.x/studio) (third-party, optional), the GUI of TypeDB, for visualization of explainable queries
+- A frontend based on Jupyter Notebooks importing the CTIAnalysisToolbox for creating playbooks or user-defined queries
+- [TypeDB Studio](https://typedb.com/docs/manual/2.x/studio) (third-party, optional), the GUI of TypeDB, for an interactive visualization of explainable queries
 
  ### Design principles
 - Free/libre and open source
@@ -74,7 +74,7 @@ To learn more about the fundamentals of SATRAP as well as details on the install
 
 Currently, SATRAP offers two deployment options:
 
-- A command-line interface (CLI) in the OS shell
+- A command-line interface (CLI) in your OS shell of choice
 - A containerized analysis environment in VS Code
 
 Below we describe the deployment of the command-line interface. For the deployment of a development environment, please see the [installation page](docs/manual/installation.md) of the user manual.
@@ -83,7 +83,7 @@ Below we describe the deployment of the command-line interface. For the deployme
 
 * [Docker engine](https://docs.docker.com/engine/) running
 
-### Set up
+### Setup
 
 1. Clone or download the source code of this repository.
 
@@ -91,10 +91,10 @@ Below we describe the deployment of the command-line interface. For the deployme
     git clone https://github.com/AbstractionsLab/satrap-dl.git
     ```
 
-1. In a terminal, go to the project's root folder (_cti-analysis-platform_) and ensure execution rights on the scripts.
+1. In a terminal, go to the project's root folder (when cloning, `satrap-dl`) and ensure execution rights on the scripts.
 
     ```sh
-    cd cti-analysis-platform
+    cd satrap-dl
     chmod +x *.sh
     ```
 
@@ -126,7 +126,7 @@ The command-line interface of SATRAP is primarily intended for setting up a fres
 
 A minimal set of analytical functions is also available through this interface, however, we recommend the use of the Python library described [below](#satrap-as-a-python-library) for tasks related to the analysis of CTI as it provides a larger set of functions.
 
-To access the SATRAP CLI, simply go the project root folder (`cd cti-analysis-platform`) and run:
+To access the SATRAP CLI, simply go the project root folder (`cd satrap-dl`) and run:
 
 ```sh
 ./satrap.sh
@@ -141,7 +141,7 @@ To create and populate a knowledge base with the [default parameters](#configura
 
 ```sh
 ./satrap.sh setup
-./satrap/sh etl 
+./satrap.sh etl 
 ```
 
 This will create a knowledge base called `satrap-skb-alpha` and ingest the latest version of the [MITRE ATT&CK Enterprise](https://github.com/mitre-attack/attack-stix-data) dataset.

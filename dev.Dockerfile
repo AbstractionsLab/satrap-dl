@@ -11,10 +11,10 @@ ENV PYTHONFAULTHANDLER=1 \
 
 # project settings
 ENV user=alab \
-	SATRAP_FOLDER=satrap
+	SATRAP_FOLDER=satrap-dl
 
 # keep separate to allow for the $user variable to be set before
-ENV PROJECT_HOME=/home/${user}/cti-analysis-platform/
+ENV PROJECT_HOME=/home/${user}/satrap-dl/
 
 # Update dependencies in the Debian OS that comes with the base image
 RUN apt update --fix-missing
@@ -55,7 +55,8 @@ RUN apt-get autoremove -y && apt-get autoclean -y
 
 # Set the container's starting point running the project as the user
 USER ${user}
-WORKDIR ${PROJECT_HOME}${SATRAP_FOLDER}
+# WORKDIR ${PROJECT_HOME}${SATRAP_FOLDER}
+WORKDIR ${PROJECT_HOME}
 
 # when a container is started...
 
@@ -63,4 +64,3 @@ WORKDIR ${PROJECT_HOME}${SATRAP_FOLDER}
 # here as the command requires an interactive shell already running;
 # this is an alternative way to launch a bash shell inside the venv
 ENTRYPOINT ["poetry", "run", "bash"]
-

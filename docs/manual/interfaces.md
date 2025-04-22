@@ -36,7 +36,7 @@ Ingests data from an external source, transforms it and then loads it into the C
   - `-src`: Specifies the path or URL of a STIX2.1-compliant data source.
   Default value: parameter `extract_src` in the configuration file.
   - `-db`, `--database`: Specifies the database where data is to be inserted. Default value: parameter `db_name` in the configuration file.
-  - `-t`, `--type`: Specifies the type of extraction. In the Alpha version, only the default `1` for downloading from a URL is implemented.
+  - `-x`, `--xmode`: Specifies the type of extraction. The (default) value `1` is used for downloading a STIX 2.1 file from a URL, and `2` for ingesting events from a MISP instance.
   - `-tm`, `--testmode`: Extracts the dataset of a sample STIX 2.1 file and loads the data into the test database created by `satrap setup -tm`.
 
 **Example:**

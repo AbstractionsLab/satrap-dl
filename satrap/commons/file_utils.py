@@ -30,39 +30,49 @@ def create_local_filename(folder:str,url:str):
     return os.path.join(folder,filename)
 
 
-def validate_file(path: str, write=False, override=False):
-    """Validates whether a file can be accessed in the described way.
+def validate_file_access(path: str, write=False, override=False):
+    """Validates whether a file can be accessed with the selected options.
     
     :param path: The path to the file
     :type path: str
-    :param write: Whether one wants to write to the file
+    :param write: True to write to the file
     :type write: bool, optional
-    :param override: Whether one wants to override the contents of the 
-        file
+    :param override: True to override the contents of the file
     :type override: bool, optional
 
-    :raises ValueError: If the file cannot be accessed in the desired 
-        way 
+    :raises ValueError: If the file cannot be accessed with the selected options 
     """
-    folder, file = os.path.split(path)
+    if not isinstance(override, bool):
+        override = False
+    folder, _ = os.path.split(path)
+    intro = "Destination file error:"
 
     if override and not write:
         raise ValueError(
-            "To override a file, one must also want to write to it"
+            f"{intro} 'override' is set to True but 'write' is False."
         )
 
     if not os.path.exists(folder):
-        raise ValueError("Specified folder does not exist.")
-    
-    file_exists = os.path.exists(file)
+        if write:
+            try:
+                os.makedirs(folder, exist_ok=True)
+                logger.debug("Destination folder %s created", folder)
+            except OSError as e:
+                raise ValueError(
+                    f"{intro}: Failed to create folder '{folder}'."
+                ) from e
+        else:
+            raise ValueError(f"{intro} the folder '{folder}' does not exist.")
+
+    file_exists = os.path.exists(path)
 
     if not write:
         if not file_exists:
-            raise ValueError("File does not exist")
+            raise ValueError(f"{intro} write is False and the file does not exist.")
     else:
-        if not override:
-            if file_exists:
-                raise ValueError("Specified file already exists.")
+        if not override and file_exists:
+            raise ValueError(
+                f"{intro} File '{path}' already exists and 'override' is set to False.")
 
 
 def download_file(
@@ -86,28 +96,20 @@ def download_file(
     if not url == ''.join(url.split()):
         raise ValueError("URL contains whitespaces")
 
-    # validate the given file path
-    #try:
-    validate_file(save_to, write=True, override=override)
-    # except ValueError as e:
-    #     raise ValueError(e)
+    validate_file_access(save_to, write=True, override=override)
 
-    # download
     with requests.get(url, stream=True, timeout=(20,30)) as response:
-        logger.info("Requesting download from %s...", url)
+        logger.debug("Requesting download from %s...", url)
         if response.status_code == requests.codes.ok:
             logger.debug("...Response status ok")
             with open(save_to, 'wb') as file:
-                logger.info("Writing to %s", save_to)
                 for chunk in response.iter_content(
                     settings.DOWNLOAD_CHUNK_SIZE
                 ):
                     if chunk:
                         file.write(chunk)
+            logger.debug("Written to %s", save_to)
         else:
-            # logger.error(
-            #     "Download cancelled. Response status %s.", response.status_code
-            # )
             response.raise_for_status()
 
 
@@ -121,6 +123,10 @@ def read_json(file: str) -> dict:
         res = json.load(f)
     return res
 
+def write_json(file_name: str, data: dict):
+    validate_file_access(file_name, write=True, override=True)
+    with open(file_name, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4)
 
 def create_file_and_write(filename,text):
     """Create a file with a given name and writes a given text in it

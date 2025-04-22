@@ -4,7 +4,7 @@ import os
 from stix2.utils import parse_into_datetime
 
 from satrap.etl import stix_constants
-from satrap.etl.extract.extractor import Downloader, STIXExtractor, Extractor
+from satrap.etl.extract.extractor import Downloader, MISPExtractor, STIXExtractor, Extractor
 from satrap.etl.extract import extract_constants
 from satrap.etl.exceptions import ExtractionError
 
@@ -20,6 +20,8 @@ class TestDownloader(unittest.TestCase):
                               Downloader)
         self.assertIsInstance(Extractor.get_extractor(extract_constants.STIX_READER),
                               STIXExtractor)
+        self.assertIsInstance(Extractor.get_extractor(extract_constants.MISP_EXTRACTOR),
+                              MISPExtractor)
         with self.assertRaises(ValueError):
             Extractor.get_extractor("unsupported")
     

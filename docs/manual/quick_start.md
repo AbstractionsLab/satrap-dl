@@ -4,7 +4,7 @@ To benefit from the analysis functionality of SATRAP that enables automated reas
 
 **Create and populate a CTI knowledge base**
 
-Set up the SATRAP CTI SKB with the [default parameters](#configuration-parameters) from the VS Code terminal. We assume you have run `poetry shell` before running the commands below, otherwise the commands run from the VS Code terminal should be preceded by `poetry run`, e.g., `satrap run` -> `poetry run satrap setup`.
+Set up the SATRAP CTI SKB with the [default parameters](#configuration-parameters) from the VS Code terminal. We assume you have run `poetry shell` before running the commands below, otherwise the commands run from the VS Code terminal should be preceded by `poetry run`, e.g., instead of `satrap setup`, execute `poetry run satrap setup`.
 
 1. Create a CTI SKB called `satrap-skb-alpha`.
     ```sh
@@ -15,7 +15,7 @@ Set up the SATRAP CTI SKB with the [default parameters](#configuration-parameter
     satrap etl 
     ```
 
-**Note**: The same commands can be run from a terminal session (shell), using our `./satrap.sh` script, e.g., `satrap setup` -> `./satrap.sh setup`.
+**Note**: The same commands can be run from a terminal session (shell), using the SATRAP CLI. In this case, the command `satrap` is replaced by the script `./satrap.sh` For instance, `satrap setup` can be executed in the CLI as `./satrap.sh setup`.
 
 **Ingest additional data sets**
 

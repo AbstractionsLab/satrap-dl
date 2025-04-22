@@ -2,21 +2,25 @@
 
 from datetime import datetime, timezone
 
+# Extractor types
+DOWNLOADER = 1
+MISP_EXTRACTOR = 2
+STIX_READER = 3
 
-DOWNLOADER = "download"
-STIX_READER = "read_stix"
-STIX_BUNDLE_OBJECTS = "objects"
+
+# keyargs for fetching on different extractors
 OVERRIDE = "override"
 TARGET = "target"
+MISP_APIKEY = "apikey"
+
 BASE_TIME = datetime(1970, 1, 1, 0, 0, 0, 0).astimezone(timezone.utc)
 
 # Logging messages
-DOWNLOAD_START = "Start download"
-DOWNLOAD_SUCCESS = "Download successful"
-DOWNLOAD_FAILED = "Download failed: %s"
-DOWNLOAD_NO_TARGET = "No target file specified"
+EXTRACT_SUCCESS = "Extraction successfully finished"
 
 READ_STIX_START = "Reading STIX source: %s"
 READ_STIX_FAILED = "Reading of STIX source failed: %s"
-READ_STIX_SUCCESS = "Successful fetching of STIX objects from %s"
-READ_STIX_NO_OBJECTS = "Read STIX Object is either no bundle or does not have objects property"
+READ_STIX_SUCCESS = "STIX objects fetched from %s"
+READ_STIX_NO_OBJECTS = "Read STIX Object is either no bundle or does not have 'objects'"
+
+REQUIRED_ARG = "The required argument '%s' is missing"

@@ -8,6 +8,7 @@ from satrap.etl.etlorchestrator import ETLOrchestrator
 from satrap.datamanagement.typedb import typedbmanager as TypeDBMgr
 from satrap.etl.exceptions import STIXParsingError
 from satrap.commons.log_utils import logger
+from satrap.etl.extract.extract_constants import STIX_READER
 import satrap.etl.transform.stix_typeql_constants as constants
 import tests.etl.load as test_utils
 
@@ -26,7 +27,7 @@ class TestTransformLoadSDO(unittest.TestCase):
         TypeDBMgr.create_database(cls.server, cls.db, reset=True)
 
     def setUp(self):
-        self.orchestrator = ETLOrchestrator()
+        self.orchestrator = ETLOrchestrator(STIX_READER)
 
     @classmethod
     def tearDownClass(cls):
@@ -326,8 +327,7 @@ class TestTransformLoadSDO(unittest.TestCase):
         from different SDOs.
         """
         grouping_test_file = "tests/data/test_grouping.json"
-        self.orchestrator.transform(grouping_test_file)
-        self.orchestrator.load(self.server, self.db)
+        self.orchestrator.transform_load(grouping_test_file, self.server, self.db)
 
         # check that the relations corresponding to the
         # 'object_refs' property have been created
@@ -344,8 +344,7 @@ class TestTransformLoadSDO(unittest.TestCase):
         Test the creation of relations corresponding to the 'observed-data' SDO.
         """
         test_file = "tests/data/test_observed_data.json"
-        self.orchestrator.transform(test_file)
-        self.orchestrator.load(self.server, self.db)
+        self.orchestrator.transform_load(test_file, self.server, self.db)
 
         # check that the entities and embedded relations have been created
         verification_query = ("match"
@@ -705,8 +704,7 @@ class TestTransformLoadSDO(unittest.TestCase):
         - The number of 'analysis-sco-refs' relations created.
         """
         test_file = "tests/data/test_mwa_refs.json"
-        self.orchestrator.transform(test_file)
-        self.orchestrator.load(self.server, self.db)
+        self.orchestrator.transform_load(test_file, self.server, self.db)
 
         validation_query = ("match "
                             "$x has stix-id 'malware-analysis--d25167b7-fed0-4068-9ccd-a73dd2c5b07c'; "

@@ -40,13 +40,22 @@ TRANSFORM_SRC_TST = os.path.join(TESTS_SAMPLES_PATH, "test-sample.json")
 ## TypeDB server
 # Only works in MacOS and Windows
 # HOST = satrap_params_dict.get('typedb').get('host','host.docker.internal')
-HOST = satrap_params_dict.get('typedb').get('host','typedb')
-PORT = satrap_params_dict.get('typedb').get('port',"1729")
+try:
+    HOST = satrap_params_dict.get('typedb').get('host','typedb')
+except AttributeError:
+    HOST = "typedb"
+try:
+    PORT = satrap_params_dict.get('typedb').get('port',"1729")
+except AttributeError:
+    PORT = "1729"
 TYPEDB_SERVER_ADDRESS = f"{HOST}:{PORT}"
 
 
 ## Database
-DB_NAME = satrap_params_dict.get('typedb').get('db_name')
+try:
+    DB_NAME = satrap_params_dict.get('typedb').get('db_name')
+except AttributeError:
+    DB_NAME = "satrap-skb"
 # DB schema and rules files
 DB_SCHEMA = os.path.join(ROOT_DIR, ASSETS_FOLDER, DB_SCHEMA_FOLDER, "cti-skb-types.tql")
 DB_RULES = os.path.join(ROOT_DIR, ASSETS_FOLDER, DB_SCHEMA_FOLDER, "cti-skb-rules.tql")
@@ -71,28 +80,30 @@ MITRE_ATTACK_ICS = (
 
 try:
     MITRE_ATTACK_SRC = satrap_params_dict.get('etl').get('extract_src', MITRE_ATTACK_ENTERPRISE)
-except:
+except AttributeError:
     MITRE_ATTACK_SRC = MITRE_ATTACK_ENTERPRISE
 
 DOWNLOAD_CHUNK_SIZE = 4096
 
 # Local storage of STIX2.1 datasources
 STIX_DATA_PATH = os.path.join(ROOT_DIR, ASSETS_FOLDER, "stixdata")
+MISP_STIX_DATA_FILE = os.path.join(STIX_DATA_PATH, "misp_events.json")
 
-LOAD_BATCH_SIZE = 200
+LOAD_BATCH_SIZE = 100
 
 
 ## Default CLI arguments
 # ETL test mode (-tm)
 EXTRACT_URL_TST = (
-    "https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/refs/heads/master/examples/indicator-to-campaign-relationship.json"
+    "https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/refs/"
+    "heads/master/examples/indicator-to-campaign-relationship.json"
 )
 
 ## Command "tl" (transform-load)
 # Local path of a STIX2.1 file to be transformed to typeql
 try:
     TRANSFORM_SRC_CLI = satrap_params_dict.get('tl').get('transform_src', TRANSFORM_SRC_TST)
-except:
+except AttributeError:
     TRANSFORM_SRC_CLI = TRANSFORM_SRC_TST
 
 
@@ -102,7 +113,7 @@ except:
 # dev:debug, testing:testing (info<testing<warning), prod:info
 try:
     EXEC_ENVIRONMENT = satrap_params_dict.get('log').get('env',"err")
-except:
+except AttributeError:
     EXEC_ENVIRONMENT = "err"
 
 
