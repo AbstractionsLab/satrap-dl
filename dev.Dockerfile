@@ -14,7 +14,7 @@ ENV user=alab \
 	SATRAP_FOLDER=satrap-dl
 
 # keep separate to allow for the $user variable to be set before
-ENV PROJECT_HOME=/home/${user}/satrap-dl/
+ENV PROJECT_HOME=/home/${user}/${SATRAP_FOLDER}/
 
 # Update dependencies in the Debian OS that comes with the base image
 RUN apt update --fix-missing

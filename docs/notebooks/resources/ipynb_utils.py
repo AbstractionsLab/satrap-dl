@@ -27,11 +27,11 @@ def info_explanation():
     The explanation of inferred data (or a derivation) consists of five elements:
 
     <ul>
-    <li><strong>Data inferred for query statement:</strong> refers to the statement in the query that is subject to explanation, as matching data is derived from the application of an inference rule</li>
-    <li><strong>Applied rule:</strong> the inference rule that was applied for the derivation.</li>
-    <li><strong>Condition met:</strong> shows how the rule's conditions are satisfied by instances in the CTI SKB.</li>
+    <li><strong>Data inferred for query statement Q:</strong> the statement in the query that triggered the application of an inference rule</li>
+    <li><strong>Applied rule:</strong> the inference rule that was applied</li>
+    <li><strong>Condition met:</strong> shows how the rule's conditions are satisfied by data in the CTI SKB.</li>
     <li><strong>Inferred conclusion:</strong> is the result of the application of the rule.</li>
-    <li><strong>Mapping of variables:</strong> shows how the variables in the explained query statement map to the rule variables.</li>
+    <li><strong>Mapping of variables:</strong> shows how the variables in the query statement Q map to the variables of the rule applied.</li>
     </ul>
     """
     note_message(explanation_text, "Interpreting an explanation")

@@ -158,3 +158,15 @@ def count_data_instances(server_addr: str, db_name: str):
                                "get; count;")
                 count = tx.query.get_aggregate(count_query).resolve().as_long()
     return count
+
+def delete_all_data(server_addr, db_name):
+    with TypeDB.core_driver(server_addr) as driver:
+        with driver.session(db_name, SessionType.DATA) as data_session:
+            with data_session.transaction(TransactionType.WRITE) as tx:
+                tx.query.delete("""
+                                match
+                                $s isa $t;
+                                {$t type entity;} or {$t type relation;} or {$t type attribute;};
+                                delete $s isa $t;
+                                """).resolve()
+                tx.commit()

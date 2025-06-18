@@ -13,6 +13,7 @@ log:
 etl:
   # url of a stix2.1 datasource. E.g., MITRE ATT&CK ICS
   # extract_src: "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/ics-attack/ics-attack.json"
+  # extract_src: "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/mobile-attack/mobile-attack.json"
   # extract_src: "<ip-misp-instance>"
 
 tl:

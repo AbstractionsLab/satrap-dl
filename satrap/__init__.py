@@ -1,5 +1,5 @@
 """
-SATRAP V0.1 (Alpha)
+SATRAP V0.1.2 (Alpha)
 Semi-Automated Threat Reconnaissance and Analysis Platform 
 
 

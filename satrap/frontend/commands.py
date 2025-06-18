@@ -213,12 +213,12 @@ def exec_stats(args):
 def exec_techniques(args):
     try:
         tools = CTIanalysisToolbox(args.server, args.database)
-        data = tools.techniques_usage(
+        data = tools.summarize_techniques_usage(
             sort_order=args.sort,
             used_by_min=args.min,
             used_by_max=args.max,
             infer=args.infer,
-            norevoked=args.norevoked,
+            revoked=args.revoked,
             limit=args.limit,
         )
 
@@ -239,7 +239,7 @@ def exec_mitigations(args):
 def exec_search(args):
     try:
         tools = CTIanalysisToolbox(args.server, args.database)
-        entity = tools.search_stix_object(args.stix_id).items()
+        entity = tools.search_by_stix_id(args.stix_id).items()
         if not entity:
             print(f"No STIX object found with id: {args.stix_id}")
         else:
@@ -250,13 +250,22 @@ def exec_search(args):
 
 def exec_info_mitre(args):
     try:
-        element = CTIanalysisToolbox(args.server, args.database).get_attck_concept_info(
+        element = CTIanalysisToolbox(args.server, args.database).search_by_mitre_id(
             args.id
         )
         for e in element:
             _display(e.items(), ["Property", "Value"], [20, 55])
     except ValueError as exc:
         print(exc)
+
+
+def exec_mid(args):
+    try:
+        with CTIEngine(args.server, args.database) as engine:
+            print(engine.get_mitre_id(args.stix_id))
+    except Exception as err:
+        _handle_gen_exception(err)
+
 
 
 def _display(data, headers, max_widths=None):

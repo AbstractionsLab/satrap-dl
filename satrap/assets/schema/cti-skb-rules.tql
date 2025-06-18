@@ -23,8 +23,8 @@
 #
 # This file is based on the source file for TypeQL v2.10.0 at
 # https://github.com/typedb-osi/typedb-cti/blob/master/schema/cti-rules.tql
-# The original typedb-cti rules and comments have been modified
-# and revised in alignment with the SATRAP CTI SKB schema types.
+# The original typedb-cti rules and comments have been revised, improved
+# and modified in alignment with the SATRAP CTI SKB schema types.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -67,7 +67,7 @@ tool plays indirectly-uses:indirect-user;
 
 ### RULES ###
 
-# If: x uses z, y uses z, and x != z
+# If: x uses y, y uses z, x != y and y != z
 # then: x uses z by transitivity
 # Example:
 # If an intrusion set uses a malware, and that malware uses a specific attack pattern,
@@ -77,9 +77,12 @@ when {
     $x isa stix-domain-object, has name $name_x;
     $y isa stix-domain-object, has name $name_y;
     $z isa stix-domain-object, has name $name_z;
-    not {$x is $z;}; 
     $use_xy (user: $x, used: $y) isa uses;
     $use_yz (user: $y, used: $z) isa uses;
+    not {$x is $y;};
+    not {$y is $z;};
+    # create the relation only if it does not exist
+    not{(user: $x, used: $z) isa! uses;};
 } then {
     (indirect-user: $x, used: $z) isa indirectly-uses;
 };
@@ -90,7 +93,7 @@ when {
 # Example:
 # If an identity has been attributed to a threat actor,
 # and that identity uses a malware, then we conclude that
-# the threat actor uses the malware (through the identiy)
+# the threat actor uses the malware (through the identity)
 rule usage-via-attribution:
 when {
     (attribution: $x, attributee: $y) isa attributed-to;
@@ -115,7 +118,7 @@ when {
 };
 
 
-# This rule infers a relation between a course of action and an intursion set
+# This rule infers a relation between a course of action and an intrusion set
 # if the course of action mitigates an SDO used by an intrusion set. 
 # Note: because of the "transitive-use" rule, the SDO and the intrusion set 
 # may not be directly connected.

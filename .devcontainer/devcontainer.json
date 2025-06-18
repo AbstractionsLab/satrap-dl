@@ -6,8 +6,12 @@
 		// Sets the run context to one level up instead of the .devcontainer folder.
 		"context": "..",
 		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-		"dockerfile": "../dev.Dockerfile",
-		"options": ["--tag=satrap-dev:0.1"]
+		"dockerfile": "../dev.Dockerfile"
+		// NOTE: with the option below, VS Code creates two images with the same id but with different tags;
+		// one has the tag given below, the other one has a tag randomly assigned by VS Code.
+		// VS Code uses the latter, but it might be useful to specify a custom tag for easier
+		// reference outside of VS Code.
+		// "options": ["--tag", "satrap-dev:0.1"]
 	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
@@ -25,11 +29,11 @@
             "extensions": [
 				"ms-python.python",
 				"ms-python.black-formatter",
-				"ms-toolsai.jupyter"
+				"ms-toolsai.jupyter",
+				"streetsidesoftware.code-spell-checker",
+				"typedb.typeql"
 			],
             "settings": {
-    //             "python.testing.unittestEnabled": false,
-    //             "python.testing.pytestEnabled": true,
                 "python.formatting.provider": "black",
 				"cSpell.words": [
 					"STIX",
@@ -40,7 +44,8 @@
         }
 	},
 
-	// run the command in the dockerfile instead of the default one by devcontainer
+	// run the command in the dockerfile, i.e., do not override it with 
+	// the default one by devcontainer
 	"overrideCommand": false,
 	"runArgs": ["-it", "--network", "satrap-net"]
 }

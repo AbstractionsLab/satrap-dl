@@ -41,7 +41,7 @@ text: |
 
   The ETL subsystem interacts with the following components:
 
-  - **Controller**: this is the component that triggers the ETL process according to predefined settings.
+  - **ETL runner**: this is the component that triggers the ETL process according to predefined settings.
   - **STIX datasets**: a predefined folder in the file system storing datasets in STIX2.1 JSON format.
   - **CTI SKB**: the database of SATRAP in TypeDB.
-  - **Data Management**: includes components aimed at handling data, such as the DB manager which manages the connections and operations over the CTI SKB. Some of the functions in this class are: `connect_to_DB`, `create_db`, `setup_schema`, `load_db_data`, `insert` and `delete`.
+  - **Data Management**: includes components aimed at handling data, such as the DB manager which manages the connections and operations over the CTI SKB. Some of the functions in this class are: `create_db`, `setup_schema`, `load_db_data`, `insert` and `delete`.

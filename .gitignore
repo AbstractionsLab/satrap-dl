@@ -141,3 +141,6 @@ dmypy.json
 
 # intermediate STIX files
 satrap/assets/stixdata/*.json
+
+# workspace for custom playbooks
+docs/notebooks/workspace

@@ -31,6 +31,7 @@ def cli():
     _add_attck_mitigations(subparsers)
     _add_search(subparsers)
     _add_info_mitre(subparsers)
+    _add_mid(subparsers)
 
     # parse arguments
     args = parser.parse_args()
@@ -224,7 +225,7 @@ def _add_techniques_usage(subs):
         help="Max number of techniques to be shown",
     )
     subparser.add_argument(
-        "--norevoked", action="store_true", help="Exclude revoked STIX entities"
+        "--revoked", action="store_true", help="Include revoked techniques"
     )
 
 
@@ -248,6 +249,13 @@ def _add_info_mitre(subs):
         "id",
         type=str,
         help="Show information on the element with this MITRE ATT&CK id",
+    )
+
+def _add_mid(subs):
+    info = "Get the MITRE ATT&CK ID of an element with a STIX ID."
+    subparser = subs.add_parser("mid", description=info, help=info)
+    subparser.add_argument(
+        "stix_id", type=str, help="The STIX id of the element to search for"
     )
 
 

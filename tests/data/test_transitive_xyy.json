@@ -1,0 +1,39 @@
+{
+  "type": "bundle",
+  "id": "bundle--b7e2e2c2-8e2e-4e2e-8e2e-8e2e8e2e8e2e",
+  "objects": [
+    {
+      "type": "intrusion-set",
+      "spec_version": "2.1",
+      "id": "intrusion-set--b1a2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+      "created": "2025-06-16T10:00:00Z",
+      "modified": "2025-06-16T10:00:00Z",
+      "name": "Intrusion Set X"
+    },
+    {
+      "type": "malware",
+      "spec_version": "2.1",
+      "id": "malware--c6d7e8f9-0a1b-4c2d-8e3f-4a5b6c7d8e9f",
+      "created": "2025-06-16T10:00:01Z",
+      "modified": "2025-06-16T10:00:01Z",
+      "name": "Malware Y",
+      "is_family": false
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--e2f3a4b5-c6d7-4e8f-9a0b-1c2d3e4f5a6b",
+      "relationship_type": "uses",
+      "source_ref": "intrusion-set--b1a2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+      "target_ref": "malware--c6d7e8f9-0a1b-4c2d-8e3f-4a5b6c7d8e9f"
+    },
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+	"id": "relationship--b2e1c4d3-8f7a-4b6c-9d0e-1f2a3b4c5d6e",
+      "relationship_type": "uses",
+      "source_ref": "malware--c6d7e8f9-0a1b-4c2d-8e3f-4a5b6c7d8e9f",
+      "target_ref": "malware--c6d7e8f9-0a1b-4c2d-8e3f-4a5b6c7d8e9f"
+    }
+  ]
+}

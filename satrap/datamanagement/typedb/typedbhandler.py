@@ -45,11 +45,11 @@ class InferenceExplanation:
     conclusion: Optional[str] = None
     var_mapping: Optional[Dict[str, str]] = None
 
-    STATEMENT_DESC = "Data inferred for query statement"
-    RULE_DESC = "Applied rule"
+    STATEMENT_DESC = "Data inferred for query statement Q"
+    RULE_DESC = "Applied rule (R)"
     CONDITION_DESC = "Condition met"
     CONCLUSION_DESC = "Inferred conclusion"
-    MAPPING_DESC = "Mapping of variables (query var: rule var)"
+    MAPPING_DESC = "Mapping of query variables to rule variables (Q var: R var)"
 
     def as_json(self):
         return {
@@ -87,7 +87,7 @@ class TypeDBHandler:
             self.driver = TypeDB.core_driver(self.server_address)
         except TypeDBDriverException as error:
             raise SatrapError(
-                f"Error initializing the TypeDB manager: {error}"
+                f"Error initializing the TypeDB manager for {self.database_name} at {self.server_address}: {error}"
             ) from error
         self.session = self.driver.session(database_name, SessionType.DATA)
 
@@ -117,7 +117,11 @@ class TypeDBHandler:
                     # even after the cast
                     att_dict[att_label] = str(attr.get_value()).lower()
                 else:
-                    att_dict[att_label] = str(attr.get_value())
+                    if att_label in att_dict:
+                        att_dict[att_label] += f", {str(attr.get_value())}"
+                    else:
+                        att_dict[att_label] = str(attr.get_value())
+                    # att_dict[att_label] = str(attr.get_value())
             return att_dict
 
     def get_attribute_value(self, query: str, attribute: str) -> list:

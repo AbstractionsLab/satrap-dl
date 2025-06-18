@@ -3,10 +3,11 @@
 This module provides a toolbox for performing various Cyber Threat Intelligence (CTI) analysis tasks.
 """
 from operator import itemgetter
-from tabulate import tabulate
 
 from satrap.engine.cti_engine import CTIEngine
+import satrap.engine.result_structures as struct
 from satrap.commons.log_utils import logger
+from satrap.commons.format_utils import tabulate_stix_obj
 
 
 class CTIanalysisToolbox:
@@ -47,7 +48,7 @@ class CTIanalysisToolbox:
         :rtype: InferredAnswer
         """
         with self.cti_engine as eng:
-            stix_objects = eng.search_by_attck_id(group_mitre_id)
+            stix_objects = eng.search_obj_by_attck_id(group_mitre_id)
             if stix_objects:
                 g_stix_id = stix_objects[0].get("stix-id")
             else:
@@ -62,7 +63,7 @@ class CTIanalysisToolbox:
         mitigation of a specific SDO (usually technique).
         """
         with self.cti_engine as eng:
-            stix_objects = eng.search_by_attck_id(technique_id)
+            stix_objects = eng.search_obj_by_attck_id(technique_id)
             if stix_objects:
                 t_stix_id = stix_objects[0].get("stix-id")
             else:
@@ -71,13 +72,13 @@ class CTIanalysisToolbox:
                 )
             return eng.explain_mitig_rel_tech(group_name, t_stix_id)
 
-    def explain_techniques_used_by_group(
-        self, group_id: str, technique_name: str = None
+    def explain_techniques_used_by_groups(
+        self, groups: list[str], technique_id: str = None
     ):
         """
-        Provides explanations on the inference rules that are applied to derive
-        the set of techniques used by a specific group. The result can be optionally
-        filtered by the name of a specific technique.
+        Explains the rules that are applied to infer the set of techniques used 
+        by a set of groups. The result can be optionally filtered by the name of
+        a specific technique.
 
         :param group_id: The MITRE ATT&CK identifier of the group for which to explain techniques.
         :type group_id: str
@@ -88,47 +89,56 @@ class CTIanalysisToolbox:
         :rtype: InferredAnswer
         """
         with self.cti_engine as engine:
-            return engine.explain_techniques_used_by(group_id, technique_name)
+            if technique_id is None:
+                t_stix_id = None
+            else:
+                stix_objects = engine.search_obj_by_attck_id(technique_id)
+                if stix_objects:
+                    t_stix_id = stix_objects[0].get("stix-id")
+                else:
+                    raise ValueError(
+                        f"No MITRE ATT&CK element with id '{technique_id}' was found."
+                    )
+            return engine.explain_techniques_used_by(groups, t_stix_id)
 
-    def get_attck_concept_info(self, mitre_id) -> list[dict]:
+    def get_mitre_id(self, stix_id: str) -> str:
         """
-        Get information on the STIX objects associated to a MITRE ATT&CK ID.
-        Only STIX objects of the type corresponding to the format of the
-        given ID (as per the ATT&CK-stix2.1 specification) are retrieved.
-
-        :param mitre_id: The MITRE ATT&CK ID.
-        :type mitre_id: str
-        :return: Information about the ATT&CK concept.
-        :rtype: dict
-        :raises ValueError: If no information is found for the given MITRE ID.
+        Get the MITRE ATT&CK ID from a STIX ID.
         """
         with self.cti_engine as engine:
-            related_data = engine.search_by_attck_id(mitre_id)
-        if not related_data:
-            raise ValueError(f'No information found for the MITRE ATT&CK ID "{mitre_id}"')
-        if len(related_data) > 1:
-            warn_message = (
-                f"'Multiple objects found for the MITRE ATT&CK ID '{mitre_id}'."
-                " Some might be 'revoked'."
-            )
-            logger.warning(warn_message)
-            print(warn_message)
-        return related_data
+            entity = engine.get_mitre_id(stix_id)
+        if not entity:
+            print(f"No ATT&CK id found for stix-id '{stix_id}'")
+        return entity
 
     def get_sdo_stats(self) -> str:
         """
-        Get the number of STIX Domain Objects (SDOs) in the database per type.
-
-        :return: Information about SDOs in the knowledge base.
-        :rtype: str
+        Informs about the number of STIX Domain Objects (SDOs) in the knowledge base per type.
         """
         with self.cti_engine as engine:
             info = engine.get_stats()
         if not info:
             return "There are no STIX Domain Objects in the knowledge base."
-        return CTIanalysisToolbox.tabulate_stix_obj(
+        return tabulate_stix_obj(
             info, ["STIX Domain Objects", "Total in the CTI SKB"]
         )
+
+    def get_techniques_used_by_all(self, groups, infer=False) -> dict:
+        """
+        Get the techniques used by all groups in a list.
+
+        :param group_ids: A list of ATT&CK IDs of groups.
+        :type group_ids: list[str]
+        :param infer: Whether to activate the inference engine. Default is False.
+        :type infer: bool, optional
+        :return: Techniques used by all groups.
+        :rtype: dict
+        """
+        group_ids = [self.search_by_mitre_id(group)[0].get("stix-id") for group in groups]
+        with self.cti_engine as engine:
+            if not group_ids:
+                raise ValueError("No groups found.")
+            return engine.get_techniques_at_intersection(group_ids, infer)
 
     def mitigations_for_technique(self, stix_id: str) -> dict:
         """
@@ -142,6 +152,25 @@ class CTIanalysisToolbox:
         with self.cti_engine as engine:
             return engine.get_mitigations_for_sdo(stix_id)
 
+    def mitre_attack_groups(self, keywords:list=None, all:bool=True) -> list[struct.Group]:
+        """
+        Get all groups from the MITRE ATT&CK framework (G####). If a list of keywords is provided, 
+        only the groups whose description contains the keywords (case-insensitive) will be returned.
+
+        :param keywords: A list of keywords to filter the MITRE ATT&CK groups.
+        :type keywords: list[str], optional
+        :param all: True (default) to filter groups with ALL the keywords in their description.
+            False to include groups with ANY of the keywords in their description.
+        :type all: bool, optional
+        :return: A list with the filtered groups
+        :rtype: list
+        """
+        with self.cti_engine as engine:
+            info = engine.filter_groups_keywords(keywords, all)
+        if not info:
+            print(f"No MITRE ATT&CK groups found with the keywords {keywords}.")
+        return info
+  
     def mitre_attack_mitigations(self) -> str:
         """
         Get all mitigations from the MITRE ATT&CK framework (M####).
@@ -153,7 +182,7 @@ class CTIanalysisToolbox:
             info = engine.get_all_mitigations()
         if not info:
             return "No MITRE ATT&CK mitigations found. Consider running the ETL command on the ATT&CK dataset."
-        return CTIanalysisToolbox.tabulate_stix_obj(
+        return tabulate_stix_obj(
             info, ["MITRE ATT&CK\nMitigation ID", "Name"]
         )
 
@@ -171,7 +200,7 @@ class CTIanalysisToolbox:
             info = engine.get_all_techniques(subtechniques)
         if not info:
             return "No MITRE ATT&CK techniques found. Consider running the ETL command on the ATT&CK dataset."
-        return CTIanalysisToolbox.tabulate_stix_obj(
+        return tabulate_stix_obj(
             info, ["MITRE ATT&CK\ntechnique ID", "Name"]
         )
 
@@ -193,7 +222,42 @@ class CTIanalysisToolbox:
         except ValueError as err:
             print(err)
 
-    def search_stix_object(self, stix_id) -> dict:
+    def search_by_alias_name(self, keyword):
+        with self.cti_engine as engine:
+            related_data = engine.search_obj_by_name_alias(keyword)
+        if not related_data:
+            raise ValueError(f'No information found containing "{keyword}" in the name or alias.')
+        return related_data
+        
+
+    def search_by_mitre_id(self, mitre_id, ignore_revoked=True) -> list[dict]:
+        """
+        Get information on the STIX objects associated to a MITRE ATT&CK ID.
+        Only STIX objects of the type corresponding to the format of the
+        given ID (as per the ATT&CK-stix2.1 specification) are retrieved.
+
+        :param mitre_id: The MITRE ATT&CK ID.
+        :type mitre_id: str
+        :param ignore_revoked: Whether to ignore revoked techniques. Default is True.
+        :type ignore_revoked: bool, optional
+        :return: The STIX representation of the ATT&CK concept.
+        :rtype: dict
+        :raises ValueError: If no information is found for the given MITRE ID.
+        """
+        with self.cti_engine as engine:
+            related_data = engine.search_obj_by_attck_id(mitre_id,ignore_revoked)
+        if not related_data:
+            raise ValueError(f'No information found for the MITRE ATT&CK ID "{mitre_id}"')
+        if len(related_data) > 1:
+            warn_message = (
+                f"'Multiple objects found for the MITRE ATT&CK ID '{mitre_id}'."
+                " Some are probably 'revoked'."
+            )
+            logger.warning(warn_message)
+            print(warn_message)
+        return related_data
+
+    def search_by_stix_id(self, stix_id) -> dict:
         """
         Search for a STIX object by its ID.
 
@@ -204,18 +268,18 @@ class CTIanalysisToolbox:
         :raises ValueError: If no information is found for the given STIX ID.
         """
         with self.cti_engine as engine:
-            entity = engine.search_by_stix_id(stix_id)
+            entity = engine.search_obj_by_stix_id(stix_id)
         if not entity:
             raise ValueError(f"No STIX object found for stix-id '{stix_id}'")
         return entity
 
-    def techniques_usage(
+    def summarize_techniques_usage(
         self,
         sort_order="desc",
         used_by_min=None,
         used_by_max=None,
         infer=False,
-        norevoked=True,
+        revoked=False,
         limit=None,
     ) -> list:
         """
@@ -230,9 +294,9 @@ class CTIanalysisToolbox:
         :type used_by_max: int, optional
         :param infer: Whether to activate the inference engine. Default is False.
         :type infer: bool, optional
-        :param norevoked: True (default) to consider only techniques that have not been revoked.
-                False otherwise.
-        :type norevoked: bool, optional
+        :param revoked: False (default) to consider only techniques that have not been revoked.
+                True to include revoked techniques.
+        :type revoked: bool, optional
         :param limit: Maximum number of results to return. Default is None.
         :type limit: int, optional
 
@@ -242,7 +306,7 @@ class CTIanalysisToolbox:
         with self.cti_engine as engine:
             sets_count = engine.get_intrusion_sets_per_technique(
                 inference=infer,
-                ignore_revoked=norevoked,
+                ignore_revoked=not revoked,
             )
             if not sets_count:
                 return []
@@ -260,56 +324,26 @@ class CTIanalysisToolbox:
             data = list(map(lambda x: (x[0], ttp_names.get(x[0]), x[1]), data))
         return data
 
-    def techniques_used_by_group(self, group_id, infer=False) -> dict:
+    def techniques_used_by_groups(self, group_ids: list[str], infer=False, sort_desc=True) -> list:
         """
-        Get the techniques used by a specific group.
+        Get the techniques used by any of the groups in a list.
 
-        :param group_id: The ID of the group.
-        :type group_id: str
+        :param group_ids: A list of group ATT&CK IDs.
+        :type group_ids: list[str]
         :param infer: Whether to activate the inference engine. Default is False.
         :type infer: bool, optional
-        :return: Techniques used by the group.
-        :rtype: dict
+        :return: A list of tuples (Technique ID, name, usage count) of techniques 
+            used by any member of the group list.
+        :rtype: list
         """
         with self.cti_engine as engine:
-            return engine.get_techniques_used_by(group_id, inference=infer)
-
-    @staticmethod
-    def tabulate_stix_obj(stix_object: dict, headers: list[str] = None) -> str:
-        """
-        Convert a dictionary to a table using the tabulate library.
-
-        :param stix_object: The dictionary to be converted.
-        :type stix_object: dict
-        :param headers: The headers of the table. Default is ["Property", "Value"].
-        :type headers: list, optional
-        :return: A tabular representation of the dictionary.
-        :rtype: str
-        """
-        if headers is None or len(headers) != 2:
-            headers = ["Property", "Value"]
-        return tabulate(
-            stix_object.items(), headers, tablefmt="grid", maxcolwidths=[20, 55]
-        )
-
-    @staticmethod
-    def format_dict(dictionary: dict, indent: int = 0) -> str:
-        """
-        Formats a dictionary into a string with indentation for nested dictionaries.
-
-        :param dictionary: The dictionary to format.
-        :type dictionary: dict
-        :param indent: The number of spaces to use for indentation. Defaults to 0.
-        :type indent: int, optional
-        :return: The formatted string representation of the dictionary.
-        :rtype: str
-        """
-        output = []
-        for key, value in dictionary.items():
-            output.append(f'{" " * indent}{key}: ')
-            if isinstance(value, dict):
-                output.append("\n")
-                output.append(CTIanalysisToolbox.format_dict(value, indent + 4))
-            else:
-                output.append(str(value) + "\n")
-        return "".join(output)
+            stats = engine.get_techniques_used_by(group_ids, inference=infer)
+            if not stats:
+                return []
+            data = []
+            for key, value in stats.items():
+                data.append((engine.get_mitre_id(key), value))
+            ttp_names = engine.get_names_of_mitre_ids(row[0] for row in data)
+            data = list(map(lambda x: (x[0], ttp_names.get(x[0]), x[1]), data))
+            data = sorted(data, key=itemgetter(2), reverse=sort_desc)
+        return data

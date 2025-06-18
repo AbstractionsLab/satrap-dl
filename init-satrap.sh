@@ -7,8 +7,14 @@ else
     echo "Network 'satrap-net' already exists."
 fi
 
-# Pull typedb image
-docker pull vaticle/typedb:2.29.0
+# Pull typedb image if not already present
+typedb_image="vaticle/typedb:2.29.0"
+if [ -n "$(docker images -q $typedb_image)" ]; then
+  echo "Image '$typedb_image' already exists"
+else
+  docker pull $typedb_image
+fi
+
 
 # Check if the volume already exists
 if ! docker volume ls | grep -q "typedb-data"; then
