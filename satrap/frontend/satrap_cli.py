@@ -2,17 +2,18 @@ import argparse
 import sys
 
 from satrap.etl.extract import extract_constants as extract_ct
-from satrap.frontend import CLI, DESCRIPTION, VERSION, commands
+from satrap import __description__, PROJ_NAME
 from satrap import settings as conf
+from satrap.frontend import commands
 from satrap.commons.log_utils import logger
 
 
 def cli():
-    """Command line management interface that allows setting up a fresh CTI SKB
-    , running the ETL process and SATRAP analysis tools.
+    """Command line management interface that allows setting up a fresh CTI SKB,
+     running the ETL process and SATRAP analysis tools.
     """
-    parser = argparse.ArgumentParser(prog=CLI, description=DESCRIPTION)
-    parser.add_argument("-V", "--version", action="version", version=VERSION)
+    parser = argparse.ArgumentParser(prog="satrap", description=__description__)
+    parser.add_argument("-V", "--version", action="version", version=PROJ_NAME)
     _add_db_args(parser)
 
     subparsers = parser.add_subparsers(

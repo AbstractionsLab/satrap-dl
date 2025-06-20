@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "satrap"
-version = "0.1.0"
-description = "SATRAP, short for Semi-Automated Threat Reconnaissance and Analysis Platform, is an open-source, cross-platform software aimed at supporting computer-aided analysis of cyber threat intelligence leveraging automated reasoning."
+version = "0.2"
+description = "SATRAP (Semi-Automated Threat Reconnaissance and Analysis Platform) is a software for assisting on the analysis of cyber threat intelligence (CTI) powered by automated reasoning."
 authors = ["Itzel Vazquez Sandoval <itzel@abstractionslab.lu>", "Arash Atashpendar <arash@abstractionslab.lu>", "Sven Angel <sven.angel@proton.me>"]
 readme = "README.md"
 

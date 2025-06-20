@@ -4,7 +4,10 @@
 USER=root
 SATRAP_FOLDER=satrap-dl
 CONTAINER_NAME=satrap-core
-IMAGE_NAME=satrap:0.1
+IMAGE_NAME=$(awk -F ' *= *' \
+            '/^(name|version)/ {gsub(/["'\'']/,"",$2); v[$1]=$2} END \
+            {print v["name"] ":" v["version"]}' \
+            pyproject.toml)
 
 # Define volume mounts
 CODE_VOLUME=$(pwd):/home/$USER/$SATRAP_FOLDER

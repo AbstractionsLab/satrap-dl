@@ -35,6 +35,7 @@
 			],
             "settings": {
                 "python.formatting.provider": "black",
+				"cSpell.enabled": true,
 				"cSpell.words": [
 					"STIX",
 					"typedb",

@@ -1,5 +1,5 @@
 
-# 0.1.2 (2025-06-18)
+# 0.2 (2025-06-18)
 
 ## Added
 
@@ -12,6 +12,7 @@
 - Unit tests for the `transitive-use` rule and associated JSON files
 - Function to clear a DB
 - A folder `tutorials` to host material for workshops and related events
+- Build image name and CLI metadata dynamically from the project toml file
 
 ## Modified
 
