@@ -1,6 +1,7 @@
 import unittest
 import os
 import time
+import requests
 
 from satrap.commons import file_utils
 
@@ -27,10 +28,17 @@ class TestFileUtils(unittest.TestCase):
         expected = f"./tests/data/enterprise-attack_{now}.json"
         self.assertEqual(created_name,expected)
 
+    def test_slow_download_connection_timeout(self):
+        with self.assertRaises(requests.exceptions.ConnectionError):
+            file_utils.download_file(self.url, self.test_file, True, connecting_timeout=.00000000000005, response_timeout=.000000000001)
+
+    def test_slow_download_response_timeout(self):
+        with self.assertRaises(requests.exceptions.Timeout) as err:
+            file_utils.download_file(self.url, self.test_file, True, response_timeout=.000000000001)
+
     def test_download(self):
-        save_as = self.test_file
-        file_utils.download_file(self.url, save_as, True)
-        self.assertTrue(os.path.exists(save_as))
+        file_utils.download_file(self.url, self.test_file, True)
+        self.assertTrue(os.path.exists(self.test_file))
 
     def test_download_no_override(self):
         file_utils.download_file(self.url, self.test_file)

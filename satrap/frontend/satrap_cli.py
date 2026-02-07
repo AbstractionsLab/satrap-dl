@@ -98,7 +98,7 @@ def _add_etl(subs):
     info = (
         help_txt
         + "Default parameters can be set in the configuration file 'satrap_params.yml'. "
-        "Datasource file parameter: 'extract_src' in 'etl'."
+        "Datasource file parameter: 'etl: extract_src'"
     )
     subparser = subs.add_parser("etl", description=info, help=help_txt)
 
@@ -125,7 +125,20 @@ def _add_etl(subs):
         "-k",
         "--apikey",
         help=("MISP API key to enable communication with the MISP instance. "
-              " Required for extractor type 2")
+              " Required when running with XMODE=2")
+    )
+    subparser.add_argument(
+        "-mct",
+        "--maxconnectiontime",
+        type=float, default=None,
+        help=("Maximum waiting time in seconds for establishing a connection "
+              "with a remote download source")
+    )
+    subparser.add_argument(
+        "-mrt",
+        "--maxresptime",
+        type=float, default=None,
+        help=("Maximum waiting time in seconds for downloading from a remote host")
     )
     subparser.add_argument(
         "-tm",

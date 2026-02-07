@@ -21,13 +21,13 @@
           <nav id="TOC" class="nav nav-stacked fixed sidebar">
               <h3>Table of Contents</h3>
 <ul>
-<li><a href="#TST-001">1 TC: Verify data modelling artifacts</a></li>
-<li><a href="#TST-002">2 TC: Verify software engineering</a></li>
-<li><a href="#TST-003">3 TC: Verify STIX and reasoning engine</a></li>
-<li><a href="#TST-004">4 TC: Verify data model</a></li>
-<li><a href="#TST-005">5 TC: Verify centralized management</a></li>
-<li><a href="#TST-006">6 TC: Verify code clarity</a></li>
-<li><a href="#TST-007">7 TC: Verify secure programming</a></li>
+<li><a href="#TST-001">1 Verify data modelling artifacts</a></li>
+<li><a href="#TST-002">2 Verify software engineering practices</a></li>
+<li><a href="#TST-003">3 Verify STIX and reasoning engine</a></li>
+<li><a href="#TST-004">4 Verify STIX 2.1-based data model</a></li>
+<li><a href="#TST-005">5 Verify centralized management</a></li>
+<li><a href="#TST-006">6 Verify code clarity</a></li>
+<li><a href="#TST-007">7 Verify secure programming</a></li>
 <li><a href="#TST-008">8 Test setup + MITRE ATT&amp;CK ingestion</a></li>
 <li><a href="#TST-009">9 Verify ETL architecture</a></li>
 <li><a href="#TST-010">10 Verify CTI SKB inference rules</a></li>
@@ -37,11 +37,13 @@
 <li><a href="#TST-014">14 Test command line interface (CLI)</a></li>
 <li><a href="#TST-017">15 Verify open-source TIP integration</a></li>
 <li><a href="#TST-018">16 Verify release and licensing</a></li>
+<li><a href="#TST-019">17 Verify layered architecture of SATRAP</a></li>
+<li><a href="#TST-020">18 Verify enforcement of semantic data integrity</a></li>
 </ul>
           </nav>
       </div>
       <div class="col-lg-8" id="main">
-        <h1 id="TST-001">1 TC: Verify data modelling artifacts <small>TST-001</small></h1>
+        <h1 id="TST-001">1 Verify data modelling artifacts <small>TST-001</small></h1>
 <h2>Preconditions and setup actions</h2>
 <ul>
 <li>Access to the SATRAP-DL system concept documents</li>
@@ -96,7 +98,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-002">2 TC: Verify software engineering <small>TST-002</small></h1>
+<h1 id="TST-002">2 Verify software engineering practices <small>TST-002</small></h1>
 <p>Verify that the design and implementation of SATRAP-DL adheres to software best practices.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -152,7 +154,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-003">3 TC: Verify STIX and reasoning engine <small>TST-003</small></h1>
+<h1 id="TST-003">3 Verify STIX and reasoning engine <small>TST-003</small></h1>
 <p>Verify usage of DBMS equipped with automated reasoning and the use of the STIX 2.1 standard for CTI representation.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -206,7 +208,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-004">4 TC: Verify data model <small>TST-004</small></h1>
+<h1 id="TST-004">4 Verify STIX 2.1-based data model <small>TST-004</small></h1>
 <p>Analyze data model adherence to that of STIX 2.1.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -259,7 +261,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-005">5 TC: Verify centralized management <small>TST-005</small></h1>
+<h1 id="TST-005">5 Verify centralized management <small>TST-005</small></h1>
 <p>Verify centralized management of system parameters customization (e.g., logging severity, db connections, file paths) via a dedicated configuration file, log storage, exception types and error messages.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -315,7 +317,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-006">6 TC: Verify code clarity <small>TST-006</small></h1>
+<h1 id="TST-006">6 Verify code clarity <small>TST-006</small></h1>
 <p>Verify source code documentation and readability quality, as well as release on GitHub.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -368,7 +370,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-007">7 TC: Verify secure programming <small>TST-007</small></h1>
+<h1 id="TST-007">7 Verify secure programming <small>TST-007</small></h1>
 <p>Ensure various input sanitization and validation security measures are in place.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -387,7 +389,7 @@
 </ol>
 <h2>Expected outcome</h2>
 <p>Embedded in test steps.</p>
-<p><em>Parent links:</em> <a href="SRS.html#SRS-007">SRS-007 Semantic data integrity</a>, <a href="SRS.html#SRS-028">SRS-028 Input validation</a>, <a href="SRS.html#SRS-029">SRS-029 Input sanitization</a>, <a href="SRS.html#SRS-030">SRS-030 Resource management</a>, <a href="SRS.html#SRS-032">SRS-032 Dependencies management</a>, <a href="SRS.html#SRS-036">SRS-036 Log validation</a>, <a href="SRS.html#SRS-037">SRS-037 Sensitive information</a></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-028">SRS-028 Input validation</a>, <a href="SRS.html#SRS-029">SRS-029 Input sanitization</a>, <a href="SRS.html#SRS-030">SRS-030 Resource management</a>, <a href="SRS.html#SRS-032">SRS-032 Dependencies management</a>, <a href="SRS.html#SRS-036">SRS-036 Log validation</a>, <a href="SRS.html#SRS-037">SRS-037 Sensitive information</a></p>
 <p><em>Child links:</em> <a href="TRA.html#TRA-007">TRA-007 TCER: secure programming</a></p>
 <table>
 <thead>
@@ -536,13 +538,16 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 </ul>
 <h2>Test steps</h2>
 <ol>
-<li>Verify that the ETL module of SATRAP-DL provides a component in charge of orchestrating the ingestion of datasets in STIX 2.1 and the insertion of the content into the CTI SKB.</li>
-<li>Verify that the ETL module of SATRAP-DL provides a component in charge of transforming data in STIX 2.1 format into the representation language of the the CTI SKB schema.</li>
+<li>Verify that the system architecture considers a component (here the ETL subsystem) to deal with the ETL process.</li>
+<li>Verify that the ETL subsystem includes a component in charge of orchestrating the full extract-transform-load (ETL) process.</li>
+<li>Verify that the ETL subsystem has a dedicated component for the ingestion of datasets in STIX 2.1.</li>
+<li>Verify that the ETL subsystem includes a component in charge of transforming data in STIX 2.1 format into the representation language of the the CTI SKB schema.</li>
+<li>Verify that the ETL subsystem has a component responsible for the insertion of content into the CTI SKB.</li>
 <li>Verify that SATRAP-DL provides a component in charge of managing database operations and connections.</li>
 </ol>
 <h2>Expected outcome</h2>
 <p>Embedded in test steps.</p>
-<p><em>Parent links:</em> <a href="SRS.html#SRS-008">SRS-008 ETL orchestrator</a>, <a href="SRS.html#SRS-009">SRS-009 ETL Transformer</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-008">SRS-008 ETL subsystem</a>, <a href="SRS.html#SRS-009">SRS-009 ETL Transformer</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a></p>
 <p><em>Child links:</em> <a href="TRA.html#TRA-009">TRA-009 TCER: ETL architecture</a></p>
 <table>
 <thead>
@@ -643,13 +648,8 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 <ul>
 <li>Access to source code of SATRAP-DL</li>
 <li>Access to SATRAP-DL deployment artifacts</li>
-<li>Access to the internet or a pre-downloaded copy of MITRE ATT&amp;CK data sets in STIX 2.1, e.g., the enterprise TTPs</li>
-<li>TypeDB Docker container pulled and running using the <code>init-satrap.sh</code> script</li>
-<li>SATRAP Docker network created using the <code>init-satrap.sh</code> script</li>
-<li>SATRAP volume for persistent TypeDB storage created using the <code>init-satrap.sh</code> script</li>
 <li><a href="https://docs.docker.com/engine/">Docker Engine</a> (or daemon) running with the right privileges for the testing user</li>
-<li><code>TypeDB Studio</code> version <code>2.28.6</code> installed (alternatively you can interact with the TypeDB backend directly via its CLI)</li>
-<li>A plain/empty project created in TypeDB Studio</li>
+<li>Successful execution of the <code>init-satrap.sh</code> script</li>
 <li>SATRAP Docker container created using the <code>build-satrap.sh</code> script</li>
 <li>Microsoft <a href="https://code.visualstudio.com/">VS Code Studio</a> installed (v1.98.2)</li>
 <li>Microsoft VS Code Studio <a href="https://code.visualstudio.com/docs/devcontainers/containers">Dev Containers</a> installed, i.e., the VS Code <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">extension</a> (v0.401.0)</li>
@@ -724,8 +724,6 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 <li>SATRAP Docker network created using the <code>init-satrap.sh</code> script</li>
 <li>SATRAP volume for persistent TypeDB storage created using the <code>init-satrap.sh</code> script</li>
 <li>Docker Engine (or daemon) running with the right privileges for the testing user</li>
-<li><code>TypeDB Studio</code> version <code>2.28.6</code> installed (alternatively you can interact with the TypeDB backend directly via its CLI)</li>
-<li>A plain/empty project created in TypeDB Studio</li>
 <li>SATRAP Docker container created using the <code>build-satrap.sh</code> script</li>
 </ul>
 <h3>Test dependencies</h3>
@@ -1157,6 +1155,114 @@ transitive-use
 <tr>
 <td>test_data</td>
 <td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-019">17 Verify layered architecture of SATRAP <small>TST-019</small></h1>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL system concept documents</li>
+<li>Access to the SATRAP-DL source code</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Verify that the system architecture design and the code include a dedicated module or component encapsulating the analytic functions provided by SATRAP.</li>
+<li>Verify that the design of the system architecture and the code include a dedicated module or component aimed at providing the end-user functionality to be serviced by the system.</li>
+<li>Verify that the frontend is designed to interact with the service layer of SATRAP.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p>Successful validation of all the test steps.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a>, <a href="SRS.html#SRS-045">SRS-045 CTI analysis engine</a>, <a href="SRS.html#SRS-046">SRS-046 CTI analysis toolbox</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-017">TRA-017 TCER: SATRAP architecture</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>Any</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Review of design (R), Inspection (I)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>2</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-020">18 Verify enforcement of semantic data integrity <small>TST-020</small></h1>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the SATRAP-DL system concept documents</li>
+<li>Access to the SATRAP-DL source code</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Verify that the system enforces semantic integrity of data by implementing measures for validating conformance of the input data with the data model and relationships constraints.</li>
+</ol>
+<h2>Expected outcome</h2>
+<ol>
+<li>Evidence in the code and/or conceptual documents of the described measures.</li>
+</ol>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-007">SRS-007 Semantic data integrity</a></p>
+<p><em>Child links:</em> <a href="TRA.html#TRA-018">TRA-018 TCER: Semantic data integrity</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Review of design (R), Analysis(A)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>alpha</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>4</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>N/A</td>
 </tr>
 <tr>
 <td>version</td>

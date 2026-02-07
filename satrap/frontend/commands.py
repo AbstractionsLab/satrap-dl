@@ -32,6 +32,8 @@ def _get_etl_kwargs(args):
     kwargs = {}
     if int(args.xmode) == extract_ct.DOWNLOADER:
         kwargs["transform_src"] = utils.create_local_filename(conf.STIX_DATA_PATH, args.src)
+        kwargs[extract_ct.MAX_CONNECTION_TIME] = args.maxconnectiontime
+        kwargs[extract_ct.MAX_RESP_TIME] = args.maxresptime
     if int(args.xmode) == extract_ct.MISP_EXTRACTOR:
         kwargs["transform_src"] = conf.MISP_STIX_DATA_FILE
         kwargs[extract_ct.MISP_APIKEY] = args.apikey

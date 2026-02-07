@@ -41,28 +41,28 @@
 <p>The <em>Loader</em> will load the data that has been prepared by the transformer into another data repository. Often, this means that data is loaded into a database.</p>
 <p>These 3 components are managed by the ETL Orchestrator, i.e., it uses them to get the desired result. This is the abstract and implementation independent idea of the ETL process.</p>
 <blockquote>
-<p><code>satrap/etl/etlorchestrator.py</code> (line 11)
-<code>satrap/etl/extract/extractor.py</code> (line 16)
+<p><code>satrap/etl/etlorchestrator.py</code> (line 12)
+<code>satrap/etl/extract/extractor.py</code> (line 18)
 <code>satrap/etl/transform/transformer.py</code> (line 15)
 <code>satrap/etl/load/loader.py</code> (line 11)</p>
 </blockquote>
-<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <h1 id="SWD-002">2 STIX-specific ETL design <small>SWD-002</small></h1>
 <h2>STIX-specific ETL class diagram</h2>
-<p>A concrete class definition aimed at ingesting MITRE ATT&amp;CK data, based on inheritance from the abstract classes system is depicted below</p>
+<p>A concrete class definition aimed at ingesting data form sources in STIX 2.1 is depicted below. This classes implement and inherit from the abstract classes depicted in SWD-001.</p>
 <p><img alt="Concrete STIX-specific ETL class diagram" src="assets/2C0A2B_DIA_Specific-ETL-design.drawio.png" title="Concrete STIX-specific ETL class diagram" width="50%" /></p>
 <p>For instance, to provide an implementation of the ETL process to ingest MITRE ATT&amp;CK data in STIX 2.1 format, transform and load into a TypeDB database with a schema close to STIX 2.1, concrete implementations of the ETL classes are required.</p>
 <p>For this, we use 2 extractors, namely a Downloader which downloads a file and saves it and a STIXExtractor which reads a STIX 2.1 JSON file and provides its content as Python objects.</p>
 <p>Then, a transformer called STIXtoTypeQLTransformer will take these STIX 2.1 objects and transform them to TypeQL insertion query objects according to the defined schema.</p>
 <p>After the transformer has finished its work, the TypeDBLoader can take these insertion query objects and insert them into the TypeDB database instance.</p>
 <blockquote>
-<p><code>satrap/etl/extract/extractor.py</code> (line 51)
-<code>satrap/etl/extract/extractor.py</code> (line 88)
+<p><code>satrap/etl/extract/extractor.py</code> (line 57)
+<code>satrap/etl/extract/extractor.py</code> (line 111)
 <code>satrap/etl/transform/transformer.py</code> (line 30)
 <code>satrap/etl/load/loader.py</code> (line 25)
-<code>satrap/etl/etlorchestrator.py</code> (line 11)</p>
+<code>satrap/etl/etlorchestrator.py</code> (line 12)</p>
 </blockquote>
-<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <h1 id="SWD-003">3 ETL system flow <small>SWD-003</small></h1>
 <h2>Top-level ETL sequence diagram</h2>
 <p>Only the interaction of the ETL Orchestrator with the top level components shown above are given.</p>
@@ -70,7 +70,7 @@
 <p>The MITRE ATT&amp;CK data file is downloaded by the Downloader. Then, the STIX objects are read and parsed by the STIXExtractor. With this, the extraction process is completed.</p>
 <p>Next, the STIXtoTypeQLTransformer transforms each STIX Object into TypeDB insert queries.</p>
 <p>Once they are transformed, they are loaded into a TypeDB database by the TypeDBLoader in 3 steps. First, entities that represent STIX objects, then relations that represent STIX objects and at last relations that represent embedded relations.</p>
-<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <h1 id="SWD-004">4 TypeDB utilities <small>SWD-004</small></h1>
 <p>As the ETL process will load the data into a TypeDB database, dedicated functionality for TypeDB objects is required.
 Instead of hardcoding this functionality like string creation for the insert queries into the main ETL components, a separate typedb package is created that handles all functionality that is only TypeDB functionality and can be used in more contexts than just ETL systems.</p>
@@ -85,7 +85,7 @@ Instead of hardcoding this functionality like string creation for the insert que
 <p><code>satrap/datamanagement/typedb/inserthandler.py</code> (line 8)
 <code>satrap/datamanagement/typedb/dataobjects.py</code></p>
 </blockquote>
-<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <h1 id="SWD-005">5 Transformer class diagram <small>SWD-005</small></h1>
 <h2>Design ideas</h2>
 <p>In the ETL stack, the transformation process is arguably the most complex one. For every STIX Object, we need to define
@@ -121,7 +121,7 @@ The order is as follows: First, all STIX Objects that are translated as entities
 <dt>Identification</dt>
 <dd>Some ValueConverters need to know the TypeDB object type of the main object or their id. For this, the <code>Identification</code> class is used. This class contains all the data needed to create different references to the main object.</dd>
 </dl>
-<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <h1 id="SWD-006">6 Transformer flow <small>SWD-006</small></h1>
 <h2>Transformer sequence diagram</h2>
 <p>The sequence diagram of the transformation process can be seen below:</p>
@@ -130,11 +130,11 @@ The order is as follows: First, all STIX Objects that are translated as entities
 <p>To provide an example, the sequence diagram for a function call of <code>convert_to_typeql</code> of a composite value can be seen below:</p>
 <p><img alt="Sequence diagram for the value conversion of a composite value" src="assets/2C0A2G_DIA_CompositeValue-SeqDiagram.png" title="Sequence diagram for the value conversion of a composite value" width="100%" /></p>
 <p>It can be seen that for every value in a composite value's properties, the ValueConverter is needed to convert the value. This is not shown in this sequence diagram as this sequence diagram already explains this step.</p>
-<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <h1 id="SWD-007">7 ETL full class diagram <small>SWD-007</small></h1>
 <p>The full class diagram of the ETL is given below.</p>
 <p><img alt="Complete ETL class diagram" src="assets/2C0A2H_DIA_ETL-Complete-ClassDiagram.drawio.png" title="Complete ETL class diagram" width="100%" /></p>
-<p><em>Parent links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP-DL</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Parent links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
       </div>
     </div>
 </div>

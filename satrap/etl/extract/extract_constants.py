@@ -9,8 +9,12 @@ STIX_READER = 3
 
 
 # keyargs for fetching on different extractors
-OVERRIDE = "override"
+# Downloader:
 TARGET = "target"
+OVERRIDE = "override"
+MAX_CONNECTION_TIME = "max_connection_time"
+MAX_RESP_TIME = "max_resp_time"
+# MISP:
 MISP_APIKEY = "apikey"
 
 BASE_TIME = datetime(1970, 1, 1, 0, 0, 0, 0).astimezone(timezone.utc)

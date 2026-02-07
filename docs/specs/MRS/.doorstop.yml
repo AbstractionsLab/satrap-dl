@@ -1,13 +1,12 @@
 settings:
   digits: 3
-  itemformat: yaml
+  itemformat: markdown
   prefix: MRS
   sep: '-'
 
 attributes:
   defaults:
     type: 'F'
-    rationale: ""
     importance: "5"
     urgency: "5"
     vm: 'T'
@@ -15,6 +14,13 @@ attributes:
       Successful validation according to the
       corresponding test case specification
     release: "Alpha"
+    text: |
+      # Title
+
+      Description
+
+      ### Rationale
+      ...
 
   publish:
     - type

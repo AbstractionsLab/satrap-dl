@@ -4,13 +4,11 @@ header: |
   ETL full class diagram
 level: 7
 links:
-- ARC-001: y3hraERh10v0ZeagXw10yVa2irVB_Wq1bOHAkBVKLUM=
-- ARC-002: Ui5Z6JsqJkwmNktqyF6bqwgovVGHvHZbHdsvs4Hlrjs=
 - ARC-003: R0GD-wyqQaUFXEDlm6ChoGsrdZGrFgK3Vhcompn3I5g=
-- ARC-004: YQ8rkbIXe2QD1DWLdeWsLSHiG8a-BZ0uA6j3ggLhWVA=
+- ARC-004: wXgqP5HfGae4YvPa8H_8ak8vnLf6gWJpoRtmXjh2pps=
 normative: true
 ref: ''
-reviewed: ZCGBv3jhPDqYdzpGHI2olUNM2EeXFh5MInmHvVb_rQo=
+reviewed: PvGBqzzrvhSpF2zMAfxca6_ESte-GPJBaYtnc-pMqQs=
 text: |
   The full class diagram of the ETL is given below.
 

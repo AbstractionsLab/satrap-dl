@@ -4,10 +4,8 @@ header: |
   TypeDB utilities
 level: 4
 links:
-- ARC-001: y3hraERh10v0ZeagXw10yVa2irVB_Wq1bOHAkBVKLUM=
-- ARC-002: Ui5Z6JsqJkwmNktqyF6bqwgovVGHvHZbHdsvs4Hlrjs=
 - ARC-003: R0GD-wyqQaUFXEDlm6ChoGsrdZGrFgK3Vhcompn3I5g=
-- ARC-004: YQ8rkbIXe2QD1DWLdeWsLSHiG8a-BZ0uA6j3ggLhWVA=
+- ARC-004: wXgqP5HfGae4YvPa8H_8ak8vnLf6gWJpoRtmXjh2pps=
 normative: true
 ref: ''
 references:
@@ -16,7 +14,7 @@ references:
   type: file
 - path: satrap/datamanagement/typedb/dataobjects.py
   type: file
-reviewed: AgObU5d2ya3CkQ3Vl1xo2CD_ebYJ-5nBbdhh4ij1sZA=
+reviewed: eS64W1ImnGdKOlbLM5opMk9ll8n8fqYKMN8qnRwAv-k=
 text: |
   As the ETL process will load the data into a TypeDB database, dedicated functionality for TypeDB objects is required.
   Instead of hardcoding this functionality like string creation for the insert queries into the main ETL components, a separate typedb package is created that handles all functionality that is only TypeDB functionality and can be used in more contexts than just ETL systems.

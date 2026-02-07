@@ -4,7 +4,7 @@ from typing import Any
 from stix2 import parse
 from stix2.utils import get_timestamp, parse_into_datetime, format_datetime
 from stix2.exceptions import STIXError
-from requests import HTTPError
+from requests import HTTPError, ConnectionError, Timeout
 from pymisp import PyMISP
 from pymisp.exceptions import PyMISPError
 
@@ -69,8 +69,13 @@ class Downloader(Extractor):
         :param src: the url of the file that is to be downloaded
         :type src: str
         :param kwargs: optional parameters
-            - override (bool): if True, the file will be overwritten 
-            - target (str): the filepath of the file where to store the data
+            - extract_cts.TARGET (str): the filepath of the file where to store the data
+            - extract_cts.OVERRIDE (bool): when True, the target file will be overwritten 
+                if it exists
+            - extract_cts.MAX_CONNECTION_TIME (float or int): maximum time in seconds to wait for 
+                establishing a connection with the remote host
+            - extract_cts.MAX_RESP_TIME (float or int): maximum time in seconds to wait for reading data
+                from the remote host once connected
         :type kwargs: dict
 
         :raises ExtractionError: If the extraction fails
@@ -85,14 +90,18 @@ class Downloader(Extractor):
                     class_origin=__name__,
                 )
             override = kwargs.get(extract_cts.OVERRIDE, False)
+            connecting_timeout = kwargs.get(extract_cts.MAX_CONNECTION_TIME)
+            reading_timeout = kwargs.get(extract_cts.MAX_RESP_TIME)
         except AttributeError as err:
             raise ExtractionError(
                 ExtractionError.GENERIC_EXTRACTION_ERROR,
-                message="Arguments for downloading are missing.",
+                message="Insufficient parameters to set up download (optional parameters are None)",
                 class_origin=__name__) from err
         try:
-            download_file(src, target, override)
-        except (ValueError, HTTPError) as e:
+            download_file(src, save_to=target, override=override, 
+                          connecting_timeout=connecting_timeout, 
+                          response_timeout=reading_timeout)
+        except (ValueError, HTTPError, ConnectionError, Timeout) as e:
             raise ExtractionError(
                 ExtractionError.FAILED_DOWNLOAD, e, src, __name__
             ) from e

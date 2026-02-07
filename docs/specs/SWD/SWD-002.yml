@@ -4,10 +4,8 @@ header: |
   STIX-specific ETL design
 level: 2
 links:
-- ARC-001: y3hraERh10v0ZeagXw10yVa2irVB_Wq1bOHAkBVKLUM=
-- ARC-002: Ui5Z6JsqJkwmNktqyF6bqwgovVGHvHZbHdsvs4Hlrjs=
 - ARC-003: R0GD-wyqQaUFXEDlm6ChoGsrdZGrFgK3Vhcompn3I5g=
-- ARC-004: YQ8rkbIXe2QD1DWLdeWsLSHiG8a-BZ0uA6j3ggLhWVA=
+- ARC-004: wXgqP5HfGae4YvPa8H_8ak8vnLf6gWJpoRtmXjh2pps=
 normative: true
 ref: ''
 references:
@@ -26,11 +24,11 @@ references:
 - keyword: ETLOrchestrator
   path: satrap/etl/etlorchestrator.py
   type: file
-reviewed: QKUbZi1wA7Hy1FuUH6nGEvfSaK7VeLXB7L25e90Nl3Y=
+reviewed: GTPeM0_eWLOweMZShG5KQrFrIRKaHdt9hSNt2OqR5gE=
 text: |
   ## STIX-specific ETL class diagram
 
-  A concrete class definition aimed at ingesting MITRE ATT&CK data, based on inheritance from the abstract classes system is depicted below
+  A concrete class definition aimed at ingesting data form sources in STIX 2.1 is depicted below. This classes implement and inherit from the abstract classes depicted in SWD-001.
 
   ![Concrete STIX-specific ETL class diagram](assets/2C0A2B_DIA_Specific-ETL-design.drawio.png "Concrete STIX-specific ETL class diagram"){: width="50%"}
 

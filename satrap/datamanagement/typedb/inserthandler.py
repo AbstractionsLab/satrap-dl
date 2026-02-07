@@ -56,7 +56,7 @@ class TypeDBBatchInsertHandler:
                     if len(list(r)) == 0:
                         logger.warning(
                             "The following query did no insertions. Data matching "
-                            "the 'match' clause might have not been found:\n%s", query)
+                            "the 'match' clause might not have been found:\n%s", query)
                 transaction.commit()
                 return True
             except TypeDBDriverException as err:

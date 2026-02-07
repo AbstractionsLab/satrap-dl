@@ -32,11 +32,51 @@ class TestDownloader(unittest.TestCase):
         )
         target = self.filepath + "download_test_readme.md"
         downloader = Downloader()
-        downloader.fetch(url, target=target, override=True)
+        args = {extract_constants.TARGET: target, 
+                extract_constants.OVERRIDE: True}
+        downloader.fetch(url, **args)
         self.assertTrue(os.path.exists(target))
         # remove file to clear for future tests
         if os.path.exists(target):
             os.remove(target)
+
+    def test_download_missing_args(self):
+        url = (
+            "https://raw.githubusercontent.com/"
+            "AbstractionsLab/c5dec/main/README.md"
+        )
+        downloader = Downloader()
+        with self.assertRaises(ExtractionError) as e:
+            downloader.fetch(url)
+        self.assertIn("ExtractionError-101", str(e.exception))
+
+    def test_download_connect_timeout(self):
+        url = (
+            "https://raw.githubusercontent.com/"
+            "AbstractionsLab/c5dec/main/README.md"
+        )
+        target = self.filepath + "download_test_readme.md"
+        downloader = Downloader()
+        args = {extract_constants.TARGET: target, 
+                extract_constants.OVERRIDE: True,
+                extract_constants.MAX_CONNECTION_TIME: 0.000000001}
+        with self.assertRaises(ExtractionError) as err:
+            downloader.fetch(url, **args)
+        self.assertIn("Errno 101", str(err.exception))
+
+    def test_download_read_timeout(self):
+        url = (
+            "https://raw.githubusercontent.com/"
+            "AbstractionsLab/c5dec/main/README.md"
+        )
+        target = self.filepath + "download_test_readme.md"
+        downloader = Downloader()
+        args = {extract_constants.TARGET: target, 
+            extract_constants.OVERRIDE: True,
+            extract_constants.MAX_RESP_TIME: 0.000000001}
+        with self.assertRaises(ExtractionError) as err:
+            downloader.fetch(url, **args)
+        self.assertIn("Read timed out", str(err.exception))
 
     def test_download_inexistent(self):
         url = (

@@ -76,7 +76,11 @@ def validate_file_access(path: str, write=False, override=False):
 
 
 def download_file(
-        url: str, save_to: str, override: bool=False
+        url: str, 
+        save_to: str, 
+        override: bool=False,
+        connecting_timeout: float=20,
+        response_timeout: float=30
     ):
     """Downloads and saves a single file.
     
@@ -88,8 +92,10 @@ def download_file(
         it already exists
     :type override: bool, optional
     
-    :raises requests.exceptions.Timeout: if the connection to the server takes
-        longer than 20 sec. or the reading takes longer than 30 sec.
+    :raises requests.exceptions.ConnectionError: if establishing a connection with 
+        the server exceeds the connecting_timeout (default 20 sec.)
+    :raises requests.exceptions.Timeout: if the server's response takes longer than 'reading_timeout'
+        (default 30 sec.)
     :raises HTTPError: if the response status code is not 200
     """
     # Check for whitespaces in url
@@ -98,7 +104,7 @@ def download_file(
 
     validate_file_access(save_to, write=True, override=override)
 
-    with requests.get(url, stream=True, timeout=(20,30)) as response:
+    with requests.get(url, stream=True, timeout=(connecting_timeout,response_timeout)) as response:
         logger.debug("Requesting download from %s...", url)
         if response.status_code == requests.codes.ok:
             logger.debug("...Response status ok")

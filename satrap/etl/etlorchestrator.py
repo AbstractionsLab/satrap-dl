@@ -35,7 +35,9 @@ class ETLOrchestrator:
         if self.extractor.get_extractor_type() == extract_cts.DOWNLOADER:
             args = {
                 extract_cts.TARGET: store_at,
-                extract_cts.OVERRIDE: True
+                extract_cts.OVERRIDE: True,
+                extract_cts.MAX_CONNECTION_TIME: kwargs.get(extract_cts.MAX_CONNECTION_TIME),
+                extract_cts.MAX_RESP_TIME: kwargs.get(extract_cts.MAX_RESP_TIME)
             }
         elif self.extractor.get_extractor_type() == extract_cts.MISP_EXTRACTOR:
             args = {

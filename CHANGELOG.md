@@ -1,3 +1,21 @@
+# 0.3 (2026-02-07)
+
+## Added
+- Folder to host the DECIPHER Python package, foreseen in the upcoming Beta release
+- Artifacts for containerized deployment of the DECIPHER infrastructure stack (MISP, Flowintel)
+- Arguments to the `satrap etl` command for setting remote download timeouts (`-mct` and `-mrt`)
+- Unit tests for the new parameters added to the ETL download functionality
+- A STIX 2.1 file exemplifying how to model an organization’s infrastructure
+- MRSs and SRSs for DECIPHER and PyFlowintel
+
+## Modified
+- The main README has been split into dedicated READMEs per sub-project for readability
+- SATRAP-DL's requirements have been updated as per the Alpha and Beta phases
+- The traceability website reflects the updates to the tech specs
+- The publishing engine has been updated as per the C5-DEC's latest version
+
+## Fixed
+- Rename test methods with duplicated names in `tests/file_util_test.py`
 
 # 0.2 (2025-06-18)
 

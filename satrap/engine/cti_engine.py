@@ -361,6 +361,7 @@ class CTIEngine:
         mit = self.db_manager.get_query(
             cons.MITIGATIONS_REL_TECHNIQUE.format(name), inference=True
         )
+        logger.debug(cons.MITIGATIONS_REL_TECHNIQUE.format(name))
         return TypeDBHandler.dict_from_answers(mit, "sid", "mitigation-name")
 
     def explain_mitig_rel_tech(

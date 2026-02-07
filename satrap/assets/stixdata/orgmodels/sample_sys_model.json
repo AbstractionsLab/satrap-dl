@@ -1,0 +1,187 @@
+{
+	"type": "bundle",
+	"id": "bundle--5f9a48e3-14b7-4243-946b-504d77a84f9d",
+	"objects": [
+		{
+			"type": "identity",
+			"id": "identity--f866d64a-2c17-4a2c-8b4d-7dc48f802ab6",
+			"spec_version": "2.1",
+			"created": "2014-06-29T13:49:37.079Z",
+			"modified": "2014-06-29T13:49:37.079Z",
+			"name": "Sample Solutions",
+			"identity_class": "organization",
+			"sectors": [
+				"information-technology"
+			],
+			"description": "A software development firm specializing in SaaS products and custom web solutions."
+		},
+		{
+			"type": "infrastructure",
+			"id": "infrastructure--f311b331-d822-4c12-b87f-d76425abfb3e",
+			"spec_version": "2.1",
+			"created": "2014-06-29T13:49:37.079Z",
+			"modified": "2022-06-29T13:49:37.079Z",
+			"name": "Sample Solutions assets",
+			"infrastructure_types": [
+				"organization-assets"
+			],
+			"description": "Infrastructure of the organization",
+			"created_by_ref": "identity--f866d64a-2c17-4a2c-8b4d-7dc48f802ab6"
+		},
+		{
+			"type": "infrastructure",
+			"id": "infrastructure--d511b331-d822-4c12-b87f-d76425abfb3e",
+			"spec_version": "2.1",
+			"created": "2016-06-29T13:49:37.079Z",
+			"modified": "2016-06-29T13:49:37.079Z",
+			"name": "Corporate Office Network",
+			"infrastructure_types": [
+				"enterprise-network"
+			],
+			"description": "On-premises LAN hosting employee workstations, VoIP systems, and printers."
+		},
+		{
+			"type": "infrastructure",
+			"id": "infrastructure--6e00dd38-50a9-4b39-8e54-7e7e8b75dca8",
+			"spec_version": "2.1",
+			"created": "2020-06-29T13:49:37.079Z",
+			"modified": "2021-06-29T13:49:37.079Z",
+			"name": "Development Cloud Environment",
+			"infrastructure_types": [
+				"cloud-service"
+			],
+			"description": "Cloud-hosted environment (OVH) hosting internally used applications."
+		},
+		{
+			"type": "software",
+			"id": "software--001b0f53-1b8f-4543-89b6-5a92b86459e1",
+			"spec_version": "2.1",
+			"name": "Jenkins CI/CD Server",
+			"version": "2.440",
+			"vendor": "Jenkins",
+			"cpe": "cpe:2.3:a:jenkins:jenkins:2.440.3:*:*:*:lts:*:*:*",
+			"languages": [
+				"Java"
+			],
+			"description": "Build automation system used for software compilation and testing."
+		},
+		{
+			"type": "software",
+			"id": "software--f3e0fa46-754b-4df4-97f5-3e700f09457a",
+			"spec_version": "2.1",
+			"name": "GitLab",
+			"version": "16.7",
+			"vendor": "GitLab",
+			"description": "Internal source code repository and DevOps platform."
+		},
+		{
+			"type": "software",
+			"id": "software--129d7b49-7caa-485a-bbde-7f47fe70ff2b",
+			"spec_version": "2.1",
+			"name": "Nginx Web Gateway",
+			"version": "1.24",
+			"vendor": "NGINX",
+			"description": "Reverse proxy and load balancer for customer web applications."
+		},
+		{
+			"type": "ipv4-addr",
+			"id": "ipv4-addr--d39e2c46-18f9-4964-a686-f6a136253566",
+			"spec_version": "2.1",
+			"value": "203.0.113.12"
+		},
+		{
+			"type": "ipv4-addr",
+			"id": "ipv4-addr--66a991f5-7e83-49d7-b0a0-ebb6ad290370",
+			"spec_version": "2.1",
+			"value": "10.0.5.21"
+		},
+		{
+			"type": "user-account",
+			"id": "user-account--df7777df-f582-40cd-8b43-bb0297bdf226",
+			"user_id": "devops_admin",
+			"account_type": "admin",
+			"display_name": "DevOps Administrator",
+			"is_privileged": true
+		},
+		{
+			"type": "relationship",
+			"id": "relationship--1db6234f-6170-4a9f-9797-d74e6e9a678c",
+			"spec_version": "2.1",
+			"created": "2014-06-29T13:49:37.079Z",
+			"modified": "2014-06-29T13:49:37.079Z",
+			"relationship_type": "consists-of",
+			"source_ref": "infrastructure--d511b331-d822-4c12-b87f-d76425abfb3e",
+			"target_ref": "ipv4-addr--66a991f5-7e83-49d7-b0a0-ebb6ad290370"
+		},
+		{
+			"type": "relationship",
+			"id": "relationship--cc17de03-8090-48fb-bf6f-965d175b4db2",
+			"spec_version": "2.1",
+			"created": "2021-06-29T13:49:37.079Z",
+			"modified": "2021-06-29T13:49:37.079Z",
+			"relationship_type": "consists-of",
+			"source_ref": "infrastructure--6e00dd38-50a9-4b39-8e54-7e7e8b75dca8",
+			"target_ref": "software--001b0f53-1b8f-4543-89b6-5a92b86459e1"
+		},
+		{
+			"type": "relationship",
+			"id": "relationship--5bec03b1-578d-4141-bf47-d4221a7a2393",
+			"spec_version": "2.1",
+			"created": "2021-06-29T13:49:37.079Z",
+			"modified": "2021-06-29T13:49:37.079Z",
+			"relationship_type": "consists-of",
+			"source_ref": "infrastructure--6e00dd38-50a9-4b39-8e54-7e7e8b75dca8",
+			"target_ref": "software--f3e0fa46-754b-4df4-97f5-3e700f09457a"
+		},
+		{
+			"type": "relationship",
+			"id": "relationship--6872df8c-df00-4c93-80e4-8fa7954b71b9",
+			"spec_version": "2.1",
+			"created": "2014-06-29T13:49:37.079Z",
+			"modified": "2014-06-29T13:49:37.079Z",
+			"relationship_type": "communicates-with",
+			"source_ref": "infrastructure--6e00dd38-50a9-4b39-8e54-7e7e8b75dca8",
+			"target_ref": "ipv4-addr--d39e2c46-18f9-4964-a686-f6a136253566"
+		},
+		{
+			"type": "relationship",
+			"id": "relationship--a9ec6117-5f28-4fe9-8890-2465a98f1fe4",
+			"spec_version": "2.1",
+			"created": "2014-06-29T13:49:37.079Z",
+			"modified": "2014-06-29T13:49:37.079Z",
+			"relationship_type": "manages",
+			"source_ref": "user-account--df7777df-f582-40cd-8b43-bb0297bdf226",
+			"target_ref": "software--001b0f53-1b8f-4543-89b6-5a92b86459e1"
+		},
+		{
+			"type": "relationship",
+			"id": "relationship--2db6234f-6170-4a9f-9797-d74e6e9a678c",
+			"spec_version": "2.1",
+			"created": "2016-06-29T13:49:37.079Z",
+			"modified": "2016-06-29T13:49:37.079Z",
+			"relationship_type": "consists-of",
+			"source_ref": "infrastructure--f311b331-d822-4c12-b87f-d76425abfb3e",
+			"target_ref": "infrastructure--d511b331-d822-4c12-b87f-d76425abfb3e"
+		},
+		{
+			"type": "relationship",
+			"id": "relationship--3db6234f-6170-4a9f-9797-d74e6e9a678c",
+			"spec_version": "2.1",
+			"created": "2020-06-29T13:49:37.079Z",
+			"modified": "2020-06-29T13:49:37.079Z",
+			"relationship_type": "consists-of",
+			"source_ref": "infrastructure--f311b331-d822-4c12-b87f-d76425abfb3e",
+			"target_ref": "infrastructure--6e00dd38-50a9-4b39-8e54-7e7e8b75dca8"
+		},
+		{
+			"type": "relationship",
+			"id": "relationship--4db6234f-6170-4a9f-9797-d74e6e9a678c",
+			"spec_version": "2.1",
+			"created": "2014-06-29T13:49:37.079Z",
+			"modified": "2014-06-29T13:49:37.079Z",
+			"relationship_type": "consists-of",
+			"source_ref": "infrastructure--f311b331-d822-4c12-b87f-d76425abfb3e",
+			"target_ref": "software--129d7b49-7caa-485a-bbde-7f47fe70ff2b"
+		}
+	]
+}

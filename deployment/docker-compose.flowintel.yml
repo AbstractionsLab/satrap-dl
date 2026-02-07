@@ -1,0 +1,50 @@
+services:
+  postgresql:
+    image: postgres:17
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${FLOWINTEL_POSTGRES_PASSWORD:-flowintel}
+      - POSTGRES_USER=${FLOWINTEL_POSTGRES_USER:-flowintel}
+      - POSTGRES_DB=${FLOWINTEL_POSTGRES_DB:-flowintel}
+    networks:
+      - flowintel-net
+    restart: unless-stopped
+
+  valkey:
+    image: valkey/valkey
+    volumes:
+      - valkey-data:/data
+    networks:
+      - flowintel-net
+    restart: unless-stopped
+
+  flowintel:
+    image: ghcr.io/flowintel/flowintel:2.3.0
+    command: bash ./launch.sh -ld
+    ports:
+      - '${FLOWINTEL_APP_PORT:-7006}:7006'
+    environment:
+      - DB_HOST=postgresql
+      - DB_PORT=5432
+      - DB_USER=${FLOWINTEL_POSTGRES_USER:-flowintel}
+      - DB_PASSWORD=${FLOWINTEL_POSTGRES_PASSWORD:-flowintel}
+      - DB_NAME=${FLOWINTEL_POSTGRES_DB:-flowintel}
+      - VALKEY_IP=${FLOWINTEL_VALKEY_IP:-valkey}
+    networks:
+      - flowintel-net
+    depends_on:
+      - postgresql
+      - valkey
+    volumes:
+      - flowintel-data:/var/lib/flowintel
+    restart: unless-stopped
+
+volumes:
+  db:
+  flowintel-data:
+  valkey-data:
+
+networks:
+  flowintel-net:
+    driver: bridge

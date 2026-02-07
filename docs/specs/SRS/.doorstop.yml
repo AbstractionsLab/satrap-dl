@@ -1,6 +1,6 @@
 settings:
   digits: 3
-  itemformat: yaml
+  itemformat: markdown
   parent: MRS
   prefix: SRS
   sep: '-'
@@ -8,17 +8,28 @@ settings:
 attributes:
   defaults:
     type: 'F'
-    rationale: ""
-    importance: "5"
-    urgency: "5"
-    release: "Alpha"
+    importance: "[1-5]"
+    urgency: "[1-5]"
+    release: "Beta"
+    text: |
+      # Title
+
+      - Option 1: Description
+      - Option 2: As a `<role>`, I want `<to perform this action>` so that `<I can accomplish this goal>`
+
+      ### Rationale
+      ...
+
+      ### Acceptance criteria
+      ...
+    vm: 'Test (T), Review of design (R), Inspection (I), Analysis (A)'
 
   publish:
-    - release
     - type
     - importance
     - urgency
     - vm
+    - release
   
   reviewed:
     - type
