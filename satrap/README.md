@@ -49,7 +49,7 @@ SATRAP complements existing open-source threat intelligence platforms such as [M
 
 ## User manual
 
-To learn more about the fundamentals of SATRAP as well as details on the installation, setup requirements, usage, and overall functionality, please refer to the [SATRAP user manual](../docs/manual/index.md).
+To learn more about the fundamentals of SATRAP as well as details on the installation, setup requirements, usage, and overall functionality, please refer to the [SATRAP user manual](../docs/manual/satrap/README.md).
 
 ## Getting started
 
@@ -58,7 +58,7 @@ Currently, SATRAP offers two deployment options:
 - A command-line interface (CLI) in your OS shell of choice
 - A containerized analysis environment in VS Code
 
-Below we describe the deployment of the command-line interface. For the deployment of a development environment, please see the [installation page](../docs/manual/installation.md) of the user manual.
+Below we describe the deployment of the command-line interface. For the deployment of a development environment, please see the [installation page](../docs/manual/satrap/installation.md) of the user manual.
 
 ### Prerequisites
 
@@ -130,7 +130,7 @@ To create and populate a knowledge base with the [default parameters](#configura
 This will create a knowledge base called `satrap-skb-alpha` and ingest the latest version of the [MITRE ATT&CK Enterprise](https://github.com/mitre-attack/attack-stix-data) dataset.
 
 
-For more information about the commands exposed in the CLI, please take a look at the [SATRAP interfaces](../docs/manual/interfaces.md) section of the user manual.
+For more information about the commands exposed in the CLI, please take a look at the [SATRAP interfaces](../docs/manual/satrap/interfaces.md) section of the user manual.
 
 
 ### SATRAP as a Python library
@@ -160,13 +160,19 @@ For example, we run the explanation function `explain_techniques_used_by_group` 
 
 **NOTE:** integration of visual explanations in Jupyter Notebooks and in the development environment is considered for future releases (see the [Roadmap](#roadmap) below).
 
-For more information on the topic, see the page on [Running investigations](../docs/manual/playbooks.md) in the user manual.
+For more information on the topic, see the page on [Running investigations](../docs/manual/satrap/playbooks.md) in the user manual.
 
 ## Unit and validation tests
 
-SATRAP comes with an extensive suite of unit tests that can be run with the script [run_tests.sh](../run_tests.sh) in the development environment. Details are available in the [installation page](../docs/manual/installation.md) of the user manual.
+SATRAP comes with an extensive suite of unit tests. To run all SATRAP tests, simply execute the following command from the project root:
 
-For software validation test cases and reports, please refer to the test case specifications ([TST](https://abstractionslab.github.io/satrap-dl/docs/traceability/TST.html)) and test campaign results ([TRA](https://abstractionslab.github.io/satrap-dl/docs/traceability/TRA.html)) on our [traceability web page](https://abstractionslab.github.io/satrap-dl/docs/traceability/index.html).
+```bash
+./run_tests.sh satrap
+```
+
+For additional test execution options, see the [installation page](../docs/manual/satrap/installation.md#running-unit-tests) of the user manual.
+
+For software validation test cases and reports, please refer to the test case specifications ([TST](https://abstractionslab.github.io/satrap-dl/traceability/TST.html)) and test campaign results ([TRP](https://abstractionslab.github.io/satrap-dl/traceability/TRP.html#TRP-SATRAP)) on our [traceability web page](https://abstractionslab.github.io/satrap-dl/traceability/index.html).
 
 ## Project status
 As of March 2025, this repository hosts the Alpha version of SATRAP.

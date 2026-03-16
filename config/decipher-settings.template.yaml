@@ -1,0 +1,29 @@
+# DECIPHER core configuration
+#
+# Copy/rename this file as 'decipher-settings.yaml' and fill in your values
+# Restart of the service is needed if these values change
+
+misp:
+  # MISP instance URL, e.g.,
+  url: https://localhost
+  # MISP API authentication key (obtain from: MISP user profile > Auth Keys)
+  api_key: <valid-api-key>
+  # SSL certificate verification (set to true for production MISP instances)
+  verify_ssl: false
+
+
+# Flowintel case management integration
+flowintel:
+  # Flowintel API URL, e.g.,
+  base_url: http://localhost:7006/api  
+  # Flowintel API authentication key (obtain from: admin > My profile)
+  api_key: <your-api-key-here>
+  # URL for building links for the cases created: <case_url>/case/<case_id>
+  # Uncomment to override the base_url (without '/api'), e.g when forwarding ports
+  # case_url: http://other-ip:7008
+
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR (case-insensitive)
+  level: "info"

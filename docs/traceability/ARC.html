@@ -21,17 +21,33 @@
           <nav id="TOC" class="nav nav-stacked fixed sidebar">
               <h3>Table of Contents</h3>
 <ul>
-<li><a href="#ARC-001">1 System structure overview</a></li>
-<li><a href="#ARC-002">2 Logical view of SATRAP</a></li>
-<li><a href="#ARC-003">3 ETL high-level design</a></li>
-<li><a href="#ARC-004">4 ETL components</a></li>
+<li><a href="#ARC-SATRAP">1 SATRAP</a><ul>
+<li><a href="#ARC-001">1.1 SATRAP: System structure overview</a></li>
+<li><a href="#ARC-002">1.2 Logical view of SATRAP</a></li>
+<li><a href="#ARC-003">1.3 ETL high-level design</a></li>
+<li><a href="#ARC-004">1.4 ETL components</a></li>
+</ul>
+</li>
+<li><a href="#ARC-DECIPHER">2 DECIPHER</a><ul>
+<li><a href="#ARC-005">2.1 DECIPHER context diagram</a></li>
+<li><a href="#ARC-006">2.2 DECIPHER infrastructure deployment diagram</a></li>
+<li><a href="#ARC-007">2.3 RADAR-DECIPHER pipeline overview</a></li>
+<li><a href="#ARC-008">2.4 DECIPHER microservice container diagram</a></li>
+<li><a href="#ARC-009">2.5 REST service: analysis endpoint interaction</a></li>
+<li><a href="#ARC-010">2.6 Analysis endpoint: scoring data flow diagram</a></li>
+<li><a href="#ARC-012">2.7 Analysis endpoint: support for suspicious login</a></li>
+<li><a href="#ARC-011">2.8 REST service: incident endpoint interaction</a></li>
+</ul>
+</li>
 </ul>
           </nav>
       </div>
       <div class="col-lg-8" id="main">
-        <h1 id="ARC-001">1 System structure overview <small>ARC-001</small></h1>
-<p>This UML composite structure diagram shows the overview of SATRAP-DL along with the systems on which it has some dependency.</p>
-<p><img alt="Composite structure diagram of SATRAP-DL" src="assets/2B1D0_DIA_composite-structure.png" /></p>
+        <h1 id="ARC-SATRAP">1 SATRAP <small>ARC-SATRAP</small></h1>
+<p>Architecture design artifacts for the SATRAP CTI analysis platform.</p>
+<h2 id="ARC-001">1.1 SATRAP: System structure overview <small><a href="ARC.html#ARC-001">ARC-001</a></small></h2>
+<p>This UML composite structure diagram shows the overview of SATRAP along with the systems on which it has some dependency.</p>
+<p><img alt="Composite structure diagram of SATRAP" src="assets/2B1D0_DIA_composite-structure.png" /></p>
 <p>Roughly, the components are described as follows:</p>
 <table>
 <thead>
@@ -59,14 +75,14 @@
 </tr>
 <tr>
 <td>Controller</td>
-<td>Responsible for handling the interaction between the SATRAP-DL management console and the ETL module .</td>
+<td>Responsible for handling the interaction between the SATRAP management console and the ETL module .</td>
 </tr>
 <tr>
-<td>SATRAP-DL services</td>
-<td>Make SATRAP-DL's functionality accessible via a Python library and a language-independent API.</td>
+<td>SATRAP services</td>
+<td>Make SATRAP's functionality accessible via a Python library and a language-independent API.</td>
 </tr>
 <tr>
-<td>SATRAP-DL frontend</td>
+<td>SATRAP frontend</td>
 <td>A suite of user interfaces for executing and visualizing results of analytic queries over the CTI SKB and performing data management and admin tasks in the CTI SKB.</td>
 </tr>
 </tbody>
@@ -74,18 +90,18 @@
 <p>More details are available as part of the system concept in the file <code>2B1D_REP_CyFORT-SATRAP-DL-SystemArchitecture_v1.1</code>.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-001">SRS-001 Data modelling language</a>, <a href="SRS.html#SRS-002">SRS-002 Database paradigm</a>, <a href="SRS.html#SRS-008">SRS-008 ETL subsystem</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a>, <a href="SRS.html#SRS-011">SRS-011 Ingestion of organizational CTI</a>, <a href="SRS.html#SRS-012">SRS-012 Inference rules</a>, <a href="SRS.html#SRS-014">SRS-014 Native reasoning engine</a>, <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a>, <a href="SRS.html#SRS-017">SRS-017 Integration of behavioral data</a>, <a href="SRS.html#SRS-045">SRS-045 CTI analysis engine</a>, <a href="SRS.html#SRS-046">SRS-046 CTI analysis toolbox</a></p>
 <p><em>Child links:</em> <a href="SWD.html#SWD-001">SWD-001 Top-level ETL design</a></p>
-<h1 id="ARC-002">2 Logical view of SATRAP <small>ARC-002</small></h1>
+<h2 id="ARC-002">1.2 Logical view of SATRAP <small><a href="ARC.html#ARC-002">ARC-002</a></small></h2>
 <p>The following UML package diagram depicts the logical view of SATRAP (Semi-Automated Threat Reconnaissance and Analysis Platform), the system to be built in SATRAP-DL.</p>
 <p><img alt="Package diagram of SATRAP-DL" src="assets/2B1D0_DIA_logical-view_v1.2.png" /></p>
 <p>Details on the architecture are available as part of the system concept in the file <code>2B1D_REP_CyFORT-SATRAP-DL-SystemArchitecture_v1.1</code>.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-001">SRS-001 Data modelling language</a>, <a href="SRS.html#SRS-002">SRS-002 Database paradigm</a>, <a href="SRS.html#SRS-008">SRS-008 ETL subsystem</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a>, <a href="SRS.html#SRS-011">SRS-011 Ingestion of organizational CTI</a>, <a href="SRS.html#SRS-014">SRS-014 Native reasoning engine</a>, <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a>, <a href="SRS.html#SRS-017">SRS-017 Integration of behavioral data</a>, <a href="SRS.html#SRS-045">SRS-045 CTI analysis engine</a>, <a href="SRS.html#SRS-046">SRS-046 CTI analysis toolbox</a></p>
 <p><em>Child links:</em> <a href="SWD.html#SWD-001">SWD-001 Top-level ETL design</a></p>
-<h1 id="ARC-003">3 ETL high-level design <small>ARC-003</small></h1>
+<h2 id="ARC-003">1.3 ETL high-level design <small><a href="ARC.html#ARC-003">ARC-003</a></small></h2>
 <p>An overview of the main external systems and internal components of SATRAP involved in the ETL process is shown in the following diagram.</p>
 <p><img alt="ETL system components" src="assets/2C0A1A_DIA_ETL-components-c4.png" width="80%" /></p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-006">SRS-006 Integration of common CTI</a>, <a href="SRS.html#SRS-008">SRS-008 ETL subsystem</a>, <a href="SRS.html#SRS-009">SRS-009 ETL Transformer</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a>, <a href="SRS.html#SRS-011">SRS-011 Ingestion of organizational CTI</a>, <a href="SRS.html#SRS-013">SRS-013 STIX 2.1 data model</a>, <a href="SRS.html#SRS-020">SRS-020 System configuration file</a>, <a href="SRS.html#SRS-023">SRS-023 CTI representation in STIX 2.1</a>, <a href="SRS.html#SRS-024">SRS-024 Design and implementation principles</a>, <a href="SRS.html#SRS-028">SRS-028 Input validation</a>, <a href="SRS.html#SRS-029">SRS-029 Input sanitization</a></p>
 <p><em>Child links:</em> <a href="SWD.html#SWD-001">SWD-001 Top-level ETL design</a>, <a href="SWD.html#SWD-002">SWD-002 STIX-specific ETL design</a>, <a href="SWD.html#SWD-003">SWD-003 ETL system flow</a>, <a href="SWD.html#SWD-004">SWD-004 TypeDB utilities</a>, <a href="SWD.html#SWD-005">SWD-005 Transformer class diagram</a>, <a href="SWD.html#SWD-006">SWD-006 Transformer flow</a>, <a href="SWD.html#SWD-007">SWD-007 ETL full class diagram</a></p>
-<h1 id="ARC-004">4 ETL components <small>ARC-004</small></h1>
+<h2 id="ARC-004">1.4 ETL components <small><a href="ARC.html#ARC-004">ARC-004</a></small></h2>
 <p>The following diagram depicts the main components of the ETL system.</p>
 <p><img alt="ETL system components" src="assets/2C0A1B_DIA_ETL-components.png" /></p>
 <p>Roughly, the <code>ETLOrchestrator</code> is in charge of the logic for executing the ETL process assisted by an <code>Extractor</code>, a <code>Transformer</code> and a <code>Loader</code>.</p>
@@ -99,6 +115,272 @@
 </ul>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-001">SRS-001 Data modelling language</a>, <a href="SRS.html#SRS-002">SRS-002 Database paradigm</a>, <a href="SRS.html#SRS-005">SRS-005 NoSQL data model</a>, <a href="SRS.html#SRS-006">SRS-006 Integration of common CTI</a>, <a href="SRS.html#SRS-008">SRS-008 ETL subsystem</a>, <a href="SRS.html#SRS-009">SRS-009 ETL Transformer</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a>, <a href="SRS.html#SRS-013">SRS-013 STIX 2.1 data model</a>, <a href="SRS.html#SRS-020">SRS-020 System configuration file</a>, <a href="SRS.html#SRS-023">SRS-023 CTI representation in STIX 2.1</a>, <a href="SRS.html#SRS-024">SRS-024 Design and implementation principles</a>, <a href="SRS.html#SRS-028">SRS-028 Input validation</a>, <a href="SRS.html#SRS-029">SRS-029 Input sanitization</a></p>
 <p><em>Child links:</em> <a href="SWD.html#SWD-001">SWD-001 Top-level ETL design</a>, <a href="SWD.html#SWD-002">SWD-002 STIX-specific ETL design</a>, <a href="SWD.html#SWD-003">SWD-003 ETL system flow</a>, <a href="SWD.html#SWD-004">SWD-004 TypeDB utilities</a>, <a href="SWD.html#SWD-005">SWD-005 Transformer class diagram</a>, <a href="SWD.html#SWD-006">SWD-006 Transformer flow</a>, <a href="SWD.html#SWD-007">SWD-007 ETL full class diagram</a></p>
+<h1 id="ARC-DECIPHER">2 DECIPHER <small>ARC-DECIPHER</small></h1>
+<p>Architecture design artifacts for DECIPHER (Detection, Enrichment, Correlation, Incident, Playbook, Handling, Escalation and Recovery).</p>
+<h2 id="ARC-005">2.1 DECIPHER context diagram <small><a href="ARC.html#ARC-005">ARC-005</a></small></h2>
+<p>The diagram below depicts the DECIPHER REST service in its operational context for incident handling, showing the key external systems it interacts with and the primary user persona. Arrows indicate the direction of interaction or data flow.</p>
+<!-- c5-mermaid-source:eyJjb2RlIjogIiUlIEM0IENvbnRleHQgZGlhZ3JhbSBcdTIwMTQgREVDSVBIRVIgYW5kIGl0cyBleHRlcm5hbCBzeXN0ZW0gaW50ZXJhY3Rpb25zXG5cbmZsb3djaGFydCBUQlxuICAgIHJhZGFyW1wiPGI+V2F6dWgtUkFEQVI8L2I+PGJyLz48aT5bRXh0ZXJuYWwgU3lzdGVtXTwvaT48YnIvPjxici8+SURQUy1FU0NBUEUgc3Vic3lzdGVtLjxici8+RGV0ZWN0cyB0aHJlYXRzIGFuZCB0cmlnZ2Vyczxici8+REVDSVBIRVIgdmlhIEFjdGl2ZSBSZXNwb25zZVwiXVxuXG4gICAgYW5hbHlzdChbXCI8Yj5JbmNpZGVudCBBbmFseXN0PC9iPjxici8+PGk+W1BlcnNvbl08L2k+PGJyLz48YnIvPlJldmlld3MgYW5kIHJlc3BvbmRzPGJyLz50byBwcmlvcml0aXplZDxici8+aW5jaWRlbnQgY2FzZXNcIl0pXG5cbiAgICBzdWJncmFwaCBib3VuZGFyeVtcIlNBVFJBUC1ETFwiXVxuICAgICAgICBkaXJlY3Rpb24gTFJcbiAgICAgICAgZGVjaXBoZXJbXCI8Yj5ERUNJUEhFUiBTZXJ2aWNlPC9iPjxici8+PGk+W01pY3Jvc2VydmljZV08L2k+PGJyLz48YnIvPkZhc3RBUEkgUkVTVCBzZXJ2aWNlIHRoYXQgcHJvdmlkZXMgQ1RJLWJhc2VkIGFuYWx5c2lzIGFuZCBpbmNpZGVudCBjcmVhdGlvbiBmb3Igc3VwcG9ydGluZyBpbmNpZGVudCBoYW5kbGluZy5cIl1cblxuICAgICAgICBzYXRyYXBbXCI8Yj5TQVRSQVA8L2I+PGJyLz48aT5bSW50ZXJuYWwgU3lzdGVtXTwvaT48YnIvPjxici8+Q1RJIGFuYWx5c2lzIHBsYXRmb3JtIHdpdGggYXV0b21hdGVkIHJlYXNvbmluZ1wiXVxuICAgIGVuZFxuXG4gICAgc3ViZ3JhcGggZXh0X2JvdHRvbVtcIiBcIl1cbiAgICAgICAgZGlyZWN0aW9uIExSXG4gICAgICAgIG1pc3BbXCI8Yj5NSVNQPC9iPjxici8+PGk+W0V4dGVybmFsIFN5c3RlbV08L2k+PGJyLz48YnIvPlRocmVhdCBpbnRlbGxpZ2VuY2UgcGxhdGZvcm0uPGJyLz5DVEkgc2V2ZXJpdHkgc2NvcmUgYmFzZWQgb24gSU9DIGxvb2t1cHMsIHRhZ3MgYW5kIGV2ZW50IGRhdGE8YnIvPlwiXVxuXG4gICAgICAgIGZsb3dpbnRlbFtcIjxiPkZsb3dpbnRlbDwvYj48YnIvPjxpPltFeHRlcm5hbCBTeXN0ZW1dPC9pPjxici8+PGJyLz5DYXNlIG1hbmFnZW1lbnQgcGxhdGZvcm0uPGJyLz5SZWNlaXZlcyBwcmlvcml0aXplZCBjYXNlIGNyZWF0aW9uIHJlcXVlc3RzIGZyb20gREVDSVBIRVJcIl1cbiAgICBlbmRcblxuXG4gICAgcmFkYXIgICAgICAgLS0tPnxcIkhUVFAgUE9TVCAvYXBpL3YwLjEvYW5hbHl6ZS97YWxlcnRfdHlwZX1cInwgZGVjaXBoZXJcblx0cmFkYXIgICAgICAgLS0+fFwiRW1haWwgbm90aWZpY2F0aW9uIGluY2x1ZGluZyBGbG93aW50ZWwgY2FzZSBpZFwifCBhbmFseXN0XG4gICAgYW5hbHlzdCAgICAgLS0+fFwiSFRUUCByZXF1ZXN0IC0gYW5hbHlzaXMgb24gZGVtYW5kXCJ8IGRlY2lwaGVyXG4gICAgYW5hbHlzdCAgICAgLS0+fFwiV2ViIFVJIC0gaW52ZXN0aWdhdGUgZXZlbnRzXCJ8IG1pc3BcbiAgICBkZWNpcGhlciAgICAtLT58XCJQeU1JU1AgLyBIVFRQUyBSRVNUIEFQSVwifCBtaXNwXG4gICAgZGVjaXBoZXIgICAgLS0+fFwiUHlGbG93aW50ZWwgLyBIVFRQIFJFU1QgQVBJXCJ8IGZsb3dpbnRlbFxuICAgIGRlY2lwaGVyICAgIC0uLT58XCIoZnV0dXJlIHdvcmspXCJ8IHNhdHJhcFxuICAgIGFuYWx5c3QgICAgIC0tPnxcIldlYiBVSSAtIGNhc2UgcmV2aWV3ICYgcGxheWJvb2tzXCJ8IGZsb3dpbnRlbFxuXG5cbiAgICBzdHlsZSByYWRhciAgICAgICBmaWxsOiMxMTY4YmQsY29sb3I6I2ZmZixzdHJva2U6IzBlNGQ4Y1xuICAgIHN0eWxlIGFuYWx5c3QgICAgIGZpbGw6IzA4NDI3Yixjb2xvcjojZmZmLHN0cm9rZTojMDgzNTY2XG4gICAgc3R5bGUgZGVjaXBoZXIgICAgZmlsbDojMTE2OGJkLGNvbG9yOiNmZmYsc3Ryb2tlOiMwZTRkOGNcbiAgICBzdHlsZSBtaXNwICAgICAgICBmaWxsOiM2YjZiNmIsY29sb3I6I2ZmZixzdHJva2U6IzQ0NFxuICAgIHN0eWxlIGZsb3dpbnRlbCAgIGZpbGw6IzZiNmI2Yixjb2xvcjojZmZmLHN0cm9rZTojNDQ0XG4gICAgc3R5bGUgc2F0cmFwICAgICAgZmlsbDojMTE2OGJkLGNvbG9yOiNmZmYsc3Ryb2tlOiMwZTRkOGMsc3Ryb2tlLWRhc2hhcnJheTo1IDVcbiAgICBzdHlsZSBib3VuZGFyeSAgICBmaWxsOnRyYW5zcGFyZW50LHN0cm9rZTojMTE2OGJkLHN0cm9rZS13aWR0aDoycHgsY29sb3I6IzExNjhiZFxuICAgIHN0eWxlIGV4dF9ib3R0b20gIGZpbGw6dHJhbnNwYXJlbnQsc3Ryb2tlOnRyYW5zcGFyZW50LGNvbG9yOnRyYW5zcGFyZW50XG4iLCAiYXR0cnMiOiAid2lkdGg9XCI3NSVcIiJ9 -->
+<p><img alt="ARC-005 diagram 1" src="assets/arc-005-10b21f60fd33.svg" width="75%" /></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-048">SRS-048 DECIPHER infrastructure stack: deployment</a>, <a href="SRS.html#SRS-049">SRS-049 DECIPHER REST service and API</a></p>
+<h2 id="ARC-006">2.2 DECIPHER infrastructure deployment diagram <small><a href="ARC.html#ARC-006">ARC-006</a></small></h2>
+<p>The DECIPHER infrastructure stack consists of four containerized services: the <strong>DECIPHER REST analysis API</strong>, the <strong>MISP</strong> threat intelligence platform, the <strong>Flowintel</strong> case management system, and the <strong>Wazuh</strong> SIEM with the <strong>RADAR</strong> active response module acting as the external alert source. The deployment of Wazuh/RADAR falls outside the scope of SATRAP-DL, yet, we include it here for depicting the complete context of the DECIPHER infrastructure.</p>
+<p>The diagram depicts a representative two-host deployment, yet, the number of nodes is flexible thanks to the containerized architecture. The Wazuh/RADAR subsystem runs on a dedicated IDPS-ESCAPE host and triggers analysis by posting alerts to the DECIPHER API over the network. MISP, Flowintel, and the DECIPHER API container are co-located on the SATRAP-DL host, each isolated in its own Docker network. A <code>config</code> volume mount supplies runtime configuration to the API container without rebuilding the image.</p>
+<!-- c5-mermaid-source:eyJjb2RlIjogIiUlIERlcGxveW1lbnQgZGlhZ3JhbSBcdTIwMTQgREVDSVBIRVIgaW5mcmFzdHJ1Y3R1cmUgc3RhY2tcblxuZmxvd2NoYXJ0IFRCXG5cbiAgICBzdWJncmFwaCB3YXp1aF9ob3N0W1wiSURQUy1FU0NBUEUgRG9ja2VyIGhvc3RcIl1cbiAgICAgICAgZGlyZWN0aW9uIFRCXG4gICAgICAgIHN1YmdyYXBoIHdhenVoX3N0YWNrW1wiV2F6dWggTWFuYWdlclwiXVxuICAgICAgICAgICAgZGlyZWN0aW9uIExSXG4gICAgICAgICAgICB3YXp1aF9tZ3JbXCI8Yj53YXp1aC1tYW5hZ2VyPC9iPjxici8+PGk+d2F6dWgvd2F6dWgtbWFuYWdlcjwvaT48YnIvPjxici8+U0lFTSAmIGFsZXJ0IGVuZ2luZVwiXVxuICAgICAgICAgICAgcmFkYXJbXCI8Yj5SQURBUjwvYj48YnIvPjxpPltTdWJzeXN0ZW1dPC9pPjxici8+PGJyLz5BY3RpdmUgUmVzcG9uc2UgbW9kdWxlLjxici8+VHJpZ2dlcnMgREVDSVBIRVIgb24gYWxlcnRcIl1cbiAgICAgICAgICAgIHdhenVoX21nciAtLT4gcmFkYXJcbiAgICAgICAgZW5kXG4gICAgZW5kXG5cbiAgICBzdWJncmFwaCBob3N0W1wiU0FUUkFQLURMIERvY2tlciBob3N0XCJdXG4gICAgICAgIGRpcmVjdGlvbiBUQlxuXG4gICAgICAgIHN1YmdyYXBoIGRlY2lwaGVyX3N0YWNrW1wiREVDSVBIRVIgfCAgbmV0d29yazogc2F0cmFwLWRsLW5ldFwiXVxuICAgICAgICAgICAgZGlyZWN0aW9uIExSXG4gICAgICAgICAgICBhcGlbXCI8Yj5hcGk8L2I+PGJyLz48aT5kZWNpcGhlci9hcGk6bGF0ZXN0PC9pPjxici8+PGJyLz5Vdmljb3JuICsgRmFzdEFQSTxici8+cG9ydCA4MDAwXCJdXG4gICAgICAgICAgICBjZmdbKFwiY29uZmlnLzxici8+PGk+dm9sdW1lIG1vdW50PC9pPlwiKV1cbiAgICAgICAgICAgIGNmZyAtLS0gYXBpXG4gICAgICAgIGVuZFxuXG4gICAgICAgIHN1YmdyYXBoIG1pc3Bfc3RhY2tbXCJNSVNQICB8ICBuZXR3b3JrOiBtaXNwLW5ldFwiXVxuICAgICAgICAgICAgZGlyZWN0aW9uIExSXG4gICAgICAgICAgICBtaXNwX2NvcmVbXCI8Yj5taXNwLWNvcmU8L2I+PGJyLz48aT5taXNwLWRvY2tlci9taXNwLWNvcmU8L2k+PGJyLz48YnIvPk1JU1Agd2ViIGFwcDxici8+cG9ydCA0NDNcIl1cbiAgICAgICAgICAgIG1pc3BfbW9kW1wiPGI+bWlzcC1tb2R1bGVzPC9iPjxici8+PGk+bWlzcC1kb2NrZXIvbWlzcC1tb2R1bGVzPC9pPjxici8+PGJyLz5FbnJpY2htZW50IG1vZHVsZXNcIl1cbiAgICAgICAgICAgIG1pc3BfZ3VhcmRbXCI8Yj5taXNwLWd1YXJkPC9iPjxici8+PGk+bWlzcC1kb2NrZXIvbWlzcC1ndWFyZDwvaT48YnIvPjxici8+UmVxdWVzdCBmaWx0ZXJpbmdcIl1cbiAgICAgICAgICAgIG1pc3BfZGJbKFwiZGI8YnIvPjxpPk1hcmlhREIgMTAuMTE8L2k+XCIpXVxuICAgICAgICAgICAgbWlzcF9yZWRpc1soXCJyZWRpczxici8+PGk+VmFsa2V5IDcuMjwvaT5cIildXG4gICAgICAgICAgICBtaXNwX21haWxbXCJtYWlsPGJyLz48aT5TTVRQIHJlbGF5PC9pPlwiXVxuICAgICAgICAgICAgbWlzcF9jb3JlIC0tPiBtaXNwX2RiICYgbWlzcF9yZWRpcyAmIG1pc3BfbW9kXG4gICAgICAgICAgICBtaXNwX2d1YXJkIC0tPiBtaXNwX2NvcmVcbiAgICAgICAgICAgIG1pc3BfY29yZSAtLT4gbWlzcF9tYWlsXG4gICAgICAgIGVuZFxuXG4gICAgICAgIHN1YmdyYXBoIGZsb3dpbnRlbF9zdGFja1tcIkZsb3dpbnRlbCB8ICBuZXR3b3JrOiBmbG93aW50ZWwtbmV0XCJdXG4gICAgICAgICAgICBkaXJlY3Rpb24gTFJcbiAgICAgICAgICAgIGZsb3dpbnRlbF9hcHBbXCI8Yj5mbG93aW50ZWw8L2I+PGJyLz48aT5mbG93aW50ZWwvZmxvd2ludGVsOjIuMy4wPC9pPjxici8+PGJyLz5DYXNlIG1hbmFnZW1lbnQgYXBwPGJyLz5wb3J0IDcwMDZcIl1cbiAgICAgICAgICAgIGZsb3dpbnRlbF9kYlsoXCJwb3N0Z3Jlc3FsPGJyLz48aT5Qb3N0Z3JlU1FMIDE3PC9pPlwiKV1cbiAgICAgICAgICAgIGZsb3dpbnRlbF9jYWNoZVsoXCJ2YWxrZXk8YnIvPjxpPlZhbGtleTwvaT5cIildXG4gICAgICAgICAgICBmbG93aW50ZWxfYXBwIC0tPiBmbG93aW50ZWxfZGIgJiBmbG93aW50ZWxfY2FjaGVcbiAgICAgICAgZW5kXG4gICAgZW5kXG5cbiAgICByYWRhciAgIC0tPnxcIkhUVFAgUE9TVCA6ODAwMDxici8+L2FwaS92MC4xL2FuYWx5emUve2FsZXJ0X3R5cGV9XCJ8IGFwaVxuICAgIGFwaSAtLT58XCJQeU1JU1AgLyBIVFRQUyA6NDQzXCJ8IG1pc3BfY29yZVxuICAgIGFwaSAtLT58XCJQeUZsb3dpbnRlbCAvIEhUVFAgOjcwMDZcInwgZmxvd2ludGVsX2FwcFxuXG4gICAgc3R5bGUgd2F6dWhfaG9zdCAgICAgZmlsbDp0cmFuc3BhcmVudCxzdHJva2U6I2Q0NTUwMCxzdHJva2Utd2lkdGg6MnB4LGNvbG9yOiNkNDU1MDAsc3Ryb2tlLWRhc2hhcnJheTo2IDNcbiAgICBzdHlsZSB3YXp1aF9zdGFjayAgICBmaWxsOiNmZGU4ZDgsc3Ryb2tlOiNkNDU1MDAsc3Ryb2tlLXdpZHRoOjEuNXB4LGNvbG9yOiNkNDU1MDBcbiAgICBzdHlsZSB3YXp1aF9tZ3IgICAgICBmaWxsOiNkNDU1MDAsY29sb3I6I2ZmZixzdHJva2U6I2EzM2IwMFxuICAgIHN0eWxlIHJhZGFyICAgICAgICAgIGZpbGw6I2Y1YTA2ZSxjb2xvcjojZmZmLHN0cm9rZTojZDQ1NTAwXG4gICAgc3R5bGUgaG9zdCAgICAgICAgICAgIGZpbGw6dHJhbnNwYXJlbnQsc3Ryb2tlOiM1NTUsc3Ryb2tlLXdpZHRoOjJweCxjb2xvcjojMzMzLHN0cm9rZS1kYXNoYXJyYXk6NiAzXG4gICAgc3R5bGUgZGVjaXBoZXJfc3RhY2sgIGZpbGw6I2RkZThmNSxzdHJva2U6IzExNjhiZCxzdHJva2Utd2lkdGg6MS41cHgsY29sb3I6IzExNjhiZFxuICAgIHN0eWxlIG1pc3Bfc3RhY2sgICAgICBmaWxsOiNlOGU4ZTgsc3Ryb2tlOiM1NTUsc3Ryb2tlLXdpZHRoOjEuNXB4LGNvbG9yOiMzMzNcbiAgICBzdHlsZSBmbG93aW50ZWxfc3RhY2sgZmlsbDojZThlOGU4LHN0cm9rZTojNTU1LHN0cm9rZS13aWR0aDoxLjVweCxjb2xvcjojMzMzXG4gICAgc3R5bGUgYXBpICAgICAgICAgICAgIGZpbGw6IzExNjhiZCxjb2xvcjojZmZmLHN0cm9rZTojMGU0ZDhjXG4gICAgc3R5bGUgY2ZnICAgICAgICAgICAgIGZpbGw6I2NmZTJmMyxjb2xvcjojMzMzLHN0cm9rZTojMTE2OGJkXG4gICAgc3R5bGUgbWlzcF9jb3JlICAgICAgIGZpbGw6IzZiNmI2Yixjb2xvcjojZmZmLHN0cm9rZTojNDQ0XG4gICAgc3R5bGUgbWlzcF9tb2QgICAgICAgIGZpbGw6IzlhOWE5YSxjb2xvcjojZmZmLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgbWlzcF9ndWFyZCAgICAgIGZpbGw6IzlhOWE5YSxjb2xvcjojZmZmLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgbWlzcF9kYiAgICAgICAgIGZpbGw6I2M4YzhjOCxjb2xvcjojMzMzLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgbWlzcF9yZWRpcyAgICAgIGZpbGw6I2M4YzhjOCxjb2xvcjojMzMzLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgbWlzcF9tYWlsICAgICAgIGZpbGw6I2M4YzhjOCxjb2xvcjojMzMzLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgZmxvd2ludGVsX2FwcCAgIGZpbGw6IzZiNmI2Yixjb2xvcjojZmZmLHN0cm9rZTojNDQ0XG4gICAgc3R5bGUgZmxvd2ludGVsX2RiICAgIGZpbGw6I2M4YzhjOCxjb2xvcjojMzMzLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgZmxvd2ludGVsX2NhY2hlIGZpbGw6I2M4YzhjOCxjb2xvcjojMzMzLHN0cm9rZTojNzc3XG4iLCAiYXR0cnMiOiAid2lkdGg9XCI3NSVcIiJ9 -->
+<p><img alt="ARC-006 diagram 1" src="assets/arc-006-1151621ae971.svg" width="75%" /></p>
+<h3>Channels between trust boundaries</h3>
+<p><a href="SRS.html#SRS-058">SRS-058</a> requires TLS 1.2 or higher for all data in transit crossing a trust boundary.
+In the depicted diagram this would apply to the connections between the Wazuh/RADAR subsystem and the DECIPHER API if the IDPS-ESCAPE and SATRAP-DL hosts are located in different trust zones.</p>
+<p>Possible solutions include:
+- Supporting HTTPS in the REST API and configuring the Wazuh/RADAR subsystem to use HTTPS when posting alerts to the DECIPHER API. This would require setting up TLS certificates on the DECIPHER host and configuring the API to serve over HTTPS.
+- Deploying the IDPS-ESCAPE and SATRAP-DL hosts inside the same trust boundary, defined as a network environment where inter-host communication is restricted to authorized endpoints and protected from external access by a common perimeter control (e.g. a dedicated VPN or an isolated network segment with enforced in/out filtering).</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-048">SRS-048 DECIPHER infrastructure stack: deployment</a>, <a href="SRS.html#SRS-058">SRS-058 Encrypted data transport for external service connections</a></p>
+<h2 id="ARC-007">2.3 RADAR-DECIPHER pipeline overview <small><a href="ARC.html#ARC-007">ARC-007</a></small></h2>
+<p>The diagram below depicts the end-to-end automated incident <strong>(H)andling</strong> pipeline
+supported by the Wazuh/RADAR subsystem, the DECIPHER REST service, MISP, Flowintel, and the incident analyst. The sequence is triggered by RADAR in response to a detected alert scenario and culminates in the creation of a Flowintel case with an assigned priority, which an analyst can then review and enrich with playbooks.</p>
+<ol>
+<li><strong>(D)etect</strong> and create alerts in Wazuh for the selected threat scenario.</li>
+<li><strong>(E)nrich</strong> by searching for CTI related to the alert IOCs in MISP</li>
+<li><strong>(C)orrelate</strong> and determine a CTI severity score via an automated preliminary analysis on the enriched alerts.</li>
+<li>Compute a risk score on the alert based on detection and CTI factors, and assign a triage tier.</li>
+<li>When determined by the tier, <strong>(E)scalate (I)ncidents</strong> to prioritized Flowintel cases.</li>
+<li>Add relevant <strong>(P)laybooks</strong> to the case for further interactive analysis.</li>
+</ol>
+<p><strong>(R)ecovery</strong> actions are left to the judgment of incident responders. Analysis and playbook outcomes can inform recovery decisions.</p>
+<!-- c5-mermaid-source:eyJjb2RlIjogInNlcXVlbmNlRGlhZ3JhbVxuICAgIGF1dG9udW1iZXJcblxuICAgIGJveCByZ2JhKDAsMCwwLDAuMSkgSURQUy1FU0NBUEVcbiAgICAgICAgcGFydGljaXBhbnQgRW5kcG9pbnQgYXMgRW5kcG9pbnRcbiAgICAgICAgcGFydGljaXBhbnQgV2F6dWggYXMgV2F6dWhcbiAgICAgICAgcGFydGljaXBhbnQgUkFEQVIgYXMgUkFEQVJcbiAgICBlbmRcbiAgICBwYXJ0aWNpcGFudCBERUNJUEhFUiBhcyBERUNJUEhFUlxuICAgIHBhcnRpY2lwYW50IE1JU1AgYXMgTUlTUFxuICAgIHBhcnRpY2lwYW50IEZsb3dpbnRlbCBhcyBGbG93aW50ZWxcbiAgICBhY3RvciBBbmFseXN0IGFzIEluY2lkZW50IEFuYWx5c3RcblxuICAgIG5vdGUgb3ZlciBFbmRwb2ludCxSQURBUjogRGV0ZWN0XG4gICAgRW5kcG9pbnQtPj5XYXp1aDogU2VuZCBzZWN1cml0eSBldmVudHMgdmlhIFdhenVoIGFnZW50XG4gICAgV2F6dWgtPj5SQURBUjogVHJpZ2dlciBhY3RpdmUgcmVzcG9uc2UgZm9yIHRocmVhdCBzY2VuYXJpb1xuXG4gICAgbm90ZSBvdmVyIFJBREFSLERFQ0lQSEVSOiBFbnJpY2hcbiAgICBSQURBUi0+PkRFQ0lQSEVSOiBTZW5kIGFuIGFuYWx5c2lzIHJlcXVlc3Qgd2l0aCBhbGVydCBJT0NzXG4gICAgREVDSVBIRVItPj5NSVNQOiBJT0Mgc2VhcmNoIHdpdGggc2lnaHRpbmdzIGFuZCBldmVudCBjb250ZXh0XG4gICAgTUlTUC0tPj5ERUNJUEhFUjogQ1RJIGV2ZW50cyB3aXRoIGNvbnRleHR1YWwgaW5mb3JtYXRpb25cblxuICAgIG5vdGUgb3ZlciBERUNJUEhFUjogQ29ycmVsYXRlIGFuZCBzY29yZVxuICAgIERFQ0lQSEVSLT4+REVDSVBIRVI6IENvbXB1dGUgc2V2ZXJpdHkrY29uZmlkZW5jZSBzY29yZVxuICAgIERFQ0lQSEVSLT4+UkFEQVI6IFNlbmQgQ1RJIHNldmVyaXR5IHNjb3JlIGZvciB0aGUgYWxlcnRcbiAgICBSQURBUi0tPj5SQURBUjogQ29tcHV0ZSByaXNrIHNjb3JlIGJhc2VkIG9uIHNldmVyYWwgZmFjdG9yc1xuXG4gICAgbm90ZSBvdmVyIFJBREFSLEZsb3dpbnRlbDogRXNjYWxhdGUgKHdoZW4gZGV0ZXJtaW5lZCBieSBSQURBUiB0cmlhZ2UpXG4gICAgUkFEQVItLT5ERUNJUEhFUjogU2VuZCBzY29yZSB0byBlc2NhbGF0ZSBpbmNpZGVudFxuICAgIERFQ0lQSEVSLT4+REVDSVBIRVI6IEFzc2lnbiBwcmlvcml0eSBiYXNlZCBvbiB0aGUgc2NvcmUgb3IgdHJpYWdlIHN5c3RlbVxuICAgIERFQ0lQSEVSLT4+Rmxvd2ludGVsOiBDcmVhdGUgY2FzZVxuICAgIEZsb3dpbnRlbC0tPj5ERUNJUEhFUjogY2FzZV9pZFxuICAgIERFQ0lQSEVSLS0+PlJBREFSOiBDYXNlIElEIGFuZCBVUkwgbGlua1xuICAgIFJBREFSLS0+PkFuYWx5c3Q6IFNlbmQgZW1haWwgd2l0aCBjYXNlIGxpbmtcblxuICAgIG5vdGUgb3ZlciBBbmFseXN0LEZsb3dpbnRlbDogUGxheWJvb2tcbiAgICBBbmFseXN0LT4+Rmxvd2ludGVsOiBSZXZpZXcgY2FzZSwgYXR0YWNoIGFuZCBydW4gcGxheWJvb2tzXG5cbiAgICBub3RlIG92ZXIgQW5hbHlzdDogUmVjb3ZlcnlcbiAgICBBbmFseXN0LT4+QW5hbHlzdDogRGVjaWRlIGFuZCBleGVjdXRlIHJlY292ZXJ5IGFjdGlvbnNcbiJ9 -->
+<p><img alt="ARC-007 diagram 1" src="assets/arc-007-db0830acc613.svg" /></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-050">SRS-050 DECIPHER service: analysis endpoint</a></p>
+<h2 id="ARC-008">2.4 DECIPHER microservice container diagram <small><a href="ARC.html#ARC-008">ARC-008</a></small></h2>
+<p>The high-level architecture of the DECIPHER microservice with endpoints and modules is depicted in the diagram below. Arrows between nodes show the direction of call or data flow.</p>
+<p>DECIPHER runs as a single deployable container internally structured into four functional layers plus a cross-cutting infrastructure layer:</p>
+<ul>
+<li><strong>REST API layer</strong> — the process that owns all HTTP endpoints and performs request routing and response serialization (<a href="SRS.html#SRS-049">SRS-049</a>).</li>
+<li><strong>Analyzer framework</strong> — the module responsible for providing the analysis service.</li>
+<li><strong>Scoring engine</strong> — computes a normalized CTI severity score from raw MISP event data; consumed by analyzers and independent of transport concerns.</li>
+<li><strong>Case management</strong> — wraps PyFlowintel to create and prioritize Flowintel cases; used by both the analysis flow (optional auto-creation) and the incident flow (explicit creation).</li>
+<li><strong>Commons / infrastructure</strong> — cross-cutting layer providing common functionality for the rest of the modules.</li>
+</ul>
+<!-- c5-mermaid-source:eyJjb2RlIjogIiUlIEM0IENvbnRhaW5lciBkaWFncmFtIFx1MjAxNCBERUNJUEhFUiBmdW5jdGlvbmFsIGxheWVyc1xuXG5mbG93Y2hhcnQgVEJcblxuICAgIHJhZGFyW1wiPGI+V2F6dWgtUkFEQVI8L2I+PGJyLz48aT5bRXh0ZXJuYWwgU3lzdGVtXTwvaT48YnIvPlRyaWdnZXJzIGFuYWx5c2lzIHZpYTxici8+QWN0aXZlIFJlc3BvbnNlXCJdXG4gICAgYW5hbHlzdChbXCI8Yj5JbmNpZGVudCBBbmFseXN0PC9iPjxici8+PGk+W1BlcnNvbl08L2k+PGJyLz5Pbi1kZW1hbmQgYW5hbHlzaXM8YnIvPmFuZCBjYXNlIGNyZWF0aW9uXCJdKVxuICAgIG1pc3BbXCI8Yj5NSVNQPC9iPjxici8+PGk+W0V4dGVybmFsIFN5c3RlbV08L2k+PGJyLz5UaHJlYXQgaW50ZWxsaWdlbmNlIHBsYXRmb3JtPGJyLz5QeU1JU1AgLyBIVFRQUyA6NDQzXCJdXG4gICAgZmxvd2ludGVsW1wiPGI+Rmxvd2ludGVsPC9iPjxici8+PGk+W0V4dGVybmFsIFN5c3RlbV08L2k+PGJyLz5DYXNlIG1hbmFnZW1lbnQgcGxhdGZvcm08YnIvPlB5Rmxvd2ludGVsIC8gSFRUUCA6NzAwNlwiXVxuICAgIHNhdHJhcFtcIjxiPlNBVFJBUDwvYj48YnIvPjxpPltJbnRlcm5hbCBTeXN0ZW1dPC9pPjxici8+Q1RJIGFuYWx5c2lzIHBsYXRmb3JtPGJyLz4oZnV0dXJlIHdvcmspXCJdXG5cbiAgICBzdWJncmFwaCBkZWNpcGhlcltcIkRFQ0lQSEVSIFtDb250YWluZXI6IEZhc3RBUEkvVXZpY29ybl1cIl1cbiAgICAgICAgZGlyZWN0aW9uIFRCXG5cbiAgICAgICAgYXBpX2xheWVyW1wiPGI+UkVTVCBBUEkgbGF5ZXI8L2I+PGJyLz48aT5bRmFzdEFQSSBhcHBsaWNhdGlvbl08L2k+PGJyLz5QT1NUIC9hbmFseXplL3thbGVydF90eXBlfTxici8+UE9TVCAvaW5jaWRlbnQ8YnIvPkdFVCAvYW5hbHl6ZXJzPGJyLz5HRVQgL2hlYWx0aCAgXHUwMGI3ICBHRVQgL1wiXVxuXG4gICAgICAgIHN1YmdyYXBoIGxvZ2ljW1wiQnVzaW5lc3MgbG9naWNcIl1cbiAgICAgICAgICAgIGRpcmVjdGlvbiBMUlxuICAgICAgICAgICAgYW5hbHl6ZXJzW1wiPGI+QW5hbHl6ZXIgZnJhbWV3b3JrPC9iPjxici8+PGk+W1BhY2thZ2U6IGFuYWx5emVyc108L2k+PGJyLz5BbmFseXplclJlZ2lzdHJ5IFx1MDBiNyBCYXNlQW5hbHl6ZXI8YnIvPkNvbmNyZXRlIGFuYWx5emVyczxici8+TUlTUCBlbnJpY2htZW50IG1peGluXCJdXG4gICAgICAgICAgICBpbmNpZGVudFtcIjxiPkluY2lkZW50IHNlcnZpY2U8L2I+PGJyLz48aT5bTW9kdWxlOiBpbmNpZGVudF9zZXJ2aWNlXTwvaT48YnIvPlRlbXBsYXRlIHJlc29sdXRpb248YnIvPkluY2lkZW50IG9yY2hlc3RyYXRpb25cIl1cbiAgICAgICAgICAgIHNjb3JpbmdbXCI8Yj5TY29yaW5nIGVuZ2luZTwvYj48YnIvPjxpPltQYWNrYWdlOiBzY29yaW5nZW5naW5lXTwvaT48YnIvPkNUSSBzZXZlcml0eSBzY29yaW5nPGJyLz5mcm9tIE1JU1AgZXZlbnQgZGF0YVwiXVxuICAgICAgICAgICAgYW5hbHl6ZXJzIC0tPnxcInNjb3JlIENUSSBldmVudHNcInwgc2NvcmluZ1xuICAgICAgICBlbmRcblxuICAgICAgICBjYXNlbWFuYWdlbWVudFtcIjxiPkNhc2UgbWFuYWdlbWVudDwvYj48YnIvPjxpPltQYWNrYWdlOiBjYXNlbWFuYWdlbWVudF08L2k+PGJyLz5GbG93aW50ZWwgY29ubmVjdG9yPGJyLz5UZW1wbGF0ZSBjYXRhbG9nPGJyLz5Qcmlvcml0eSB0YWcgYXNzaWdubWVudFwiXVxuXG4gICAgICAgIGNvbW1vbnNbXCI8Yj5Db21tb25zIC8gaW5mcmFzdHJ1Y3R1cmU8L2I+PGJyLz48aT5bUGFja2FnZTogY29tbW9ucyArIHNldHRpbmdzXTwvaT48YnIvPk1JU1BEYXRhRXh0cmFjdG9yIFx1MDBiNyBsb2dnaW5nPGJyLz5TdGF0aWMgY29uZmlnIFx1MDBiNyBSdW50aW1lIGNvbmZpZzxici8+KGRlY2lwaGVyLXNldHRpbmdzLnlhbWwsPGJyLz5kZWNpcGhlci1ydW50aW1lLWNmZy55YW1sKVwiXVxuICAgIGVuZFxuXG4gICAgcmFkYXIgICAgICAgLS0+fFwiSFRUUCBQT1NUIC9hbmFseXplL3thbGVydF90eXBlfVwifCBhcGlfbGF5ZXJcbiAgICBhbmFseXN0ICAgICAtLT58XCJIVFRQIFBPU1QgL2FuYWx5emUgb3IgL2luY2lkZW50XCJ8IGFwaV9sYXllclxuXG4gICAgYXBpX2xheWVyICAgLS0+fFwiYW5hbHl6ZSBmbG93IFx1MjAxNCBkaXNwYXRjaCBieSBhbGVydF90eXBlXCJ8IGFuYWx5emVyc1xuICAgIGFwaV9sYXllciAgIC0tPnxcImluY2lkZW50IGZsb3dcInwgaW5jaWRlbnRcblxuICAgIGFuYWx5emVycyAgIC0tPnxcIklPQyBsb29rdXAgKGlmIGVuYWJsZWQpXCJ8IGNvbW1vbnNcbiAgICBpbmNpZGVudCAgICAtLT58XCJ0ZW1wbGF0ZSBsb29rdXAgKyBjYXNlIGNyZWF0aW9uXCJ8IGNhc2VtYW5hZ2VtZW50XG4gICAgYW5hbHl6ZXJzICAgLS0+fFwib3B0aW9uYWwgYXV0byBjYXNlIGNyZWF0aW9uXCJ8IGNhc2VtYW5hZ2VtZW50XG5cbiAgICBjb21tb25zICAgICAtLT58XCJQeU1JU1AgLyBIVFRQU1wifCBtaXNwXG4gICAgY2FzZW1hbmFnZW1lbnQgLS0+fFwiUHlGbG93aW50ZWwgLyBIVFRQXCJ8IGZsb3dpbnRlbFxuXG4gICAgY29tbW9ucyAgICAgLS4tPnxcImNvbmZpZyArIGxvZ2dpbmdcInwgYXBpX2xheWVyXG4gICAgY29tbW9ucyAgICAgLS4tPnxcImNvbmZpZyArIGxvZ2dpbmdcInwgYW5hbHl6ZXJzXG4gICAgY29tbW9ucyAgICAgLS4tPnxcInJ1bnRpbWUgY29uZmlnPGJyLz4odGhyZXNob2xkcywgZmVhdHVyZSBmbGFncylcInwgY2FzZW1hbmFnZW1lbnRcblxuICAgIGRlY2lwaGVyICAgIC0uLT58XCIoZnV0dXJlIHdvcmspXCJ8IHNhdHJhcFxuXG4gICAgc3R5bGUgcmFkYXIgICAgICAgICAgIGZpbGw6IzExNjhiZCxjb2xvcjojZmZmLHN0cm9rZTojMGU0ZDhjXG4gICAgc3R5bGUgYW5hbHlzdCAgICAgICAgIGZpbGw6IzA4NDI3Yixjb2xvcjojZmZmLHN0cm9rZTojMDgzNTY2XG4gICAgc3R5bGUgbWlzcCAgICAgICAgICAgIGZpbGw6IzZiNmI2Yixjb2xvcjojZmZmLHN0cm9rZTojNDQ0XG4gICAgc3R5bGUgZmxvd2ludGVsICAgICAgIGZpbGw6IzZiNmI2Yixjb2xvcjojZmZmLHN0cm9rZTojNDQ0XG4gICAgc3R5bGUgc2F0cmFwICAgICAgICAgIGZpbGw6IzExNjhiZCxjb2xvcjojZmZmLHN0cm9rZTojMGU0ZDhjLHN0cm9rZS1kYXNoYXJyYXk6NSA1XG4gICAgc3R5bGUgZGVjaXBoZXIgICAgICAgIGZpbGw6dHJhbnNwYXJlbnQsc3Ryb2tlOiMxMTY4YmQsc3Ryb2tlLXdpZHRoOjJweCxjb2xvcjojMTE2OGJkXG4gICAgc3R5bGUgbG9naWMgICAgICAgICAgIGZpbGw6dHJhbnNwYXJlbnQsc3Ryb2tlOiM0YTkwZDksc3Ryb2tlLXdpZHRoOjFweCxzdHJva2UtZGFzaGFycmF5OjQgMixjb2xvcjojMTE2OGJkXG4gICAgc3R5bGUgYXBpX2xheWVyICAgICAgIGZpbGw6IzExNjhiZCxjb2xvcjojZmZmLHN0cm9rZTojMGU0ZDhjXG4gICAgc3R5bGUgYW5hbHl6ZXJzICAgICAgIGZpbGw6IzRhOTBkOSxjb2xvcjojZmZmLHN0cm9rZTojMTE2OGJkXG4gICAgc3R5bGUgaW5jaWRlbnQgICAgICAgIGZpbGw6IzRhOTBkOSxjb2xvcjojZmZmLHN0cm9rZTojMTE2OGJkXG4gICAgc3R5bGUgc2NvcmluZyAgICAgICAgIGZpbGw6IzRhOTBkOSxjb2xvcjojZmZmLHN0cm9rZTojMTE2OGJkXG4gICAgc3R5bGUgY2FzZW1hbmFnZW1lbnQgIGZpbGw6IzRhOTBkOSxjb2xvcjojZmZmLHN0cm9rZTojMTE2OGJkXG4gICAgc3R5bGUgY29tbW9ucyAgICAgICAgIGZpbGw6I2NmZTJmMyxjb2xvcjojMzMzLHN0cm9rZTojMTE2OGJkXG4iLCAiYXR0cnMiOiAid2lkdGg9XCI4MCVcIiJ9 -->
+<p><img alt="ARC-008 diagram 1" src="assets/arc-008-f5fdfe0d0225.svg" width="80%" /></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-049">SRS-049 DECIPHER REST service and API</a>, <a href="SRS.html#SRS-056">SRS-056 Extensible analyzer framework</a>, <a href="SRS.html#SRS-057">SRS-057 Runtime-configurable DECIPHER features</a></p>
+<p><em>Child links:</em> <a href="SWD.html#SWD-011">SWD-011 DECIPHER REST service component diagram</a>, <a href="SWD.html#SWD-012">SWD-012 Analysis layer class diagram</a>, <a href="SWD.html#SWD-013">SWD-013 Incident endpoint class diagram</a>, <a href="SWD.html#SWD-014">SWD-014 DECIPHER microservice data model</a></p>
+<h2 id="ARC-009">2.5 REST service: analysis endpoint interaction <small><a href="ARC.html#ARC-009">ARC-009</a></small></h2>
+<p>This diagram depicts an overview of a successful flow triggered by a request to the analysis endpoint. The general case without a specific threat scenario is depicted.</p>
+<!-- c5-mermaid-source:eyJjb2RlIjogImZsb3djaGFydCBUQlxuXG4gICAgUkFEQVIoW1wiPGI+VXNlcjwvYj48YnIvPjxpPltTeXN0ZW0gb3IgaHVtYW5dPC9pPlwiXSlcblxuICAgIHN1YmdyYXBoIGRlY2lwaGVyW1wiREVDSVBIRVIgU2VydmljZVwiXVxuICAgICAgICBkaXJlY3Rpb24gVEJcblxuICAgICAgICBzdWJncmFwaCBhcGlfbGF5ZXJbXCJBUEkgTGF5ZXJcIl1cbiAgICAgICAgICAgIGFwaVtcIjxiPmFwaS5weTwvYj48YnIvPlBPU1QgL2FuYWx5emUve2FsZXJ0X3R5cGV9XCJdXG4gICAgICAgIGVuZFxuXG4gICAgICAgIHN1YmdyYXBoIGFuYWx5c2lzX2xheWVyW1wiQW5hbHlzaXMgTGF5ZXJcIl1cbiAgICAgICAgICAgIGRpcmVjdGlvbiBMUlxuICAgICAgICAgICAgc3ViZ3JhcGggcmVnaXN0cnlfZ3JvdXBbXCJBbmFseXplciBSZWdpc3RyeVwiXVxuICAgICAgICAgICAgICAgIHJlZ2lzdHJ5W1wiPGI+QW5hbHl6ZXJSZWdpc3RyeTwvYj48YnIvPlJvdXRlIGFuZCB2YWxpZGF0ZSByZXF1ZXN0XCJdXG4gICAgICAgICAgICBlbmRcbiAgICAgICAgICAgIHN1YmdyYXBoIGFuYWx5emVyc19ncm91cFtcIkFuYWx5emVyc1wiXVxuICAgICAgICAgICAgICAgIHN1c3BpY2lvdXNbXCI8Yj5TcGVjaWZpY1NjZW5hcmlvQW5hbHl6ZXI8L2I+PGJyLz5hbmFseXplKGFsZXJ0KVwiXVxuICAgICAgICAgICAgICAgIG1pc3BfbWl4aW5bXCI8Yj5NSVNQRW5yaWNobWVudE1peGluPC9iPjxici8+c2VhcmNoX2lvY3NfaW5fbWlzcCgpXCJdXG4gICAgICAgICAgICBlbmRcbiAgICAgICAgICAgIHJlZ2lzdHJ5IC0tPiBzdXNwaWNpb3VzXG4gICAgICAgICAgICBzdXNwaWNpb3VzIC0tPiBtaXNwX21peGluXG4gICAgICAgIGVuZFxuXG4gICAgICAgIHN1YmdyYXBoIHNjb3JpbmdfbGF5ZXJbXCJTY29yaW5nIEVuZ2luZVwiXVxuICAgICAgICAgICAgbWlzcF9zY29yZVtcIjxiPm1pc3Bfc2NvcmUucHk8L2I+PGJyLz5zY29yZV9ldmVudHMoZXZlbnRfZGF0YSk8YnIvPk5vaXN5LU9SIGFnZ3JlZ2F0aW9uXCJdXG4gICAgICAgIGVuZFxuXG4gICAgICAgIHN1YmdyYXBoIGNhc2VtYW5hZ2VtZW50X2xheWVyW1wiQ2FzZSBNYW5hZ2VtZW50IExheWVyXCJdXG4gICAgICAgICAgICBmbG93aW50ZWxfY29ubltcIjxiPmZsb3dpbnRlbF9jb25uZWN0b3IucHk8L2I+PGJyLz5jcmVhdGVfY2FzZV9mb3Jfc2NlbmFyaW8oKVwiXVxuICAgICAgICBlbmRcblxuICAgICAgICBzdWJncmFwaCBjb21tb25zX2xheWVyW1wiQ29tbW9uc1wiXVxuICAgICAgICAgICAgbWlzcF9jb25uZWN0b3JbXCI8Yj5taXNwX2Nvbm5lY3Rvci5weTwvYj48YnIvPmJ1bGtfc2VhcmNoX2lvY3MoKVwiXVxuICAgICAgICBlbmRcbiAgICBlbmRcblxuICAgIE1JU1AoW1wiPGI+TUlTUDwvYj48YnIvPjxpPltFeHRlcm5hbF08L2k+XCJdKVxuICAgIEZsb3dpbnRlbChbXCI8Yj5GbG93aW50ZWw8L2I+PGJyLz48aT5bRXh0ZXJuYWxdPC9pPlwiXSlcblxuICAgIFJBREFSICAgICAgICAgICAgLS0+fFwiMS4gSFRUUCBQT1NUIC9hbmFseXplL3thbGVydF90eXBlfTxici8+e2FsZXJ0IElPQ3N9XCJ8IGFwaVxuICAgIGFwaSAgICAgICAgICAgICAgLS0+fFwiMi4gYW5hbHl6ZShhbGVydF90eXBlLCBkYXRhKVwifCByZWdpc3RyeVxuICAgIHJlZ2lzdHJ5ICAgICAgICAgLS0+fFwiMy4gdmFsaWRhdGUgYW5kIGRpc3BhdGNoXCJ8IHN1c3BpY2lvdXNcbiAgICBzdXNwaWNpb3VzICAgICAgIC0tPnxcIjQuIHNlYXJjaF9pb2NzX2luX21pc3AoaW9jX21hcHBpbmcpXCJ8IG1pc3BfbWl4aW5cbiAgICBtaXNwX21peGluICAgICAgIC0tPnxcIjUuIGJ1bGtfc2VhcmNoX2lvY3MoaW9jX21hcHBpbmcpXCJ8IG1pc3BfY29ubmVjdG9yXG4gICAgbWlzcF9jb25uZWN0b3IgICAtLT58XCI2LiBQeU1JU1AgLyBIVFRQUyBSRVNUXCJ8IE1JU1BcbiAgICBNSVNQICAgICAgICAgICAgIC0tPnxcIjcuIENUSSBldmVudHMsIHRhZ3MsIGFkbWlyYWx0eSBzY29yZXNcInwgbWlzcF9jb25uZWN0b3JcbiAgICBtaXNwX2Nvbm5lY3RvciAgIC0tPnxcIjguIGxpc3RbRXZlbnREYXRhXVwifCBtaXNwX21peGluXG4gICAgbWlzcF9taXhpbiAgICAgICAtLT58XCI5LiBsaXN0W0V2ZW50RGF0YV1cInwgc3VzcGljaW91c1xuICAgIHN1c3BpY2lvdXMgICAgICAgLS0+fFwiMTAuIHNjb3JlX2V2ZW50cyhldmVudF9kYXRhKVwifCBtaXNwX3Njb3JlXG4gICAgbWlzcF9zY29yZSAgICAgICAtLT58XCIxMS4gRmluYWxTY29yZVJlc3VsdFwifCBzdXNwaWNpb3VzXG4gICAgc3VzcGljaW91cyAgICAgICAtLT58XCIxMi4gY3JlYXRlX2Nhc2VfZm9yX3NjZW5hcmlvKHNjZW5hcmlvLCBkZXNjcmlwdGlvbiwgc2V2ZXJpdHkpXCJ8IGZsb3dpbnRlbF9jb25uXG4gICAgZmxvd2ludGVsX2Nvbm4gICAtLT58XCIxMy4gUHlGbG93aW50ZWwgLyBIVFRQIFJFU1RcInwgRmxvd2ludGVsXG4gICAgRmxvd2ludGVsICAgICAgICAtLT58XCIxNC4gY2FzZV9pZFwifCBmbG93aW50ZWxfY29ublxuICAgIGZsb3dpbnRlbF9jb25uICAgLS0+fFwiMTUuIGNhc2VfaWRcInwgc3VzcGljaW91c1xuICAgIHN1c3BpY2lvdXMgICAgICAgLS0+fFwiMTYuIEFuYWx5c2lzUmVzdWx0KHNldmVyaXR5LCByZXBvcnQsIGNyZWF0ZWRfY2FzZSlcInwgYXBpXG4gICAgYXBpICAgICAgICAgICAgICAtLT58XCIxNy4gMjAwIEFuYWx5c2lzUmVzdWx0XCJ8IFJBREFSXG5cbiAgICBzdHlsZSBSQURBUiAgICAgICAgICAgICAgZmlsbDojZDQ1NTAwLGNvbG9yOiNmZmYsc3Ryb2tlOiNhMzNiMDBcbiAgICBzdHlsZSBNSVNQICAgICAgICAgICAgICAgZmlsbDojNmI2YjZiLGNvbG9yOiNmZmYsc3Ryb2tlOiM0NDRcbiAgICBzdHlsZSBGbG93aW50ZWwgICAgICAgICAgZmlsbDojNmI2YjZiLGNvbG9yOiNmZmYsc3Ryb2tlOiM0NDRcbiAgICBzdHlsZSBhcGlfbGF5ZXIgICAgICAgICAgZmlsbDojZGRlOGY1LHN0cm9rZTojMTE2OGJkLGNvbG9yOiMxMTY4YmRcbiAgICBzdHlsZSBhcGkgICAgICAgICAgICAgICAgZmlsbDojMTE2OGJkLGNvbG9yOiNmZmYsc3Ryb2tlOiMwZTRkOGNcbiAgICBzdHlsZSBhbmFseXNpc19sYXllciAgICAgZmlsbDojZThmNGU4LHN0cm9rZTojMmE3YTJhLGNvbG9yOiMyYTdhMmFcbiAgICBzdHlsZSByZWdpc3RyeV9ncm91cCAgICAgZmlsbDp0cmFuc3BhcmVudCxzdHJva2U6IzJhN2EyYSxzdHJva2UtZGFzaGFycmF5OjQgMixjb2xvcjojMmE3YTJhXG4gICAgc3R5bGUgYW5hbHl6ZXJzX2dyb3VwICAgIGZpbGw6dHJhbnNwYXJlbnQsc3Ryb2tlOiMyYTdhMmEsc3Ryb2tlLWRhc2hhcnJheTo0IDIsY29sb3I6IzJhN2EyYVxuICAgIHN0eWxlIHJlZ2lzdHJ5ICAgICAgICAgICBmaWxsOiMyYTdhMmEsY29sb3I6I2ZmZixzdHJva2U6IzFkNWMxZFxuICAgIHN0eWxlIHN1c3BpY2lvdXMgICAgICAgICBmaWxsOiM3NGIzNzQsY29sb3I6I2ZmZixzdHJva2U6IzJhN2EyYVxuICAgIHN0eWxlIG1pc3BfbWl4aW4gICAgICAgICBmaWxsOiNhOGQ0YTgsY29sb3I6IzMzMyxzdHJva2U6IzJhN2EyYVxuICAgIHN0eWxlIHNjb3JpbmdfbGF5ZXIgICAgICBmaWxsOiNmZGYzZTMsc3Ryb2tlOiNjOTdiMDAsY29sb3I6I2M5N2IwMFxuICAgIHN0eWxlIG1pc3Bfc2NvcmUgICAgICAgICBmaWxsOiNjOTdiMDAsY29sb3I6I2ZmZixzdHJva2U6I2EzNjAwMFxuICAgIHN0eWxlIGNhc2VtYW5hZ2VtZW50X2xheWVyIGZpbGw6I2Y1ZThmNSxzdHJva2U6IzdhMmE3YSxjb2xvcjojN2EyYTdhXG4gICAgc3R5bGUgZmxvd2ludGVsX2Nvbm4gICAgIGZpbGw6IzdhMmE3YSxjb2xvcjojZmZmLHN0cm9rZTojNWMxZDVjXG4gICAgc3R5bGUgY29tbW9uc19sYXllciAgICAgIGZpbGw6I2YwZjBmMCxzdHJva2U6IzU1NSxjb2xvcjojMzMzXG4gICAgc3R5bGUgbWlzcF9jb25uZWN0b3IgICAgIGZpbGw6IzZiNmI2Yixjb2xvcjojZmZmLHN0cm9rZTojNDQ0XG4gICAgc3R5bGUgZGVjaXBoZXIgICAgICAgICAgIGZpbGw6dHJhbnNwYXJlbnQsc3Ryb2tlOiMxMTY4YmQsc3Ryb2tlLXdpZHRoOjJweCxjb2xvcjojMTE2OGJkXG4ifQ== -->
+<p><img alt="ARC-009 diagram 1" src="assets/arc-009-410f659c5c6b.svg" /></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-052">SRS-052 Analysis endpoint: IOC search in MISP for CTI enrichment</a>, <a href="SRS.html#SRS-054">SRS-054 Analysis endpoint: optional creation of prioritized case</a>, <a href="SRS.html#SRS-056">SRS-056 Extensible analyzer framework</a></p>
+<p><em>Child links:</em> <a href="SWD.html#SWD-008">SWD-008 Analysis endpoint flow</a></p>
+<h2 id="ARC-010">2.6 Analysis endpoint: scoring data flow diagram <small><a href="ARC.html#ARC-010">ARC-010</a></small></h2>
+<p>The diagram below depicts the data flow of the score computation specified in <a href="SRS.html#SRS-053">SRS-053</a>. Inputs flow top-to-bottom through two parallel axes, severity and confidence, which are multiplied at event level.
+Event scores are then aggregated into a final score via Noisy-OR.</p>
+<p>The final result includes the total score with a breakdown of the calculation for analysis purposes.</p>
+<p>The partial formulas make use of configurable factors which must be dynamically obtained from a configurable source – e.g., a YAML file. The default parameters depicted in the flowchart are as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Default</br> numeric value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Threat level</td>
+<td>undefined</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>Threat level</td>
+<td>low</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>Threat level</td>
+<td>medium</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>Threat level</td>
+<td>high</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Tags multiplier</td>
+<td>Threat-indicating tags present</td>
+<td>1.5</td>
+</tr>
+<tr>
+<td>Analysis stage</td>
+<td>initial</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>Analysis stage</td>
+<td>ongoing</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>Analysis stage</td>
+<td>completed</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Confidence weight</td>
+<td>analysis</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>Confidence weight</td>
+<td>empirical</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>Attribute weight</td>
+<td>sightings</td>
+<td>0.6</td>
+</tr>
+<tr>
+<td>Attribute weight</td>
+<td>admiralty</td>
+<td>0.4</td>
+</tr>
+<tr>
+<td>Source reliability</td>
+<td>A (completely reliable)</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Source reliability</td>
+<td>B (usually reliable)</td>
+<td>0.8</td>
+</tr>
+<tr>
+<td>Source reliability</td>
+<td>C (fairly reliable)</td>
+<td>0.6</td>
+</tr>
+<tr>
+<td>Source reliability</td>
+<td>D (not usually reliable)</td>
+<td>0.4</td>
+</tr>
+<tr>
+<td>Source reliability</td>
+<td>E (unreliable)</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>Source reliability</td>
+<td>F (reliability unknown)</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>Source reliability</td>
+<td>G (deliberately misleading)</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>Info credibility</td>
+<td>1 (confirmed by other sources)</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Info credibility</td>
+<td>2 (probably true)</td>
+<td>0.8</td>
+</tr>
+<tr>
+<td>Info credibility</td>
+<td>3 (possibly true)</td>
+<td>0.6</td>
+</tr>
+<tr>
+<td>Info credibility</td>
+<td>4 (doubtful)</td>
+<td>0.4</td>
+</tr>
+<tr>
+<td>Info credibility</td>
+<td>5 (improbable)</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>Info credibility</td>
+<td>6 (truth cannot be judged)</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+<!-- c5-mermaid-source:eyJjb2RlIjogImZsb3djaGFydCBURFxuXG4gICAgc3RhcnQoKHN0YXJ0KSkgLS0+IG1pc3BfaW5cbiAgICBtaXNwX2luIC0tPiBlbXB0eV9jaGVja3tFdmVudHMgbGlzdCBlbXB0eT99XG4gICAgZW1wdHlfY2hlY2sgLS0+fHllc3wgemVyb19yZXN1bHRbXCI8Yj5GaW5hbFNjb3JlUmVzdWx0PC9iPjxici8+c2NvcmUgPSAwLjA8YnIvPmV2ZW50X3Jlc3VsdHMgPSAoKVwiXVxuICAgIHplcm9fcmVzdWx0IC0tPiBlbmRfbm9kZVxuXG4gICAgZW1wdHlfY2hlY2sgLS0+fG5vfCBtb3JlX2V2ZW50c3tVbnByb2Nlc3NlZCBldmVudHM/fVxuXG4gICAgbWlzcF9pbltcIjxiPk1JU1AgRXZlbnRzPC9iPjxici8+bGlzdFtFdmVudERhdGFdPGJyLz48YnIvPnRocmVhdF9sZXZlbCwgYW5hbHlzaXMsPGJyLz5oYXNfdGhyZWF0X3RhZ3MsIGFkbWlyYWx0eSw8YnIvPmxpc3RbQXR0cmlidXRlRGF0YV1cIl1cblxuICAgIG1vcmVfZXZlbnRzIC0tPnx5ZXN8IHNldltcIjxiPlNldmVyaXR5PC9iPj0gbWluKDEuMCwgbWFwX3ZhbHVlKHRocmVhdF9sZXZlbCkgXHUwMGQ3IHRhZ3NfbXVsdGlwbGllcik8YnIvPjxici8+dGFnc19tdWx0aXBsaWVyID0gMS4wICsgMC41IFx1MDBkNyAoMSBpZiB0YWdzX3ByZXNlbnQsMCBpZiBub3QpXCJdXG4gICAgc2V2IC0tPiBjX2FuYWx5c2lzW1wiPGI+Q19hbmFseXNpcyA9PC9iPjxici8+bWFwX3ZhbHVlKGFuYWx5c2lzIHN0YWdlKVwiXVxuICAgIGNfYW5hbHlzaXMgLS0+IG1vcmVfYXR0cnN7VW5wcm9jZXNzZWQgYXR0cmlidXRlcz99XG5cbiAgICBtb3JlX2F0dHJzIC0tPnx5ZXN8IGNfc2lnaHRpbmdzW1wiPGI+Q19zaWdodGluZ3M8L2I+PGJyLz49IG1heCgwLCAyXHUwMGQ3KFRQKzEpLyhUUCtGUCsyKSBcdTIyMTIgMSk8YnIvPjxici8+VFAgPSBwb3NpdGl2ZSBzaWdodGluZ3M8YnIvPkZQID0gZmFsc2UtcG9zaXRpdmUgc2lnaHRpbmdzXCJdXG4gICAgY19zaWdodGluZ3MgLS0+IGNfYWRtaXJhbHR5W1wiPGI+Q19hZG1pcmFsdHk8L2I+PGJyLz49IFNxcihyZWxpYWJpbGl0eV92YWx1ZSBcdTAwZDcgY3JlZGliaWxpdHlfdmFsdWUpPGJyLz48YnIvPmFic2VudCBBZG1pcmFsdHkgdGFnIFx1MjE5MiB2YWx1ZSA9IDAuMFwiXVxuICAgIGNfYWRtaXJhbHR5IC0tPiBjX2F0dHJbXCI8Yj5BdHRfY29uZmlkZW5jZTwvYj48YnIvPj0gd19zaWdodGluZ3MgXHUwMGQ3IENfc2lnaHRpbmdzICsgd19hZG1pcmFsdHkgXHUwMGQ3IENfYWRtaXJhbHR5XCJdXG4gICAgY19hdHRyIC0tPiBtb3JlX2F0dHJzXG5cbiAgICBtb3JlX2F0dHJzIC0tPnxub3wgY19ldmlkZW5jZVtcIjxiPkNfZXZpZGVuY2U8L2I+PGJyLz49IDEgXHUyMjEyICZwcm9kOygxIFx1MjIxMiBBdHRfY29uZmlkZW5jZV9pKTxici8+PGJyLz5mb3IgYWxsIGNvbXB1dGVkIEF0dF9jb25maWRlbmNlIHZhbHVlc1wiXVxuICAgIGNfZXZpZGVuY2UgLS0+IGNvbmZpZGVuY2VbXCI8Yj5Db25maWRlbmNlPC9iPjxici8+PSB3X2FuYWx5c2lzIFx1MDBkNyBDX2FuYWx5c2lzICsgd19lbXBpcmljYWwgXHUwMGQ3IENfZXZpZGVuY2VcIl1cbiAgICBjb25maWRlbmNlIC0tPiBldmVudF9zY29yZVtcIjxiPlNjb3JlX2V2ZW50PC9iPjxici8+PSBTZXZlcml0eSBcdTAwZDcgQ29uZmlkZW5jZVwiXVxuICAgIGV2ZW50X3Njb3JlIC0tPiBtb3JlX2V2ZW50c1xuXG4gICAgbW9yZV9ldmVudHMgLS0+fG5vfCBmaW5hbF9zY29yZVxuICAgIGZpbmFsX3Njb3JlW1wiPGI+RmluYWwgU2NvcmU8L2I+PGJyLz49IDEgXHUyMjEyICZwcm9kOygxIFx1MjIxMiBTY29yZV9ldmVudF9pKTxici8+PGJyLz5mb3IgYWxsIGNvbXB1dGVkIFNjb3JlX2V2ZW50IHZhbHVlczxici8+XCJdXG4gICAgZmluYWxfc2NvcmUgLS0+IHJlc3VsdChbRW5kXSlcblxuICAgIHJlc3VsdFtcIjxiPkZpbmFsU2NvcmVSZXN1bHQ8L2I+PGJyLz5zY29yZSA9IEZpbmFsIHNjb3JlPGJyLz4gZXZlbnRfcmVzdWx0cyA9IHNjb3JlIGJyZWFrZG93blwiXVxuICAgIHJlc3VsdCAtLT4gZW5kX25vZGUoW0VuZF0pXG5cblxuICAgIHN0eWxlIHN0YXJ0ICAgICAgICAgZmlsbDojNDQ0LGNvbG9yOiNmZmYsc3Ryb2tlOm5vbmVcbiAgICBzdHlsZSBlbmRfbm9kZSAgICAgIGZpbGw6IzQ0NCxjb2xvcjojZmZmLHN0cm9rZTpub25lXG4gICAgc3R5bGUgZW1wdHlfY2hlY2sgICBmaWxsOiNmNWU2YzgsY29sb3I6IzMzMyxzdHJva2U6I2M5N2IwMFxuICAgIHN0eWxlIHplcm9fcmVzdWx0ICAgZmlsbDojODg4LGNvbG9yOiNmZmYsc3Ryb2tlOiM1NTVcbiAgICBzdHlsZSBtaXNwX2luICAgICAgIGZpbGw6IzZiNmI2Yixjb2xvcjojZmZmLHN0cm9rZTojNDQ0XG4gICAgc3R5bGUgbW9yZV9ldmVudHMgICBmaWxsOiNmNWU2YzgsY29sb3I6IzMzMyxzdHJva2U6I2M5N2IwMFxuICAgIHN0eWxlIHNldiAgICAgICAgICAgZmlsbDojYzk3YjAwLGNvbG9yOiNmZmYsc3Ryb2tlOiNhMzYwMDBcbiAgICBzdHlsZSBjX2FuYWx5c2lzICAgIGZpbGw6I2E4YzRmNSxjb2xvcjojMzMzLHN0cm9rZTojMTE2OGJkXG4gICAgc3R5bGUgbW9yZV9hdHRycyAgICBmaWxsOiNkNGU0ZmYsY29sb3I6IzMzMyxzdHJva2U6IzExNjhiZFxuICAgIHN0eWxlIGNfc2lnaHRpbmdzICAgIGZpbGw6IzZhOWZkOCxjb2xvcjojZmZmLHN0cm9rZTojMTE2OGJkXG4gICAgc3R5bGUgY19hZG1pcmFsdHkgICAgZmlsbDojNmE5ZmQ4LGNvbG9yOiNmZmYsc3Ryb2tlOiMxMTY4YmRcbiAgICBzdHlsZSBjX2F0dHIgICAgICAgICBmaWxsOiM2YTlmZDgsY29sb3I6I2ZmZixzdHJva2U6IzExNjhiZFxuICAgIHN0eWxlIGNfZXZpZGVuY2UgICAgZmlsbDojMTE2OGJkLGNvbG9yOiNmZmYsc3Ryb2tlOiMwZTRkOGNcbiAgICBzdHlsZSBjb25maWRlbmNlICAgIGZpbGw6IzExNjhiZCxjb2xvcjojZmZmLHN0cm9rZTojMGU0ZDhjXG4gICAgc3R5bGUgZXZlbnRfc2NvcmUgICBmaWxsOiMyYTdhMmEsY29sb3I6I2ZmZixzdHJva2U6IzFkNWMxZFxuICAgIHN0eWxlIGZpbmFsX3Njb3JlICAgZmlsbDojMDg0MjdiLGNvbG9yOiNmZmYsc3Ryb2tlOiMwODM1NjZcbiAgICBzdHlsZSByZXN1bHQgICBmaWxsOiM4ODgsY29sb3I6I2ZmZixzdHJva2U6IzU1NVxuIiwgImF0dHJzIjogIndpZHRoPVwiNzAlXCIifQ== -->
+<p><img alt="ARC-010 diagram 1" src="assets/arc-010-6e4331020ecd.svg" width="70%" /></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-053">SRS-053 Analysis endpoint: CTI-driven scoring engine for MISP</a></p>
+<p><em>Child links:</em> <a href="SWD.html#SWD-014">SWD-014 DECIPHER microservice data model</a></p>
+<h2 id="ARC-012">2.7 Analysis endpoint: support for suspicious login <small><a href="ARC.html#ARC-012">ARC-012</a></small></h2>
+<p>The analysis of the suspicious login scenario aligns overall with the interaction diagram in <a href="ARC-009.md">ARC-009</a>. The specific data structure to validate the input from this threat scenario considers the following IOCs relevant in a suspicious login threat scenario:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>username</code></td>
+<td><code>str</code></td>
+<td>Username used in the login attempt</td>
+</tr>
+<tr>
+<td><code>target_host</code></td>
+<td><code>str</code></td>
+<td>IP address of the login target host</td>
+</tr>
+<tr>
+<td><code>src_ips</code></td>
+<td><code>list[str]</code></td>
+<td>Source IP addresses of the login attempt</td>
+</tr>
+<tr>
+<td><code>timestamp</code></td>
+<td><code>str</code></td>
+<td>ISO 8601 timestamp of the detected activity</td>
+</tr>
+</tbody>
+</table>
+<p>The fields map to MISP attribute types as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Alert field</th>
+<th>MISP attribute type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src_ips</code> (all values)</td>
+<td><code>"ip-src"</code></td>
+</tr>
+<tr>
+<td><code>target_host</code> (single value)</td>
+<td><code>"ip-dst"</code></td>
+</tr>
+<tr>
+<td><code>username</code> (single value)</td>
+<td><code>"target-user"</code></td>
+</tr>
+</tbody>
+</table>
+<p>For a detailed sequence diagram of the analysis flow, see <a href="SWD.html#SWD-008">SWD-008</a>.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Supported analysis for threat scenario: suspicious login</a></p>
+<p><em>Child links:</em> <a href="SWD.html#SWD-010">SWD-010 Analysis endpoint: <code>suspicious_login</code> request flow</a></p>
+<h2 id="ARC-011">2.8 REST service: incident endpoint interaction <small><a href="ARC.html#ARC-011">ARC-011</a></small></h2>
+<p>The incident creation endpoint receives a score and creates a case in Flowintel prioritized by the score. The endpoint gets also a parameter indicating a threat scenario; this guides the selection of an appropriate template if it exists.</p>
+<p>The diagram below shows the system-level interaction flow for a POST request to the incident endpoint.</p>
+<!-- c5-mermaid-source:eyJjb2RlIjogImdyYXBoIExSXG4gICAgY2xhc3NEZWYgcGVyc29uICAgIGZpbGw6IzA4NDI3Yixjb2xvcjojZmZmLHN0cm9rZTpub25lXG4gICAgY2xhc3NEZWYgY29udGFpbmVyIGZpbGw6IzExNjhiZCxjb2xvcjojZmZmLHN0cm9rZTpub25lXG4gICAgY2xhc3NEZWYgZXh0ZXJuYWwgIGZpbGw6Izk5OSxjb2xvcjojZmZmLHN0cm9rZTpub25lXG4gICAgY2xhc3NEZWYgY29uZmlnICAgIGZpbGw6IzY2Nixjb2xvcjojZmZmLHN0cm9rZTpub25lXG4gICAgY2xhc3NEZWYgZXJyb3IgICAgIGNvbG9yOiNjMDAsc3Ryb2tlOiNjMDAsZmlsbDojZmZmXG5cbiAgICBDbGllbnQoW1VzZXI8YnIvPi0gPGk+U3lzdGVtIG9yIEh1bWFuPC9pPiAtIF0pOjo6cGVyc29uXG4gICAgREVDSVBIRVIoW0RFQ0lQSEVSPGJyLz4tIDxpPkNvbnRhaW5lcjwvaT4gLV0pOjo6Y29udGFpbmVyXG4gICAgQ29uZmlnKFtDb25maWcgZmlsZTxici8+LSBDb25maWcgWUFNTCAtXSk6Ojpjb25maWdcbiAgICBGbG93aW50ZWwoW0Zsb3dpbnRlbDxici8+LSA8aT5Db250YWluZXI8L2k+IC1dKTo6OmV4dGVybmFsXG5cbiAgICBDbGllbnQgICAtLSBcIjEuIFBPU1QgL2luY2lkZW50L3thbGVydF90eXBlfTxici8+e3Njb3JlLCB0aXRsZSwgZXh0cmF9XCIgICAgICAgICAgLS0+IERFQ0lQSEVSXG4gICAgREVDSVBIRVIgLS0gXCIyLiB2YWxpZGF0ZSByZXF1ZXN0PGJyLz4rIG1hcCBhbGVydCB0eXBlXCIgICAgICAgICAgICAgICAgICAgICAgICAgICAtLT4gREVDSVBIRVJcbiAgICBERUNJUEhFUiAtLSBcIjMuIHJlYWQgcHJpb3JpdHkgdGhyZXNob2xkc1wiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tPiBDb25maWdcbiAgICBDb25maWcgICAtLSBcIjQuIHByaW9yaXR5X3RocmVzaG9sZHNcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tPiBERUNJUEhFUlxuICAgIERFQ0lQSEVSIC0tIFwiNS4gUE9TVCAvY2FzZXMvY3JlYXRlPGJyLz57dGl0bGUsIGRlc2NyaXB0aW9uLCBwcmlvcml0eV90YWd9XCIgICAgICAgLS0+IEZsb3dpbnRlbFxuICAgIEZsb3dpbnRlbCAtLSBcIjYuIHtjYXNlX2lkfVwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLS0+IERFQ0lQSEVSXG4gICAgREVDSVBIRVIgIC0tIFwiNy4gMjAwIE9LIHtpZCwgbGlua31cIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLT4gQ2xpZW50XG4gICAgREVDSVBIRVIgLS4gXCI0MjIgXHUyMDE0IGludmFsaWQgc2NvcmUgb3IgYm9keVwiIC4tPiBDbGllbnRcbiAgICBERUNJUEhFUiAtLiBcIjQwNCBcdTIwMTQgdW5rbm93biBhbGVydCB0eXBlXCIgICAgLi0+IENsaWVudFxuICAgIERFQ0lQSEVSIC0uIFwiNTAwIFx1MjAxNCBjYXNlIGNyZWF0aW9uIGZhaWx1cmVcIiAuLT4gQ2xpZW50XG5cbiAgICBsaW5rU3R5bGUgNyBjb2xvcjojYzAwLHN0cm9rZTojYzAwXG4gICAgbGlua1N0eWxlIDggY29sb3I6I2MwMCxzdHJva2U6I2MwMFxuICAgIGxpbmtTdHlsZSA5IGNvbG9yOiNjMDAsc3Ryb2tlOiNjMDBcbiJ9 -->
+<p><img alt="ARC-011 diagram 1" src="assets/arc-011-61f105d14d27.svg" /></p>
+<p>For a detailed sequence diagram (internal modules and error branches), see <a href="SWD.html#SWD-009">SWD-009</a>.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-055">SRS-055 DECIPHER service: incidents endpoint</a></p>
+<p><em>Child links:</em> <a href="SWD.html#SWD-009">SWD-009 Incident endpoint flow</a></p>
       </div>
     </div>
 </div>

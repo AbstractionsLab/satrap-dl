@@ -21,29 +21,45 @@
           <nav id="TOC" class="nav nav-stacked fixed sidebar">
               <h3>Table of Contents</h3>
 <ul>
-<li><a href="#TST-001">1 Verify data modelling artifacts</a></li>
-<li><a href="#TST-002">2 Verify software engineering practices</a></li>
-<li><a href="#TST-003">3 Verify STIX and reasoning engine</a></li>
-<li><a href="#TST-004">4 Verify STIX 2.1-based data model</a></li>
-<li><a href="#TST-005">5 Verify centralized management</a></li>
-<li><a href="#TST-006">6 Verify code clarity</a></li>
-<li><a href="#TST-007">7 Verify secure programming</a></li>
-<li><a href="#TST-008">8 Test setup + MITRE ATT&amp;CK ingestion</a></li>
-<li><a href="#TST-009">9 Verify ETL architecture</a></li>
-<li><a href="#TST-010">10 Verify CTI SKB inference rules</a></li>
-<li><a href="#TST-011">11 Test Jupyter notebook frontend</a></li>
-<li><a href="#TST-012">12 Test ETL logging</a></li>
-<li><a href="#TST-013">13 Inspect settings for CM</a></li>
-<li><a href="#TST-014">14 Test command line interface (CLI)</a></li>
-<li><a href="#TST-017">15 Verify open-source TIP integration</a></li>
-<li><a href="#TST-018">16 Verify release and licensing</a></li>
-<li><a href="#TST-019">17 Verify layered architecture of SATRAP</a></li>
-<li><a href="#TST-020">18 Verify enforcement of semantic data integrity</a></li>
+<li><a href="#TST-SATRAP">1 SATRAP validation test specifications</a><ul>
+<li><a href="#TST-001">1.1 Verify data modelling artifacts</a></li>
+<li><a href="#TST-002">1.2 Verify software engineering practices</a></li>
+<li><a href="#TST-003">1.3 Verify STIX and reasoning engine</a></li>
+<li><a href="#TST-004">1.4 Verify STIX 2.1-based data model</a></li>
+<li><a href="#TST-005">1.5 Verify centralized management</a></li>
+<li><a href="#TST-006">1.6 Verify code clarity</a></li>
+<li><a href="#TST-007">1.7 Verify secure programming</a></li>
+<li><a href="#TST-008">1.8 Test setup + MITRE ATT&amp;CK ingestion</a></li>
+<li><a href="#TST-009">1.9 Verify ETL architecture</a></li>
+<li><a href="#TST-010">1.10 Verify CTI SKB inference rules</a></li>
+<li><a href="#TST-011">1.11 Test Jupyter notebook frontend</a></li>
+<li><a href="#TST-012">1.12 Test ETL logging</a></li>
+<li><a href="#TST-013">1.13 Inspect settings for CM</a></li>
+<li><a href="#TST-014">1.14 Test command line interface (CLI)</a></li>
+<li><a href="#TST-017">1.15 Verify open-source TIP integration</a></li>
+<li><a href="#TST-018">1.16 Verify release and licensing</a></li>
+<li><a href="#TST-019">1.17 Verify layered architecture of SATRAP</a></li>
+<li><a href="#TST-020">1.18 Verify enforcement of semantic data integrity</a></li>
+</ul>
+</li>
+<li><a href="#TST-DECIPHER">2 DECIPHER validation test specifications</a><ul>
+<li><a href="#TST-021">2.1 Test containerized deployment</a></li>
+<li><a href="#TST-022">2.2 Test DECIPHER REST service and API</a></li>
+<li><a href="#TST-028">2.3 Test analysis endpoint core behavior</a></li>
+<li><a href="#TST-023">2.4 Test full workflow of analysis endpoint</a></li>
+<li><a href="#TST-024">2.5 Test runtime-configurable DECIPHER features</a></li>
+<li><a href="#TST-026">2.6 Test analysis endpoint graceful degradation</a></li>
+<li><a href="#TST-025">2.7 Test incidents endpoint</a></li>
+<li><a href="#TST-027">2.8 Test extensible analyzer framework</a></li>
+</ul>
+</li>
 </ul>
           </nav>
       </div>
       <div class="col-lg-8" id="main">
-        <h1 id="TST-001">1 Verify data modelling artifacts <small>TST-001</small></h1>
+        <h1 id="TST-SATRAP">1 SATRAP validation test specifications <small>TST-SATRAP</small></h1>
+<p>All the tests in this section assume the testing user has obtained a copy of the satrap-dl project from an official repository.</p>
+<h2 id="TST-001">1.1 Verify data modelling artifacts <small><a href="TST.html#TST-001">TST-001</a></small></h2>
 <h2>Preconditions and setup actions</h2>
 <ul>
 <li>Access to the SATRAP-DL system concept documents</li>
@@ -59,7 +75,7 @@
 <h2>Expected outcome</h2>
 <p>As the verification method of this TC is review of design, the expected outcomes are already embedded in the test steps.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-001">SRS-001 Data modelling language</a>, <a href="SRS.html#SRS-002">SRS-002 Database paradigm</a>, <a href="SRS.html#SRS-003">SRS-003 Semantic search</a>, <a href="SRS.html#SRS-004">SRS-004 Extensibility of the data model</a>, <a href="SRS.html#SRS-005">SRS-005 NoSQL data model</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-001">TRA-001 TCER: modelling</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-001">TRP-001 TCER: modelling</a></p>
 <table>
 <thead>
 <tr>
@@ -98,7 +114,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-002">2 Verify software engineering practices <small>TST-002</small></h1>
+<h2 id="TST-002">1.2 Verify software engineering practices <small><a href="TST.html#TST-002">TST-002</a></small></h2>
 <p>Verify that the design and implementation of SATRAP-DL adheres to software best practices.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -111,11 +127,11 @@
 </ol>
 <h2>Expected outcome</h2>
 <ol>
-<li>Naming convention either explicitly defined or referenced (e.g., inherited from PEP-8) and the implementation largely complies with the choice.</li>
+<li>Naming convention either explicitly defined or referenced (e.g., inherited from <a href="PEP.html#PEP-8">PEP-8</a>) and the implementation largely complies with the choice.</li>
 <li>Main architectural modules adhere to the SOLID design principles.</li>
 </ol>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-024">SRS-024 Design and implementation principles</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-002">TRA-002 TCER: SW engineering</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-002">TRP-002 TCER: SW engineering</a></p>
 <table>
 <thead>
 <tr>
@@ -154,7 +170,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-003">3 Verify STIX and reasoning engine <small>TST-003</small></h1>
+<h2 id="TST-003">1.3 Verify STIX and reasoning engine <small><a href="TST.html#TST-003">TST-003</a></small></h2>
 <p>Verify usage of DBMS equipped with automated reasoning and the use of the STIX 2.1 standard for CTI representation.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -169,7 +185,7 @@
 <h2>Expected outcome</h2>
 <p>Embedded in test steps.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-014">SRS-014 Native reasoning engine</a>, <a href="SRS.html#SRS-023">SRS-023 CTI representation in STIX 2.1</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-003">TRA-003 TCER: STIX and reasoning</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-003">TRP-003 TCER: STIX and reasoning</a></p>
 <table>
 <thead>
 <tr>
@@ -208,7 +224,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-004">4 Verify STIX 2.1-based data model <small>TST-004</small></h1>
+<h2 id="TST-004">1.4 Verify STIX 2.1-based data model <small><a href="TST.html#TST-004">TST-004</a></small></h2>
 <p>Analyze data model adherence to that of STIX 2.1.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -222,7 +238,7 @@
 <h2>Expected outcome</h2>
 <p>Embedded in test steps.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-013">SRS-013 STIX 2.1 data model</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-004">TRA-004 TCER: data model</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-004">TRP-004 TCER: data model</a></p>
 <table>
 <thead>
 <tr>
@@ -261,7 +277,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-005">5 Verify centralized management <small>TST-005</small></h1>
+<h2 id="TST-005">1.5 Verify centralized management <small><a href="TST.html#TST-005">TST-005</a></small></h2>
 <p>Verify centralized management of system parameters customization (e.g., logging severity, db connections, file paths) via a dedicated configuration file, log storage, exception types and error messages.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -278,7 +294,7 @@
 <h2>Expected outcome</h2>
 <p>Embedded in test steps.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-020">SRS-020 System configuration file</a>, <a href="SRS.html#SRS-021">SRS-021 Centralized logging</a>, <a href="SRS.html#SRS-022">SRS-022 Centralized exception handling</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-005">TRA-005 TCER: centralized management</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-005">TRP-005 TCER: centralized management</a></p>
 <table>
 <thead>
 <tr>
@@ -317,7 +333,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-006">6 Verify code clarity <small>TST-006</small></h1>
+<h2 id="TST-006">1.6 Verify code clarity <small><a href="TST.html#TST-006">TST-006</a></small></h2>
 <p>Verify source code documentation and readability quality, as well as release on GitHub.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -331,7 +347,7 @@
 <h2>Expected outcome</h2>
 <p>Embedded in test steps.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-025">SRS-025 Code readability</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-006">TRA-006 TCER: code clarity</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-006">TRP-006 TCER: code clarity</a></p>
 <table>
 <thead>
 <tr>
@@ -370,7 +386,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-007">7 Verify secure programming <small>TST-007</small></h1>
+<h2 id="TST-007">1.7 Verify secure programming <small><a href="TST.html#TST-007">TST-007</a></small></h2>
 <p>Ensure various input sanitization and validation security measures are in place.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -390,7 +406,7 @@
 <h2>Expected outcome</h2>
 <p>Embedded in test steps.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-028">SRS-028 Input validation</a>, <a href="SRS.html#SRS-029">SRS-029 Input sanitization</a>, <a href="SRS.html#SRS-030">SRS-030 Resource management</a>, <a href="SRS.html#SRS-032">SRS-032 Dependencies management</a>, <a href="SRS.html#SRS-036">SRS-036 Log validation</a>, <a href="SRS.html#SRS-037">SRS-037 Sensitive information</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-007">TRA-007 TCER: secure programming</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-007">TRP-007 TCER: secure programming</a></p>
 <table>
 <thead>
 <tr>
@@ -429,7 +445,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="TST-008">8 Test setup + MITRE ATT&amp;CK ingestion <small>TST-008</small></h1>
+<h2 id="TST-008">1.8 Test setup + MITRE ATT&amp;CK ingestion <small><a href="TST.html#TST-008">TST-008</a></small></h2>
 <p>Test the SATRAP initialization and setup/deployment scripts and its mechanism for retrieving datasets from MITRE ATT&amp;CK in STIX 2.1, and making them available for other system components to adequately process and insert the information into the CTI SKB.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -492,7 +508,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 <p><code>docs/specs/TST/assets/satrap-schema-types.tql</code></p>
 </blockquote>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-006">SRS-006 Integration of common CTI</a>, <a href="SRS.html#SRS-043">SRS-043 TypeDB Studio</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-008">TRA-008 TCER: MITRE ATT&amp;CK ingestion</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-008">TRP-008 TCER: MITRE ATT&amp;CK ingestion</a></p>
 <table>
 <thead>
 <tr>
@@ -531,7 +547,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 </tr>
 </tbody>
 </table>
-<h1 id="TST-009">9 Verify ETL architecture <small>TST-009</small></h1>
+<h2 id="TST-009">1.9 Verify ETL architecture <small><a href="TST.html#TST-009">TST-009</a></small></h2>
 <h2>Preconditions and setup actions</h2>
 <ul>
 <li>Access to the SATRAP-DL system concept documents</li>
@@ -548,7 +564,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 <h2>Expected outcome</h2>
 <p>Embedded in test steps.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-008">SRS-008 ETL subsystem</a>, <a href="SRS.html#SRS-009">SRS-009 ETL Transformer</a>, <a href="SRS.html#SRS-010">SRS-010 Database manager</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-009">TRA-009 TCER: ETL architecture</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-009">TRP-009 TCER: ETL architecture</a></p>
 <table>
 <thead>
 <tr>
@@ -587,7 +603,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 </tr>
 </tbody>
 </table>
-<h1 id="TST-010">10 Verify CTI SKB inference rules <small>TST-010</small></h1>
+<h2 id="TST-010">1.10 Verify CTI SKB inference rules <small><a href="TST.html#TST-010">TST-010</a></small></h2>
 <h2>Preconditions and setup actions</h2>
 <ul>
 <li>Access to the SATRAP-DL source code</li>
@@ -603,7 +619,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 <code>satrap/assets/schema/cti-skb-types.tql</code></p>
 </blockquote>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-012">SRS-012 Inference rules</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-010">TRA-010 TCER: CTI SKB inference</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-010">TRP-010 TCER: CTI SKB inference</a></p>
 <table>
 <thead>
 <tr>
@@ -642,7 +658,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 </tr>
 </tbody>
 </table>
-<h1 id="TST-011">11 Test Jupyter notebook frontend <small>TST-011</small></h1>
+<h2 id="TST-011">1.11 Test Jupyter notebook frontend <small><a href="TST.html#TST-011">TST-011</a></small></h2>
 <p>Test that the provided Jupyter notebook frontend executes as expected.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -656,7 +672,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 </ul>
 <h3>Test dependencies</h3>
 <ul>
-<li><strong>TST-008</strong> executed successfully</li>
+<li><strong><a href="TST.html#TST-008">TST-008</a></strong> executed successfully</li>
 </ul>
 <h2>Test steps</h2>
 <ol>
@@ -670,11 +686,11 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 <li>The obtained outcome must match the test data evidence available in <code>satrap/docs/specs/TST/assets/quick_start-test-reference.ipynb</code>.</li>
 </ol>
 <blockquote>
-<p><code>docs/specs/TST/TST-008.md</code>
+<p><code>docs/specs/TST/<a href="TST.html#TST-008">TST-008</a>.md</code>
 <code>docs/specs/TST/assets/quick_start-test-reference.ipynb</code></p>
 </blockquote>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-011">TRA-011 TCER: Jupyter Notebook frontend</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-011">TRP-011 TCER: Jupyter Notebook frontend</a></p>
 <table>
 <thead>
 <tr>
@@ -713,7 +729,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 </tr>
 </tbody>
 </table>
-<h1 id="TST-012">12 Test ETL logging <small>TST-012</small></h1>
+<h2 id="TST-012">1.12 Test ETL logging <small><a href="TST.html#TST-012">TST-012</a></small></h2>
 <p>Validate the logging feature of the ETL subsystem.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -728,7 +744,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 </ul>
 <h3>Test dependencies</h3>
 <ul>
-<li><strong>TST-008</strong> executed successfully</li>
+<li><strong><a href="TST.html#TST-008">TST-008</a></strong> executed successfully</li>
 </ul>
 <h2>Test steps</h2>
 <ol>
@@ -744,7 +760,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 <li>there is at least a log entry for each ETL phase (i.e., extraction, transformation and loading) describing the status in terms of success/failure and some minimal hint or additional information explaining or complementing the execution status.</li>
 </ul>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-033">SRS-033 Functional ETL events logging</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-012">TRA-012 TCER: ETL logging</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-012">TRP-012 TCER: ETL logging</a></p>
 <table>
 <thead>
 <tr>
@@ -783,7 +799,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 </tr>
 </tbody>
 </table>
-<h1 id="TST-013">13 Inspect settings for CM <small>TST-013</small></h1>
+<h2 id="TST-013">1.13 Inspect settings for CM <small><a href="TST.html#TST-013">TST-013</a></small></h2>
 <p>Inspect the centralized settings file to verify that some of its content is read from a user-controller configuration management file allowing configuration management without requiring software rebuild.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -807,7 +823,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 <code>satrap/settings.py</code></p>
 </blockquote>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-041">SRS-041 Configuration management mechanism</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-013">TRA-013 TCER: CM settings</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-013">TRP-013 TCER: CM settings</a></p>
 <table>
 <thead>
 <tr>
@@ -846,7 +862,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 </tr>
 </tbody>
 </table>
-<h1 id="TST-014">14 Test command line interface (CLI) <small>TST-014</small></h1>
+<h2 id="TST-014">1.14 Test command line interface (CLI) <small><a href="TST.html#TST-014">TST-014</a></small></h2>
 <p>Test that a command line interface is implemented and that it provides at least the commands specified in the software requirement specification (SRS) this test traces to.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -862,7 +878,7 @@ Logging to file: /home/alab/cti-analysis-platform/satrap/assets/logs/2025-03-29/
 </ul>
 <h3>Test dependencies</h3>
 <ul>
-<li><strong>TST-008</strong> executed successfully</li>
+<li><strong><a href="TST.html#TST-008">TST-008</a></strong> executed successfully</li>
 </ul>
 <h2>Test steps</h2>
 <ol>
@@ -1016,7 +1032,7 @@ transitive-use
 <code>docs/specs/TST/assets/satrap-cli-mitigations-evidence.txt</code></p>
 </blockquote>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-042">SRS-042 Command line interface (CLI)</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-014">TRA-014 TCER: SATRAP CLI</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-014">TRP-014 TCER: SATRAP CLI</a></p>
 <table>
 <thead>
 <tr>
@@ -1055,22 +1071,22 @@ transitive-use
 </tr>
 </tbody>
 </table>
-<h1 id="TST-017">15 Verify open-source TIP integration <small>TST-017</small></h1>
-<p>This test case is aimed at validating the adoption of open-soure TIPs by the SATRAP design.</p>
+<h2 id="TST-017">1.15 Verify open-source TIP integration <small><a href="TST.html#TST-017">TST-017</a></small></h2>
+<p>This test case is aimed at validating the adoption of open-source TIPs by the SATRAP design.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
 <li>Access to the SATRAP-DL system concept documents</li>
 </ul>
 <h2>Test steps</h2>
 <ol>
-<li>Review the SATRAP-DL system concept documents to confirm that SATRAP adopts both MISP and OpenCTI as open-source TIPs (Threat Intelligence Platform) to manage cyber threat intelligence content and maintain the CyFORT CTI repository.</li>
+<li>Review the SATRAP-DL system concept documents to confirm that SATRAP adopts either or both, MISP and OpenCTI, as open-source TIPs (Threat Intelligence Platform) to manage cyber threat intelligence content and maintain the CyFORT CTI repository.</li>
 </ol>
 <h2>Expected outcome</h2>
 <ol>
 <li>Embedded in test steps</li>
 </ol>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-044">SRS-044 Open-source TIP integration</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-015">TRA-015 TCER: Open-source TIP adoption</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-015">TRP-015 TCER: Open-source TIP adoption</a></p>
 <table>
 <thead>
 <tr>
@@ -1081,7 +1097,7 @@ transitive-use
 <tbody>
 <tr>
 <td>platform</td>
-<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+<td>N/A</td>
 </tr>
 <tr>
 <td>execution_type</td>
@@ -1109,7 +1125,7 @@ transitive-use
 </tr>
 </tbody>
 </table>
-<h1 id="TST-018">16 Verify release and licensing <small>TST-018</small></h1>
+<h2 id="TST-018">1.16 Verify release and licensing <small><a href="TST.html#TST-018">TST-018</a></small></h2>
 <p>Verify the release model and licensing approach adopted for SATRAP-DL.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -1123,7 +1139,7 @@ transitive-use
 <h2>Expected outcome</h2>
 <p>Embedded in test steps.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-026">SRS-026 Public release</a>, <a href="SRS.html#SRS-027">SRS-027 Open-source licensing</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-016">TRA-016 TCER: release + licensing</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-016">TRP-016 TCER: release + licensing</a></p>
 <table>
 <thead>
 <tr>
@@ -1134,7 +1150,7 @@ transitive-use
 <tbody>
 <tr>
 <td>platform</td>
-<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+<td>N/A</td>
 </tr>
 <tr>
 <td>execution_type</td>
@@ -1162,7 +1178,7 @@ transitive-use
 </tr>
 </tbody>
 </table>
-<h1 id="TST-019">17 Verify layered architecture of SATRAP <small>TST-019</small></h1>
+<h2 id="TST-019">1.17 Verify layered architecture of SATRAP <small><a href="TST.html#TST-019">TST-019</a></small></h2>
 <h2>Preconditions and setup actions</h2>
 <ul>
 <li>Access to the SATRAP-DL system concept documents</li>
@@ -1177,7 +1193,7 @@ transitive-use
 <h2>Expected outcome</h2>
 <p>Successful validation of all the test steps.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-015">SRS-015 Jupyter Notebook frontend</a>, <a href="SRS.html#SRS-045">SRS-045 CTI analysis engine</a>, <a href="SRS.html#SRS-046">SRS-046 CTI analysis toolbox</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-017">TRA-017 TCER: SATRAP architecture</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-017">TRP-017 TCER: SATRAP architecture</a></p>
 <table>
 <thead>
 <tr>
@@ -1188,7 +1204,7 @@ transitive-use
 <tbody>
 <tr>
 <td>platform</td>
-<td>Any</td>
+<td>N/A</td>
 </tr>
 <tr>
 <td>execution_type</td>
@@ -1216,7 +1232,7 @@ transitive-use
 </tr>
 </tbody>
 </table>
-<h1 id="TST-020">18 Verify enforcement of semantic data integrity <small>TST-020</small></h1>
+<h2 id="TST-020">1.18 Verify enforcement of semantic data integrity <small><a href="TST.html#TST-020">TST-020</a></small></h2>
 <h2>Preconditions and setup actions</h2>
 <ul>
 <li>Access to the SATRAP-DL system concept documents</li>
@@ -1231,7 +1247,7 @@ transitive-use
 <li>Evidence in the code and/or conceptual documents of the described measures.</li>
 </ol>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-007">SRS-007 Semantic data integrity</a></p>
-<p><em>Child links:</em> <a href="TRA.html#TRA-018">TRA-018 TCER: Semantic data integrity</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-018">TRP-018 TCER: Semantic data integrity</a></p>
 <table>
 <thead>
 <tr>
@@ -1242,7 +1258,7 @@ transitive-use
 <tbody>
 <tr>
 <td>platform</td>
-<td>GNU/Linux (Dockerized SATRAP deployment environment)</td>
+<td>N/A</td>
 </tr>
 <tr>
 <td>execution_type</td>
@@ -1267,6 +1283,1021 @@ transitive-use
 <tr>
 <td>version</td>
 <td>0.1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-DECIPHER">2 DECIPHER validation test specifications <small>TST-DECIPHER</small></h1>
+<p>All the tests in this section assume the testing user has obtained a copy of the satrap-dl project from an official repository.</p>
+<h2 id="TST-021">2.1 Test containerized deployment <small><a href="TST.html#TST-021">TST-021</a></small></h2>
+<p>Validate the DECIPHER infrastructure stack deployment using the containerized deployment scripts and configuration files.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Docker Engine (or daemon) running with execution privileges for the testing user</li>
+<li>Access to the DECIPHER deployment artifacts in the <code>/deployment</code> folder</li>
+<li>Access to a terminal with bash shell with <code>curl</code> for executing the deployment scripts</li>
+<li>Access to a web browser for service accessibility verification</li>
+<li>No pre-existing containers or volumes from previous DECIPHER deployments are running</li>
+</ul>
+<h2>Test steps</h2>
+<h3>AC1, AC4: Full-stack startup</h3>
+<ol>
+<li>From the SATRAP-DL project root folder, navigate to the <code>deployment/</code> directory.</li>
+<li>Copy the <code>env-template</code> file to <code>.env</code></li>
+<li>In the <code>.env</code> file, fill in the environment variables <code>MISP_BASE_URL</code> and <code>FLOWINTEL_APP_IP</code> according to your environment. The default values use <code>localhost</code>. See the README in the deployment folder for details.</li>
+<li>Run the startup script with the full-stack flag:</li>
+</ol>
+<pre><code>./decipher_up.sh --all
+</code></pre>
+<ol start="5">
+<li>Once the script finishes running, run <code>docker ps</code> and verify that the following containers are running:<ul>
+<li>MISP: a container for image <code>ghcr.io/misp/misp-docker/misp-core:latest</code></li>
+<li>Flowintel: a container for image <code>ghcr.io/flowintel/flowintel:2.3.0</code></li>
+<li>DECIPHER REST service: a container for image <code>decipher/api:latest</code></li>
+</ul>
+</li>
+<li>Run <code>docker volume ls</code> and verify that there are three volumes prefixed with <code>flowintel</code> and two volumes prefixed with <code>misp</code>.</li>
+<li>Open a web browser and verify that the following services are reachable (URLs relative to the deployment endpoint):<ul>
+<li>MISP login page: accessible at <code>https://localhost</code> by default or at the IP and port specified in the environment variables.</li>
+<li>Flowintel login page: accessible at <code>http://localhost:7006</code> by default or at the IP and port specified in the environment variables.</li>
+<li>DECIPHER API: home page of the REST service accessible at <code>http://localhost:8000</code>.</li>
+</ul>
+</li>
+</ol>
+<h3>AC2: Teardown with volume purge</h3>
+<ol>
+<li>Run the teardown script with the full-stack and purge flags:</li>
+</ol>
+<pre><code>./decipher_down.sh --all --purge
+</code></pre>
+<ol start="2">
+<li>Run <code>docker ps -a</code> and verify that there are no containers with a name starting with <code>flowintel</code> or <code>misp</code>.</li>
+<li>Run <code>docker volume ls</code> and verify that the named data volumes noted in step 6 of AC1 are no longer listed.</li>
+</ol>
+<h3>AC3: Selective startup</h3>
+<ol>
+<li>Run the startup script with the API-only flag:</li>
+</ol>
+<pre><code>./decipher_up.sh --api
+</code></pre>
+<ol start="2">
+<li>Run:</li>
+</ol>
+<pre><code>curl -X 'GET' \
+  'http://localhost:8000/health' \
+  -H 'accept: application/json'
+</code></pre>
+<ol start="3">
+<li>Verify that the DECIPHER API response corresponds to the following:</li>
+</ol>
+<pre><code>{&quot;status&quot;:&quot;ok&quot;,&quot;service&quot;:&quot;decipher-api&quot;,&quot;analyzers_loaded&quot;:1,&quot;available_types&quot;:[&quot;suspicious_login&quot;],&quot;logging_level&quot;:&quot;INFO&quot;}
+</code></pre>
+<ol start="4">
+<li>Run <code>docker ps -a</code> and verify that no containers for the <code>misp</code> and <code>flowintel</code> exist.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p><strong>AC1.</strong> The verification conditions in steps 5-7 are satisfied. Services start successfully with the configured environment variables from the <code>.env</code> file.</p>
+<p><strong>AC2.</strong> All containers are stopped and removed. Associated named data volumes are removed.</p>
+<p><strong>AC3.</strong> The validations in steps 3 and 4 are satisfied. Only the DECIPHER API container is running. MISP and Flowintel containers are not present.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-048">SRS-048 DECIPHER infrastructure stack: deployment</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-019">TRP-019 Test containerized deployment</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux distribution or any platform with a bash shell</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>2</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="TST-022">2.2 Test DECIPHER REST service and API <small><a href="TST.html#TST-022">TST-022</a></small></h2>
+<p>Validate that the DECIPHER REST service exposes the required endpoints with correct request/response schemas.</p>
+<h2>Preconditions</h2>
+<ul>
+<li>Docker Engine (or daemon) running with execution privileges for the testing user</li>
+<li>A shell with <code>curl</code> installed for sending HTTP requests to the DECIPHER API</li>
+<li>Accessible MISP and Flowintel instances are running</li>
+<li>The DECIPHER REST service is not running</li>
+<li>A user with <code>User</code> role created in MISP and an API key generated for that user</li>
+</ul>
+<h2>Setup actions</h2>
+<ol>
+<li>Configure the MISP and Flowintel instances in a <code>config/decipher-settings.yaml</code> following the configuration instructions in the README of DECIPHER (<code>/decipher/README.md</code>). Use a MISP API key of a <code>User</code> role.</li>
+<li>Run the DECIPHER service via <code>./decipher_up.sh --api</code> and verify that it is running at http://localhost:8000 (<em>Note: if a different host/port is used, update the curl commands accordingly</em>)</li>
+</ol>
+<h2>Test steps</h2>
+<ol>
+<li>Send a POST request to the analysis endpoint with valid <code>suspicious_login</code> alert data:</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;username&quot;: &quot;jdoe&quot;,
+  &quot;target_host&quot;: &quot;192.168.1.10&quot;,
+  &quot;src_ips&quot;: [&quot;10.0.0.1&quot;, &quot;10.0.0.2&quot;],
+  &quot;timestamp&quot;: &quot;2026-03-10T08:30:00Z&quot;
+  }'
+</code></pre>
+<ol start="2">
+<li>Send a POST request to the incidents endpoint with a valid score and registered alert type:</li>
+</ol>
+<pre><code>curl -X 'POST' \
+  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;score&quot;: 0.7,
+  &quot;title&quot;: &quot;Test incident&quot;,
+  &quot;description&quot;: &quot;Validation test case&quot;
+}'
+</code></pre>
+<ol start="3">
+<li>Send a GET request to the analyzers endpoint:</li>
+</ol>
+<pre><code>curl -X 'GET' \
+  'http://localhost:8000/api/v0.1/analyzers' \
+  -H 'accept: application/json'
+</code></pre>
+<ol start="4">
+<li>Send a GET request to the health endpoint:</li>
+</ol>
+<pre><code>curl -X 'GET' \
+  'http://localhost:8000/health' \
+  -H 'accept: application/json'
+</code></pre>
+<ol start="5">
+<li>Send a GET request to the home endpoint:</li>
+</ol>
+<pre><code>curl -X 'GET' \
+  'http://localhost:8000/' \
+  -H 'accept: application/json'
+</code></pre>
+<h2>Expected outcome</h2>
+<ol>
+<li>The response is a JSON body containing the following fields: <code>"analyzed_scenario": "suspicious_login"</code>, <code>severity</code>, <code>report</code>, and <code>created_case</code>.</li>
+<li>The response is a JSON body with a message informing of failed case creation.</li>
+<li>The response is a JSON body listing all registered alert types, including <code>suspicious_login</code>, with their corresponding input schemas.</li>
+<li>The response is a JSON body containing <code>"status": "ok"</code>, <code>analyzers_loaded</code> (integer &gt;= 1), and <code>logging_level</code>.</li>
+<li>The response is a JSON body containing the service <code>version</code> and documentation references (<code>docs</code>, <code>redoc</code>).</li>
+<li>All responses from AC1 through AC5 are structured, machine-readable JSON.</li>
+</ol>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-049">SRS-049 DECIPHER REST service and API</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-020">TRP-020 Test DECIPHER REST service and API</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>2</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="TST-028">2.3 Test analysis endpoint core behavior <small><a href="TST.html#TST-028">TST-028</a></small></h2>
+<p>Validate the core behavior of the analysis endpoint: request and response structure, input validation, error handling, and case creation configuration.</p>
+<h2>Preconditions</h2>
+<ul>
+<li>Docker Engine (or daemon) running with execution privileges for the testing user</li>
+<li>A shell with <code>curl</code> installed</li>
+<li>MISP and Flowintel instances running</li>
+<li>The DECIPHER REST service is not running</li>
+<li>A user with <code>User</code> role created in MISP and an API key generated for that user</li>
+</ul>
+<h2>Setup actions</h2>
+<ol>
+<li>Follow the configuration instructions in the README of DECIPHER (<code>/decipher/README.md</code>) and ensure that:<ul>
+<li>The MISP and Flowintel instances are set in <code>config/decipher-settings.yaml</code> with valid API keys.</li>
+<li><code>config/decipher-runtime-cfg.yaml</code> and <code>config/decipher-scoring-cfg.yaml</code> exist with the default values.</li>
+</ul>
+</li>
+<li>
+<p>Bring the DECIPHER stack up and ensure the DECIPHER service is reachable at http://localhost:8000 (<em>Note: if a different host/port is used for the REST service, update the curl commands accordingly</em>)</p>
+<p><code>./decipher_up.sh --all</code></p>
+</li>
+</ol>
+<h2>Test steps</h2>
+<h3>AC1: Successful analysis with valid data</h3>
+<ol>
+<li>Send a POST request to the <code>suspicious_login</code> analysis endpoint with valid alert data:</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;username&quot;: &quot;jdoe&quot;,
+  &quot;target_host&quot;: &quot;192.168.1.10&quot;,
+  &quot;src_ips&quot;: [&quot;10.0.0.1&quot;, &quot;10.0.0.2&quot;],
+  &quot;timestamp&quot;: &quot;2026-03-10T08:30:00Z&quot;
+  }'
+</code></pre>
+<h3>AC2: Analysis endpoint with invalid data</h3>
+<ol>
+<li>Send a POST request to the analysis endpoint with structurally invalid data (e.g., missing required fields):</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;username&quot;: &quot;jdoe&quot;,
+  &quot;target_host&quot;: &quot;192.168.1.10&quot;
+  }'
+</code></pre>
+<h3>AC3: Analysis endpoint with unregistered alert type</h3>
+<ol>
+<li>Send a POST request to the analysis endpoint with an alert type that is not registered:</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/analyze/nonexistent_scenario' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;username&quot;: &quot;jdoe&quot;
+}'
+</code></pre>
+<h3>AC4: Internal analysis failure</h3>
+<ol>
+<li>Corrupt <code>config/decipher-runtime-cfg.yaml</code> with invalid YAML content. For example, replace the line:</li>
+</ol>
+<pre><code class="language-json">analysis:
+</code></pre>
+<p>with</p>
+<pre><code class="language-json">analysis: x
+</code></pre>
+<ol start="2">
+<li>Send a POST request with valid alert data to the analysis endpoint.</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;username&quot;: &quot;jdoe&quot;,
+  &quot;target_host&quot;: &quot;192.168.1.10&quot;,
+  &quot;src_ips&quot;: [&quot;10.0.0.1&quot;],
+  &quot;timestamp&quot;: &quot;2026-03-10T08:30:00Z&quot;
+  }'
+</code></pre>
+<ol start="3">
+<li>Verify that the response contains the string <code>HTTP 500</code>.</li>
+<li>Restore <code>config/decipher-runtime-cfg.yaml</code> to its original state by deleting the added <code>x</code>.</li>
+</ol>
+<h3>AC5: Case creation enabled</h3>
+<ol>
+<li>Set <code>enable_case_creation: true</code> in <code>config/decipher-runtime-cfg.yaml</code>.</li>
+<li>Send a POST request with valid alert data:</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    &quot;username&quot;: &quot;testuser&quot;,
+    &quot;target_host&quot;: &quot;192.168.1.10&quot;,
+    &quot;src_ips&quot;: [&quot;10.0.0.1&quot;],
+    &quot;timestamp&quot;: &quot;2026-03-10T10:00:00Z&quot;
+    }'
+</code></pre>
+<ol start="3">
+<li>Verify that the response field<code>created_case.id</code> is non-zero and the case with the returned ID exists at the URL returned in <code>created_case.link</code>.</li>
+<li>Verify that the description of the case contains the following sections:<ul>
+<li>Scenario: with reference to suspicious login</li>
+<li>Alert information: the data corresponds to data sent in the POST request</li>
+<li>Severity score</li>
+<li>Score breakdown</li>
+<li>Additional information: including log_summary, misp_available and misp_events_found rows.</li>
+</ul>
+</li>
+<li>Restore <code>enable_case_creation: false</code> after the test.</li>
+</ol>
+<h3>AC6: Case creation disabled</h3>
+<ol>
+<li>Ensure <code>enable_case_creation: false</code> in <code>config/decipher-runtime-cfg.yaml</code>.</li>
+<li>Send a POST request with valid alert data (e.g. the one in AC1).</li>
+<li>Verify that the response status is HTTP 200.</li>
+<li>Verify that <code>created_case.id</code> is 0 and <code>created_case.link</code> is an empty string.</li>
+<li>Verify that the <code>report</code> contains a message indicating that case creation is disabled in the <code>log_summary</code>.</li>
+</ol>
+<h3>AC7: MISP search disabled</h3>
+<ol>
+<li>Set <code>enable_misp_search: false</code> in <code>config/decipher-runtime-cfg.yaml</code>.</li>
+<li>Send a POST request with valid alert data (e.g. the one in AC1).</li>
+<li>Verify that the response status is HTTP 200.</li>
+<li>Verify that in the <code>log_summary</code> of the <code>report</code> field in the response indicates that MISP search is disabled.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p><strong>AC1:</strong> The printed output contains the string <code>HTTP 200</code> and a JSON response containing the following fields: <code>"analyzed_scenario": "suspicious_login"</code>, <code>severity</code>, <code>report</code>, and <code>created_case</code>.</p>
+<p><strong>AC2:</strong> The printed output contains the string <code>HTTP 422</code> and the response body contains an invalid data message with validation error details identifying the missing or invalid fields.</p>
+<p><strong>AC3:</strong> The printed output contains the string <code>HTTP 404</code> and a message informing about an unknown alert type.</p>
+<p><strong>AC4:</strong> The validation in step 3 succeeds.</p>
+<p><strong>AC5:</strong> Steps 3 and 4 are successfully validated.</p>
+<p><strong>AC6:</strong> The validations from steps 3 to 5 succeed.</p>
+<p><strong>AC7:</strong> Steps 3 and 4 are successfully validated.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-050">SRS-050 DECIPHER service: analysis endpoint</a>, <a href="SRS.html#SRS-057">SRS-057 Runtime-configurable DECIPHER features</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-021">TRP-021 Test analysis endpoint core behavior</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>3</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="TST-023">2.4 Test full workflow of analysis endpoint <small><a href="TST.html#TST-023">TST-023</a></small></h2>
+<p>Validate the full analysis pipeline using the <code>suspicious_login</code> threat scenario with MISP search and Flowintel case creation enabled.</p>
+<h2>Preconditions</h2>
+<ul>
+<li>DECIPHER stack running (<code>./decipher_up.sh --all</code>)</li>
+<li>A reachable MISP and Flowintel instance set in <code>config/decipher-settings.yaml</code> with valid API keys. The MISP key is for a <code>User</code> role.</li>
+<li><code>config/decipher-runtime-cfg.yaml</code> with the following settings:<ul>
+<li><code>enable_misp_search: true</code></li>
+<li><code>enable_case_creation: true</code></li>
+<li><code>event_timestamp: 2d</code></li>
+</ul>
+</li>
+<li><code>config/decipher-scoring-cfg.yaml</code> with default scoring values</li>
+<li>Access to a shell with <code>curl</code> and <code>python&gt;=3.11</code></li>
+<li>A MISP user with <code>Admin</code> role</li>
+</ul>
+<h2>Setup actions</h2>
+<ol>
+<li>Login with an <code>Admin</code> user into MISP and ensure that the following taxonomies are enabled ("Event actions" $\rightarrow$ "List taxonomies"): admiralty-scale, tlp, type, nis2.</li>
+<li>Go to "Input filters" $\rightarrow$ "Warninglists" and enable the <code>cisco-umbrella-blockpage-ipv4</code> warning list.</li>
+<li>From the project root folder, go to <code>tests/decipher/integration</code> and update the <code>push_misp_events.sh</code> script with the URL and API key of your MISP instance.</li>
+<li>Run the script to create test events in MISP:</li>
+</ol>
+<pre><code>cd tests/decipher/integration
+./push_misp_events.sh
+</code></pre>
+<ol start="5">
+<li>Login into MISP with the test user and verify that 5 events, identifiable by the "Info" description starting with <code>[TEST]</code>, are present.</li>
+</ol>
+<h2>Test dependencies</h2>
+<ul>
+<li><a href="TST.html#TST-022">TST-022</a> executed successfully (basic API endpoint validation)</li>
+<li><a href="TST.html#TST-028">TST-028</a> executed successfully (analysis endpoint core behavior)</li>
+</ul>
+<h2>Test steps</h2>
+<h3>Analysis pipeline with matching event data</h3>
+<ol>
+<li>Send the POST request:</li>
+</ol>
+<pre><code>curl -s \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;username&quot;: &quot;root&quot;,
+  &quot;target_host&quot;: &quot;10.0.0.3&quot;,
+  &quot;src_ips&quot;: [&quot;185.220.100.1&quot;, &quot;45.33.32.156&quot;, &quot;146.112.61.105&quot;],
+  &quot;timestamp&quot;: &quot;2026-03-10T08:30:00Z&quot;
+  }' | jq
+</code></pre>
+<ol start="2">
+<li>Go to the events list in MISP and verify that each of the events listed in the <code>report.misp_events_found</code> response field contains at least one attribute corresponding to one of the IOCs sent in the body of the POST request above.</li>
+<li>Verify that the id of the event "[TEST] Low: Regular user login from corporate network" does not appear in the found IDs, because the attribute belongs to a warning list.</li>
+<li>Go to the Flowintel case at the returned URL.</li>
+</ol>
+<h3>Runtime settings for MISP search</h3>
+<ol>
+<li>In the <code>config/decipher-runtime-cfg.yaml</code> file, set <code>event_timestamp: 5m</code></li>
+<li>Send again the POST request of step 1 above.</li>
+<li>Set the <code>event_timestamp</code> value to <code>7d</code>.</li>
+</ol>
+<h3>Clean up</h3>
+<ol>
+<li>Run <code>rm -rf .venv-pymisp</code> to remove the Python environment created for pushing events to MISP.</li>
+</ol>
+<h2>Expected outcome</h2>
+<h3>Analysis pipeline with matching event data</h3>
+<ol>
+<li>The following holds in the response:<ul>
+<li><code>report.misp_events_found</code> contains two IDs.</li>
+<li><code>severity</code> is greater than 0.</li>
+<li><code>report.score_breakdown</code> contains a list with two objects. One of these objects has an <code>attribute_breakdowns</code> list with two elements and the other object and <code>attribute_breakdowns</code> list with one element.</li>
+</ul>
+</li>
+<li>The validation succeeds.</li>
+<li>The validation succeeds.</li>
+<li>The following holds in the case page:<ul>
+<li>The case has a <code>priority-level:low</code> tag.</li>
+<li>The case description contains the alert input data, the computed severity score, a human-readable breakdown of the score and an "additional information" section with details on the MISP search and errors.</li>
+</ul>
+</li>
+</ol>
+<h3>Runtime settings for MISP search</h3>
+<ol start="2">
+<li>The following holds in the response:<ul>
+<li><code>misp_available</code> is <code>True</code></li>
+<li><code>report.misp_events_found</code> is an empty list.</li>
+<li><code>severity</code> is 0.</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><code>tests/decipher/integration/push_misp_events.sh</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Supported analysis for threat scenario: suspicious login</a>, <a href="SRS.html#SRS-052">SRS-052 Analysis endpoint: IOC search in MISP for CTI enrichment</a>, <a href="SRS.html#SRS-054">SRS-054 Analysis endpoint: optional creation of prioritized case</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-022">TRP-022 Test full workflow of analysis endpoint</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux, MISP, Flowintel</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>4</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>tests/decipher/integration/events_simulator.py</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="TST-024">2.5 Test runtime-configurable DECIPHER features <small><a href="TST.html#TST-024">TST-024</a></small></h2>
+<p>Validate that DECIPHER features can be toggled and tuned at runtime via the configuration YAML file without restarting the service.</p>
+<h2>Preconditions</h2>
+<ul>
+<li>DECIPHER stack running (<code>./decipher_up.sh --all</code>)</li>
+<li>Reachable MISP and Flowintel instances set in <code>config/decipher-settings.yaml</code> with valid API keys</li>
+<li><code>config/decipher-runtime-cfg.yaml</code> with the following settings:<ul>
+<li><code>analysis.enable_misp_search: true</code></li>
+<li><code>analysis.enable_case_creation: true</code></li>
+<li><code>misp_search.event_timestamp: 2d</code></li>
+<li><code>priority_thresholds.high: 0.6</code></li>
+</ul>
+</li>
+<li>Access to a shell with <code>curl</code></li>
+</ul>
+<h2>Test dependencies</h2>
+<ul>
+<li><a href="TST.html#TST-023">TST-023</a> executed successfully (full workflow of analysis endpoint)</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Send the following POST request:</li>
+</ol>
+<pre><code>curl -s \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;username&quot;: &quot;dba&quot;,
+  &quot;target_host&quot;: &quot;10.0.0.3&quot;,
+  &quot;src_ips&quot;: [&quot;192.168.10.15&quot;,&quot;192.168.10.16&quot;],
+  &quot;timestamp&quot;: &quot;2026-03-10T08:30:00Z&quot;
+  }' | jq
+</code></pre>
+<ol start="2">
+<li>In <code>config/decipher-runtime-cfg.yaml</code>, set <code>high: 0.5</code> in <code>priority_thresholds</code>.</li>
+<li>Send again the POST request of step 1 above.</li>
+<li>In <code>config/decipher-runtime-cfg.yaml</code>, set <code>enable_case_creation: false</code>.</li>
+<li>Send again the analysis request in step 1 and confirm that <code>created_case.id</code> is 0.</li>
+<li>In the <code>config/decipher-scoring-cfg.yaml</code> set the values:</li>
+</ol>
+<pre><code class="language-yaml">confidence_weights:
+  analysis: 0.8
+  empirical: 0.2
+</code></pre>
+<ol start="7">
+<li>Send the POST request of step 1 again.</li>
+<li>Restore the original <code>config/decipher-scoring-cfg.yaml</code> and <code>config/decipher-runtime-cfg.yaml</code>.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p>(1) The response shows a severity of approximately 0.54 and the URL of a case created in Flowintel . The case has a <code>priority-level:medium</code> tag.</p>
+<p>(3) A new case was created with <code>priority-level:high</code> tag.</p>
+<p>(5) The <code>severity</code> and <code>misp_events_found</code> are the same; the <code>created_case</code> defaults to <code>{"id": 0, "url": ""}</code>.</p>
+<p>(7) The returned severity is higher than the severity in step 1 (approximately 0.606).</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-053">SRS-053 Analysis endpoint: CTI-driven scoring engine for MISP</a>, <a href="SRS.html#SRS-057">SRS-057 Runtime-configurable DECIPHER features</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-023">TRP-023 Test runtime-configurable DECIPHER features</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>3</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="TST-026">2.6 Test analysis endpoint graceful degradation <small><a href="TST.html#TST-026">TST-026</a></small></h2>
+<p>Validate the analysis endpoint behavior when external services (MISP, Flowintel) are unavailable.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Docker Engine (or daemon) running with execution privileges for the testing user</li>
+<li>DECIPHER stack running</li>
+<li><code>config/decipher-runtime-cfg.yaml</code> with default values and:<ul>
+<li><code>enable_misp_search: true</code></li>
+<li><code>enable_case_creation: true</code></li>
+</ul>
+</li>
+</ul>
+<h3>Test dependencies</h3>
+<ul>
+<li><strong><a href="TST.html#TST-022">TST-022</a></strong> executed successfully (basic API endpoint validation)</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>Bring MISP down:</li>
+</ol>
+<pre><code>cd /deployment
+./decipher_down.sh --misp
+</code></pre>
+<ol start="2">
+<li>Send a POST request with valid alert data:</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;username&quot;: &quot;root&quot;,
+  &quot;target_host&quot;: &quot;10.0.0.1&quot;,
+  &quot;src_ips&quot;: [&quot;185.220.100.1&quot;],
+  &quot;timestamp&quot;: &quot;2026-03-10T12:00:00Z&quot;
+  }'
+</code></pre>
+<ol start="3">
+<li>
+<p>Restart MISP: <code>./decipher_up.sh --misp</code></p>
+</li>
+<li>
+<p>Bring Flowintel down:</p>
+</li>
+</ol>
+<pre><code>cd /deployment
+./decipher_down.sh --flowintel
+</code></pre>
+<ol start="5">
+<li>Send the following POST request</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;username&quot;: &quot;root&quot;,
+  &quot;target_host&quot;: &quot;10.0.0.1&quot;,
+  &quot;src_ips&quot;: [&quot;185.220.100.1&quot;],
+  &quot;timestamp&quot;: &quot;2026-03-10T18:00:00Z&quot;
+  }'
+</code></pre>
+<ol start="6">
+<li>Bring Flowintel up again: <code>./decipher_up.sh --flowintel</code></li>
+</ol>
+<h2>Expected outcome</h2>
+<p>(2) The following holds in the response:
+  - the printed output contains <code>HTTP 200</code>.
+  - <code>severity</code> is greater than 0.
+  - <code>report</code> contains a message in <code>log_summary</code> indicating a MISP enrichment failure due to an unreachable network.</p>
+<p>(5) The following holds in the response:
+  - the printed output contains <code>HTTP 200</code>.
+  - <code>severity</code> is greater than 0.
+  - <code>report</code> contains a message in <code>log_summary</code> indicating case creation failure.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Supported analysis for threat scenario: suspicious login</a>, <a href="SRS.html#SRS-052">SRS-052 Analysis endpoint: IOC search in MISP for CTI enrichment</a>, <a href="SRS.html#SRS-054">SRS-054 Analysis endpoint: optional creation of prioritized case</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-024">TRP-024 Test analysis endpoint graceful degradation</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>4</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>tests/decipher/integration/events_simulator.py</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="TST-025">2.7 Test incidents endpoint <small><a href="TST.html#TST-025">TST-025</a></small></h2>
+<p>Validate the DECIPHER incidents endpoint for creating prioritized cases in Flowintel from externally provided scores and metadata.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Docker Engine (or daemon) running with execution privileges for the testing user</li>
+<li>A reachable Flowintel instance set in <code>config/decipher-settings.yaml</code> with a valid API key</li>
+<li><code>config/decipher-runtime-cfg.yaml</code> has the default values for <code>priority_thresholds</code></li>
+<li>DECIPHER stack running</li>
+<li>Access to a shell with <code>curl</code></li>
+</ul>
+<h2>Test steps</h2>
+<h3>AC1: Valid incident creation</h3>
+<ol>
+<li>Send the following POST request to the incidents endpoint:</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;score&quot;: 0.7,
+  &quot;title&quot;: &quot;Brute force attempt detected&quot;,
+  &quot;source_system&quot;: &quot;<a href="SIEM.html#SIEM-001">SIEM-001</a>&quot;,
+  &quot;affected_user&quot;: &quot;admin&quot;
+  }'
+</code></pre>
+<ol start="2">
+<li>Verify that the printed output contains <code>HTTP 200</code>.</li>
+<li>Verify that the response body contains:
+   - <code>id</code>: a non-zero integer (the Flowintel case ID)
+   - <code>link</code>: a string starting with the configured Flowintel case URL (e.g. <code>http://localhost:7006/case/&lt;id&gt;</code>)</li>
+<li>Access the created case in Flowintel using the returned <code>link</code> and verify that it exists.</li>
+<li>Verify that the title of the case in Flowintel matches the <code>title</code> field provided in the request body with the string <code>[DECIPHER]</code> as a prefix and a timestamp as a suffix.</li>
+</ol>
+<h3>AC2: Invalid score rejection</h3>
+<ol>
+<li>Send a POST request with a score outside the valid range [0, 1]:</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;score&quot;: 1.5
+  }'
+</code></pre>
+<ol start="2">
+<li>Verify that the printed output contains <code>HTTP 422</code>.</li>
+<li>Verify that the response body contains a validation error message referencing the score field.</li>
+</ol>
+<h3>AC3: Unrecognized alert type</h3>
+<ol>
+<li>Send a POST request with an alert type that is not registered:</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/incident/nonexistent_type' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;score&quot;: 0.5
+  }'
+</code></pre>
+<ol start="2">
+<li>Verify that the printed output contains <code>HTTP 404</code>.</li>
+</ol>
+<h3>AC4: Priority tag matches configured thresholds</h3>
+<ol>
+<li>Send a POST request with a score of 0.9 (above the <code>severe</code> threshold of 0.85):</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;score&quot;: 0.9
+  }'
+</code></pre>
+<ol start="2">
+<li>
+<p>Open the created case in Flowintel and verify that it carries the <code>priority-level:severe</code> tag.</p>
+</li>
+<li>
+<p>Send a POST request with a score of 0.5 (between <code>medium</code> 0.4 and <code>high</code> 0.6):</p>
+</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;score&quot;: 0.5
+  }'
+</code></pre>
+<ol start="4">
+<li>
+<p>Open the created case in Flowintel and verify that it carries the <code>priority-level:medium</code> tag.</p>
+</li>
+<li>
+<p>Send a POST request with a score of 0.1 (below all thresholds):</p>
+</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;score&quot;: 0.1
+  }'
+</code></pre>
+<ol start="6">
+<li>Open the created case in Flowintel and verify that it carries the <code>priority-level:baseline-minor</code> tag.</li>
+</ol>
+<h3>AC5: Metadata in case description</h3>
+<ol>
+<li>Send a POST request with additional metadata fields:</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;score&quot;: 0.65,
+  &quot;title&quot;: &quot;Suspicious login from unknown IP&quot;,
+  &quot;source_system&quot;: &quot;<a href="SIEM.html#SIEM-001">SIEM-001</a>&quot;,
+  &quot;affected_user&quot;: &quot;jsmith&quot;,
+  &quot;notes&quot;: &quot;Multiple failed attempts followed by successful login&quot;
+  }'
+</code></pre>
+<ol start="2">
+<li>Open the created case in Flowintel using the returned <code>link</code>.</li>
+<li>Verify that the case description contains the additional fields provided in the request body: <code>source_system</code>, <code>affected_user</code>, and <code>notes</code>.</li>
+</ol>
+<h2>Expected outcome</h2>
+<p><strong>AC1:</strong> All the validations in steps 2 to 5 succeed.</p>
+<p><strong>AC2:</strong> Successful validation on steps 2 and 3.</p>
+<p><strong>AC3:</strong> Successful validation on step 2.</p>
+<p><strong>AC4:</strong> Priority tags match the configured thresholds as validate sin steps 2, 4 and 6.</p>
+<p><strong>AC5:</strong> Metadata fields from the request body appear in the case description in Flowintel.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-055">SRS-055 DECIPHER service: incidents endpoint</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-025">TRP-025 Test incidents endpoint</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>3</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="TST-027">2.8 Test extensible analyzer framework <small><a href="TST.html#TST-027">TST-027</a></small></h2>
+<p>Validate the extensibility, registration safety, and input isolation properties of the DECIPHER analyzer framework.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Access to the DECIPHER source code (<code>decipher/</code>)</li>
+<li>The <code>suspicious_login</code> analyzer is registered by default</li>
+</ul>
+<h2>Test steps</h2>
+<h3>AC1: Decorator-based registration without API-layer modification</h3>
+<ol>
+<li>Open <code>decipher/analyzers/registry.py</code> and locate the <code>AnalyzerRegistry</code> class.</li>
+<li>Verify that:<ul>
+<li>The class exposes a <code>register</code> class method intended for use as a decorator (<code>@AnalyzerRegistry.register</code>).</li>
+<li>The method stores the decorated class in the internal <code>_analyzers</code> dict keyed by <code>alert_type</code>, without any import or reference to <code>decipher/api.py</code>.</li>
+</ul>
+</li>
+<li>Open <code>decipher/analyzers/suspicious_login.py</code> and verify that the <code>SuspiciousLoginAnalyzer</code> class is decorated with <code>@AnalyzerRegistry.register</code>.</li>
+<li>Open <code>decipher/analyzers/__init__.py</code> and verify that adding a new analyzer module requires only a single import line in that file — no changes to <code>decipher/api.py</code>.</li>
+</ol>
+<h3>AC2: Duplicate registration is rejected at startup</h3>
+<ol>
+<li>Open <code>decipher/analyzers/registry.py</code> and locate the <code>register</code> classmethod.</li>
+<li>Verify that, before inserting a new entry, the method checks whether <code>alert_type</code> is already present in <code>_analyzers</code>.</li>
+</ol>
+<h3>AC3: Error on duplicated analyzer identifier</h3>
+<ol>
+<li>Verify that a duplicate <code>alert_type</code> raises a <code>ValueError</code> with a message identifying the conflicting identifier (e.g. <code>"Analyzer for '&lt;type&gt;' already registered"</code>).</li>
+</ol>
+<h2>Expected outcome</h2>
+<p><strong>AC1:</strong> Successful verification of steps 2 and 4.</p>
+<p><strong>AC2:</strong> Successful verification of step 2.</p>
+<p><strong>AC3:</strong> Successful verification of step 1.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-056">SRS-056 Extensible analyzer framework</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-026">TRP-026 TCER: extensible analyzer framework</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>Any</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Inspection (I)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>5</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>see referenced files</td>
+</tr>
+<tr>
+<td>version</td>
+<td>0.4</td>
 </tr>
 </tbody>
 </table>

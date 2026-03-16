@@ -21,60 +21,80 @@
           <nav id="TOC" class="nav nav-stacked fixed sidebar">
               <h3>Table of Contents</h3>
 <ul>
-<li><a href="#SRS-001">1 Data modelling language</a></li>
-<li><a href="#SRS-002">2 Database paradigm</a></li>
-<li><a href="#SRS-003">3 Semantic search</a></li>
-<li><a href="#SRS-004">4 Extensibility of the data model</a></li>
-<li><a href="#SRS-005">5 NoSQL data model</a></li>
-<li><a href="#SRS-006">6 Integration of common CTI</a></li>
-<li><a href="#SRS-007">7 Semantic data integrity</a></li>
-<li><a href="#SRS-008">8 ETL subsystem</a></li>
-<li><a href="#SRS-009">9 ETL Transformer</a></li>
-<li><a href="#SRS-010">10 Database manager</a></li>
-<li><a href="#SRS-011">11 Ingestion of organizational CTI</a></li>
-<li><a href="#SRS-012">12 Inference rules</a></li>
-<li><a href="#SRS-013">13 STIX 2.1 data model</a></li>
-<li><a href="#SRS-014">14 Native reasoning engine</a></li>
-<li><a href="#SRS-015">15 Jupyter Notebook frontend</a></li>
-<li><a href="#SRS-016">16 API based on OAS</a></li>
-<li><a href="#SRS-017">17 Integration of behavioral data</a></li>
-<li><a href="#SRS-018">18 Automated CTI analysis</a></li>
-<li><a href="#SRS-019">19 CTI export to STIX 2.1</a></li>
-<li><a href="#SRS-020">20 System configuration file</a></li>
-<li><a href="#SRS-021">21 Centralized logging</a></li>
-<li><a href="#SRS-022">22 Centralized exception handling</a></li>
-<li><a href="#SRS-023">23 CTI representation in STIX 2.1</a></li>
-<li><a href="#SRS-024">24 Design and implementation principles</a></li>
-<li><a href="#SRS-025">25 Code readability</a></li>
-<li><a href="#SRS-026">26 Public release</a></li>
-<li><a href="#SRS-027">27 Open-source licensing</a></li>
-<li><a href="#SRS-028">28 Input validation</a></li>
-<li><a href="#SRS-029">29 Input sanitization</a></li>
-<li><a href="#SRS-030">30 Resource management</a></li>
-<li><a href="#SRS-031">31 Code static analysis</a></li>
-<li><a href="#SRS-032">32 Dependencies management</a></li>
-<li><a href="#SRS-033">33 Functional ETL events logging</a></li>
-<li><a href="#SRS-034">34 Detailed event logging</a></li>
-<li><a href="#SRS-035">35 Consistent logging format</a></li>
-<li><a href="#SRS-036">36 Log validation</a></li>
-<li><a href="#SRS-037">37 Sensitive information</a></li>
-<li><a href="#SRS-038">38 Software identification</a></li>
-<li><a href="#SRS-039">39 TypeQL to STIX 2.1 transformer</a></li>
-<li><a href="#SRS-040">40 Authentication and authorization</a></li>
-<li><a href="#SRS-041">41 Configuration management mechanism</a></li>
-<li><a href="#SRS-042">42 Command line interface (CLI)</a></li>
-<li><a href="#SRS-043">43 TypeDB Studio</a></li>
-<li><a href="#SRS-044">44 Open-source TIP integration</a></li>
-<li><a href="#SRS-045">45 CTI analysis engine</a></li>
-<li><a href="#SRS-046">46 CTI analysis toolbox</a></li>
-<li><a href="#SRS-047">47 OSINT feeds configuration and catalog</a></li>
-<li><a href="#SRS-048">48 Integration of security tools for automation</a></li>
-<li><a href="#SRS-049">49 Automated support for incident handling: phishing</a></li>
+<li><a href="#SRS-SATRAP">1 SATRAP</a><ul>
+<li><a href="#SRS-001">1.1 Data modelling language</a></li>
+<li><a href="#SRS-002">1.2 Database paradigm</a></li>
+<li><a href="#SRS-003">1.3 Semantic search</a></li>
+<li><a href="#SRS-004">1.4 Extensibility of the data model</a></li>
+<li><a href="#SRS-005">1.5 NoSQL data model</a></li>
+<li><a href="#SRS-006">1.6 Integration of common CTI</a></li>
+<li><a href="#SRS-007">1.7 Semantic data integrity</a></li>
+<li><a href="#SRS-008">1.8 ETL subsystem</a></li>
+<li><a href="#SRS-009">1.9 ETL Transformer</a></li>
+<li><a href="#SRS-010">1.10 Database manager</a></li>
+<li><a href="#SRS-011">1.11 Ingestion of organizational CTI</a></li>
+<li><a href="#SRS-012">1.12 Inference rules</a></li>
+<li><a href="#SRS-013">1.13 STIX 2.1 data model</a></li>
+<li><a href="#SRS-014">1.14 Native reasoning engine</a></li>
+<li><a href="#SRS-015">1.15 Jupyter Notebook frontend</a></li>
+<li><a href="#SRS-017">1.16 Integration of behavioral data</a></li>
+<li><a href="#SRS-018">1.17 Automated CTI analysis</a></li>
+<li><a href="#SRS-019">1.18 CTI export to STIX 2.1</a></li>
+<li><a href="#SRS-020">1.19 System configuration file</a></li>
+<li><a href="#SRS-023">1.20 CTI representation in STIX 2.1</a></li>
+<li><a href="#SRS-033">1.21 Functional ETL events logging</a></li>
+<li><a href="#SRS-034">1.22 Detailed event logging</a></li>
+<li><a href="#SRS-035">1.23 Consistent logging format</a></li>
+<li><a href="#SRS-039">1.24 TypeQL to STIX 2.1 transformer</a></li>
+<li><a href="#SRS-041">1.25 Configuration management mechanism</a></li>
+<li><a href="#SRS-042">1.26 Command line interface (CLI)</a></li>
+<li><a href="#SRS-043">1.27 TypeDB Studio</a></li>
+<li><a href="#SRS-044">1.28 Open-source TIP integration</a></li>
+<li><a href="#SRS-045">1.29 CTI analysis engine</a></li>
+<li><a href="#SRS-046">1.30 CTI analysis toolbox</a></li>
+<li><a href="#SRS-047">1.31 OSINT feeds configuration and catalog</a></li>
+</ul>
+</li>
+<li><a href="#SRS-DECIPHER">2 DECIPHER</a><ul>
+<li><a href="#SRS-048">2.1 DECIPHER infrastructure stack: deployment</a></li>
+<li><a href="#SRS-049">2.2 DECIPHER REST service and API</a></li>
+<li><a href="#SRS-050">2.3 DECIPHER service: analysis endpoint</a></li>
+<li><a href="#SRS-052">2.4 Analysis endpoint: IOC search in MISP for CTI enrichment</a></li>
+<li><a href="#SRS-053">2.5 Analysis endpoint: CTI-driven scoring engine for MISP</a></li>
+<li><a href="#SRS-054">2.6 Analysis endpoint: optional creation of prioritized case</a></li>
+<li><a href="#SRS-055">2.7 DECIPHER service: incidents endpoint</a></li>
+<li><a href="#SRS-057">2.8 Runtime-configurable DECIPHER features</a></li>
+<li><a href="#SRS-051">2.9 Supported analysis for threat scenario: suspicious login</a></li>
+<li><a href="#SRS-056">2.10 Extensible analyzer framework</a></li>
+</ul>
+</li>
+<li><a href="#SRS-NFun">3 Non-functional requirements</a><ul>
+<li><a href="#SRS-021">3.1 Centralized logging</a></li>
+<li><a href="#SRS-022">3.2 Centralized exception handling</a></li>
+<li><a href="#SRS-024">3.3 Design and implementation principles</a></li>
+<li><a href="#SRS-025">3.4 Code readability</a></li>
+<li><a href="#SRS-026">3.5 Public release</a></li>
+<li><a href="#SRS-027">3.6 Open-source licensing</a></li>
+<li><a href="#SRS-028">3.7 Input validation</a></li>
+<li><a href="#SRS-029">3.8 Input sanitization</a></li>
+<li><a href="#SRS-030">3.9 Resource management</a></li>
+<li><a href="#SRS-031">3.10 Code static analysis</a></li>
+<li><a href="#SRS-032">3.11 Dependencies management</a></li>
+<li><a href="#SRS-036">3.12 Log validation</a></li>
+<li><a href="#SRS-037">3.13 Sensitive information</a></li>
+<li><a href="#SRS-038">3.14 Software identification</a></li>
+<li><a href="#SRS-040">3.15 Authentication and authorization</a></li>
+<li><a href="#SRS-058">3.16 Encrypted data transport for external service connections</a></li>
+<li><a href="#SRS-016">3.17 API based on OAS</a></li>
+</ul>
+</li>
 </ul>
           </nav>
       </div>
       <div class="col-lg-8" id="main">
-        <h1 id="SRS-001">1 Data modelling language <small>SRS-001</small></h1>
+        <h1 id="SRS-SATRAP">1 SATRAP <small>SRS-SATRAP</small></h1>
+<p>System-level requirements for the SATRAP CTI analysis platform.</p>
+<h2 id="SRS-001">1.1 Data modelling language <small><a href="SRS.html#SRS-001">SRS-001</a></small></h2>
 <p>The data model of SATRAP SHALL be specified using a data modelling language based on description logics, such as OWL,
 or on type theory such as TypeQL.</p>
 <h3>Rationale</h3>
@@ -82,7 +102,7 @@ or on type theory such as TypeQL.</p>
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-001">MRS-001 Semantic data model</a>, <a href="MRS.html#MRS-015">MRS-015 Semantic relations preservation</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="TST.html#TST-001">TST-001 Verify data modelling artifacts</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="TST.html#TST-001">TST-001 Verify data modelling artifacts</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <table>
 <thead>
 <tr>
@@ -109,8 +129,8 @@ or on type theory such as TypeQL.</p>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-002">2 Database paradigm <small>SRS-002</small></h1>
-<p>The SATRAP-DL system (i.e., SATRAP) SHALL rely on a database paradigm that allows for knowledge representation
+<h2 id="SRS-002">1.2 Database paradigm <small><a href="SRS.html#SRS-002">SRS-002</a></small></h2>
+<p>SATRAP SHALL rely on a database paradigm that allows for knowledge representation
 based on semantics as opposed to based on structure of the information.
 Possible candidates are the PERA model and the graph model implemented by TypeDB and, e.g., Neo4J respectively.</p>
 <h3>Rationale</h3>
@@ -118,7 +138,7 @@ Possible candidates are the PERA model and the graph model implemented by TypeDB
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-002">MRS-002 CTI knowledge base</a>, <a href="MRS.html#MRS-015">MRS-015 Semantic relations preservation</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="TST.html#TST-001">TST-001 Verify data modelling artifacts</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="TST.html#TST-001">TST-001 Verify data modelling artifacts</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <table>
 <thead>
 <tr>
@@ -145,8 +165,8 @@ Possible candidates are the PERA model and the graph model implemented by TypeDB
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-003">3 Semantic search <small>SRS-003</small></h1>
-<p>The system SHALL support querying the CTI SKB based on semantic criteria.</p>
+<h2 id="SRS-003">1.3 Semantic search <small><a href="SRS.html#SRS-003">SRS-003</a></small></h2>
+<p>SATRAP SHALL support querying the CTI SKB based on semantic criteria.</p>
 <h3>Rationale</h3>
 <p>To enable users to perform meaningful searches and data manipulation based on semantics rather than just data structure.</p>
 <h3>Acceptance criteria</h3>
@@ -179,7 +199,7 @@ Possible candidates are the PERA model and the graph model implemented by TypeDB
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-004">4 Extensibility of the data model <small>SRS-004</small></h1>
+<h2 id="SRS-004">1.4 Extensibility of the data model <small><a href="SRS.html#SRS-004">SRS-004</a></small></h2>
 <p>The data model of the CTI SKB SHALL be extensible to accommodate for the integration of new information (e.g., facts, entities, or relationships) without requiring a complete redesign.</p>
 <h3>Rationale</h3>
 <p>Extensibility of the data model allows for gradual enrichment of the CTI SKB by combining multiple threat frameworks, as CTI might not be expressible in a single one.</p>
@@ -213,7 +233,7 @@ Possible candidates are the PERA model and the graph model implemented by TypeDB
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-005">5 NoSQL data model <small>SRS-005</small></h1>
+<h2 id="SRS-005">1.5 NoSQL data model <small><a href="SRS.html#SRS-005">SRS-005</a></small></h2>
 <p>The data model of the CTI SKB SHALL rely on either a NoSQL graph-based or a document-based database solution or a type-theoretic polymorphic entity-relation-attribute (PERA) data model to allow for the addition of new entities and relationships without requiring a schema migration.</p>
 <h3>Rationale</h3>
 <p>Flexibility enables further customization for specific domains, such as healthcare or military related ones.</p>
@@ -247,7 +267,7 @@ Possible candidates are the PERA model and the graph model implemented by TypeDB
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-006">6 Integration of common CTI <small>SRS-006</small></h1>
+<h2 id="SRS-006">1.6 Integration of common CTI <small><a href="SRS.html#SRS-006">SRS-006</a></small></h2>
 <p><em>As an</em> administrator of SATRAP, <em>I want</em> to run an ETL pipeline that retrieves MITRE ATT&amp;CK datasets published in STIX 2.1, transforms the content into an adequate format and loads this content into the CTI SKB, <em>so that</em> I have up-to-date, reliable and curated data available for automated reasoning and analysis.</p>
 <p>For this purpose:</p>
 <ol>
@@ -291,7 +311,7 @@ This requirement addresses the integration of common cybersecurity knowledge.</p
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-007">7 Semantic data integrity <small>SRS-007</small></h1>
+<h2 id="SRS-007">1.7 Semantic data integrity <small><a href="SRS.html#SRS-007">SRS-007</a></small></h2>
 <p>The data model SHALL enforce semantic integrity ensuring that relationships and constraints adhere to the intended meaning. Semantic data integrity can be enforced by measures such as data validation with respect to schemas and relationships constraints, automated checks for data redundancy and inference powered with a reasoning engine.</p>
 <h3>Rationale</h3>
 <p>To ensure consistency, accuracy and reliability of data, preventing among others contradictory and repeated data to be stored.</p>
@@ -325,7 +345,7 @@ This requirement addresses the integration of common cybersecurity knowledge.</p
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-008">8 ETL subsystem <small>SRS-008</small></h1>
+<h2 id="SRS-008">1.8 ETL subsystem <small><a href="SRS.html#SRS-008">SRS-008</a></small></h2>
 <p>SATRAP SHALL contain a component in charge of integrating data from external sources into the CTI SKB.
 This component, referred to as the ETL (extract-transform-load) subsystem, is responsible of extracting
 datasets in STIX 2.1 from diverse sources, transforming them into the representation language of the
@@ -335,7 +355,7 @@ CTI SKB and loading the transformed content into the CTI SKB.</p>
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-011">MRS-011 Ingestion of CTI in a standard format</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-009">TST-009 Verify ETL architecture</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-009">TST-009 Verify ETL architecture</a></p>
 <table>
 <thead>
 <tr>
@@ -362,7 +382,7 @@ CTI SKB and loading the transformed content into the CTI SKB.</p>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-009">9 ETL Transformer <small>SRS-009</small></h1>
+<h2 id="SRS-009">1.9 ETL Transformer <small><a href="SRS.html#SRS-009">SRS-009</a></small></h2>
 <p>The ETL subsystem SHALL have a component in charge of transforming data in STIX 2.1 format into the representation language of the the CTI SKB schema.</p>
 <h3>Rationale</h3>
 <p>To address data parsing enforcing separation of duties and modularity.</p>
@@ -396,14 +416,14 @@ CTI SKB and loading the transformed content into the CTI SKB.</p>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-010">10 Database manager <small>SRS-010</small></h1>
+<h2 id="SRS-010">1.10 Database manager <small><a href="SRS.html#SRS-010">SRS-010</a></small></h2>
 <p>The system SHALL have a component in charge of managing database operations and connections.</p>
 <h3>Rationale</h3>
 <p>To deal with database management enforcing separation of duties and modularity.</p>
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-011">MRS-011 Ingestion of CTI in a standard format</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-009">TST-009 Verify ETL architecture</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-009">TST-009 Verify ETL architecture</a></p>
 <table>
 <thead>
 <tr>
@@ -430,7 +450,7 @@ CTI SKB and loading the transformed content into the CTI SKB.</p>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-011">11 Ingestion of organizational CTI <small>SRS-011</small></h1>
+<h2 id="SRS-011">1.11 Ingestion of organizational CTI <small><a href="SRS.html#SRS-011">SRS-011</a></small></h2>
 <p><em>As a</em> CTI analyst or SATRAP administrator,
 <em>I want</em> to have a configurable way to integrate CTI from MISP or OpenCTI into the CTI SKB
 <em>so that</em> our organization's internally-tracked threat intelligence is available for automated reasoning and analysis with other data in SATRAP.</p>
@@ -449,7 +469,7 @@ This requirement addresses the integration of organizational CTI (internal and s
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-040">MRS-040 CTI SKB content: organizational CTI</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a></p>
 <table>
 <thead>
 <tr>
@@ -480,14 +500,14 @@ This requirement addresses the integration of organizational CTI (internal and s
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-012">12 Inference rules <small>SRS-012</small></h1>
+<h2 id="SRS-012">1.12 Inference rules <small><a href="SRS.html#SRS-012">SRS-012</a></small></h2>
 <p>SATRAP SHALL implement inference rules that allow for the automated derivation of knowledge over existing relations in the CTI SKB.</p>
 <h3>Rationale</h3>
 <p>To address one of the major challenges for incident responders, namely, manual data correlation and contextualization of collected IoCs.</p>
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-014">MRS-014 Automated CTI enrichment</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="TST.html#TST-010">TST-010 Verify CTI SKB inference rules</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="TST.html#TST-010">TST-010 Verify CTI SKB inference rules</a></p>
 <table>
 <thead>
 <tr>
@@ -514,7 +534,7 @@ This requirement addresses the integration of organizational CTI (internal and s
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-013">13 STIX 2.1 data model <small>SRS-013</small></h1>
+<h2 id="SRS-013">1.13 STIX 2.1 data model <small><a href="SRS.html#SRS-013">SRS-013</a></small></h2>
 <p>The data model of SATRAP SHALL be aligned with the data model of STIX 2.1.</p>
 <h3>Rationale</h3>
 <p>Such a design enables a direct mapping of the imported data into the concepts in the database and allows for the use of the integrity checks defined over the database model.</p>
@@ -548,14 +568,14 @@ This requirement addresses the integration of organizational CTI (internal and s
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-014">14 Native reasoning engine <small>SRS-014</small></h1>
+<h2 id="SRS-014">1.14 Native reasoning engine <small><a href="SRS.html#SRS-014">SRS-014</a></small></h2>
 <p>SATRAP SHALL use a DBMS technology that integrates or has compatibility with a reasoning engine. The preferred solution is TypeDB.</p>
 <h3>Rationale</h3>
 <p>A native implementation of the KB and reasoning engine in one platform typically optimizes performance as it allows for the implementation of efficient data management strategies.</p>
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-018">MRS-018 Automated reasoning</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-003">TST-003 Verify STIX and reasoning engine</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-003">TST-003 Verify STIX and reasoning engine</a></p>
 <table>
 <thead>
 <tr>
@@ -582,7 +602,7 @@ This requirement addresses the integration of organizational CTI (internal and s
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-015">15 Jupyter Notebook frontend <small>SRS-015</small></h1>
+<h2 id="SRS-015">1.15 Jupyter Notebook frontend <small><a href="SRS.html#SRS-015">SRS-015</a></small></h2>
 <p>SATRAP SHALL implement an analysis frontend in the form of a set of Jupyter notebooks that make use of the CTI analysis toolbox SDK.
 This frontend SHALL showcase the usage of the functions in the SDK providing reusable blocks of code and playbooks for CTI investigations.</p>
 <h3>Rationale</h3>
@@ -590,7 +610,7 @@ This frontend SHALL showcase the usage of the functions in the SDK providing reu
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-020">MRS-020 Interactive frontend</a>, <a href="MRS.html#MRS-022">MRS-022 Storage of CTI investigations</a>, <a href="MRS.html#MRS-023">MRS-023 Query parameterization</a>, <a href="MRS.html#MRS-025">MRS-025 SATRAP-DL service</a>, <a href="MRS.html#MRS-026">MRS-026 Query result viewer</a>, <a href="MRS.html#MRS-027">MRS-027 Frontend query status</a>, <a href="MRS.html#MRS-029">MRS-029 Frontend design</a>, <a href="MRS.html#MRS-034">MRS-034 Frontend cross-platform support</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-011">TST-011 Test Jupyter notebook frontend</a>, <a href="TST.html#TST-019">TST-019 Verify layered architecture of SATRAP</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-011">TST-011 Test Jupyter notebook frontend</a>, <a href="TST.html#TST-019">TST-019 Verify layered architecture of SATRAP</a></p>
 <table>
 <thead>
 <tr>
@@ -617,40 +637,7 @@ This frontend SHALL showcase the usage of the functions in the SDK providing reu
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-016">16 API based on OAS <small>SRS-016</small></h1>
-<p>The API of SATRAP SHALL comply with the OpenAPI Specification (OAS) standard.</p>
-<h3>Rationale</h3>
-<p>To enable automatic generation of documentation, automated API testing and validation, and a language-agnostic human and machine-readable specification.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-038">MRS-038 Platform-independent API</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>C</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>2</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>R</td>
-</tr>
-<tr>
-<td>release</td>
-<td>FID</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-017">17 Integration of behavioral data <small>SRS-017</small></h1>
+<h2 id="SRS-017">1.16 Integration of behavioral data <small><a href="SRS.html#SRS-017">SRS-017</a></small></h2>
 <p>SATRAP SHALL implement a mechanism for retrieving data sourced by IDPS-ESCAPE from the CyFORT CTI
 repository (handled by an open-source TIP), via programmatic API access.
 Other SATRAP components can then adequately process and insert the information into the CTI SKB.</p>
@@ -660,7 +647,7 @@ information from at least three categories. This requirement addresses the integ
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-039">MRS-039 CTI SKB content: from IDPS-ESCAPE</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a></p>
 <table>
 <thead>
 <tr>
@@ -691,7 +678,7 @@ information from at least three categories. This requirement addresses the integ
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-018">18 Automated CTI analysis <small>SRS-018</small></h1>
+<h2 id="SRS-018">1.17 Automated CTI analysis <small><a href="SRS.html#SRS-018">SRS-018</a></small></h2>
 <p>SATRAP SHALL provide an automated mechanism for running a knowledge derivation workflow:</p>
 <ol>
 <li>Data retrieval from the CyFORT CTI repository.</li>
@@ -733,7 +720,7 @@ information from at least three categories. This requirement addresses the integ
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-019">19 CTI export to STIX 2.1 <small>SRS-019</small></h1>
+<h2 id="SRS-019">1.18 CTI export to STIX 2.1 <small><a href="SRS.html#SRS-019">SRS-019</a></small></h2>
 <p>SATRAP SHALL provide a feature for obtaining the results of CTI analysis toolbox
 inference functions in STIX 2.1 format.</p>
 <h3>Rationale</h3>
@@ -772,7 +759,7 @@ and for enabling transfer of newly derived CTI into other tools (e.g., the CyFOR
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-020">20 System configuration file <small>SRS-020</small></h1>
+<h2 id="SRS-020">1.19 System configuration file <small><a href="SRS.html#SRS-020">SRS-020</a></small></h2>
 <p>SATRAP SHALL allow for customization of system parameters (e.g., logging severity: debug, info, warn, error;
 db connections; file paths) in a dedicated configuration file.</p>
 <h3>Rationale</h3>
@@ -807,76 +794,8 @@ db connections; file paths) in a dedicated configuration file.</p>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-021">21 Centralized logging <small>SRS-021</small></h1>
-<p>The logs of the system SHALL be handled in a central location.</p>
-<h3>Rationale</h3>
-<p>In agreement with clean code and best practices for software development, to promote code maintainability.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-005">TST-005 Verify centralized management</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>Q</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>2</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-022">22 Centralized exception handling <small>SRS-022</small></h1>
-<p>SATRAP SHALL manage exceptions in a centralized manner, e.g., by maintaining all the error codes in a configuration file.</p>
-<h3>Rationale</h3>
-<p>In agreement with clean code and best practices for software development, to promote code maintainability.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-005">TST-005 Verify centralized management</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>Q</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>5</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-023">23 CTI representation in STIX 2.1 <small>SRS-023</small></h1>
-<p>SATRAP-DL SHALL use STIX 2.1 as the default standard format for CTI representation.</p>
+<h2 id="SRS-023">1.20 CTI representation in STIX 2.1 <small><a href="SRS.html#SRS-023">SRS-023</a></small></h2>
+<p>SATRAP SHALL use STIX 2.1 as the default standard format for CTI representation.</p>
 <h3>Rationale</h3>
 <p>For interoperability</p>
 <h3>Acceptance criteria</h3>
@@ -909,329 +828,7 @@ db connections; file paths) in a dedicated configuration file.</p>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-024">24 Design and implementation principles <small>SRS-024</small></h1>
-<p>The design and implementation of SATRAP SHALL adhere to software best practices such as naming convention,
-clean code, SOLID principles, etc.</p>
-<h3>Rationale</h3>
-<p>Among others, for maintainability, security, reliability and robustness of code.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a>, <a href="MRS.html#MRS-046">MRS-046 C5-DEC compliance</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-002">TST-002 Verify software engineering practices</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>A, S, Q</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>5</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>R</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-025">25 Code readability <small>SRS-025</small></h1>
-<p>The source code of SATRAP SHALL be self explanatory and well documented.</p>
-<h3>Rationale</h3>
-<p>To support maintainability, extensibility and adoption of the software.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-046">MRS-046 C5-DEC compliance</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-006">TST-006 Verify code clarity</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>Q</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>5</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-026">26 Public release <small>SRS-026</small></h1>
-<p>The source code of SATRAP SHALL be released in a GitHub public repository.</p>
-<h3>Rationale</h3>
-<p>Open-source releases allow contributions and usage by the community, which in turn foster adoption and constant exchange of feedback.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-051">MRS-051 Open-source releases</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-018">TST-018 Verify release and licensing</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>C</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>3</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-027">27 Open-source licensing <small>SRS-027</small></h1>
-<p>Third-party libraries used in SATRAP-DL SHALL have open source licenses that do not restrict the privileges
-granted by the license selected for SATRAP-DL.</p>
-<h3>Rationale</h3>
-<p>To avoid the introduction of limitations in the distribution and use of SATRAP-DL derived from the use of third-party software.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-051">MRS-051 Open-source releases</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-018">TST-018 Verify release and licensing</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>C</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>3</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>A</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-028">28 Input validation <small>SRS-028</small></h1>
-<p>SATRAP components receiving input to the system SHALL validate the input and reject it in case the validation fails.
-The validation may include integrity checks, syntactic checks, semantic checks, parameter out-of-range checks, etc.</p>
-<h3>Rationale</h3>
-<p>To prevent code injection.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>S</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>5</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-029">29 Input sanitization <small>SRS-029</small></h1>
-<p>SATRAP components SHALL perform sanitization of input and output (data passed across a trust boundary).
-Sanitization may include removing, replacing, encoding, or escaping unwanted characters.</p>
-<h3>Rationale</h3>
-<p>To prevent code injection.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>S</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>5</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-030">30 Resource management <small>SRS-030</small></h1>
-<p>Network connections and other resources accessed SHALL be properly terminated when no further required.</p>
-<h3>Rationale</h3>
-<p>To prevent data leakage or DoS attacks.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>S</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>5</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-031">31 Code static analysis <small>SRS-031</small></h1>
-<p>The code of SATRAP SHALL be statically analyzed using an appropriate software  to identify potential issues. The static analysis of Python code shall aim to detect:</p>
-<ul>
-<li>error handling</li>
-<li>commented-out code</li>
-<li>input validation</li>
-<li>code injection</li>
-<li>concurrency and race conditions (if applicable)</li>
-<li>canonical representation vulnerabilities</li>
-<li>minimum amount of dependencies</li>
-</ul>
-<h3>Rationale</h3>
-<p>To detect common security vulnerabilities in an automated way.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>S</td>
-</tr>
-<tr>
-<td>importance</td>
-<td>5</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>3</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I, A</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha, Beta, FID</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-032">32 Dependencies management <small>SRS-032</small></h1>
-<p>All software dependencies including third-party libraries SHALL be listed and maintained in a configuration file.</p>
-<h3>Rationale</h3>
-<p>To enforce a centralized control over external dependencies.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>S</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>5</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-033">33 Functional ETL events logging <small>SRS-033</small></h1>
+<h2 id="SRS-033">1.21 Functional ETL events logging <small><a href="SRS.html#SRS-033">SRS-033</a></small></h2>
 <p>SATRAP SHALL log at least one timestamped event with an associated log level recording the ETL execution status (success/failure) per each phase, i.e., extraction, transformation, and loading.</p>
 <h3>Rationale</h3>
 <p>To provide information for security investigations.</p>
@@ -1265,8 +862,15 @@ Sanitization may include removing, replacing, encoding, or escaping unwanted cha
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-034">34 Detailed event logging <small>SRS-034</small></h1>
-<p>SATRAP logs SHALL be stored in a secure location and SHALL be accessible only to authorized personnel.</p>
+<h2 id="SRS-034">1.22 Detailed event logging <small><a href="SRS.html#SRS-034">SRS-034</a></small></h2>
+<p>SATRAP SHALL log events in a detailed manner according to well-established logging levels, capturing relevant information for each event. Specifically,
+the levels to be used are:</p>
+<ul>
+<li>DEBUG level for detailed diagnostic information during development and troubleshooting</li>
+<li>INFO level for general informational messages about system operations</li>
+<li>WARNING level for potentially problematic situations</li>
+<li>ERROR level for error conditions and failures</li>
+</ul>
 <h3>Rationale</h3>
 <p>To provide information for debugging purposes.</p>
 <h3>Acceptance criteria</h3>
@@ -1294,12 +898,12 @@ Sanitization may include removing, replacing, encoding, or escaping unwanted cha
 </tr>
 <tr>
 <td>release</td>
-<td>FID</td>
+<td>Beta</td>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-035">35 Consistent logging format <small>SRS-035</small></h1>
-<p>SATRAP logs SHALL be stored for at least X time duration according to a data retention policy.</p>
+<h2 id="SRS-035">1.23 Consistent logging format <small><a href="SRS.html#SRS-035">SRS-035</a></small></h2>
+<p>SATRAP SHALL ensure that all logs generated by the system follow a consistent format, including standardized fields such as timestamp, log level, source component, and message content.</p>
 <h3>Rationale</h3>
 <p>To generate human-readable and informative logs.</p>
 <h3>Acceptance criteria</h3>
@@ -1331,112 +935,11 @@ Sanitization may include removing, replacing, encoding, or escaping unwanted cha
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-036">36 Log validation <small>SRS-036</small></h1>
-<p>Log strings SHALL be sanitized and validated before logging to prevent log injection attacks.</p>
-<h3>Rationale</h3>
-<p>To prevent log injection attacks.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>S</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>4</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-037">37 Sensitive information <small>SRS-037</small></h1>
-<p>SATRAP SHALL not log sensitive information such as passwords or entity identifiers.</p>
-<h3>Rationale</h3>
-<p>To avoid intended or unintended leakage of sensitive information.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>S</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>5</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-038">38 Software identification <small>SRS-038</small></h1>
-<p>The deployment build of SATRAP SHALL provide a way to retrieve its version and other identification details via the frontend.</p>
-<h3>Rationale</h3>
-<p>To inform the user of the specific version of the system that is being used, often required for consulting user manuals, reporting bugs, etc.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>F,S</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>3</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>T</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-039">39 TypeQL to STIX 2.1 transformer <small>SRS-039</small></h1>
+<h2 id="SRS-039">1.24 TypeQL to STIX 2.1 transformer <small><a href="SRS.html#SRS-039">SRS-039</a></small></h2>
 <p>SATRAP SHALL have the capability of representing data expressed in the language
 of the CTI SKB (TypeQL), in terms of the STIX 2.1 data model.</p>
 <h3>Rationale</h3>
-<p>To provide the low-level components supporting SRS-019.</p>
+<p>To provide the low-level components supporting <a href="SRS.html#SRS-019">SRS-019</a>.</p>
 <h3>Acceptance criteria</h3>
 <p>None</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-019">MRS-019 Exporting inferred CTI</a></p>
@@ -1470,46 +973,7 @@ of the CTI SKB (TypeQL), in terms of the STIX 2.1 data model.</p>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-040">40 Authentication and authorization <small>SRS-040</small></h1>
-<p>For automated ingestion from and enrichment of the CyFORT CTI repository, SATRAP
-SHALL rely on the TIP built-in solution for user authentication and authorization,
-e.g., OpenCTI, MISP LDAP, or native user management.</p>
-<h3>Rationale</h3>
-<p>To enforce user identification and resource access authorization by building on well-established solutions.</p>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-056">MRS-056 Access control</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>S, A</td>
-</tr>
-<tr>
-<td>importance</td>
-<td>4</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>3</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>I</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Beta</td>
-</tr>
-</tbody>
-</table>
-<h1 id="SRS-041">41 Configuration management mechanism <small>SRS-041</small></h1>
+<h2 id="SRS-041">1.25 Configuration management mechanism <small><a href="SRS.html#SRS-041">SRS-041</a></small></h2>
 <p>The system SHALL provide a configuration management mechanism with a set of predefined values for the user to adjust various system settings.</p>
 <h3>Rationale</h3>
 <p>To enforce a centralized user-configurable mechanism for managing system settings.</p>
@@ -1543,7 +1007,7 @@ e.g., OpenCTI, MISP LDAP, or native user management.</p>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-042">42 Command line interface (CLI) <small>SRS-042</small></h1>
+<h2 id="SRS-042">1.26 Command line interface (CLI) <small><a href="SRS.html#SRS-042">SRS-042</a></small></h2>
 <p><em>As a</em> SATRAP administrator/CTI analyst, <em>I want to</em> interact with SATRAP via a command line interface
 <em>so that</em> I can set up the backend CTI SKB and launch the ETL pipeline without the need of a graphical user interface (GUI).
 Thus, I want the CLI to provide at least the following commands:</p>
@@ -1584,7 +1048,7 @@ Thus, I want the CLI to provide at least the following commands:</p>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-043">43 TypeDB Studio <small>SRS-043</small></h1>
+<h2 id="SRS-043">1.27 TypeDB Studio <small><a href="SRS.html#SRS-043">SRS-043</a></small></h2>
 <p>The SATRAP-DL system SHALL adopt TypeDB Studio as a Graphical User Interface (GUI) for users to interact with the SATRAP CTI SKB using the native TypeQL query language.</p>
 <h3>Rationale</h3>
 <p>To provide the means to the user to execute queries in the native query language of the CTI SKB.</p>
@@ -1618,7 +1082,7 @@ Thus, I want the CLI to provide at least the following commands:</p>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-044">44 Open-source TIP integration <small>SRS-044</small></h1>
+<h2 id="SRS-044">1.28 Open-source TIP integration <small><a href="SRS.html#SRS-044">SRS-044</a></small></h2>
 <p>SATRAP-DL SHALL adopt both MISP and OpenCTI as open-source TIPs (Threat Intelligence Platform) for
 central storage and management of threat intelligence data.</p>
 <h3>Rationale</h3>
@@ -1677,14 +1141,14 @@ mechanisms.</li>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-045">45 CTI analysis engine <small>SRS-045</small></h1>
+<h2 id="SRS-045">1.29 CTI analysis engine <small><a href="SRS.html#SRS-045">SRS-045</a></small></h2>
 <p>SATRAP SHALL have a component in charge of the CTI analysis operational logic, mediating the interaction between the service layer and the data layer.</p>
 <h3>Rationale</h3>
 <p>For separation of duties in SATRAP and to support automation of CTI analysis tasks.</p>
 <h3>Acceptance criteria</h3>
 <p>None</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-024">MRS-024 CTI analysis</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-019">TST-019 Verify layered architecture of SATRAP</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-019">TST-019 Verify layered architecture of SATRAP</a></p>
 <table>
 <thead>
 <tr>
@@ -1715,7 +1179,7 @@ mechanisms.</li>
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-046">46 CTI analysis toolbox <small>SRS-046</small></h1>
+<h2 id="SRS-046">1.30 CTI analysis toolbox <small><a href="SRS.html#SRS-046">SRS-046</a></small></h2>
 <p>SATRAP SHALL have a component providing end-user functionality accessible programmatically via the frontend.
 This functionality consists primarily of parametrizable high-level CTI queries.</p>
 <h3>Rationale</h3>
@@ -1723,7 +1187,7 @@ This functionality consists primarily of parametrizable high-level CTI queries.<
 <h3>Acceptance criteria</h3>
 <p>None</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-023">MRS-023 Query parameterization</a>, <a href="MRS.html#MRS-025">MRS-025 SATRAP-DL service</a>, <a href="MRS.html#MRS-037">MRS-037 SATRAP as software library</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-019">TST-019 Verify layered architecture of SATRAP</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-019">TST-019 Verify layered architecture of SATRAP</a></p>
 <table>
 <thead>
 <tr>
@@ -1754,7 +1218,7 @@ This functionality consists primarily of parametrizable high-level CTI queries.<
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-047">47 OSINT feeds configuration and catalog <small>SRS-047</small></h1>
+<h2 id="SRS-047">1.31 OSINT feeds configuration and catalog <small><a href="SRS.html#SRS-047">SRS-047</a></small></h2>
 <p>The CyFORT CTI repository instantiated by MISP and/or OpenCTI SHOULD ingest a pre-configured set of OSINT feeds, informed
 by a catalog documenting relevant feeds per application domain (e.g. energy sector, space sector, IT company, etc.).</p>
 <h3>Rationale</h3>
@@ -1793,20 +1257,34 @@ base that supports the setup of new SATRAP deployments in diverse application do
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-048">48 Integration of security tools for automation <small>SRS-048</small></h1>
-<p><em>As a</em> SOAR operator, <em>I want to</em> integrate my SIEM and my case management systems with the CyFORT CTI repository,
-<em>so that</em> I can enable automated execution of workflows.</p>
+<h1 id="SRS-DECIPHER">2 DECIPHER <small>SRS-DECIPHER</small></h1>
+<p>System-level requirements for DECIPHER.</p>
+<h2 id="SRS-048">2.1 DECIPHER infrastructure stack: deployment <small><a href="SRS.html#SRS-048">SRS-048</a></small></h2>
+<p><em>As a</em> DECIPHER operator, <em>I want to</em> deploy the full DECIPHER infrastructure stack using a containerized approach with a single entrypoint script, <em>so that</em> I can bring up, configure, and tear down the required services reproducibly across environments.</p>
+<p>I want the deployment component to:</p>
 <ol>
-<li>I use Wazuh as a SIEM</li>
-<li>I use MISP for the CyFORT CTI repository</li>
-<li>I use Flowintel for case management</li>
+<li>Include the following services conforming DECIPHER's infrastructure stack:<ul>
+<li>the threat intelligence platform MISP,</li>
+<li>the case management system Flowintel, and</li>
+<li>the DECIPHER REST analysis service, which provides a platform-independent, human and programmatic access point to CTI analysis</li>
+</ul>
+</li>
+<li>Provide a single entrypoint script for selective deployment and startup of the stack components, e.g., deploying the DECIPHER service and Flowintel but not MISP, or deploying the entire stack.</li>
+<li>Provide a complementary teardown script analogous to the one defined above, with an additional option to remove associated data volumes.</li>
+<li>Use a configuration file to set environment variables for all services.</li>
+<li>Support addition of services (e.g. SATRAP for deeper CTI investigations) without modifying the deployment of existing services.</li>
 </ol>
-<p>In particular, I want the alerts in my SIEM to be enriched with information from my CTI repository, and to be able to create cases in my case management system from either the SIEM, SATRAP-DL or the CTI platform/repository.</p>
 <h3>Rationale</h3>
-<p>To enable the creation of automated workflows for diverse threat scenarios.</p>
+<p>A containerized, single-entrypoint deployment reduces operational friction when setting up and tearing down the DECIPHER incident handling pipeline. Selective service startup allows operators to deploy only the components desired in their environment without modifying the deployment artifacts.</p>
 <h3>Acceptance criteria</h3>
-<p>SATRAP-DL provides a mechanism/support for configuring communication channels between Wazuh, MISP, SATRAP and Flowintel, aimed at achieving a baseline for enrichment and the case creation described above.</p>
+<ol>
+<li>Invoking the startup script with the full-stack flag starts the CTI platform, the case management system, and the analysis service containers and makes each service reachable on its configured port.</li>
+<li>Invoking the teardown script with the full-stack and volume-purge flags stops all running containers and removes their associated data volumes.</li>
+<li>Invoking the startup script with the analysis-service-only flag starts only the analysis service container; the CTI platform and case management system containers are not started.</li>
+<li>Copying the provided configuration template and setting the required environment variables is sufficient to configure all services before startup.</li>
+</ol>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-035">MRS-035 Integration with open-source tools for incident handling</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-005">ARC-005 DECIPHER context diagram</a>, <a href="TST.html#TST-021">TST-021 Test containerized deployment</a>, <a href="ARC.html#ARC-006">ARC-006 DECIPHER infrastructure deployment diagram</a></p>
 <table>
 <thead>
 <tr>
@@ -1829,7 +1307,7 @@ base that supports the setup of new SATRAP deployments in diverse application do
 </tr>
 <tr>
 <td>vm</td>
-<td>I,T</td>
+<td>T</td>
 </tr>
 <tr>
 <td>release</td>
@@ -1837,26 +1315,480 @@ base that supports the setup of new SATRAP deployments in diverse application do
 </tr>
 </tbody>
 </table>
-<h1 id="SRS-049">49 Automated support for incident handling: phishing <small>SRS-049</small></h1>
-<p><em>As a</em> security manager, <em>I want to</em> have an automated pipeline that processes potential phishing incidents relying on SATRAP-DL's stack of open-source tools for incident handling, <em>so that</em> incident responders are automatically assigned only relevant cases based on predefined criteria. I want this pipeline to:</p>
+<h2 id="SRS-049">2.2 DECIPHER REST service and API <small><a href="SRS.html#SRS-049">SRS-049</a></small></h2>
+<p><em>As a</em> security engineer, <em>I want to</em> have programmatic access to a service that supports my automated incident handling workflow, <em>so that</em> I can efficiently analyze alerts concerning diverse threat scenarios with real-time CTI enrichment and create prioritized cases based on threat severity.</p>
+<p>I want this service to:</p>
 <ol>
-<li>Detect connections to potentially malicious URLs and create alerts in my SIEM</li>
-<li>Enrich the alerts with CTI available in my TIP</li>
-<li>Run an automated preliminary analysis on the alerts to decide whether the incident needs to be escalated</li>
-<li>Create a case in a case management tool if deemed necessary by the analysis</li>
-<li>Add relevant playbooks to the case for further interactive analysis, e.g., using SATRAP.</li>
+<li>Be accessible through a REST API.</li>
+<li>Expose a dedicated endpoint to post alert data for a named threat scenario. As part of the response, I want to receive a severity score and the analysis report. This is called the analysis endpoint.</li>
+<li>Expose a dedicated endpoint to post a score and case data for a named threat scenario. I want this input to be used for creating a prioritized incident case in the case management platform. This is called the incidents endpoint.</li>
+<li>Expose a discovery endpoint that lists all registered alert types together with their input schemas. This is called the analyzers endpoint.</li>
+<li>Expose a health endpoint returning the service status and the number of loaded analyzers. This is called the health endpoint.</li>
+<li>Show information about the service version and documentation references in the home endpoint.</li>
+<li>Return structured, machine-readable results in JSON format following a predefined schema depending on the endpoint.</li>
 </ol>
 <h3>Rationale</h3>
-<p>To support automated incident handling, reducing alert fatigue and benefiting from inference-driven CTI.</p>
+<p>A REST API with schema-validated endpoints enables integration in larger automated workflows with SIEM and orchestration platforms and supports operational monitoring. Structured results make it straightforward for orchestration systems and analysts to consume the output without additional parsing.</p>
+<p>Dedicated analysis and incidents endpoints enables security teams to automate incident handling workflows and ensure critical threats are escalated for human investigation minimizing manual effort.</p>
+<p>A standardized health check endpoint allows orchestration systems to automate service monitoring and proceed with service usage upon healthy status validation. A home endpoint with version and documentation information supports operational visibility and helps users access relevant resources.</p>
 <h3>Acceptance criteria</h3>
 <ol>
-<li>The SIEM's dashboard shows identifiable alerts concerning the detection of suspicious URLs</li>
-<li>Such alerts contain additional information when compared to regular alerts; this information can be traced to the integrated TIP</li>
-<li>A case is automatically created for an identified malicious URL after the execution of the preliminary CTI analysis</li>
-<li>The created case includes pointers to predefined playbooks to run for a phishing scenario.</li>
-<li>A case is not created for a detected URL not evaluated as potentially malicious by the CTI analysis.</li>
+<li>An analysis endpoint that accepts a POST request with alert data for a named threat scenario is exposed. The endpoint returns a JSON response containing the scenario identifier, severity score, and analysis report.</li>
+<li>An incidents endpoint that accepts a POST request with a score and case data for a named threat scenario is exposed. The endpoint returns a JSON response enabling case creation in the case management platform.</li>
+<li>An analyzers endpoint that accepts GET requests and returns a JSON response listing all registered alert types with their input schemas is exposed.</li>
+<li>A health endpoint that accepts GET requests and returns a JSON response with the service status, count of loaded analyzers, and log level is exposed.</li>
+<li>A home endpoint that accepts GET requests and returns service version and documentation references in JSON format is exposed.</li>
+<li>All endpoints return structured, machine-readable results in JSON format with a predefined schema for each endpoint.</li>
 </ol>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-058">MRS-058 Automated support for incident handling</a></p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-035">MRS-035 Integration with open-source tools for incident handling</a>, <a href="MRS.html#MRS-038">MRS-038 Platform-independent API</a>, <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a>, <a href="MRS.html#MRS-059">MRS-059 Standalone incident escalation from an externally-computed triage score</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-005">ARC-005 DECIPHER context diagram</a>, <a href="TST.html#TST-022">TST-022 Test DECIPHER REST service and API</a>, <a href="ARC.html#ARC-008">ARC-008 DECIPHER microservice container diagram</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-050">2.3 DECIPHER service: analysis endpoint <small><a href="SRS.html#SRS-050">SRS-050</a></small></h2>
+<p><em>As a</em> security engineer operating an alert management system and/or SIEM, <em>I want to</em> automatically submit security alerts to the analysis endpoint of the DECIPHER REST service, <em>so that</em> I can analyze diverse threat scenarios using real-time CTI and create prioritized cases without manual investigation.</p>
+<p>I want this endpoint to:</p>
+<ol>
+<li>Accept a POST request with the identifier of one of the supported threat scenarios (a.k.a. alert type) as a parameter.</li>
+<li>Accept alert data for the selected threat scenario in the request body, validate it against the corresponding schema, and return structured error details in case of validation failure.</li>
+<li>Search for information on the alert IOCs in the integrated CTI platform (MISP).</li>
+<li>Compute a severity score using the retrieved threat intelligence, taking into account at least the following MISP concepts: event threat level, analysis stage, admiralty-scale tags, sighting counts, and presence of relevant threat identification tags (e.g., MITRE ATT&amp;CK tags).</li>
+<li>Optionally (set through a configuration file), create a prioritized case in Flowintel pre-populated with the alert data, score breakdown, and a priority tag assigned according to configurable thresholds. If a template is available for the specific threat scenario, I want the case to be aligned with the corresponding case template.</li>
+<li>For each successfully processed request, return a structured machine-readable analysis result containing the identifier of the analyzed scenario, a severity score in [0, 1] calculated based on CTI aspects, the analysis report, and the ID and URL of the case created or 0 and an empty string if no case was created. The analysis report contains at least a breakdown of the score calculation, the ids of related events found in MISP, and a summary of errors or relevant log messages.</li>
+<li>Support additional threat scenarios without modification to the code of the existing ones.</li>
+</ol>
+<h3>Rationale</h3>
+<p>A fully automated CTI analysis leveraging programmatic access to MISP and Flowintel provides a first stage investigation based on commonly checked severity and confidence aspects, allowing analysts to focus on further aspects that benefit from human attention. The report provides a clear view on the aspects considered and the analysis findings. The optional case creation feature allows DECIPHER to be used both, as a standalone analysis, scoring and case handling service, or as part of a larger automated workflow that incorporates the CTI score into an external scoring and triage system.</p>
+<h3>Acceptance criteria</h3>
+<p>Assuming that MISP and Flowintel instances are correctly configured and enabled in the configuration files, and that at least one analyzer is registered in the DECIPHER service:</p>
+<ol>
+<li>A POST request to the analysis endpoint with valid alert data returns HTTP 200 with a JSON body containing the analyzed scenario, severity score, report, and created case information.</li>
+<li>A POST request with structurally invalid alert data returns HTTP 422 with field-level validation error details.</li>
+<li>A POST request referencing an unregistered alert type returns HTTP 404.</li>
+<li>A POST request that triggers an internal analysis failure returns HTTP 500.</li>
+<li>When case creation is enabled and the analysis completes successfully, a case is created in Flowintel and its ID appears in the created case information of the analysis result.</li>
+<li>When case creation is disabled, the analysis endpoint still returns a complete analysis response, however, no case is created in Flowintel and the created case information shows default values id=0 and url="".</li>
+<li>When MISP search is disabled, the analysis returns a successful response with a severity score of 0 indicating in the report that MISP search was disabled.</li>
+</ol>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-035">MRS-035 Integration with open-source tools for incident handling</a>, <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-007">ARC-007 RADAR-DECIPHER pipeline overview</a>, <a href="TST.html#TST-028">TST-028 Test analysis endpoint core behavior</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-052">2.4 Analysis endpoint: IOC search in MISP for CTI enrichment <small><a href="SRS.html#SRS-052">SRS-052</a></small></h2>
+<p><em>As a</em> security analyst, <em>I want</em> DECIPHER to query the integrated MISP instance for indicators of compromise (IOCs) extracted from an alert, <em>so that</em> the automated analysis is informed with available threat intelligence rather than relying solely on the raw alert data.</p>
+<p>I want the enrichment to:</p>
+<ol>
+<li>Accept lists of values mapped to specific MISP attribute types (e.g. <code>ip-src</code>, <code>ip-dst</code>, <code>target-user</code>) and search each value against MISP.</li>
+<li>Exclude attributes identified in MISP warning lists from the results.</li>
+<li>Group the returned MISP attributes by event and convert them into an internal representation that carries threat level, analysis stage, admiralty-scale tags, identified attributes with a count of the true positive and false positive sightings, and whether threat identification tags are present.</li>
+<li>Deduplicate results across multiple IOC searches so that each MISP event appears only once.</li>
+<li>Return an empty result set without error when no MISP events are found for the submitted IOCs.</li>
+<li>Proceed without MISP enrichment and record the unavailability in the analysis report when the MISP client is not reachable or not configured.</li>
+<li>Allow configuring the time window and the result limit of the MISP search.</li>
+</ol>
+<h3>Rationale</h3>
+<p>IOC enrichment is the primary mechanism by which DECIPHER grounds its severity assessment in real threat intelligence. Deduplication prevents artificially inflating scores when several searched values point to the same MISP event. Skipping CTI enrichment when MISP is unavailable prevents blocking pipelines by allowing the analysis to continue and return a result.</p>
+<p>Configurability of the search time window and result limit allows tuning the MISP search for different use cases and data volumes.</p>
+<h3>Acceptance criteria</h3>
+<ol>
+<li>Submitting alert data containing an IOC that is present as an attribute (alone or as part of a MISP object) in a MISP event causes that event id to appear in the analysis report response.</li>
+<li>Submitting alert data where none of the IOCs is present in the MISP instance returns an analysis result with an empty list of events found and a severity of 0.</li>
+<li>A single MISP event matching multiple searched IOCs appears only once in the enrichment results.</li>
+<li>The time window and result limit for the MISP search can be configured and are respected in the search results.</li>
+<li>When MISP is unreachable, the analysis result informs of this situation and the severity is 0.</li>
+</ol>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-035">MRS-035 Integration with open-source tools for incident handling</a>, <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-023">TST-023 Test full workflow of analysis endpoint</a>, <a href="ARC.html#ARC-009">ARC-009 REST service: analysis endpoint interaction</a>, <a href="TST.html#TST-026">TST-026 Test analysis endpoint graceful degradation</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-053">2.5 Analysis endpoint: CTI-driven scoring engine for MISP <small><a href="SRS.html#SRS-053">SRS-053</a></small></h2>
+<p><em>As a</em> security analyst, <em>I want</em> DECIPHER to compute a quantitative severity score from MISP threat intelligence events, <em>so that</em> I can prioritize incident response effort on the basis of an objective, reproducible assessment quantifying both, the intrinsic danger of a threat and the degree of confidence on the trustworthiness of the assessment.</p>
+<p>I want the scoring engine to:</p>
+<ol>
+<li>Compute a CTI-based score considering a severity component and a confidence component, both bounded in [0, 1].</li>
+<li>Derive the severity component from the threat level in MISP events and tags associating the event with a known threat.</li>
+<li>Derive the confidence component from evidence-based signals such as MISP sightings (true-positive and false-positive counts) and Admiralty-scale source reliability and information credibility tags.</li>
+<li>Return a score of 0 when no MISP events are provided.</li>
+<li>Output a detailed breakdown of the score so analysts can understand how it was computed.</li>
+<li>Allow all scoring weights and thresholds to be overridden through a YAML configuration file without requiring code changes, to allow calibration against historical analyst assessments.</li>
+<li>Reload the scoring configuration at runtime without service restart.</li>
+</ol>
+<h3>Requirements for the CTI severity score computation</h3>
+<p><strong>Dual-axis design.</strong> The score must separately capture severity (how dangerous is the threat) and confidence (how much should we trust that assessment). These factors are multiplied to produce the final score, so both must be strong simultaneously for the score to be high.</p>
+<p><strong>Score in [0,1].</strong> The score ranges from 0 to 1, where 0 means no actionable input (no information, unconfirmed, or unreliable) while 1 means a maximally severe threat that has been fully confirmed by independent, reliable sources.</p>
+<p><strong>Zero by default.</strong> With no available information, the score must output exactly 0. Confidence must be earned, not assumed.</p>
+<p><strong>Score of 1 requires full confirmation.</strong> A score approaching 1 must require high threat level, completed analysis, strong empirical sighting support, and reliable Admiralty-scale provenance simultaneously.</p>
+<p><strong>Threat identification tags as a severity amplifier.</strong> The presence of relevant tags identifying the event or attribute as a potential threat (e.g. <code>mitre-attack-pattern</code> and <code>mitre-intrusion-set</code>) must boost severity multiplicatively, not additively. The presence of such tags should never manufacture severity where none exists.</p>
+<p><strong>Sightings as empirical confirmation.</strong> True positive and false positive sightings must be incorporated using a statistically principled method that rewards confirmed sightings and penalizes false positives. The absence of any sightings must contribute zero confidence, not neutral uncertainty.</p>
+<p><strong>Admiralty scale as provenance signal.</strong> Both <code>admiralty-scale:source-reliability</code> and <code>admiralty-scale:information-credibility</code> tags must be used. Attribute-level tags take precedence over event-level tags. Absent tags must contribute zero confidence, not a neutral default.</p>
+<p><strong>Graceful degradation on missing data.</strong> The formula must not collapse entirely to zero when one confidence stream is missing. Missing data should degrade the score but not eliminate it entirely, provided the remaining streams are strong.</p>
+<p><strong>Aggregation across attributes and events.</strong> Individual attribute confidence scores must aggregate to an event confidence score, and event scores must aggregate to a final score, using a method that compounds independent evidence correctly.</p>
+<p><strong>Scope fidelity.</strong> Each concept contributing tot he calculation must be aggregated at the level where it is generated. Event-level concepts must not be embedded in per-attribute calculations, and attribute-level concepts must not bypass per-attribute aggregation.</p>
+<h2>Score computation</h2>
+<h3>Step 1 — Severity (event-level)</h3>
+<p>Severity captures the intrinsic danger of the threat based on event metadata.</p>
+<p><strong>Threat level.</strong>
+The threat level of an event is mapped to a base severity score according to a configurable mapping; use defaults high = 1.0, medium = 0.5, low = 0.25. An undefined threat level maps to 0 in alignment with the zero-by-default requirement.</p>
+<p><strong>Threat tags multiplier.</strong>
+Occurrence of tags used to identify the event or attribute as a potential threat (e.g. <code>mitre-attack-pattern</code> and <code>mitre-intrusion-set</code>) is checked at the event level and across all attributes. Presence anywhere in the event is counted as 1, absence equates to 0.</p>
+<pre><code class="language-text">tags_multiplier = 1.0 + 0.5 × tags_present
+                = 1.5  if any threat tag is present
+                = 1.0  otherwise
+</code></pre>
+<p>This factor is applied multiplicatively so that threat tag presence amplifies existing severity but cannot manufacture severity from nothing (a threat level of 0 remains 0 regardless).</p>
+<p><strong>Severity formula:</strong></p>
+<pre><code class="language-text">Severity = min(1.0, threat_level × tags_multiplier)
+</code></pre>
+<p>The <code>min(1.0, ...)</code> keeps the result bounded. Examples:</p>
+<ul>
+<li>
+<p>High + tags: min(1.0, 1.0 × 1.5) = 1.0</p>
+</li>
+<li>
+<p>Medium + tags: min(1.0, 0.5 × 1.5) = 0.75</p>
+</li>
+<li>
+<p>Medium, no tags: min(1.0, 0.5 × 1.0) = 0.50</p>
+</li>
+<li>
+<p>Undefined + tags: min(1.0, 0.0 × 1.5) = 0.0</p>
+</li>
+</ul>
+<h3>Step 2 — Confidence</h3>
+<p>Confidence is structured across two tiers corresponding to the scope at which each signal is generated. Attribute-level evidence-based signals are aggregated first; the result is then combined with the event-level analyst judgment.</p>
+<h4>Tier 1 — Attribute-level confidence</h4>
+<p>Each attribute contributes an empirical confidence score from its own sightings and Admiralty tags.</p>
+<p><strong>2a — Sightings (Beta Posterior)</strong></p>
+<p>Sightings use a Beta distribution posterior to estimate the empirical confirmation rate from true positives (TP) and false positives (FP). The raw posterior is then transformed so that zero sightings contributes zero confidence rather than neutral uncertainty (0.5):</p>
+<pre><code class="language-text">P_sightings = (TP + 1) / (TP + FP + 2)          # Beta posterior mean
+C_sightings = max(0,  2 × P_sightings − 1)       # Rescaled to [0,1], clipped
+            = max(0,  2 × (TP + 1) / (TP + FP + 2) − 1)
+</code></pre>
+<p>Expected behaviour:</p>
+<ul>
+<li>No sightings (TP=0, FP=0): 2 × 0.5 − 1 = 0.0</li>
+<li>All false positives: clips to 0.0</li>
+<li>Balanced TP and FP: stays near 0.0</li>
+<li>Strong true positives: approaches 1.0</li>
+</ul>
+<p><strong>2b — Admiralty Scale</strong></p>
+<p>Resolve admiralty per attribute with attribute-level taking precedence over event-level tags.
+Then, define configurable source reliability and information credibility mappings from the admiralty scale to [0,1].</p>
+<p>Source reliability "G — Deliberately deceptive", information credibility "6 — Truth cannot be judged" and no admiralty tag neither at event nor at attribute level, map to 0.</p>
+<p>Both tags are combined using a geometric mean to produce the Admiralty confidence score:</p>
+<pre><code class="language-text">C_admiralty = sqrt(source_reliability × info_credibility)
+</code></pre>
+<p>Unlike the arithmetic mean, the geometric mean ensures that a weak value in either dimension suppresses the result: if either source reliability or information credibility is zero, the combined score is zero regardless of the other dimension's strength. This reflects Admiralty scale semantics, where both axes are necessary conditions for trustworthiness, not interchangeable components.</p>
+<p><strong>2c — Attribute confidence weighted combination</strong></p>
+<p>The two attribute-scoped streams are combined as a weighted sum, where the weights are configurable:</p>
+<pre><code class="language-text">C_attr = w_sightings × C_sightings + w_admiralty × C_admiralty
+</code></pre>
+<p>Default weights and rationale:</p>
+<ul>
+<li>
+<p>Sightings = 0.6: empirical confirmation from the community is the stronger attribute-level signal as it represents direct observation of the indicator in the wild.</p>
+</li>
+<li>
+<p>Admiralty = 0.4: provenance quality is a supporting signal that modulates the reliability of the sighting evidence but does not substitute it.</p>
+</li>
+</ul>
+<p><strong>2d — Attribute confidence aggregation (Noisy-OR)</strong></p>
+<p>Attribute confidence scores are aggregated via Noisy-OR, correctly modelling the intuition that independent converging indicators compound; each additional confirmed attribute pushes the evidence-based confidence upward:</p>
+<pre><code class="language-text">C_evidence = 1 − ∏(1 − C_attr_i)
+</code></pre>
+<p>When all individual scores are 0, C_evidence is 0 and when a single score approaches 1, C_evidence is near 1.</p>
+<p>The independence assumption underlying Noisy-OR is satisfied here because sightings and Admiralty tags are genuinely scoped to distinct attribute instances. MISP creates a separate attribute instance per event and maintains only a correlation link between instances of the same indicator across events, so each C_attr_i is an independent observation.</p>
+<h4>Tier 2 — Event-level confidence</h4>
+<p><strong>2e — Analysis Stage</strong></p>
+<p>Map analysis stages to confidence scores according to a configurable mapping, with defaults:</p>
+<pre><code class="language-text">C_analysis:  completed = 1.00
+             ongoing = 0.5
+             initial = 0.2
+</code></pre>
+<p>The initial stage maps to 0.2 rather than 0 because the event exists and has been looked at, but conclusions are not yet to be trusted.</p>
+<p><strong>2f — Event confidence combination</strong></p>
+<p>The maturity of the analysis and the aggregated evidence-based signal are combined as a weighted sum at event level:</p>
+<pre><code class="language-text">Confidence = 0.5 × C_analysis + 0.5 × C_evidence
+</code></pre>
+<p>Rationale for weights (configurable):</p>
+<ul>
+<li>
+<p>Analysis (0.5): the analyst's direct assessment of the event is the primary epistemic signal. It reflects structured investigation and contextual judgment that cannot be reduced to indicator-level statistics.</p>
+</li>
+<li>
+<p>Evidence (0.5): the aggregated attribute-level evidence is a co-equal primary signal. Strong empirical confirmation without analyst sign-off, and analyst sign-off without empirical grounding, should both produce the same partial confidence ceiling.</p>
+</li>
+</ul>
+<p>The weighted sum rather than a product ensures graceful degradation: if one stream is entirely absent, the other can still contribute meaningfully to the final score.</p>
+<p>Note: all weights in both tiers are calibrated starting points. They should be validated against a labelled historical dataset and treated as tuneable parameters per deployment context.</p>
+<h3>Step 3 — Final score for an event</h3>
+<pre><code class="language-text">Score_event = Severity × Confidence
+</code></pre>
+<p>Expanding fully:</p>
+<pre><code class="language-text">Score_event = min(1.0, threat_level × tags_multiplier)
+      × ( 0.5 × C_analysis
+        + 0.5 × ( 1 − ∏(1 − (0.6 × C_sightings_i + 0.4 × C_admiralty_i)) ) )
+</code></pre>
+<h3>Step 4 — Aggregation across events</h3>
+<p>Finally, use Noisy-OR to aggregate multiple event scores into a final score:</p>
+<pre><code class="language-text">Final score = 1 − ∏(1 − Score_event_i)
+</code></pre>
+<h3>Rationale</h3>
+<p>A transparent, formula-driven score that incorporates threat level, analytic confidence, empirical sightings, and intelligence credibility produces assessments that analysts can inspect and calibrate over time. The Noisy-OR aggregation correctly reflects the increasing probability of a genuine threat as independent evidence accumulates, without allowing a single weak signal to dominate.</p>
+<p>After initial deployment, analysts collect verdicts on a sample of scored events and use them to empirically validate or adjust the weights used throughout the computation. Configurable parameters allow the scoring computation to be tuned by the user as per these observations.</p>
+<h3>Acceptance criteria</h3>
+<p>The following scenarios are verified, constrained to the default mappings and weights:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Severity</th>
+<th>Confidence</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No information at all</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>High threat, no analysis, no sightings, no Admiralty</td>
+<td>1.0</td>
+<td>0.5×0 + 0.5×0 = 0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>High + tags, completed, many TPs, A/1 Admiralty</td>
+<td>1.0</td>
+<td>0.5×1.0 + 0.5×→1.0 → 1.0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Medium, completed, many TPs, A/1 Admiralty</td>
+<td>0.5</td>
+<td>→ 1.0</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>High + tags, completed, many TPs, no Admiralty</td>
+<td>1.0</td>
+<td>0.5×1.0 + 0.5×(→1.0) = 0.5 + 0.5×0.6×→1.0 ≈ 0.80</td>
+<td>≈ 0.80</td>
+</tr>
+<tr>
+<td>High + tags, completed, no sightings, A/1 Admiralty</td>
+<td>1.0</td>
+<td>0.5×1.0 + 0.5×0.4×1.0 = 0.5 + 0.2 = 0.70</td>
+<td>0.70</td>
+</tr>
+<tr>
+<td>High + tags, ongoing, some TPs, B/2 Admiralty</td>
+<td>1.0</td>
+<td>0.5×0.5 + 0.5×~0.6 ≈ 0.55</td>
+<td>≈ 0.55</td>
+</tr>
+</tbody>
+</table>
+<p>The fifth row illustrates graceful degradation: a highly confirmed, high-severity event with no Admiralty tags still scores approximately 0.80 rather than collapsing, because the sightings stream carries sufficient weight within the attribute tier.</p>
+<p>The sixth row illustrates the symmetric case: strong Admiralty with no sightings yields 0.70, reflecting that provenance alone is a meaningful but incomplete confirmation signal.</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-024">TST-024 Test runtime-configurable DECIPHER features</a>, <a href="ARC.html#ARC-010">ARC-010 Analysis endpoint: scoring data flow diagram</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-054">2.6 Analysis endpoint: optional creation of prioritized case <small><a href="SRS.html#SRS-054">SRS-054</a></small></h2>
+<p><em>As a</em> security analyst, <em>I want</em> the DECIPHER analysis endpoint to offer an option for the automatic creation of a prioritized incident case in Flowintel for each executed analysis, <em>so that</em> incident responders have an auditable trace of the analysis with context and a suitable priority level.</p>
+<p>I want the case creation service to:</p>
+<ol>
+<li>Map the computed severity score to a priority tag (e.g. low, medium, high, severe) using configurable score thresholds.</li>
+<li>Populate the case with a title that includes the threat scenario identifier and a creation timestamp.</li>
+<li>Populate the case description with the alert data, severity score, and a human-readable score breakdown.</li>
+<li>Create the case using a scenario-specific template when one is defined in the template catalog, and fall back to a template-free creation otherwise.</li>
+<li>Return the Flowintel case ID and a direct URL to the created case as part of the analysis result.</li>
+<li>Skip case creation and record the reason in the analysis report when case creation is disabled in the runtime configuration.</li>
+<li>Record the failure in the analysis report without interrupting the analysis result when Flowintel is unreachable or returns an error.</li>
+</ol>
+<h3>Rationale</h3>
+<p>Automatic case creation with pre-populated context and analysis results eliminates the manual step between alert triage and case management, reducing response latency. Configurable priority thresholds allow organizations to tune escalation to their operational constraints.</p>
+<h3>Acceptance criteria</h3>
+<ol>
+<li>When case creation is enabled for the analysis in the configuration file, a case is created in Flowintel after a successful analysis. The ID of the created case appears in the <code>created_case.id</code> field of the analysis result and the URL to access the case in Flowintel appears in the <code>created_case.url</code> field.</li>
+<li>The priority tag assigned to a case corresponds to the level defined in the configuration file for the resulting score.</li>
+<li>The case description contains the alert data, the computed severity score, and a breakdown of the score in human-readable format.</li>
+<li>When a template is defined for the analyzed threat scenario, the created case is aligned with that template. When no template is defined for the analyzed threat scenario, the case contains only a description with the report on the analysis.</li>
+<li>When case creation is disabled in the configuration file, the analysis result is returned with <code>created_case.id</code> equal to 0 and the report lists the skip reason.</li>
+<li>When Flowintel is unreachable, the analysis result is still returned with a valid severity score; the report contains an entry indicating case creation failure.</li>
+</ol>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-035">MRS-035 Integration with open-source tools for incident handling</a>, <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-023">TST-023 Test full workflow of analysis endpoint</a>, <a href="ARC.html#ARC-009">ARC-009 REST service: analysis endpoint interaction</a>, <a href="TST.html#TST-026">TST-026 Test analysis endpoint graceful degradation</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-055">2.7 DECIPHER service: incidents endpoint <small><a href="SRS.html#SRS-055">SRS-055</a></small></h2>
+<p><em>As a</em> security engineer, <em>I want</em> to use the DECIPHER service incidents endpoint for creating a case in Flowintel by providing a score that determines a priority assignment and data for informing the case, <em>so that</em> I can automatically escalate incidents as part of my incident handling workflow.</p>
+<p>I want the incident creation endpoint to:</p>
+<ol>
+<li>Accept a POST request with the identifier of one of the supported threat scenarios (a.k.a. alert type) as a parameter.</li>
+<li>Accept a severity score in [0, 1], an optional case title, and arbitrary additional fields defining the Flowintel case in JSON format, all provided in a single request body.</li>
+<li>Map the provided score to a priority tag using configurable thresholds.</li>
+<li>Use the alert type endpoint parameter to select a case template for the specific scenario when available.</li>
+<li>Format non-score metadata fields into the case description.</li>
+<li>Return the created case ID and a direct URL to the case in Flowintel.</li>
+<li>Reject requests with a score outside [0, 1] with a structured validation error.</li>
+<li>Reject requests with an unrecognized alert type with an appropriate error.</li>
+</ol>
+<h3>Rationale</h3>
+<p>Decoupling case creation from the internal analysis workflow allows external tools (e.g. SIEM active responses, SATRAP notebooks, third-party SOAR playbooks) to integrate DECIPHER's incident creation as part of existing workflows. This broadens the interoperability of the SATRAP-DL ecosystem.</p>
+<h3>Acceptance criteria</h3>
+<ol>
+<li>A POST request to the incident endpoint with a valid score and a registered alert type returns HTTP 200 with a JSON body containing <code>id</code> (non-zero integer) and <code>link</code> (string starting with the configured Flowintel base URL).</li>
+<li>A POST request to the incident endpoint with a score of 1.5 returns HTTP 422 with a validation error message.</li>
+<li>A POST request to the incident endpoint with an unrecognized alert type returns HTTP 404.</li>
+<li>The priority tag of the created case corresponds to the tier matching the provided score according to the configured thresholds.</li>
+<li>Additional metadata fields provided in the request body appear in the case description in Flowintel.</li>
+</ol>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-035">MRS-035 Integration with open-source tools for incident handling</a>, <a href="MRS.html#MRS-038">MRS-038 Platform-independent API</a>, <a href="MRS.html#MRS-059">MRS-059 Standalone incident escalation from an externally-computed triage score</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-025">TST-025 Test incidents endpoint</a>, <a href="ARC.html#ARC-011">ARC-011 REST service: incident endpoint interaction</a></p>
 <table>
 <thead>
 <tr>
@@ -1880,6 +1812,770 @@ base that supports the setup of new SATRAP deployments in diverse application do
 <tr>
 <td>vm</td>
 <td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-057">2.8 Runtime-configurable DECIPHER features <small><a href="SRS.html#SRS-057">SRS-057</a></small></h2>
+<p><em>As a</em> DECIPHER operator, <em>I want</em> to enable or disable DECIPHER features for the analysis and incident creation, and tune their parameters at runtime without restarting or recompiling the service, <em>so that</em> I can adapt the system to the deployment environment and to evolving operational requirements.</p>
+<p>I want the runtime configuration to control:</p>
+<ol>
+<li>Whether the MISP IOC search step is executed during alert analysis (enabled by default).</li>
+<li>Whether an incident case is automatically created in Flowintel after a successful analysis (disabled by default).</li>
+<li>Additional search parameters forwarded to MISP (e.g. time window, result limit).</li>
+<li>The score thresholds that map a severity score to a priority tier (low, medium, high, severe).</li>
+</ol>
+<p>The configuration SHALL be loaded from a YAML file at analysis and incident creation time so that changes take effect for the next analysis request without restarting the service.</p>
+<h3>Rationale</h3>
+<p>Operational environments differ in which components are available and what escalation policies apply. Runtime flags and threshold configuration avoid hard-coded coupling between DECIPHER and specific tool availability, and allow operators to tune prioritization without code changes.</p>
+<h3>Acceptance criteria</h3>
+<ol>
+<li>Disabling MISP search in the runtime configuration causes the analysis to return a severity of 0 and include a message in the report informing that MISP search is not enabled. MISP client initialization is not attempted.</li>
+<li>Disabling case creation in the runtime configuration causes the analysis to return <code>created_case.id</code> equal to 0 and include a skip reason in the report, without contacting Flowintel.</li>
+<li>Changing the <code>priority_thresholds</code> in the runtime configuration and submitting an analysis request with a score at the boundary of the new threshold results in the updated priority tier being assigned.</li>
+<li>Changes to the runtime configuration YAML file are reflected in the next analysis request without restarting the DECIPHER service process.</li>
+<li>An invalid YAML file fails gracefully and logs detailed error messages.</li>
+</ol>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a>, <a href="MRS.html#MRS-059">MRS-059 Standalone incident escalation from an externally-computed triage score</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-028">TST-028 Test analysis endpoint core behavior</a>, <a href="ARC.html#ARC-008">ARC-008 DECIPHER microservice container diagram</a>, <a href="TST.html#TST-024">TST-024 Test runtime-configurable DECIPHER features</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-051">2.9 Supported analysis for threat scenario: suspicious login <small><a href="SRS.html#SRS-051">SRS-051</a></small></h2>
+<p><em>As a</em> security engineer, <em>I want to</em> use the DECIPHER analysis endpoint to automatically obtain a CTI analysis score of alerts related to suspicious login activity, <em>so that</em> I can automate next steps in my incident handling workflow.</p>
+<p>Examples of suspicious login scenarios include:
+- failed-login burst: ≥ 5 failed login attempts with the same user within 60 seconds
+- impossible travel: a failed or successful login of a user from country X followed by a successful login of the same user from county Y, where the computed travel speed between X and Y exceeds 900 km/h (physically impossible without a plane).</p>
+<p>For this threat scenario, I want to:</p>
+<ol>
+<li>Make a POST request to the DECIPHER analysis endpoint with the <code>suspicious_login</code> alert/threat scenario identifier.</li>
+<li>Include in the body of my request the username, IP of the target host, source IP addresses, and timestamp of the detected activity.</li>
+</ol>
+<p>I want the DECIPHER REST service to:</p>
+<ol>
+<li>Find MISP events containing the alert IOCs mapped to the following MISP attribute types: alert.src_ips $\rightarrow$ "ip-src", alert.target_host $\rightarrow$ "ip-dst", alert.username $\rightarrow$ "target-user".</li>
+<li>Compute a severity score as specified in <a href="SRS.html#SRS-050">SRS-050</a> and <a href="SRS.html#SRS-053">SRS-053</a>.</li>
+<li>Give me the option, by means of a configuration file, to create a prioritized Flowintel case, using a template with predefined tasks for a suspicious login threat scenario.</li>
+<li>Return a structured analysis result as specified in <a href="SRS.html#SRS-050">SRS-050</a>.</li>
+</ol>
+<h3>Rationale</h3>
+<p>To reduce alert fatigue by automating the triage and escalation of suspicious login incidents, ensuring that responders only handle cases supported by threat intelligence evidence and receive the context needed to act immediately.</p>
+<h3>Acceptance criteria</h3>
+<ol>
+<li>A POST request to the DECIPHER analysis endpoint with the <code>suspicious_login</code> identifier and a body containing username, target host IP, source IP addresses, and timestamp triggers the analysis pipeline and returns a structured analysis result with a severity score and a score breakdown.</li>
+<li>When any IOC matches a known malicious indicator in the CTI platform, the resulting severity score is non-zero. If case creation is enabled in the runtime configuration file, a prioritized Flowintel case is created and the id and url returns as part of the analysis response.</li>
+<li>The created case carries a priority tag consistent with the computed severity score and the configured escalation thresholds, and includes the alert data and score breakdown in its description.</li>
+<li>When no matching threat intelligence is found for any of the alert IOCs, the severity score is 0 and no case is created.</li>
+<li>When the MISP service is unavailable, the analysis endpoint handles the failure gracefully, returning severity 0 and including an error message in the analysis report without interrupting the response.</li>
+<li>The pipeline operates end-to-end without manual intervention, from alert submission to case creation.</li>
+</ol>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-035">MRS-035 Integration with open-source tools for incident handling</a>, <a href="MRS.html#MRS-038">MRS-038 Platform-independent API</a>, <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a>, <a href="MRS.html#MRS-060">MRS-060 Multi-scenario threat coverage and extensibility</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-023">TST-023 Test full workflow of analysis endpoint</a>, <a href="TST.html#TST-026">TST-026 Test analysis endpoint graceful degradation</a>, <a href="ARC.html#ARC-012">ARC-012 Analysis endpoint: support for suspicious login</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-056">2.10 Extensible analyzer framework <small><a href="SRS.html#SRS-056">SRS-056</a></small></h2>
+<p><em>As a</em> security developer, <em>I want</em> DECIPHER to enable the implementation of multiple threat scenario analyzers without modification to the core service logic, <em>so that</em> the platform can evolve to cover emerging threat types as operational needs grow.</p>
+<p>I want the analyzer framework to:</p>
+<ol>
+<li>Allow new analyzers to be registered and implemented adopting architectural patterns from existing analyzers, without requiring changes to the API layer or existing analyzers.</li>
+<li>Prevent duplicate registration of the same threat scenario identifier and surface the conflict as a startup error.</li>
+<li>Enforce schema-based input validation for each analyzer independently, so that invalid data for one analyzer does not affect others.</li>
+</ol>
+<h3>Rationale</h3>
+<p>To isolate each threat scenario in a self-contained unit. Contributors can add new analyzers by following the documented class contract, without touching the API layer or the existing analyzers, which keeps the system maintainable as coverage grows.</p>
+<h3>Acceptance criteria</h3>
+<ol>
+<li>Creating and registering a new analyzer in the codebase causes its identifier to appear in the discovery endpoint response without any changes to the REST API.</li>
+<li>Attempting to register two analyzers with the same identifier raises an error at registration time. The REST service cannot be started.</li>
+<li>Submitting a request to the analysis endpoint for one registered alert type with data valid for a different registered analyzer returns an HTTP validation error.</li>
+</ol>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-060">MRS-060 Multi-scenario threat coverage and extensibility</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-008">ARC-008 DECIPHER microservice container diagram</a>, <a href="ARC.html#ARC-009">ARC-009 REST service: analysis endpoint interaction</a>, <a href="TST.html#TST-027">TST-027 Test extensible analyzer framework</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h1 id="SRS-NFun">3 Non-functional requirements <small>SRS-NFun</small></h1>
+<p>System-wide low-level requirements on code quality, security, compliance, and open-source release, applicable to all SATRAP-DL components.</p>
+<h2 id="SRS-021">3.1 Centralized logging <small><a href="SRS.html#SRS-021">SRS-021</a></small></h2>
+<p>The logs of the system SHALL be handled in a central location.</p>
+<h3>Rationale</h3>
+<p>In agreement with clean code and best practices for software development, to promote code maintainability.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-005">TST-005 Verify centralized management</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-022">3.2 Centralized exception handling <small><a href="SRS.html#SRS-022">SRS-022</a></small></h2>
+<p>SATRAP-DL components SHALL manage exceptions in a centralized manner, providing actionable error messages and ensuring that unhandled exceptions do not propagate unexpectedly across component boundaries.</p>
+<h3>Rationale</h3>
+<p>In agreement with clean code and best practices for software development, to promote code maintainability and system robustness.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-005">TST-005 Verify centralized management</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-024">3.3 Design and implementation principles <small><a href="SRS.html#SRS-024">SRS-024</a></small></h2>
+<p>The design and implementation of SATRAP SHALL adhere to software best practices such as naming convention,
+clean code, SOLID principles, etc.</p>
+<h3>Rationale</h3>
+<p>Among others, for maintainability, security, reliability and robustness of code.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a>, <a href="MRS.html#MRS-046">MRS-046 C5-DEC compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-002">TST-002 Verify software engineering practices</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A, S, Q</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-025">3.4 Code readability <small><a href="SRS.html#SRS-025">SRS-025</a></small></h2>
+<p>The source code of SATRAP-DL SHALL be self explanatory and well documented.</p>
+<h3>Rationale</h3>
+<p>To support maintainability, extensibility and adoption of the software.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-046">MRS-046 C5-DEC compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-006">TST-006 Verify code clarity</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-026">3.5 Public release <small><a href="SRS.html#SRS-026">SRS-026</a></small></h2>
+<p>The source code of SATRAP-DL SHALL be released in a GitHub public repository.</p>
+<h3>Rationale</h3>
+<p>Open-source releases allow contributions and usage by the community, which in turn foster adoption and constant exchange of feedback.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-051">MRS-051 Open-source releases</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-018">TST-018 Verify release and licensing</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-027">3.6 Open-source licensing <small><a href="SRS.html#SRS-027">SRS-027</a></small></h2>
+<p>Third-party libraries used in SATRAP-DL SHALL have open source licenses that do not restrict the privileges
+granted by the license selected for SATRAP-DL.</p>
+<h3>Rationale</h3>
+<p>To avoid the introduction of limitations in the distribution and use of SATRAP-DL derived from the use of third-party software.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-051">MRS-051 Open-source releases</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-018">TST-018 Verify release and licensing</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>A</td>
+</tr>
+<tr>
+<td>release</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-028">3.7 Input validation <small><a href="SRS.html#SRS-028">SRS-028</a></small></h2>
+<p>SATRAP-DL components receiving external input SHALL validate the input and reject it in case the validation fails.
+The validation may include integrity checks, syntactic checks, semantic checks, parameter out-of-range checks, etc.</p>
+<h3>Rationale</h3>
+<p>To prevent code injection.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>FID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-029">3.8 Input sanitization <small><a href="SRS.html#SRS-029">SRS-029</a></small></h2>
+<p>SATRAP-DL components SHALL perform sanitization of input and output (data passed across a trust boundary).
+Sanitization may include removing, replacing, encoding, or escaping unwanted characters.</p>
+<h3>Rationale</h3>
+<p>To prevent code injection.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>FID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-030">3.9 Resource management <small><a href="SRS.html#SRS-030">SRS-030</a></small></h2>
+<p>Network connections and other resources accessed SHALL be properly terminated and released when no further required.</p>
+<h3>Rationale</h3>
+<p>To prevent data leakage or DoS attacks.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-031">3.10 Code static analysis <small><a href="SRS.html#SRS-031">SRS-031</a></small></h2>
+<p>The code of SATRAP-DL SHALL be statically analyzed using an appropriate software  to identify potential issues. The static analysis of Python code shall aim to detect:</p>
+<ul>
+<li>error handling</li>
+<li>commented-out code</li>
+<li>input validation</li>
+<li>code injection</li>
+<li>concurrency and race conditions (if applicable)</li>
+<li>canonical representation vulnerabilities</li>
+<li>minimum amount of dependencies</li>
+</ul>
+<h3>Rationale</h3>
+<p>To detect common security vulnerabilities in an automated way.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I, A</td>
+</tr>
+<tr>
+<td>release</td>
+<td>FID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-032">3.11 Dependencies management <small><a href="SRS.html#SRS-032">SRS-032</a></small></h2>
+<p>All software dependencies including third-party libraries SHALL be listed and maintained in a configuration file.</p>
+<h3>Rationale</h3>
+<p>To enforce a centralized control over external dependencies.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>FID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-036">3.12 Log validation <small><a href="SRS.html#SRS-036">SRS-036</a></small></h2>
+<p>Log strings SHALL be sanitized and validated before logging to prevent log injection attacks.</p>
+<h3>Rationale</h3>
+<p>To prevent log injection attacks.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>FID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-037">3.13 Sensitive information <small><a href="SRS.html#SRS-037">SRS-037</a></small></h2>
+<p>SATRAP SHALL not log sensitive information such as passwords or entity identifiers.</p>
+<h3>Rationale</h3>
+<p>To avoid intended or unintended leakage of sensitive information.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-007">TST-007 Verify secure programming</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-038">3.14 Software identification <small><a href="SRS.html#SRS-038">SRS-038</a></small></h2>
+<p>Any deployment build of SATRAP-DL SHALL provide the means to retrieve its version and other identification details.</p>
+<h3>Rationale</h3>
+<p>To inform the user of the specific version of the system that is being used, often required for consulting user manuals, reporting bugs, etc.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F,S</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-040">3.15 Authentication and authorization <small><a href="SRS.html#SRS-040">SRS-040</a></small></h2>
+<p>For automated ingestion from and enrichment of the CyFORT CTI repository, SATRAP
+SHALL rely on the TIP built-in solution for user authentication and authorization,
+e.g., OpenCTI, MISP LDAP, or native user management.</p>
+<h3>Rationale</h3>
+<p>To enforce user identification and resource access authorization by building on well-established solutions.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-056">MRS-056 Access control</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S, A</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-058">3.16 Encrypted data transport for external service connections <small><a href="SRS.html#SRS-058">SRS-058</a></small></h2>
+<p>SATRAP-DL SHALL encrypt all data in transit between components crossing a trust boundary using TLS 1.2 or higher, independently of any network-layer encryption provided by underlying VPN infrastructure if in place. This includes network connections to TypeDB, MISP, and Flowintel instance endpoints.</p>
+<h3>Rationale</h3>
+<p>Transport layer encryption ensures that data exchanged between SATRAP-DL and external services (knowledge base, threat intelligence platform, case management) is protected from eavesdropping and tampering when traversing untrusted network
+segments. VPN tunnels terminate at network gateways; application-layer TLS ensures end-to-end confidentiality for sensitive data regardless of VPN topology.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-057">MRS-057 Secure channels to the CyFORT ecosystem</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-006">ARC-006 DECIPHER infrastructure deployment diagram</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>S</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>I</td>
+</tr>
+<tr>
+<td>release</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-016">3.17 API based on OAS <small><a href="SRS.html#SRS-016">SRS-016</a></small></h2>
+<p>The API of SATRAP-DL SHALL comply with the OpenAPI Specification (OAS) standard.</p>
+<h3>Rationale</h3>
+<p>To enable automatic generation of documentation, automated API testing and validation, and a language-agnostic human and machine-readable specification.</p>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-038">MRS-038 Platform-independent API</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>C</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>2</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
 </tr>
 <tr>
 <td>release</td>

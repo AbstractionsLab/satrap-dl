@@ -1,0 +1,61 @@
+# DECIPHER scoring engine configuration
+# 
+# 1. Rename/copy the file as 'decipher-scoring-cfg.yaml' 
+# 2. If needed, adjust the values to fine-tune the severity score computation
+
+# Weight of analyst judgment vs aggregated empirical signal at event level
+# The sum of both must be 1.0
+confidence_weights:
+  analysis: 0.5     # Analyst judgment based on the analysis stage
+  empirical: 0.5    # Empirical evidence (sightings + admiralty)
+
+# Weight of sightings vs Admiralty within the attribute confidence tier
+# The sum of both must be 1.0
+attribute_weights:
+  sightings: 0.6   # Weight for sighting evidence
+  admiralty: 0.4   # Weight for Admiralty scale assessment
+
+# Severity multiplier when threat association tags are present
+tags_multiplier: 1.3
+
+# Threat level mapping to base severity scores [0.0-1.0]
+threat_level:
+  high: 1.00
+  medium: 0.50
+  low: 0.25
+  undefined: 0.00  # No information available
+
+# Analysis stage completion factor [0.0-1.0]
+# Represents confidence in the analysis based on completion stage
+analysis_stage:
+  initial: 0.2     # Early triage
+  ongoing: 0.5     # Investigation in progress
+  completed: 1.0   # Fully analyzed
+
+# Admiralty Scale: Source reliability (A-G)
+# Maps source trustworthiness to confidence factor
+admiralty_source_reliability:
+  a: 1.00  # Completely reliable
+  b: 0.80  # Usually reliable
+  c: 0.60  # Fairly reliable
+  d: 0.40  # Not usually reliable
+  e: 0.20  # Unreliable
+  f: 0.10  # Cannot be judged / reliability unknown
+  g: 0.00  # Deliberately misleading
+
+# Admiralty Scale: Information credibility (1-6)
+# Maps information quality to confidence factor
+admiralty_info_credibility:
+  "1": 1.00  # Confirmed by other sources
+  "2": 0.80  # Probably true
+  "3": 0.60  # Possibly true
+  "4": 0.40  # Doubtful
+  "5": 0.20  # Improbable
+  "6": 0.00  # Truth cannot be judged
+
+# Impacted sector weighting 
+# Currently not used, for potential future improvement
+impacted_sector:
+  energy: 0.9
+  drinking_water: 1.0
+  default: 0.5

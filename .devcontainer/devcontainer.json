@@ -1,12 +1,12 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
 {
-	"name": "Existing Dockerfile",
+	"name": "satrap-dev",
 	"build": {
 		// Sets the run context to one level up instead of the .devcontainer folder.
 		"context": "..",
 		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-		"dockerfile": "../dev.Dockerfile"
+		"dockerfile": "../Dockerfile.dev"
 		// NOTE: with the option below, VS Code creates two images with the same id but with different tags;
 		// one has the tag given below, the other one has a tag randomly assigned by VS Code.
 		// VS Code uses the latter, but it might be useful to specify a custom tag for easier
@@ -19,6 +19,12 @@
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
+
+	// Prevent VS Code from auto-forwarding port 7006 used by Flowintel as it might already be
+	// exposed on the host. Auto-forwarding it from the dev container would cause conflicts.
+	"portsAttributes": {
+		"7006": { "onAutoForward": "ignore" }
+	},
 
 	// Uncomment the next line to run commands after the container is created.
 	"postCreateCommand": "pip install black",

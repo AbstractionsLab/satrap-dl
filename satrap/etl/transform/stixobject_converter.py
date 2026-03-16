@@ -16,23 +16,23 @@ from satrap.etl.exceptions import MappingException, TransformationError
 
 
 class STIXObjectConverter(ABC):
-    """Converts a STIX Object."""
+    """Creates TypeQL insertion queries for inserting a STIX 2.1 Object
+    into a TypeDB database"""
 
     @staticmethod
-    def create(properties: dict) -> Self:
-        """Creates the corresponding subclass according 
-        to the properties.
+    def get_converter(properties: dict) -> Self:
+        """Creates a converter of an adequate subclass depending on the type 
+        of the STIX 2.1 object.
 
-        :param properties: The properties of the STIX Object
+        :param properties: The STIX 2.1 object in JSON format
         :type properties: dict
 
-        :raises TransformationError: If the 'id' or 'type' property is 
-            missing
-        :raises MappingException: If the STIX object class is not 
-            defined
+        :raises TransformationError: If any of the 'id' or 'type' keys are
+            missing in the input dictionary
+        :raises MappingException: If the STIX object class is not defined
 
-        :return: The STIX Object (as a subclass instance)
-        :rtype: STIXObject
+        :return: An adequate converter as per the given STIX object
+        :rtype: STIXObjectConverter
         """
         logger.debug(log_messages.CREATE_START)
 

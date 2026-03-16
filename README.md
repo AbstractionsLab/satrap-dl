@@ -1,12 +1,19 @@
 # SATRAP-DL
 
-<img src="./docs/manual/_figures/CyFORT-SATRAP-AlphaLogo.png" alt="cyfort_logo" width="430" align="right" />
+SATRAP-DL, short for **Semi-Automated Threat Reconnaissance and Analysis Powered by DECIPHER Logic**, offers a suite of tools for computer-aided CTI analysis and automated incident handling informed by CTI, provided respectively by its sub-systems _SATRAP_ and _DECIPHER_.
+
+<img src="./docs/manual/_figures/2D2B2A_LOG_CyFORT+SATRAP-BetaLogo_v1.0.png" alt="cyfort_logo" width="430"/>
+
+For a visual stakeholder-oriented tour of SATRAP-DL, visit the **[product presentation page](https://abstractionslab.github.io/satrap-dl/website/product-presentation.html)**.
+
+<img src="./docs/manual/_figures/SATRAP-DL-product-website.png" alt="satrap-dl-website" width="500"/>
 
 ## Table of contents
 
 - [Overview](#overview)
 - [SATRAP-DL suite](#satrap-dl-suite)
 - [Getting started](#getting-started)
+- [Unit and integration tests](#unit-and-integration-tests)
 - [Documentation and technical specifications](#documentation-and-technical-specifications)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
@@ -14,9 +21,7 @@
 
 ## Overview
 
-SATRAP-DL, short for **Semi-Automated Threat Reconnaissance and Analysis Powered by DECIPHER Logic**, offers a suite of tools for computer-aided CTI analysis and automated incident handling informed by CTI, provided respectively by its sub-systems _SATRAP_ and _DECIPHER_.
-
-This repository contains the source code and documentation of SATRAP-DL, including the [technical specifications](https://abstractionslab.github.io/satrap-dl/docs/traceability/index.html). SATRAP-DL has been developed in alignment with the [C5-DEC](https://github.com/AbstractionsLab/c5dec) method. Among others, C5-DEC prescribes and supports (with the C5-DEC CAD software) the storage, interlinking and processing of all software development life cycle (SDLC) artifacts in a unified manner.
+This repository contains the source code and documentation of SATRAP-DL, including the [technical specifications](https://abstractionslab.github.io/satrap-dl/traceability/index.html). SATRAP-DL has been developed in alignment with the [C5-DEC](https://github.com/AbstractionsLab/c5dec) method. Among others, C5-DEC prescribes and supports (with the C5-DEC CAD software) the storage, interlinking and processing of all software development life cycle (SDLC) artifacts in a unified manner.
 
 ## SATRAP-DL suite
 
@@ -38,14 +43,68 @@ This repository is organized as follows:
 - [tutorials/](tutorials/): workshop and tutorial materials
 - [.devcontainer/](.devcontainer/): VS Code configuration for a ready-to-use containerized development environment
 
+### Installation
+
+SATRAP-DL uses [Poetry](https://python-poetry.org/) for dependency management. Both SATRAP and DECIPHER dependencies are managed in `pyproject.toml` and can be installed selectively.
+
+Install all dependencies (SATRAP, DECIPHER and dev dependencies).
+
+```bash
+poetry install
+```
+
+Install only SATRAP dependencies.
+
+```bash
+poetry install --only main,satrap
+```
+
+Install only DECIPHER dependencies.
+
+```bash
+poetry install --only main,decipher
+```
+
+Install all dependencies plus dependencies for jupyter notebooks.
+
+```bash
+poetry install --with notebooks
+```
 
 For detailed setup and usage instructions of each sub-system, please refer to the corresponding README using the links above.
 
+## Unit and integration tests
+
+The repository includes a single script to run tests for both SATRAP and DECIPHER.
+
+- Run all tests (SATRAP + DECIPHER)
+```bash
+./run_tests.sh
+```
+
+- Run only SATRAP tests
+```bash
+./run_tests.sh satrap
+```
+
+- Run only DECIPHER tests
+```bash
+./run_tests.sh decipher
+```
+
+Individual test modules, classes and cases can be run using the `unittest` module. For example:
+
+```sh
+python -m unittest tests.satrap.file_util_test
+```
+
+For more details about the test suites, see the README files of each project.
+
 ## Documentation and technical specifications
 
-The technical specifications of SATRAP-DL including requirements, architecture design, and test artifacts, are available on a dedicated [traceability web page](https://abstractionslab.github.io/satrap-dl/docs/traceability/index.html). 
+The technical specifications of SATRAP-DL including requirements, architecture design, software design and test artifacts, are available on a dedicated [traceability web page](https://abstractionslab.github.io/satrap-dl/traceability/index.html). 
 
-For SATRAP-specific usage guidance, see the [SATRAP user manual](docs/manual/index.md).
+See the [SATRAP-DL user manual](docs/manual/README.md) for usage guidance on each component of the suite.
 
 ## License
 
@@ -59,10 +118,9 @@ SATRAP-DL is licensed under the [GNU Affero General Public License (AGPL) v3.0](
 - typedb-cti (2.x) relies on an outdated version of TypeDB 2.x, incompatible with the latest release at the time (2.27).
 
 
-
 ## Acknowledgments
 
-SATRAP-DL is a sub-project of the [CyFORT](https://abstractionslab.com/index.php/research-and-development/cyfort) project, which in turn stands for "Cloud Cybersecurity Fortress of Open Resources and Tools for Resilience". CyFORT is co-funded by the Ministry of the Economy of Luxembourg, in the context of the EC-approved [IPCEI-CIS](https://ec.europa.eu/commission/presscorner/detail/en/ip_23_6246).
+SATRAP-DL is a sub-project of the [CyFORT](https://abstractionslab.com/index.php/research-and-development/cyfort) project, "Cloud Cybersecurity Fortress of Open Resources and Tools for Resilience". CyFORT is co-funded by the Ministry of the Economy of Luxembourg, in the context of the EC-approved [IPCEI-CIS](https://ec.europa.eu/commission/presscorner/detail/en/ip_23_6246).
 
 
 ## Contact

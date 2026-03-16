@@ -4,31 +4,36 @@ set -Eeuo pipefail
 usage() {
   cat <<'EOF'
 Usage:
-  ./decipher_down.sh [--misp] [--flowintel] [--purge]
+  ./decipher_down.sh [--misp | --flowintel | --api | --all] [--purge]
 
-Behavior:
-  - If --misp is provided: docker compose down using docker-compose.misp.yml
-  - If --flowintel is provided: docker compose down using docker-compose.flowintel.yml
-  - If both are provided: both stacks are brought down
-  - If --purge is provided: also removes named volumes for the selected stacks
+Options:
+  --misp: bring down the MISP stack
+  --flowintel: bring down the FlowIntel stack
+  --api: bring down the DECIPHER REST API
+  --all: bring down all the stacks above
+  --purge: remove named volumes for the selected stacks
 
 Examples:
-  ./decipher_down.sh --misp
-  ./decipher_down.sh --flowintel
+  ./decipher_down.sh --api
   ./decipher_down.sh --misp --flowintel
   ./decipher_down.sh --misp --purge
+  ./decipher_down.sh --all --purge
 EOF
   exit 2
 }
 
 misp_down=false
 flowintel_down=false
+api_down=false
+all_down=false
 with_volumes=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --misp) misp_down=true; shift ;;
     --flowintel) flowintel_down=true; shift ;;
+    --api) api_down=true; shift ;;
+    --all) all_down=true; shift ;;
     --purge) with_volumes=true; shift ;;
     -h|--help) usage ;;
     *)
@@ -38,7 +43,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ "$misp_down" == "false" && "$flowintel_down" == "false" ]]; then
+if [[ "$misp_down" == "false" && "$flowintel_down" == "false" && "$api_down" == "false" && "$all_down" == "false" ]]; then
   echo "Nothing to stop. See the options below."
   usage
   exit 0
@@ -66,4 +71,17 @@ fi
 
 if [[ "$flowintel_down" == "true" ]]; then
   down_stack "docker-compose.flowintel.yml" "flowintel"
+fi
+
+if [[ "$api_down" == "true" ]]; then
+  down_stack "docker-compose.decipher.yml" "decipher"
+fi
+
+if [[ "$all_down" == "true" ]]; then
+  misp_down=true
+  flowintel_down=true
+  api_down=true
+  down_stack "docker-compose.misp.yml" "misp"
+  down_stack "docker-compose.flowintel.yml" "flowintel"
+  down_stack "docker-compose.decipher.yml" "decipher"
 fi

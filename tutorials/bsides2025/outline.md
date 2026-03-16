@@ -7,7 +7,7 @@
 	chmod +x *.sh
 	./init-satrap.sh`
 	```
-- [ ] Open SATRAP in VS Code. More details in the [installation manual](https://github.com/AbstractionsLab/satrap-dl/blob/main/docs/manual/installation.md#satrap-analysis-platform-in-vs-code).
+- [ ] Open SATRAP in VS Code. More details in the [installation manual](https://github.com/AbstractionsLab/satrap-dl/blob/main/docs/manual/satrap/installation.md#satrap-analysis-platform-in-vs-code).
 
 ## Informing the knowledge base
 - [ ] Create a fresh CTI knowledge base (CTI SKB)

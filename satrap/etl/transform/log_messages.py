@@ -65,7 +65,7 @@ UNEXPECTED_EXCEPTION = "An unexpected exception occurred"
 
 # transformer
 START_TRANSFORM = "Start transformation..."
-STIX_OBJECT_CREATION_FAILED = "Creation of STIX Object '%s' failed"
+STIX_CONVERTER_CREATION_FAILED = "A converter for STIX Object '%s' could not be created"
 BUILD_TYPEQL_FAILED = "Creation of TypeQL statement failed for STIX Object '%s'"
 BUILD_TYPEQL_FAILED_TRANSF = "Creation of TypeQL statement failed"
 TRANSFORMATION_COMPLETED = "Transformation of '%s' completed"

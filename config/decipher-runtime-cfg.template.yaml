@@ -1,0 +1,26 @@
+# DECIPHER analysis configuration
+#
+# Copy/rename this file as 'decipher-runtime-cfg.yaml' and fill in your values
+
+analysis:
+  # Enable search in MISP
+  enable_misp_search: true
+  # Enable creation of cases in Flowintel in the analysis
+  enable_case_creation: false
+
+
+# MISP search parameters (optional)
+misp_search:
+  # Max. number of attributes retrieved
+  limit: 1000
+  # Filter for events modified/created after the given timestamp (now - event_timestamp)
+  event_timestamp: 7d # E.g. 7d, 5h, 15m
+
+
+# Scoring thresholds for case prioritization (default values are shown, adjust as needed)
+# The range is [0,1] and each threshold sets the minimum score for that priority level.
+priority_thresholds:
+  severe: 0.85        # score >= 0.85: severe priority
+  high: 0.6           # score >= 0.6: high priority
+  medium: 0.4         # score >= 0.4: medium priority
+  low: 0.2            # score >= 0.2: low priority

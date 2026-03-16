@@ -1,0 +1,42 @@
+document_order:
+- MRS
+- SRS
+- ARC
+- SWD
+- TST
+- TRA
+checks:
+- id: mrs_srs
+  subject: MRS
+  linked:
+  - SRS
+  title: MRS → SRS coverage
+  uncovered_label: no SRS
+- id: srs_arc
+  subject: SRS
+  linked:
+  - ARC
+  title: SRS → ARC coverage
+  uncovered_label: not ARC
+- id: arc_swd
+  subject: ARC
+  linked:
+  - SWD
+  title: ARC → SWD coverage
+  uncovered_label: no SWD
+- id: srs_tst
+  subject: SRS
+  linked:
+  - TST
+  title: SRS → TST coverage
+  uncovered_label: no TST
+- id: tst_trp
+  subject: TST
+  linked:
+  - TRP
+  title: TST → TRP coverage
+  uncovered_label: "untested in TRP"
+
+defect_sources:
+  - prefix: TRP
+    frontmatter_field: defect-category

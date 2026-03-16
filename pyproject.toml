@@ -1,28 +1,46 @@
 [tool.poetry]
-name = "satrap"
+name = "satrap-dl"
 version = "0.2"
-description = "SATRAP (Semi-Automated Threat Reconnaissance and Analysis Platform) is a software for assisting on the analysis of cyber threat intelligence (CTI) powered by automated reasoning."
-authors = ["Itzel Vazquez Sandoval <itzel@abstractionslab.lu>", "Arash Atashpendar <arash@abstractionslab.lu>", "Sven Angel <sven.angel@proton.me>", "Gulsezim Duisen <duisen@itrust.lu>"]
+description = "SATRAP-DL (Semi-Automated Threat Reconnaissance and Analysis Powered by DECIPHER Logic) is a suite for logic-based CTI analysis (satrap) and automated incident handling (decipher)."
+authors = ["Itzel Vazquez Sandoval <itzel@abstractionslab.lu>", "Arash Atashpendar <arash@abstractionslab.lu>", "Sven Angel <sven.angel@proton.me>"]
 readme = "README.md"
+packages = [
+    { include = "satrap" },
+    { include = "decipher" },
+]
 
 [tool.poetry.dependencies]
-python = ">=3.9.2,<=3.11"
+python = ">=3.11.0,<4.0"
+pyyaml = "^6.0.2"
+pymisp = "^2.5.32.2"
+
+# SATRAP dependencies
+[tool.poetry.group.satrap.dependencies]
 typedb-driver = "^2.29.0"
 requests = "^2.32.3"
 jsonschema = "^4.23.0"
 stix2 = "^3.0.1"
 tabulate = "^0.9.0"
-pyyaml = "^6.0.2"
-pymisp = "^2.5.10"
-doorstop = "3.0b10"
 
-[tool.poetry.group.doc.dependencies]
-ipykernel = "^6.29.5"
-ipywidgets = "^8.1.5"
-
+# DECIPHER dependencies
+[tool.poetry.group.decipher.dependencies]
+fastapi = "^0.128.7"
+uvicorn = { version = "^0.27.0", extras = ["standard"] }
+pydantic = "^2.12.5"
+httpx = "^0.28.0"
+pyflowintel = { git = "https://github.com/AbstractionsLab/PyFlowintel.git", branch = "main" }
 
 [tool.poetry.group.dev.dependencies]
+# required by doorstop 3.0b10 as it uses 'pkg_resources', removed in later versions of setuptools
+setuptools = "<81.0.0"
+doorstop = "3.0b10"
+
+[tool.poetry.group.notebooks]
+optional = true
+
+[tool.poetry.group.notebooks.dependencies]
 ipykernel = "^6.29.5"
+ipywidgets = "^8.1.5"
 
 [build-system]
 requires = ["poetry-core"]

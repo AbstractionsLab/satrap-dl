@@ -1,3 +1,17 @@
+# 0.4 (2026-03-16)
+## Added
+- DECIPHER REST service for supporting the incident handling pipeline described in the README of DECIPHER
+    - Support for RADAR `suspicious_login` threat scenario
+    - Integration with MISP and Flowintel for IOC search and case creation
+- Unit tests for the DECIPHER REST service
+- Artifacts for containerized deployment of DECIPHER REST API service
+- Technical specifications for the DECIPHER microservice and infrastructure
+- Product presentation website
+
+## Modified
+- The project has been restructured to host both satrap and decipher Python packages with unified dependency management, testing, deployment artifacts, and documentation.
+- The traceability website has been restructured and updated as per C5DEC SpecEngine v1.2
+
 # 0.3 (2026-02-07)
 
 ## Added

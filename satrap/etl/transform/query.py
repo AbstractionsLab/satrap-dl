@@ -6,19 +6,18 @@ import satrap.etl.transform.stix_typeql_constants as constants
 
 
 class QueryBundle:
-    """Manages the insertions in a transformation process from 
-    STIX 2.1 to TypeDB.
+    """Data structure to handle ordered insertion queries associated with 
+    the transformation of a STIX 2.1 object into TypeDB
     """
 
     def __init__(self):
-        """Instantiates an empty QueryBundle."""
         self.main_object_type: str = ""
         self.main_object = InsertQuery()
         self.attributes = InsertQuery()
         self.embedded_relations = InsertQuery()
 
     def add_main_entity(self, main_object: Entity) -> None:
-        """Add the main STIX object to the queries.
+        """Add insertion queries for the given Entity as the main STIX object
 
         :param main_object: The main STIX Object
         :type main_object: Entity
@@ -33,7 +32,7 @@ class QueryBundle:
         main_object: Relation,
         *args
     ) -> None:
-        """Add the main object to the queries.
+        """Add insertion queries for the given Relation as the main STIX object
 
         :param main_object: The main STIX Object
         :type main_object: Relation
@@ -156,11 +155,10 @@ class QueryBundle:
         return main_entities, main_relations, embedded_relations
 
     def is_empty(self) -> bool:
-        """States whether this QueryBundle is empty, i.e. whether 
-        there are no main object, no attributes and no embedded 
-        relations.
+        """Determines whether this is an empty QueryBundle, i.e., an instance
+        with no main (TypeQL) object, no attributes, and no embedded relations.
 
-        :return: Whether this QueryBundle is empty
+        :return: True if this QueryBundle is empty, False otherwise
         :rtype: bool
         """
         return (self.main_object.is_empty()

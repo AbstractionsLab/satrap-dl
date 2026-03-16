@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Traceability Statistics</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; padding: 2rem; }
+    h1 { margin-bottom: 0.25rem; }
+    .subtitle { color: #6c757d; margin-bottom: 2rem; }
+    section { margin-bottom: 3rem; }
+    .badge-ok { background-color: #198754; color: #fff; padding: .2em .5em; border-radius: .25rem; }
+    .badge-warn { background-color: #ffc107; color: #212529; padding: .2em .5em; border-radius: .25rem; }
+    .badge-crit { background-color: #dc3545; color: #fff; padding: .2em .5em; border-radius: .25rem; }
+    .progress { height: 24px; }
+    .tbl-uid { font-family: monospace; font-size: .85rem; }
+    footer { color: #aaa; font-size: .8rem; margin-top: 3rem; border-top: 1px solid #eee; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Traceability Statistics</h1>
+  <p class="subtitle">Generated on 2026-03-15</p>
+
+
+  <nav class="mb-4">
+    <ul class="nav nav-pills flex-wrap gap-2">
+      <li class="nav-item"><a class="nav-link" href="#s1">1. Summary</a></li>
+      <li class="nav-item"><a class="nav-link" href="#s2">2. MRS → SRS coverage</a></li>
+      <li class="nav-item"><a class="nav-link" href="#s3">3. SRS → ARC coverage</a></li>
+      <li class="nav-item"><a class="nav-link" href="#s4">4. ARC → SWD coverage</a></li>
+      <li class="nav-item"><a class="nav-link" href="#s5">5. SRS → TST coverage</a></li>
+      <li class="nav-item"><a class="nav-link" href="#s6">6. TST → TRP coverage</a></li>
+      <li class="nav-item"><a class="nav-link" href="#s7">7. Defect severity summary</a></li>
+      <li class="nav-item"><a class="nav-link" href="#s8">8. Overall health score</a></li>
+    </ul>
+  </nav>
+
+<section id="s1"><h2>1. Summary — unique items per document type</h2>
+<table class="table table-bordered table-sm table-hover w-auto">
+<thead><tr><th>Document type</th><th class="text-end">Unique items</th></tr></thead><tbody>
+<tr><td class='tbl-uid'><b>MRS</b></td><td class='text-end'>52</td></tr>
+<tr><td class='tbl-uid'><b>SRS</b></td><td class='text-end'>58</td></tr>
+<tr><td class='tbl-uid'><b>ARC</b></td><td class='text-end'>12</td></tr>
+<tr><td class='tbl-uid'><b>SWD</b></td><td class='text-end'>14</td></tr>
+<tr><td class='tbl-uid'><b>TST</b></td><td class='text-end'>26</td></tr>
+<tr><td class='tbl-uid'><b>TRA</b></td><td class='text-end'>0</td></tr>
+</tbody></table></section>
+<section id="s2"><h2>2. MRS → SRS coverage</h2>
+<p><span class="badge-ok">43/52 (82.7%)</span> &nbsp; 9 MRS item(s) with status 'no SRS'</p>
+<div class="progress mb-2"><div class="progress-bar bg-success" role="progressbar" style="width:82.7%">82.7%</div></div>
+<table class="table table-bordered table-sm table-hover">
+<thead><tr>
+<th>MRS</th>
+<th>Linked SRSs</th>
+<th>Status</th></tr></thead><tbody>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-001">MRS-001</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-001">SRS-001</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-002">MRS-002</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-002">SRS-002</a>, <a href="SRS.html#SRS-003">SRS-003</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-003">MRS-003</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-004">SRS-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-004">MRS-004</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-005">SRS-005</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-005">MRS-005</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-006">SRS-006</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="MRS.html#MRS-006">MRS-006</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SRS</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="MRS.html#MRS-007">MRS-007</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SRS</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-008">MRS-008</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-007">SRS-007</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="MRS.html#MRS-009">MRS-009</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SRS</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="MRS.html#MRS-010">MRS-010</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SRS</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-011">MRS-011</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-008">SRS-008</a>, <a href="SRS.html#SRS-009">SRS-009</a>, <a href="SRS.html#SRS-010">SRS-010</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-012">MRS-012</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-044">SRS-044</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-013">MRS-013</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-047">SRS-047</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-014">MRS-014</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-012">SRS-012</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-015">MRS-015</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-001">SRS-001</a>, <a href="SRS.html#SRS-002">SRS-002</a>, <a href="SRS.html#SRS-013">SRS-013</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-016">MRS-016</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-041">SRS-041</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-017">MRS-017</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-041">SRS-041</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-018">MRS-018</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-014">SRS-014</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-019">MRS-019</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-019">SRS-019</a>, <a href="SRS.html#SRS-039">SRS-039</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-020">MRS-020</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-015">SRS-015</a>, <a href="SRS.html#SRS-042">SRS-042</a>, <a href="SRS.html#SRS-043">SRS-043</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="MRS.html#MRS-021">MRS-021</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SRS</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-022">MRS-022</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-015">SRS-015</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-023">MRS-023</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-015">SRS-015</a>, <a href="SRS.html#SRS-046">SRS-046</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-024">MRS-024</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-045">SRS-045</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-025">MRS-025</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-015">SRS-015</a>, <a href="SRS.html#SRS-046">SRS-046</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-026">MRS-026</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-015">SRS-015</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-027">MRS-027</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-015">SRS-015</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-028">MRS-028</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-043">SRS-043</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-029">MRS-029</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-015">SRS-015</a>, <a href="SRS.html#SRS-043">SRS-043</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="MRS.html#MRS-030">MRS-030</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SRS</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="MRS.html#MRS-031">MRS-031</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SRS</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-032">MRS-032</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-043">SRS-043</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-033">MRS-033</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-042">SRS-042</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-034">MRS-034</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-015">SRS-015</a>, <a href="SRS.html#SRS-042">SRS-042</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-035">MRS-035</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-048">SRS-048</a>, <a href="SRS.html#SRS-049">SRS-049</a>, <a href="SRS.html#SRS-050">SRS-050</a>, <a href="SRS.html#SRS-051">SRS-051</a>, <a href="SRS.html#SRS-052">SRS-052</a>, <a href="SRS.html#SRS-054">SRS-054</a>, <a href="SRS.html#SRS-055">SRS-055</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-037">MRS-037</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-046">SRS-046</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-038">MRS-038</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-016">SRS-016</a>, <a href="SRS.html#SRS-049">SRS-049</a>, <a href="SRS.html#SRS-051">SRS-051</a>, <a href="SRS.html#SRS-055">SRS-055</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-039">MRS-039</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-017">SRS-017</a>, <a href="SRS.html#SRS-044">SRS-044</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-040">MRS-040</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-011">SRS-011</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="MRS.html#MRS-041">MRS-041</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SRS</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-042">MRS-042</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-018">SRS-018</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="MRS.html#MRS-043">MRS-043</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SRS</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-044">MRS-044</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-020">SRS-020</a>, <a href="SRS.html#SRS-021">SRS-021</a>, <a href="SRS.html#SRS-022">SRS-022</a>, <a href="SRS.html#SRS-024">SRS-024</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-045">MRS-045</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-023">SRS-023</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-046">MRS-046</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-024">SRS-024</a>, <a href="SRS.html#SRS-025">SRS-025</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-051">MRS-051</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-026">SRS-026</a>, <a href="SRS.html#SRS-027">SRS-027</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-053">MRS-053</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-028">SRS-028</a>, <a href="SRS.html#SRS-029">SRS-029</a>, <a href="SRS.html#SRS-030">SRS-030</a>, <a href="SRS.html#SRS-031">SRS-031</a>, <a href="SRS.html#SRS-032">SRS-032</a>, <a href="SRS.html#SRS-033">SRS-033</a>, <a href="SRS.html#SRS-034">SRS-034</a>, <a href="SRS.html#SRS-035">SRS-035</a>, <a href="SRS.html#SRS-036">SRS-036</a>, <a href="SRS.html#SRS-037">SRS-037</a>, <a href="SRS.html#SRS-038">SRS-038</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-056">MRS-056</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-040">SRS-040</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-057">MRS-057</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-058">SRS-058</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-058">MRS-058</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-049">SRS-049</a>, <a href="SRS.html#SRS-050">SRS-050</a>, <a href="SRS.html#SRS-051">SRS-051</a>, <a href="SRS.html#SRS-052">SRS-052</a>, <a href="SRS.html#SRS-053">SRS-053</a>, <a href="SRS.html#SRS-054">SRS-054</a>, <a href="SRS.html#SRS-057">SRS-057</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-059">MRS-059</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-049">SRS-049</a>, <a href="SRS.html#SRS-055">SRS-055</a>, <a href="SRS.html#SRS-057">SRS-057</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="MRS.html#MRS-060">MRS-060</a></td>
+<td class='tbl-uid'><a href="SRS.html#SRS-051">SRS-051</a>, <a href="SRS.html#SRS-056">SRS-056</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+</tbody></table></section>
+<section id="s3"><h2>3. SRS → ARC coverage</h2>
+<p><span class="badge-warn">31/58 (53.4%)</span> &nbsp; 27 SRS item(s) with status 'not ARC'</p>
+<div class="progress mb-2"><div class="progress-bar bg-warning" role="progressbar" style="width:53.4%">53.4%</div></div>
+<table class="table table-bordered table-sm table-hover">
+<thead><tr>
+<th>SRS</th>
+<th>Linked ARCs</th>
+<th>Status</th></tr></thead><tbody>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-001">SRS-001</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a>, <a href="ARC.html#ARC-002">ARC-002</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-002">SRS-002</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a>, <a href="ARC.html#ARC-002">ARC-002</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-003">SRS-003</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-004">SRS-004</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-005">SRS-005</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-006">SRS-006</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-003">ARC-003</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-007">SRS-007</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-008">SRS-008</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a>, <a href="ARC.html#ARC-002">ARC-002</a>, <a href="ARC.html#ARC-003">ARC-003</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-009">SRS-009</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-003">ARC-003</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-010">SRS-010</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a>, <a href="ARC.html#ARC-002">ARC-002</a>, <a href="ARC.html#ARC-003">ARC-003</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-011">SRS-011</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a>, <a href="ARC.html#ARC-002">ARC-002</a>, <a href="ARC.html#ARC-003">ARC-003</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-012">SRS-012</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-013">SRS-013</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-003">ARC-003</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-014">SRS-014</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a>, <a href="ARC.html#ARC-002">ARC-002</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-015">SRS-015</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a>, <a href="ARC.html#ARC-002">ARC-002</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-016">SRS-016</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-017">SRS-017</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a>, <a href="ARC.html#ARC-002">ARC-002</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-018">SRS-018</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-019">SRS-019</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-020">SRS-020</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-003">ARC-003</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-021">SRS-021</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-022">SRS-022</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-023">SRS-023</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-003">ARC-003</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-024">SRS-024</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-003">ARC-003</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-025">SRS-025</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-026">SRS-026</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-027">SRS-027</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-028">SRS-028</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-003">ARC-003</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-029">SRS-029</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-003">ARC-003</a>, <a href="ARC.html#ARC-004">ARC-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-030">SRS-030</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-031">SRS-031</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-032">SRS-032</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-033">SRS-033</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-034">SRS-034</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-035">SRS-035</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-036">SRS-036</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-037">SRS-037</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-038">SRS-038</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-039">SRS-039</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-040">SRS-040</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-041">SRS-041</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-042">SRS-042</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-043">SRS-043</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-044">SRS-044</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-045">SRS-045</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a>, <a href="ARC.html#ARC-002">ARC-002</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-046">SRS-046</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a>, <a href="ARC.html#ARC-002">ARC-002</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-047">SRS-047</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ not ARC</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-048">SRS-048</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-005">ARC-005</a>, <a href="ARC.html#ARC-006">ARC-006</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-049">SRS-049</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-005">ARC-005</a>, <a href="ARC.html#ARC-008">ARC-008</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-050">SRS-050</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-007">ARC-007</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-051">SRS-051</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-012">ARC-012</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-052">SRS-052</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-009">ARC-009</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-053">SRS-053</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-010">ARC-010</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-054">SRS-054</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-009">ARC-009</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-055">SRS-055</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-011">ARC-011</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-056">SRS-056</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-008">ARC-008</a>, <a href="ARC.html#ARC-009">ARC-009</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-057">SRS-057</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-008">ARC-008</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-058">SRS-058</a></td>
+<td class='tbl-uid'><a href="ARC.html#ARC-006">ARC-006</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+</tbody></table></section>
+<section id="s4"><h2>4. ARC → SWD coverage</h2>
+<p><span class="badge-warn">9/12 (75.0%)</span> &nbsp; 3 ARC item(s) with status 'no SWD'</p>
+<div class="progress mb-2"><div class="progress-bar bg-warning" role="progressbar" style="width:75.0%">75.0%</div></div>
+<table class="table table-bordered table-sm table-hover">
+<thead><tr>
+<th>ARC</th>
+<th>Linked SWDs</th>
+<th>Status</th></tr></thead><tbody>
+<tr><td class='tbl-uid'><a href="ARC.html#ARC-001">ARC-001</a></td>
+<td class='tbl-uid'><a href="SWD.html#SWD-001">SWD-001</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="ARC.html#ARC-002">ARC-002</a></td>
+<td class='tbl-uid'><a href="SWD.html#SWD-001">SWD-001</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="ARC.html#ARC-003">ARC-003</a></td>
+<td class='tbl-uid'><a href="SWD.html#SWD-001">SWD-001</a>, <a href="SWD.html#SWD-002">SWD-002</a>, <a href="SWD.html#SWD-003">SWD-003</a>, <a href="SWD.html#SWD-004">SWD-004</a>, <a href="SWD.html#SWD-005">SWD-005</a>, <a href="SWD.html#SWD-006">SWD-006</a>, <a href="SWD.html#SWD-007">SWD-007</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="ARC.html#ARC-004">ARC-004</a></td>
+<td class='tbl-uid'><a href="SWD.html#SWD-001">SWD-001</a>, <a href="SWD.html#SWD-002">SWD-002</a>, <a href="SWD.html#SWD-003">SWD-003</a>, <a href="SWD.html#SWD-004">SWD-004</a>, <a href="SWD.html#SWD-005">SWD-005</a>, <a href="SWD.html#SWD-006">SWD-006</a>, <a href="SWD.html#SWD-007">SWD-007</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="ARC.html#ARC-005">ARC-005</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SWD</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="ARC.html#ARC-006">ARC-006</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SWD</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="ARC.html#ARC-007">ARC-007</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no SWD</span></td></tr>
+<tr><td class='tbl-uid'><a href="ARC.html#ARC-008">ARC-008</a></td>
+<td class='tbl-uid'><a href="SWD.html#SWD-011">SWD-011</a>, <a href="SWD.html#SWD-012">SWD-012</a>, <a href="SWD.html#SWD-013">SWD-013</a>, <a href="SWD.html#SWD-014">SWD-014</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="ARC.html#ARC-009">ARC-009</a></td>
+<td class='tbl-uid'><a href="SWD.html#SWD-008">SWD-008</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="ARC.html#ARC-010">ARC-010</a></td>
+<td class='tbl-uid'><a href="SWD.html#SWD-014">SWD-014</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="ARC.html#ARC-011">ARC-011</a></td>
+<td class='tbl-uid'><a href="SWD.html#SWD-009">SWD-009</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="ARC.html#ARC-012">ARC-012</a></td>
+<td class='tbl-uid'><a href="SWD.html#SWD-010">SWD-010</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+</tbody></table></section>
+<section id="s5"><h2>5. SRS → TST coverage</h2>
+<p><span class="badge-warn">45/58 (77.6%)</span> &nbsp; 13 SRS item(s) with status 'no TST'</p>
+<div class="progress mb-2"><div class="progress-bar bg-warning" role="progressbar" style="width:77.6%">77.6%</div></div>
+<table class="table table-bordered table-sm table-hover">
+<thead><tr>
+<th>SRS</th>
+<th>Linked TSTs</th>
+<th>Status</th></tr></thead><tbody>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-001">SRS-001</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-001">TST-001</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-002">SRS-002</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-001">TST-001</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-003">SRS-003</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-001">TST-001</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-004">SRS-004</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-001">TST-001</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-005">SRS-005</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-001">TST-001</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-006">SRS-006</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-008">TST-008</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-007">SRS-007</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-020">TST-020</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-008">SRS-008</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-009">TST-009</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-009">SRS-009</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-009">TST-009</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-010">SRS-010</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-009">TST-009</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-011">SRS-011</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-012">SRS-012</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-010">TST-010</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-013">SRS-013</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-004">TST-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-014">SRS-014</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-003">TST-003</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-015">SRS-015</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-011">TST-011</a>, <a href="TST.html#TST-019">TST-019</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-016">SRS-016</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-017">SRS-017</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-018">SRS-018</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-019">SRS-019</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-020">SRS-020</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-005">TST-005</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-021">SRS-021</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-005">TST-005</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-022">SRS-022</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-005">TST-005</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-023">SRS-023</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-003">TST-003</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-024">SRS-024</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-002">TST-002</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-025">SRS-025</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-006">TST-006</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-026">SRS-026</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-018">TST-018</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-027">SRS-027</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-018">TST-018</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-028">SRS-028</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-007">TST-007</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-029">SRS-029</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-007">TST-007</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-030">SRS-030</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-007">TST-007</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-031">SRS-031</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-032">SRS-032</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-007">TST-007</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-033">SRS-033</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-012">TST-012</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-034">SRS-034</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-035">SRS-035</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-036">SRS-036</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-007">TST-007</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-037">SRS-037</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-007">TST-007</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-038">SRS-038</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-039">SRS-039</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-040">SRS-040</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-041">SRS-041</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-013">TST-013</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-042">SRS-042</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-014">TST-014</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-043">SRS-043</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-008">TST-008</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-044">SRS-044</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-017">TST-017</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-045">SRS-045</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-019">TST-019</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-046">SRS-046</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-019">TST-019</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-047">SRS-047</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-048">SRS-048</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-021">TST-021</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-049">SRS-049</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-022">TST-022</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-050">SRS-050</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-028">TST-028</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-051">SRS-051</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-023">TST-023</a>, <a href="TST.html#TST-026">TST-026</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-052">SRS-052</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-023">TST-023</a>, <a href="TST.html#TST-026">TST-026</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-053">SRS-053</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-024">TST-024</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-054">SRS-054</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-023">TST-023</a>, <a href="TST.html#TST-026">TST-026</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-055">SRS-055</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-025">TST-025</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-056">SRS-056</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-027">TST-027</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="SRS.html#SRS-057">SRS-057</a></td>
+<td class='tbl-uid'><a href="TST.html#TST-024">TST-024</a>, <a href="TST.html#TST-028">TST-028</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr class="table-warning"><td class='tbl-uid'><a href="SRS.html#SRS-058">SRS-058</a></td>
+<td class='tbl-uid'>—</td>
+<td><span class="badge-warn">⚠ no TST</span></td></tr>
+</tbody></table></section>
+<section id="s6"><h2>6. TST → TRP coverage</h2>
+<p><span class="badge-ok">26/26 (100.0%)</span> &nbsp; 0 TST item(s) with status 'untested in TRP'</p>
+<div class="progress mb-2"><div class="progress-bar bg-success" role="progressbar" style="width:100.0%">100.0%</div></div>
+<table class="table table-bordered table-sm table-hover">
+<thead><tr>
+<th>TST</th>
+<th>Linked TRPs</th>
+<th>Status</th></tr></thead><tbody>
+<tr><td class='tbl-uid'><a href="TST.html#TST-001">TST-001</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-001">TRP-001</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-002">TST-002</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-002">TRP-002</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-003">TST-003</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-003">TRP-003</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-004">TST-004</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-004">TRP-004</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-005">TST-005</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-005">TRP-005</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-006">TST-006</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-006">TRP-006</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-007">TST-007</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-007">TRP-007</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-008">TST-008</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-008">TRP-008</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-009">TST-009</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-009">TRP-009</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-010">TST-010</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-010">TRP-010</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-011">TST-011</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-011">TRP-011</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-012">TST-012</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-012">TRP-012</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-013">TST-013</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-013">TRP-013</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-014">TST-014</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-014">TRP-014</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-017">TST-017</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-015">TRP-015</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-018">TST-018</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-016">TRP-016</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-019">TST-019</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-017">TRP-017</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-020">TST-020</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-018">TRP-018</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-021">TST-021</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-019">TRP-019</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-022">TST-022</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-020">TRP-020</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-023">TST-023</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-022">TRP-022</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-024">TST-024</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-023">TRP-023</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-025">TST-025</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-025">TRP-025</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-026">TST-026</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-024">TRP-024</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-027">TST-027</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-026">TRP-026</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+<tr><td class='tbl-uid'><a href="TST.html#TST-028">TST-028</a></td>
+<td class='tbl-uid'><a href="TRP.html#TRP-021">TRP-021</a></td>
+<td><span class="badge-ok">✓ covered</span></td></tr>
+</tbody></table></section>
+<section id="s7"><h2>7. Defect severity summary</h2>
+<table class="table table-bordered table-sm table-hover w-auto">
+<thead><tr><th>Level</th><th>Label</th><th class="text-end">Reports</th><th class="text-end">%</th></tr></thead><tbody>
+<tr><td><b>0</b></td><td>0 — flawless</td><td class='text-end'>23</td><td class='text-end'>88.5%</td></tr>
+<tr><td><b>1</b></td><td>1 — insignificant defect</td><td class='text-end'>2</td><td class='text-end'>7.7%</td></tr>
+<tr class="table-warning"><td><b>2</b></td><td>2 — minor defect</td><td class='text-end'>1</td><td class='text-end'>3.8%</td></tr>
+<tr class="table-danger"><td><b>3</b></td><td>3 — major defect</td><td class='text-end'>0</td><td class='text-end'>0.0%</td></tr>
+<tr class="table-danger fw-bold"><td><b>4</b></td><td>4 — critical defect</td><td class='text-end'>0</td><td class='text-end'>0.0%</td></tr>
+</tbody></table>
+<p class="text-success">✓ No major or critical defects found.</p>
+</section>
+<section id="s8"><h2>8. Overall health score</h2>
+<div class="progress mb-2"><div class="progress-bar bg-warning" role="progressbar" style="width:74.8%">74.8%</div></div>
+<table class="table table-bordered table-sm table-hover">
+<thead><tr><th>Metric</th><th class="text-end">Covered</th><th class="text-end">Total</th><th class="text-end">Coverage</th></tr></thead><tbody>
+<tr class="table-success"><td>MRS → SRS coverage</td><td class="text-end">43</td><td class="text-end">52</td><td class="text-end">82.7%</td></tr>
+<tr class="table-warning"><td>SRS → ARC coverage</td><td class="text-end">31</td><td class="text-end">58</td><td class="text-end">53.4%</td></tr>
+<tr class="table-warning"><td>ARC → SWD coverage</td><td class="text-end">9</td><td class="text-end">12</td><td class="text-end">75.0%</td></tr>
+<tr class="table-warning"><td>SRS → TST coverage</td><td class="text-end">45</td><td class="text-end">58</td><td class="text-end">77.6%</td></tr>
+<tr class="table-success"><td>TST → TRP coverage</td><td class="text-end">26</td><td class="text-end">26</td><td class="text-end">100.0%</td></tr>
+<tr class="table-warning fw-bold"><td>OVERALL</td><td class="text-end">154</td><td class="text-end">206</td><td class="text-end">74.8%</td></tr>
+</tbody></table></section>
+  <footer>Generated by c5traceability.py — C5-DEC CAD Doorstop traceability toolchain</footer>
+</body>
+</html>

@@ -1,0 +1,50 @@
+# DECIPHER Analysis API Docker Image
+#
+# Build: docker build -f Dockerfile.decipher -t decipher-api:1.0.0 .
+# Run:   docker run -p 8000:8000 decipher-api:1.0.0
+
+FROM python:3.11-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app \
+    POETRY_VERSION=1.8.0 \
+    POETRY_VIRTUALENVS_CREATE=false
+
+ENV PROJECT_HOME=/satrap-dl
+
+WORKDIR ${PROJECT_HOME}
+
+# Install system dependencies and Poetry
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir "poetry==$POETRY_VERSION"
+
+# Copy dependency files
+COPY pyproject.toml poetry.lock ./
+
+# Install only DECIPHER dependencies (no satrap, dev, or docs groups)
+RUN poetry install --only main,decipher --no-interaction --no-root
+
+# Copy application code
+COPY decipher/ ./decipher/
+
+# # Copy configuration files required at runtime
+COPY config/ ./config/
+
+# Install the project ignoring questions from poetry
+# Splitting the 'install' for efficient image rebuilding when only code changes
+RUN poetry install --only-root --no-interaction
+
+# Create non-root user for security and ensure ownership of app files
+RUN useradd --create-home --shell /bin/bash decipher \
+    && chown -R decipher:decipher ${PROJECT_HOME} ${PROJECT_HOME}/config
+USER decipher
+
+# Expose API port, allow override with environment variable
+EXPOSE 8000
+
+# Run the API server
+CMD ["uvicorn", "decipher.api:app", "--host", "0.0.0.0", "--port", "8000"]

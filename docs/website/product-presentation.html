@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SATRAP-DL | Product presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1a2b;
+      --surface: #0f2438;
+      --surface-alt: #0d1e30;
+      --ink: #dae8f5;
+      --muted: #7a9dbf;
+      --line: #1d3a5c;
+      --brand: #19a0a1;
+      --brand-strong: #1fbfbf;
+      --accent: #0fcfcf;
+      --ok: #13874f;
+      --shadow: 0 12px 40px rgba(0, 5, 15, 0.45);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at 10% -10%, rgba(25, 160, 161, 0.18) 0, transparent 40%),
+        radial-gradient(circle at 90% 0, rgba(20, 120, 140, 0.12) 0, transparent 35%),
+        var(--bg);
+      color: var(--ink);
+      font-family: Manrope, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      width: min(1200px, calc(100vw - 2.4rem));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(8px);
+      background: rgba(11, 26, 43, 0.92);
+      border-bottom: 1px solid rgba(29, 58, 92, 0.8);
+      z-index: 20;
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.8rem 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.62rem;
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: 0.02em;
+      font-weight: 700;
+      color: var(--brand-strong);
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 14px rgba(25, 160, 161, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: #fff;
+    }
+
+    .brand-text {
+      display: inline-block;
+      line-height: 1;
+    }
+
+    .topnav {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .topnav a {
+      text-decoration: none;
+      color: var(--brand-strong);
+      border: 1px solid transparent;
+      padding: 0.4rem 0.7rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .topnav a:hover {
+      border-color: var(--line);
+      background: var(--surface);
+    }
+
+    .hero {
+      padding: 4.2rem 0 2.5rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      background: var(--surface);
+      color: var(--brand-strong);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin-bottom: 1.1rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin-top: 1rem;
+      color: var(--muted);
+      max-width: 62ch;
+      font-size: 1.02rem;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.4rem;
+    }
+
+    .btn {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-radius: 10px;
+      font-weight: 700;
+      padding: 0.7rem 1rem;
+      border: 1px solid transparent;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(115deg, var(--brand), var(--brand-strong));
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(25, 160, 161, 0.35);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--brand-strong);
+      border-color: var(--line);
+    }
+
+    .hero-visual {
+      background: linear-gradient(145deg, #061525, #0d2a45);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -70px;
+      top: -70px;
+      background: radial-gradient(circle, rgba(25, 160, 161, 0.5), rgba(25, 160, 161, 0));
+      z-index: -1;
+    }
+
+    .hero-visual img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      display: block;
+    }
+
+    .metrics {
+      display: grid;
+      gap: 0.8rem;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 1.2rem;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      background: rgba(15, 36, 56, 0.7);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.05rem;
+      color: var(--brand-strong);
+    }
+
+    .metric strong a {
+      color: #00ffff;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .metric strong a:hover {
+      color: #2989ce;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    section {
+      padding: 2.1rem 0;
+    }
+
+    .section-head {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    h2 {
+      margin: 0;
+      letter-spacing: -0.01em;
+      font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+    }
+
+    .section-kicker {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .feature h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--brand-strong);
+    }
+
+    .feature p {
+      margin: 0.5rem 0 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .stack {
+      margin-top: 0.65rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .chip {
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface-alt);
+      color: var(--brand-strong);
+      padding: 0.17rem 0.55rem;
+      font-size: 0.77rem;
+      font-weight: 700;
+    }
+
+    .showcase {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .shot {
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      transform: translateY(10px);
+      opacity: 0;
+      animation: fade-up 0.55s ease forwards;
+    }
+
+    .shot:nth-child(2) { animation-delay: 0.06s; }
+    .shot:nth-child(3) { animation-delay: 0.12s; }
+    .shot:nth-child(4) { animation-delay: 0.18s; }
+    .shot:nth-child(5) { animation-delay: 0.24s; }
+    .shot:nth-child(6) { animation-delay: 0.3s; }
+
+    @keyframes fade-up {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .shot button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      cursor: zoom-in;
+    }
+
+    .shot img {
+      width: 100%;
+      display: block;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .shot figcaption {
+      padding: 0.85rem 0.95rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+      min-height: 4.4rem;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .step {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem;
+      position: relative;
+      min-height: 140px;
+      color: var(--ink);
+    }
+
+    .step::after {
+      content: "";
+      position: absolute;
+      right: -0.45rem;
+      top: calc(50% - 0.45rem);
+      width: 0.9rem;
+      height: 0.9rem;
+      background: var(--brand);
+      border-radius: 999px;
+      border: 2px solid var(--bg);
+    }
+
+    .step:last-child::after {
+      display: none;
+    }
+
+    .step strong {
+      color: var(--brand-strong);
+      font-size: 0.85rem;
+      font-family: "Space Grotesk", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .step p {
+      margin: 0.45rem 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .step a {
+      color: #00ffff;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .step a:hover {
+      color: #2989ce;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      padding: 1.6rem 0 2.2rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .footer a {
+      color: var(--brand);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 18, 34, 0.86);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 40;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox figure {
+      max-width: min(1280px, 96vw);
+      margin: 0;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.45);
+    }
+
+    .lightbox img {
+      display: block;
+      width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .lightbox figcaption {
+      padding: 0.7rem 0.85rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+      background: #fff;
+    }
+
+    .lightbox .close {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #fff;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 999px;
+      width: 42px;
+      height: 42px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow {
+        grid-template-columns: 1fr;
+      }
+
+      .step::after {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 2.7rem;
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .brand-logo {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="https://github.com/AbstractionsLab/satrap-dl">
+        <img class="brand-logo" src="assets/2D2B2_LOG_SATRAP-DL-Beta-400x400_v1.0.png" alt="SATRAP-DL logo">
+        <span class="brand-text">SATRAP-DL</span>
+      </a>
+      <nav class="topnav" aria-label="Page sections">
+        <a href="#value">Value</a>
+        <a href="#features">Features</a>
+        <a href="#gallery">Screens</a>
+        <a href="#workflow">Workflow</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="value">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Product presentation</div>
+          <h1>SATRAP-DL for intelligence-driven threat analysis and automated incident handling</h1>
+          <p class="lead">
+            SATRAP-DL unifies a logic-based CTI knowledge platform (SATRAP) and a real-time alert analysis service (DECIPHER)
+            in a suite of open-source tools. SATRAP reasons over STIX&#x202F;2.1 data to answer complex threat queries with explainable
+            results; DECIPHER automates alert triage, severity scoring, and incident case creation building on an interoperable open-source stack.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="https://github.com/AbstractionsLab/satrap-dl">Open repository</a>
+            <a class="btn btn-secondary" href="https://github.com/AbstractionsLab/satrap-dl/blob/main/docs/manual/README.md">Browse user manual</a>
+          </div>
+          <div class="metrics" aria-label="Product metrics">
+            <div class="metric">
+              <strong>SATRAP + DECIPHER</strong>
+              <span>Dual-package CTI analysis suite</span>
+            </div>
+            <div class="metric">
+              <strong>Explainable analysis</strong>
+              <span>Inference steps shown alongside analysis results</span>
+            </div>
+            <div class="metric">
+              <strong><a href="https://github.com/AbstractionsLab/pyflowintel" target="_blank">PyFlowintel</a></strong>
+              <span>Python library for interacting with Flowintel for case management</span>
+            </div>
+            <div class="metric">
+              <strong>Automated pipelines</strong>
+              <span>Incident handling workflows automated through DECIPHER and PyFlowintel</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img src="assets/SATRAP-TypeDB-analysis.png" alt="SATRAP TypeDB CTI inference graph">
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <div class="section-head">
+          <h2>Core capabilities</h2>
+          <div class="section-kicker">From raw CTI to prioritized incidents</div>
+        </div>
+        <div class="features">
+          <article class="feature">
+            <h3>CTI knowledge base</h3>
+            <p>TypeDB-backed knowledge representation system with formal STIX&#x202F;2.1 semantics, predefined inference rules, and direct TypeQL query access.</p>
+            <div class="stack">
+              <span class="chip">TypeDB</span>
+              <span class="chip">STIX&#x202F;2.1</span>
+              <span class="chip">TypeQL</span>
+            </div>
+          </article>
+          <article class="feature">
+            <h3>Logic-based reasoning</h3>
+            <p>Inference engine derives new threat relationships from stored CTI. Answers include the derivation steps, keeping analysis traceable and explainable.</p>
+            <div class="stack">
+              <span class="chip">Inference rules</span>
+              <span class="chip">Explainable</span>
+              <span class="chip">Traceable</span>
+            </div>
+          </article>
+          <article class="feature">
+            <h3>ETL pipeline</h3>
+            <p>Ingest STIX&#x202F;2.1 bundles from MITRE ATT&amp;CK and MISP; transform and load into the knowledge base with a single command.</p>
+            <div class="stack">
+              <span class="chip">ETL</span>
+              <span class="chip">MITRE ATT&amp;CK</span>
+              <span class="chip">MISP</span>
+            </div>
+          </article>
+          <article class="feature">
+            <h3>DECIPHER analysis service</h3>
+            <p>Extensible FastAPI REST service for real-time alert triage. New threat scenarios are added as self-registering analyzer plugins with zero changes to routing code.</p>
+            <div class="stack">
+              <span class="chip">FastAPI</span>
+              <span class="chip">Plugin registry</span>
+              <span class="chip">REST API</span>
+            </div>
+          </article>
+          <article class="feature">
+            <h3>Threat scoring engine</h3>
+            <p>Configurable severity-confidence scoring based on MISP sightings, admiralty scale ratings, event threat level, and MITRE ATT&amp;CK tag relevance.</p>
+            <div class="stack">
+              <span class="chip">Severity score</span>
+              <span class="chip">Confidence</span>
+              <span class="chip">MISP enrichment</span>
+            </div>
+          </article>
+          <article class="feature">
+            <h3>Automated case management</h3>
+            <p>Prioritized incident cases created in Flowintel automatically, with score breakdowns and formatted analysis reports attached to each case.</p>
+            <div class="stack">
+              <span class="chip">Flowintel</span>
+              <span class="chip">PyFlowintel</span>
+              <span class="chip">Case creation</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <div class="container">
+        <div class="section-head">
+          <h2>Product screenshot gallery</h2>
+          <div class="section-kicker">Click any screenshot to zoom</div>
+        </div>
+        <div class="showcase">
+          <figure class="shot">
+            <button data-full="assets/SATRAP-analysis-toolbox-mitigations-notebook.png" data-caption="Analysis toolbox mitigations notebook">
+              <img src="assets/SATRAP-analysis-toolbox-mitigations-notebook.png" alt="Jupyter notebook querying mitigations for a threat group">
+            </button>
+            <figcaption>Jupyter notebook querying mitigations for a threat group using SATRAP's CTI analysis toolbox.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <button data-full="assets/SATRAP-TypeDB-analysis.png" data-caption="TypeDB query analysis view">
+              <img src="assets/SATRAP-TypeDB-analysis.png" alt="TypeDB Studio visualisation of a TypeQL query result">
+            </button>
+            <figcaption>TypeDB Studio visualization of a SATRAP analysis result for technique usage by intrusion sets.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <button data-full="assets/SATRAP-CLI.png" data-caption="SATRAP command-line interface">
+              <img src="assets/SATRAP-CLI.png" alt="SATRAP CLI help screen showing available subcommands">
+            </button>
+            <figcaption>SATRAP CLI entry point showing available subcommands for setup, ETL, analysis, and search.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <button data-full="assets/PyFlowintel.png" data-caption="PyFlowintel library">
+              <img src="assets/PyFlowintel.png" alt="PyFlowintel library for interacting with Flowintel">
+            </button>
+            <figcaption>PyFlowintel: Python library for interacting with Flowintel.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <button data-full="assets/DECIPHER-context-diagram.png" data-caption="DECIPHER high-level context diagram">
+              <img src="assets/DECIPHER-context-diagram.png" alt="High-level context diagram showing DECIPHER actors and external systems">
+            </button>
+            <figcaption>High-level context diagram showing DECIPHER&#x2019;s actors, external systems, and interaction flows.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <button data-full="assets/RADAR-DECIPHER-pipeline.png" data-caption="End-to-end detection-to-recovery pipeline">
+              <img src="assets/RADAR-DECIPHER-pipeline.png" alt="Sequence diagram of the full incident handling pipeline from RADAR detection to analyst recovery">
+            </button>
+            <figcaption>Sequence diagram of the full incident handling pipeline from RADAR detection to analyst recovery.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <button data-full="assets/DECIPHER-REST-API.png" data-caption="DECIPHER REST service API">
+              <img src="assets/DECIPHER-REST-API.png" alt="DECIPHER REST service API documentation endpoint">
+            </button>
+            <figcaption>DECIPHER REST service API documentation endpoint.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <button data-full="assets/RADAR-DECIPHER-Flowintel-integration.png" data-caption="RADAR, DECIPHER, and Flowintel integration">
+              <img src="assets/RADAR-DECIPHER-Flowintel-integration.png" alt="Flowintel case showing prioritized incidents created by DECIPHER">
+            </button>
+            <figcaption>Flowintel case showing a prioritized incident created automatically by DECIPHER.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <button data-full="assets/RADAR-DECIPHER-MISP-lookup.png" data-caption="MISP IOC lookup during DECIPHER analysis">
+              <img src="assets/RADAR-DECIPHER-MISP-lookup.png" alt="MISP event view showing an IOC attribute found during DECIPHER alert enrichment">
+            </button>
+            <figcaption>MISP event view showing an IOC attribute found during DECIPHER alert enrichment.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <button data-full="assets/Flowintel-case-from-RADAR.png" data-caption="Suspicious login case in Flowintel">
+              <img src="assets/Flowintel-case-from-RADAR.png" alt="Flowintel case created by DECIPHER for a suspicious login alert with full score breakdown">
+            </button>
+            <figcaption>Flowintel case created by DECIPHER for a suspicious login alert with full score breakdown and priority tag.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="container">
+        <div class="section-head">
+          <h2>Typical value flow</h2>
+          <div class="section-kicker">From detection to recovery</div>
+        </div>
+        <div class="workflow" aria-label="Typical workflow steps">
+          <article class="step">
+            <strong>1. Deploy</strong>
+            <p>Set up the full SATRAP-DL stack &#x2014; DECIPHER service, MISP, and Flowintel &#x2014; with the provided Docker Compose scripts.</p>
+          </article>
+          <article class="step">
+            <strong>2. Detect &amp; enrich</strong>
+            <p><a href="https://github.com/AbstractionsLab/idps-escape/blob/main/docs/manual/radar_docs/radar-active-response.md" target="_blank">RADAR</a> triggers DECIPHER on a security alert; IOCs are searched in MISP to retrieve CTI events, sightings, and threat context.</p>
+          </article>
+          <article class="step">
+            <strong>3. Correlate &amp; score</strong>
+            <p>DECIPHER computes a severity&#x2011;confidence score from enriched alert data and risk factors for automated priority assignment.</p>
+          </article>
+          <article class="step">
+            <strong>4. Escalate &amp; Investigate</strong>
+            <p>The incident is escalated with a priority. An analyst reviews the Flowintel case and runs SATRAP playbooks for deeper CTI reasoning and explainable threat queries.</p>
+          </article>
+          <article class="step">
+            <strong>5. Recover</strong>
+            <p>Recovery actions are informed by the score breakdown and analyst reasoning outcomes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      SATRAP-DL product presentation page. Continue with the
+      <a href="https://github.com/AbstractionsLab/satrap-dl/blob/main/docs/manual/README.md">user manual</a> or explore the
+      <a href="https://github.com/AbstractionsLab/satrap-dl">repository</a>.
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-label="Screenshot preview" aria-modal="true">
+    <button class="close" aria-label="Close preview">&times;</button>
+    <figure>
+      <img src="" alt="">
+      <figcaption></figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var lightbox = document.getElementById("lightbox");
+      var lightboxImage = lightbox.querySelector("img");
+      var lightboxCaption = lightbox.querySelector("figcaption");
+      var closeButton = lightbox.querySelector(".close");
+      var triggers = document.querySelectorAll(".shot button");
+
+      function closeLightbox() {
+        lightbox.classList.remove("open");
+        lightboxImage.src = "";
+        lightboxImage.alt = "";
+      }
+
+      triggers.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var full = button.getAttribute("data-full");
+          var caption = button.getAttribute("data-caption") || "Screenshot";
+          lightboxImage.src = full;
+          lightboxImage.alt = caption;
+          lightboxCaption.textContent = caption;
+          lightbox.classList.add("open");
+        });
+      });
+
+      closeButton.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", function (event) {
+        if (event.target === lightbox) {
+          closeLightbox();
+        }
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && lightbox.classList.contains("open")) {
+          closeLightbox();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

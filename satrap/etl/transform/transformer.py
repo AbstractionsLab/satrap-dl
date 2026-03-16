@@ -48,7 +48,7 @@ class STIXtoTypeQLTransformer(Transformer):
         """
         logger.debug(log_messages.START_TRANSFORM)
 
-        # Read the mapping
+        # Load the STIX-TypeDB mapping, to be used during the transformation
         try:
             STIXtoTypeDBMapper.get_data(validate=True)
         except ValidationError as e:
@@ -60,24 +60,24 @@ class STIXtoTypeQLTransformer(Transformer):
             logger.exception(e)
             return None
 
-        # Create the STIX Object
+        # Get a converter for the STIX 2.1 object
         try:
-            stix_obj: STIXObjectConverter = STIXObjectConverter.create(src_object)
+            stix_obj: STIXObjectConverter = STIXObjectConverter.get_converter(src_object)
         except (MappingException, TransformationError) as e:
             logger.error("%s. %s",
-                log_messages.STIX_OBJECT_CREATION_FAILED % src_object.get("id", "unknown"),
+                log_messages.STIX_CONVERTER_CREATION_FAILED % src_object.get("id", "unknown"),
                 e)
             return None
         except Exception as e:
             logger.error("%s. %s:\n%s",
-                log_messages.STIX_OBJECT_CREATION_FAILED % src_object.get("id", "unknown"),
+                log_messages.STIX_CONVERTER_CREATION_FAILED % src_object.get("id", "unknown"),
                 log_messages.UNEXPECTED_EXCEPTION, e)
             return None
 
         # Transform
         try:
             queries = stix_obj.build_typeql_bundle()
-            # order the query
+            # order the queries
             res = queries.order_bundle()
         except MappingException as e:
             logger.error("%s. %s",

@@ -27,7 +27,7 @@ DB_SCHEMA_FOLDER = "schema"
 
 LOGS_PATH = os.path.join(ROOT_DIR, ASSETS_FOLDER, "logs")
 MAPPING_FILES_PATH = os.path.join(ROOT_DIR, "etl", "transform", "mapping")
-TESTS_SAMPLES_PATH = os.path.abspath(os.path.join(ROOT_DIR, "..", "tests", "data"))
+TESTS_SAMPLES_PATH = os.path.abspath(os.path.join(ROOT_DIR, "..", "tests", "satrap", "data"))
 
 SATRAP_PARAMS_FILE_NAME = "satrap_params.yml"
 SATRAP_PARAMS_FILE_PATH = os.path.join(ROOT_DIR, ASSETS_FOLDER, SATRAP_PARAMS_FILE_NAME)

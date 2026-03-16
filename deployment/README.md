@@ -5,12 +5,11 @@ This folder contains the artifacts for deploying the infrastructure stack on whi
 - **Wazuh** as the SIEM of an organization
 - **MISP** as the CTI platform hosting a CTI repository
 - **Flowintel** as a case management system.
+- **DECIPHER analysis service** as the provider of an automated CTI-informed incident handling pipeline
 
-The deployment follows a containerized architecture model.
+The deployment follows a containerized architecture model and relies on a single entrypoint script and a single configuration file.
 
-For deploying **MISP** and/or **FlowIntel**, we provide a single entrypoint script and a single configuration file.
-
-> **Note:** For deploying Wazuh with RADAR (Risk-aware AD-based Automated Response), please refer to the corresponding instructions in the [IDPS-ESCAPE repository](https://github.com/AbstractionsLab/idps-escape).
+> **Note:** For deploying Wazuh with RADAR (Risk-aware Anomaly Detection-based Automated Response), please refer to the corresponding instructions in the [IDPS-ESCAPE repository](https://github.com/AbstractionsLab/idps-escape).
 
 
 ## Configuration setup
@@ -43,7 +42,7 @@ For comprehensive documentation on all available environment variables, please r
 
 ## Bringing up the stack
 
-The `decipher_up.sh` script provides a single entrypoint to bring up services:
+The `decipher_up.sh` script provides a single entrypoint to bring up all the available services:
 
 1. Ensure execution permissions:
 ```bash
@@ -53,39 +52,54 @@ chmod +x decipher_up.sh
 2. Run:
 
 ```bash
-./decipher_up.sh [--misp] [--flowintel]
+./decipher_up.sh [--misp | --flowintel | --api | --all]
 ```
 
+**Available options:**
+- `--misp`: brings up MISP stack (CTI platform)
+- `--flowintel`: brings up FlowIntel stack (case management system)
+- `--api`: brings up DECIPHER REST API service
+- `--all`: brings up all stacks (MISP, FlowIntel, and DECIPHER API)
 
-- `--misp`: brings up MISP stack (if not running)
-- `--flowintel`: brings up FlowIntel stack (if not running)
-- Both flags: bring up both stacks (if not running)
+**Usage examples:**
+```bash
+./decipher_up.sh --misp                      # MISP only
+./decipher_up.sh --api                       # DECIPHER API only
+./decipher_up.sh --misp --flowintel          # MISP and FlowIntel together
+./decipher_up.sh --all                       # All stacks
+```
 
 The script uses adapted versions of the official docker-compose files from [MISP](https://github.com/MISP/misp-docker/blob/master/docker-compose.yml) and [FlowIntel](https://github.com/flowintel/flowintel/blob/main/docker-compose.yml), modified for shared configuration (`env-template`) and network/naming adjustments.
 
 **Exposed ports:** (configure in `.env`)
 - MISP: HTTP/HTTPS (i.e., 80/443)
 - FlowIntel: Application port (default 7006)
-
-**Docker networks:**
-- MISP services → `misp-net` bridge
-- FlowIntel services → `flowintel-net` bridge
+- DECIPHER API: REST API port (default 8000)
 
 ## Stopping the services
 
-The script `decipher_down.sh` stops (brings down) the whole DECIPHER stack or selected applications. 
+The script `decipher_down.sh` stops (brings down) the DECIPHER infrastructure stack or selected applications.
 
-1. Ensure execution permissions: 
-```sh
+1. Ensure execution permissions:
+```bash
 chmod +x decipher_down.sh
 ```
 
-2. Run
+2. Run:
 ```bash
-./decipher_down.sh [--misp] [--flowintel] [--purge]
+./decipher_down.sh [--misp | --flowintel | --api | --all] [--purge]
 ```
 
-* `--misp`: brings MISP stack down
-* `--flowintel`: brings FlowIntel stack down
-* `--misp --flowintel`: brings both stacks down
-* `--purge`: removes the associated volumes
+**Available options:**
+- `--misp`: brings down the MISP stack
+- `--flowintel`: brings down the FlowIntel stack
+- `--api`: brings down the DECIPHER REST API
+- `--all`: brings down all stacks
+- `--purge`: removes all named volumes for the selected stacks, useful for complete cleanup or resetting data.
+
+**Usage examples:**
+```bash
+./decipher_down.sh --api                     # Stop DECIPHER API only
+./decipher_down.sh --misp --purge            # Stop MISP and remove volumes
+./decipher_down.sh --all --purge             # Stop all stacks and remove volumes
+```

@@ -1,0 +1,37 @@
+{
+  "title": "[DECIPHER] Suspicious Login Activity",
+  "description": "Suspicious or unauthorized login attempts to a system",
+  "time_required": "8h",
+  "tags": "",
+  "clusters": "",
+  "custom_tags": "",
+  "tasks": [
+    {
+      "title": "Automated analysis from incoming alert",
+      "description": "Automated search for IOCs in MISP and preliminary scoring",
+      "tags": "",
+      "clusters": "",
+      "custom_tags": "",
+      "time_required": "1h"
+    },
+    {
+      "title": "Log Review and Correlation",
+      "description": "Review authentication logs, network logs, and system logs to identify the scope of the suspicious activity. Search Wazuh for follow-on success logins or lateral movement."
+    },
+    {
+      "title": "User Interview and Verification",
+      "description": "Contact the affected user to verify login attempts. Determine if the user recognizes the activity and gather additional context about their account usage patterns.",
+      "time_required": "1h"
+    },
+    {
+      "title": "Containment and Remediation",
+      "description": "Implement containment measures including password resets, session termination, and account monitoring. Block suspicious IP addresses if necessary and implement additional security controls.",
+      "time_required": "2h"
+    },
+    {
+      "title": "Documentation and Reporting",
+      "description": "Document all findings, actions taken, and recommendations. Create incident report and update security team. Identify lessons learned and preventive measures.",
+      "time_required": "2h"
+    }
+  ]
+}
