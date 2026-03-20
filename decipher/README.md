@@ -119,20 +119,22 @@ curl -X POST http://localhost:8000/api/v0.1/analyze/suspicious_login \
 Create an incident case (typically after performing analysis).
 
 ```bash
-curl -X POST http://localhost:8000/api/v0.1/incident/suspicious_login \
+curl -X POST http://localhost:8000/api/v0.1/incident \
   -H "Content-Type: application/json" \
   -d '{
-    "score": 0.75,
+    "priority_level": "high",
     "title": "Multiple login attempts from external IP",
-    "system_affected": "My database server",
-    "detected_by": "SIEM"
+    "description": {
+      "system_affected": "My database server",
+      "detected_by": "SIEM"
+    }
   }'
 ```
 
-See the [API documentation](http://localhost:8000/docs) for more details.
+See the API documentation at `http://localhost:8000/docs` for more details.
 
 ### Examples
-You can find sample scripts in the `tests/decipher/integration` folder, for testing the analysis and incident creation endpoints. A script for ingesting test data in MISP is included too.
+Find sample scripts for testing the analysis and incident creation endpoints in the `tests/decipher/integration` folder. A script for ingesting test data in MISP is included too.
 
 
 ## Unit tests

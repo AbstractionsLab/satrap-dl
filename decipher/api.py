@@ -23,7 +23,7 @@ logger = get_logger(__name__)
 LIST_ANALYZERS_URL = f"{BASE_URL}/analyzers"
 GET_ANALYZER_URL = f"{BASE_URL}/analyzers/{{alert_type}}"
 ANALYZE_URL = f"{BASE_URL}/analyze/{{alert_type}}"
-INCIDENT_URL = f"{BASE_URL}/incident/{{alert_type}}"
+INCIDENT_URL = f"{BASE_URL}/incident"
 HEALTH_URL = "/health"
 
 
@@ -122,30 +122,24 @@ def analyze_alert(
 @app.post(
     INCIDENT_URL,
     response_model=IncidentResponse,
-    summary="Create incident case from score and dictionary data",
+    summary="Create incident case from priority level and optional metadata",
     responses={
         200: {"description": "Incident case created successfully"},
-        422: {"description": "Invalid score (must be 0.0-1.0) or missing required data"},
-        404: {"description": "Unknown alert type or scenario mapping not found"},
+        422: {"description": "Invalid or missing priority_level (must be a valid MISP priority-level taxonomy tag)"},
         500: {"description": "Flowintel case creation failed"},
     },
     tags=["Incident creation"],
 )
 def create_incident(
-    alert_type: str = Path(
-        ...,
-        description=f"Threat scenario for case creation (see options: {LIST_ANALYZERS_URL})",
-        examples=["suspicious_login"],
-    ),
     incident: IncidentRequest = Body(
         ...,
-        description="Case creation data with severity score, optional title and additional data fields",
+        description="Case creation data with MISP priority level, optional title, template ID and additional fields",
         examples=[
             {
-                "score": 0.75,
+                "priority_level": "priority-level:high",
                 "title": "Multiple suspicious login attempts from external IP",
-                "system_affected": "My database server",
-                "detected_by": "SIEM",
+                "template_id": "suspicious_login",
+                "description": {"system_affected": "My database server", "detected_by": "SIEM"},
             }
         ],
     ),
@@ -153,30 +147,25 @@ def create_incident(
     """
     Create an incident case in Flowintel from an IncidentRequest (see schema for details).
 
-    This endpoint assigns a priority tag to the case based on the provided score and configurable thresholds.
-    The `alert_type` parameter determines the template to be applied for the case creation, if one exists.
-
     Request body:
-        `score`: Required severity score (0.0 to 1.0) for priority assignment
-        `title`: Optional case title
-        Additional fields are allowed for extensibility
+        `priority_level`: Required MISP priority-level taxonomy tag (e.g. priority-level:high or high)
+        `title`: Optional case title; a default is assigned if absent
+        `template_id`: Optional case template identifier
+        `description`: Optional additional key-value pairs included in the case description
 
     Returns IncidentResponse containing:
         `id`: Case ID in Flowintel
         `link`: Direct URL to access the case
     """
     try:
-        return create_incident_case(alert_type, incident)
-    except ValueError as e:
-        logger.warning(str(e))
-        raise HTTPException(status_code=404, detail=str(e))
+        return create_incident_case(incident)
     except CaseCreationError as e:
         logger.error(f"Case creation error: {e}")
         raise HTTPException(status_code=500, detail=f"Case creation failed: {str(e)}")
     except Exception as e:
-        logger.error(f"Unexpected error during incident creation: {e}", exc_info=True)
+        logger.error(f"Unexpected error at incident endpoint: {e}", exc_info=True)
         raise HTTPException(
-            status_code=500, detail=f"Incident creation failed: {str(e)}"
+            status_code=500, detail=f"Incident endpoint error: {str(e)}"
         )
 
 

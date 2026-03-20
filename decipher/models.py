@@ -4,19 +4,47 @@ DECIPHER API models.
 Pydantic request and response models shared across the project.
 """
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, Field, field_validator
+
+
+MISP_PRIORITY_LEVELS = frozenset({
+    "priority-level:baseline-negligible",
+    "priority-level:baseline-minor",
+    "priority-level:low",
+    "priority-level:medium",
+    "priority-level:high",
+    "priority-level:severe",
+    "priority-level:emergency",
+    "baseline-negligible",
+    "baseline-minor",
+    "low",
+    "medium",
+    "high",
+    "severe",
+    "emergency"
+})
 
 
 class IncidentRequest(BaseModel):
-    """Request model for incident case creation.
+    """Request model for incident case creation."""
 
-    Allows flexible incident data with required score for priority assignment.
-    """
-
-    score: float = Field(..., ge=0.0, le=1.0, description="Severity score (0.0 to 1.0)")
+    priority_level: str = Field(..., description="MISP priority-level taxonomy tag (e.g. priority-level:high)")
     title: str | None = None
+    template_id: str | None = None
+    description: dict | None = Field(
+        default_factory=dict,
+        description="Optional additional key-value pairs to include in the case description",
+        example={"system_affected": "My database server", "detected_by": "SIEM"},
+    )
+    #model_config = ConfigDict(extra="allow")  # Allow additional fields, var name must be 'model_config' for Pydantic v2
 
-    model_config = ConfigDict(extra="allow")  # Allow additional fields, var name must be 'model_config' for Pydantic v2
+    @field_validator("priority_level")
+    @classmethod
+    def validate_priority_level(cls, v: str) -> str:
+        if v not in MISP_PRIORITY_LEVELS:
+            valid = ", ".join(sorted(MISP_PRIORITY_LEVELS))
+            raise ValueError(f"Invalid MISP priority level '{v}'. Valid values: [{valid}]")
+        return v
 
 
 class IncidentResponse(BaseModel):

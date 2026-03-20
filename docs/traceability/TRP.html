@@ -1585,22 +1585,32 @@
 <ul>
 <li><span style="color:green"><strong>0 = flawless</strong></span>: The API returned a valid JSON including analyzed_scenario, severity, report, and created_case. The scoring engine successfully processed the two source IPs provided.</li>
 </ul>
+<pre><code class="language-json">{&quot;analyzed_scenario&quot;:&quot;suspicious_login&quot;,&quot;severity&quot;:0.0,&quot;report&quot;:{&quot;log_summary&quot;:[],&quot;misp_available&quot;:&quot;True&quot;,&quot;misp_events_found&quot;:[],&quot;score_breakdown&quot;:[]},&quot;created_case&quot;:{&quot;id&quot;:70,&quot;link&quot;:&quot;http://192.168.0.32:7006/case/70&quot;}}
+</code></pre>
 <p><strong>Test case step 2</strong>: Send a POST request to the incidents endpoint with a valid score</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The outcome was a failed case creation.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The outcome contains an non-zero <code>ID</code>followed by the link of the case created in flowintel.</li>
 </ul>
+<pre><code class="language-json">{&quot;id&quot;:71,&quot;link&quot;:&quot;http://192.168.0.32:7006/case/71&quot;}
+</code></pre>
 <p><strong>Test case step 3</strong>: Send a GET request to the analyzers endpoint</p>
 <ul>
 <li><span style="color:green"><strong>0 = flawless</strong></span>: The response correctly listed the registered alert types, including suspicious_login, along with their input schemas.</li>
 </ul>
+<pre><code class="language-json">{&quot;suspicious_login&quot;:{&quot;description&quot;:&quot;Analyzer for suspicious login attempts.&quot;,&quot;schema&quot;:{&quot;description&quot;:&quot;Schema for alerts related to suspicious login threat scenarios.\n\nAttributes:\n    username: The username used in the login attempt.\n    target_host: IP of the login target.\n    src_ips: List of IP addresses, origin of the login attempt.\n    timestamp: ISO 8601 timestamp of the alert.&quot;,&quot;properties&quot;:{&quot;username&quot;:{&quot;title&quot;:&quot;Username&quot;,&quot;type&quot;:&quot;string&quot;},&quot;target_host&quot;:{&quot;title&quot;:&quot;Target Host&quot;,&quot;type&quot;:&quot;string&quot;},&quot;src_ips&quot;:{&quot;items&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;title&quot;:&quot;Src Ips&quot;,&quot;type&quot;:&quot;array&quot;},&quot;timestamp&quot;:{&quot;title&quot;:&quot;Timestamp&quot;,&quot;type&quot;:&quot;string&quot;}},&quot;required&quot;:[&quot;username&quot;,&quot;target_host&quot;,&quot;src_ips&quot;,&quot;timestamp&quot;],&quot;title&quot;:&quot;SuspiciousLoginAlert&quot;,&quot;type&quot;:&quot;object&quot;}}}
+</code></pre>
 <p><strong>Test case step 4</strong>: Send a GET request to the health endpoint</p>
 <ul>
 <li><span style="color:green"><strong>0 = flawless</strong></span>: The response is a JSON body containing "status": "ok", analyzers_loaded (integer &gt;= 1), and logging_level.</li>
 </ul>
+<pre><code class="language-json">{&quot;status&quot;:&quot;ok&quot;,&quot;service&quot;:&quot;decipher-api&quot;,&quot;analyzers_loaded&quot;:1,&quot;available_types&quot;:[&quot;suspicious_login&quot;],&quot;logging_level&quot;:&quot;INFO&quot;}
+</code></pre>
 <p><strong>Test case step 5</strong>: Send a GET request to the home endpoint (root /)</p>
 <ul>
 <li><span style="color:green"><strong>0 = flawless</strong></span>: The response is a JSON body containing the service version and documentation references (docs, redoc).</li>
 </ul>
+<pre><code class="language-json">{&quot;service&quot;:&quot;DECIPHER Analysis API&quot;,&quot;version&quot;:&quot;v0.1&quot;,&quot;docs&quot;:&quot;/docs&quot;,&quot;redoc&quot;:&quot;/redoc&quot;,&quot;health&quot;:&quot;/health&quot;,&quot;analyzers&quot;:&quot;/api/v0.1/analyzers&quot;}
+</code></pre>
 <h3>Defect summary description</h3>
 <p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawless</strong></span></p>
 <h3>Text execution evidence</h3>
@@ -1623,7 +1633,7 @@
 <tbody>
 <tr>
 <td>test-date</td>
-<td>2026-03-12</td>
+<td>2026-03-20</td>
 </tr>
 <tr>
 <td>tester</td>
@@ -1635,7 +1645,7 @@
 </tr>
 <tr>
 <td>passed-steps</td>
-<td>6</td>
+<td>5</td>
 </tr>
 <tr>
 <td>failed-steps</td>
@@ -1647,7 +1657,7 @@
 </tr>
 <tr>
 <td>release-version</td>
-<td>0.4</td>
+<td>0.5</td>
 </tr>
 <tr>
 <td>verification-method</td>
@@ -2021,34 +2031,39 @@
 <ul>
 <li><span style="color:green"><strong>0 = flawless</strong></span>: The output contains <code>HTTP 200</code>. The response body provides a non-zero <code>id</code> and a valid Flowintel link. In Flowintel, the case title is correctly prefixed with <code>[DECIPHER]</code> and suffixed with a timestamp.</li>
 </ul>
+<p><code>json
+  {"id":72,"link":"http://192.168.0.32:7006/case/72"} HTTP 200</code></p>
+<p><img alt="Case created.png" src="assets/trp-025-ac1.png" width="70%" /></p>
 <h3>AC2: Invalid score rejection</h3>
 <p><strong>TC steps 1-3</strong>: Send a POST request with a score outside the valid range (1.5), verify <code>HTTP 422</code>, and verify the validation error message references the score field.</p>
 <ul>
 <li><span style="color:green"><strong>0 = flawless</strong></span>: The output contains <code>HTTP 422</code>. The response body correctly identifies the validation error on the <code>score</code> field.</li>
 </ul>
-<h3>AC3: Unrecognized alert type</h3>
-<p><strong>TC steps 1-2</strong>: Send a POST request with an unregistered alert type and verify <code>HTTP 404</code>.</p>
+<p><code>json
+  {"detail":[{"type":"value_error","loc":["body","priority_level"],"msg":"Value error, Invalid MISP priority level 'unclassified'. Valid values: [baseline-minor, baseline-negligible, emergency, high, low, medium, priority-level:baseline-minor, priority-level:baseline-negligible, priority-level:emergency, priority-level:high, priority-level:low, priority-level:medium, priority-level:severe, severe]","input":"unclassified","ctx":{"error":{}}}]} HTTP 422</code></p>
+<h3>AC3: Priority tag matches requested priority level</h3>
+<p><strong>TC steps 1-3</strong>: Send a POST request with <code>priority_level</code> set to <code>priority-level:severe</code>.</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The output contains <code>HTTP 404</code> when attempting to send an incident to a non-existent endpoint.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The output contains <code>HTTP 200</code>, The created case is accessible by the link and the severity is <code>severe</code>.</li>
 </ul>
-<h3>AC4: Priority tag matches configured thresholds</h3>
-<p><strong>TC steps 1-2</strong>: Send a POST request with a score of 0.9 and verify the <code>priority-level:severe</code> tag in Flowintel.</p>
+<p><code>json
+  {"id":76,"link":"http://192.168.0.32:7006/case/76"} HTTP 200</code>
+  <img alt="Case with severe priority" src="assets/trp-025-ac3-severe.png" width="70%" /></p>
+<p><strong>TC steps 4-6</strong>: Send a POST request with <code>priority_level</code> set to <code>low</code>.</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: A score of 0.9 created a case with the <code>priority-level:severe</code> tag.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The output contains <code>HTTP 200</code>, The created case is accessible by the link and the severity is <code>low</code>.</li>
 </ul>
-<p><strong>TC steps 3-4</strong>: Send a POST request with a score of 0.5 and verify the <code>priority-level:medium</code> tag in Flowintel.</p>
+<p><code>json
+  {"id":77,"link":"http://192.168.0.32:7006/case/77"} HTTP 200</code>
+  <img alt="Case with low priority" src="assets/trp-025-ac3-low.png" width="70%" /></p>
+<h3>AC4: Case description</h3>
+<p><strong>TC steps 1-3</strong>: Send a POST request with a <code>description</code> object containing additional key-value pairs.</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: A score of 0.5 created a case with the <code>priority-level:medium</code> tag.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The output contains <code>HTTP 200</code>, the created case is accessible by the link and the case description contains the fields provided in the <code>description</code> object: <code>source_system</code>, <code>affected_user</code>, and <code>notes</code>.</li>
 </ul>
-<p><strong>TC steps 5-6</strong>: Send a POST request with a score of 0.1 and verify the <code>priority-level:baseline-minor</code> tag in Flowintel.</p>
-<ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: A score of 0.1 created a case with the <code>priority-level:baseline-minor</code> tag.</li>
-</ul>
-<h3>AC5: Metadata in case description</h3>
-<p><strong>TC steps 1-3</strong>: Send a POST request with additional metadata fields (<code>source_system</code>, <code>affected_user</code>, <code>notes</code>), open the case in Flowintel, and verify the fields appear in the case description.</p>
-<ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The case description in Flowintel correctly includes the metadata fields: <code>source_system</code>, <code>affected_user</code>, and <code>notes</code>.</li>
-</ul>
+<p><code>json
+  {"id":78,"link":"http://192.168.0.32:7006/case/78"} HTTP 200</code></p>
+<p><img alt="Case with description" src="assets/trp-025-ac4-description.png" width="70%" /></p>
 <h3>Defect summary description</h3>
 <p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawless</strong></span></p>
 <h3>Text execution evidence</h3>
@@ -2071,7 +2086,7 @@
 <tbody>
 <tr>
 <td>test-date</td>
-<td>2026-03-12</td>
+<td>2026-03-20</td>
 </tr>
 <tr>
 <td>tester</td>
@@ -2083,7 +2098,7 @@
 </tr>
 <tr>
 <td>passed-steps</td>
-<td>5</td>
+<td>4</td>
 </tr>
 <tr>
 <td>failed-steps</td>
@@ -2095,7 +2110,7 @@
 </tr>
 <tr>
 <td>release-version</td>
-<td>0.4</td>
+<td>0.5</td>
 </tr>
 <tr>
 <td>verification-method</td>

@@ -1296,7 +1296,7 @@ transitive-use
 <li>Access to the DECIPHER deployment artifacts in the <code>/deployment</code> folder</li>
 <li>Access to a terminal with bash shell with <code>curl</code> for executing the deployment scripts</li>
 <li>Access to a web browser for service accessibility verification</li>
-<li>No pre-existing containers or volumes from previous DECIPHER deployments are running</li>
+<li>No pre-existing images, containers or volumes from previous DECIPHER deployments exist in the Docker environment</li>
 </ul>
 <h2>Test steps</h2>
 <h3>AC1, AC4: Full-stack startup</h3>
@@ -1406,6 +1406,7 @@ transitive-use
 <li>A shell with <code>curl</code> installed for sending HTTP requests to the DECIPHER API</li>
 <li>Accessible MISP and Flowintel instances are running</li>
 <li>The DECIPHER REST service is not running</li>
+<li>The <code>config</code> directory at the root of SATRAP-DL contains only files ending with <code>template.yaml</code></li>
 <li>A user with <code>User</code> role created in MISP and an API key generated for that user</li>
 </ul>
 <h2>Setup actions</h2>
@@ -1413,12 +1414,15 @@ transitive-use
 <li>Configure the MISP and Flowintel instances in a <code>config/decipher-settings.yaml</code> following the configuration instructions in the README of DECIPHER (<code>/decipher/README.md</code>). Use a MISP API key of a <code>User</code> role.</li>
 <li>Run the DECIPHER service via <code>./decipher_up.sh --api</code> and verify that it is running at http://localhost:8000 (<em>Note: if a different host/port is used, update the curl commands accordingly</em>)</li>
 </ol>
+<h2>Test dependencies</h2>
+<ul>
+<li><a href="TST.html#TST-021">TST-021</a> executed successfully (containerized deployment of DECIPHER stack)</li>
+</ul>
 <h2>Test steps</h2>
 <ol>
 <li>Send a POST request to the analysis endpoint with valid <code>suspicious_login</code> alert data:</li>
 </ol>
-<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
-  -X 'POST' \
+<pre><code>curl -X 'POST' \
   'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
@@ -1433,13 +1437,17 @@ transitive-use
 <li>Send a POST request to the incidents endpoint with a valid score and registered alert type:</li>
 </ol>
 <pre><code>curl -X 'POST' \
-  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
+  'http://localhost:8000/api/v0.1/incident' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  &quot;score&quot;: 0.7,
-  &quot;title&quot;: &quot;Test incident&quot;,
-  &quot;description&quot;: &quot;Validation test case&quot;
+  &quot;priority_level&quot;: &quot;priority-level:high&quot;,
+  &quot;title&quot;: &quot;Multiple suspicious login attempts from external IP&quot;,
+  &quot;template_id&quot;: &quot;suspicious_login&quot;,
+  &quot;description&quot;: {
+    &quot;system_affected&quot;: &quot;My database server&quot;,
+    &quot;detected_by&quot;: &quot;SIEM&quot;
+  }
 }'
 </code></pre>
 <ol start="3">
@@ -1466,7 +1474,7 @@ transitive-use
 <h2>Expected outcome</h2>
 <ol>
 <li>The response is a JSON body containing the following fields: <code>"analyzed_scenario": "suspicious_login"</code>, <code>severity</code>, <code>report</code>, and <code>created_case</code>.</li>
-<li>The response is a JSON body with a message informing of failed case creation.</li>
+<li>The response is a JSON body with an <code>id</code> &gt; 0 and a non-empty <code>link</code>.</li>
 <li>The response is a JSON body listing all registered alert types, including <code>suspicious_login</code>, with their corresponding input schemas.</li>
 <li>The response is a JSON body containing <code>"status": "ok"</code>, <code>analyzers_loaded</code> (integer &gt;= 1), and <code>logging_level</code>.</li>
 <li>The response is a JSON body containing the service <code>version</code> and documentation references (<code>docs</code>, <code>redoc</code>).</li>
@@ -1508,7 +1516,7 @@ transitive-use
 </tr>
 <tr>
 <td>version</td>
-<td>0.4</td>
+<td>0.5</td>
 </tr>
 </tbody>
 </table>
@@ -2045,12 +2053,11 @@ transitive-use
 </tbody>
 </table>
 <h2 id="TST-025">2.7 Test incidents endpoint <small><a href="TST.html#TST-025">TST-025</a></small></h2>
-<p>Validate the DECIPHER incidents endpoint for creating prioritized cases in Flowintel from externally provided scores and metadata.</p>
+<p>Validate the DECIPHER incidents endpoint for creating prioritized cases in Flowintel from an externally provided MISP priority level and optional case data.</p>
 <h2>Preconditions and setup actions</h2>
 <ul>
 <li>Docker Engine (or daemon) running with execution privileges for the testing user</li>
 <li>A reachable Flowintel instance set in <code>config/decipher-settings.yaml</code> with a valid API key</li>
-<li><code>config/decipher-runtime-cfg.yaml</code> has the default values for <code>priority_thresholds</code></li>
 <li>DECIPHER stack running</li>
 <li>Access to a shell with <code>curl</code></li>
 </ul>
@@ -2061,134 +2068,108 @@ transitive-use
 </ol>
 <pre><code>curl -w &quot; HTTP %{http_code}&quot; \
   -X 'POST' \
-  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
+  'http://localhost:8000/api/v0.1/incident' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  &quot;score&quot;: 0.7,
+  &quot;priority_level&quot;: &quot;priority-level:high&quot;,
   &quot;title&quot;: &quot;Brute force attempt detected&quot;,
-  &quot;source_system&quot;: &quot;<a href="SIEM.html#SIEM-001">SIEM-001</a>&quot;,
-  &quot;affected_user&quot;: &quot;admin&quot;
+  &quot;description&quot;: {
+    &quot;source_system&quot;: &quot;<a href="SIEM.html#SIEM-001">SIEM-001</a>&quot;,
+    &quot;affected_user&quot;: &quot;admin&quot;
+  }
   }'
 </code></pre>
 <ol start="2">
 <li>Verify that the printed output contains <code>HTTP 200</code>.</li>
-<li>Verify that the response body contains:
-   - <code>id</code>: a non-zero integer (the Flowintel case ID)
-   - <code>link</code>: a string starting with the configured Flowintel case URL (e.g. <code>http://localhost:7006/case/&lt;id&gt;</code>)</li>
+<li>Verify that the response body contains:<ul>
+<li><code>id</code>: a non-zero integer (the Flowintel case ID)</li>
+<li><code>link</code>: a string starting with the configured Flowintel case URL (e.g. <code>http://localhost:7006/case/&lt;id&gt;</code>)</li>
+</ul>
+</li>
 <li>Access the created case in Flowintel using the returned <code>link</code> and verify that it exists.</li>
 <li>Verify that the title of the case in Flowintel matches the <code>title</code> field provided in the request body with the string <code>[DECIPHER]</code> as a prefix and a timestamp as a suffix.</li>
 </ol>
-<h3>AC2: Invalid score rejection</h3>
+<h3>AC2: Invalid priority level rejection</h3>
 <ol>
-<li>Send a POST request with a score outside the valid range [0, 1]:</li>
+<li>Send a POST request with a priority level that is not a valid MISP <code>priority-level</code> taxonomy tag:</li>
 </ol>
 <pre><code>curl -w &quot; HTTP %{http_code}&quot; \
   -X 'POST' \
-  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
+  'http://localhost:8000/api/v0.1/incident' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  &quot;score&quot;: 1.5
+  &quot;priority_level&quot;: &quot;unclassified&quot;
   }'
 </code></pre>
 <ol start="2">
 <li>Verify that the printed output contains <code>HTTP 422</code>.</li>
-<li>Verify that the response body contains a validation error message referencing the score field.</li>
+<li>Verify that the response body contains a validation error message referencing the <code>priority_level</code> field.</li>
 </ol>
-<h3>AC3: Unrecognized alert type</h3>
+<h3>AC3: Priority tag matches requested priority level</h3>
 <ol>
-<li>Send a POST request with an alert type that is not registered:</li>
+<li>Send a POST request with <code>priority_level</code> set to <code>priority-level:severe</code>:</li>
 </ol>
 <pre><code>curl -w &quot; HTTP %{http_code}&quot; \
   -X 'POST' \
-  'http://localhost:8000/api/v0.1/incident/nonexistent_type' \
+  'http://localhost:8000/api/v0.1/incident' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  &quot;score&quot;: 0.5
+  &quot;priority_level&quot;: &quot;priority-level:severe&quot;
   }'
 </code></pre>
 <ol start="2">
-<li>Verify that the printed output contains <code>HTTP 404</code>.</li>
+<li>Verify that the printed output contains <code>HTTP 200</code>.</li>
+<li>
+<p>Open the created case in Flowintel using the returned <code>link</code> and verify that it carries the <code>priority-level:severe</code> tag.</p>
+</li>
+<li>
+<p>Send a POST request with <code>priority_level</code> set to <code>low</code>:</p>
+</li>
 </ol>
-<h3>AC4: Priority tag matches configured thresholds</h3>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v0.1/incident' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;priority_level&quot;: &quot;low&quot;
+  }'
+</code></pre>
+<ol start="5">
+<li>Verify that the printed output contains <code>HTTP 200</code>.</li>
+<li>Open the created case in Flowintel and verify that it carries the <code>priority-level:low</code> tag.</li>
+</ol>
+<h3>AC4: Case description</h3>
 <ol>
-<li>Send a POST request with a score of 0.9 (above the <code>severe</code> threshold of 0.85):</li>
+<li>Send a POST request with a <code>description</code> object containing additional key-value pairs:</li>
 </ol>
 <pre><code>curl -w &quot; HTTP %{http_code}&quot; \
   -X 'POST' \
-  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
+  'http://localhost:8000/api/v0.1/incident' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  &quot;score&quot;: 0.9
-  }'
-</code></pre>
-<ol start="2">
-<li>
-<p>Open the created case in Flowintel and verify that it carries the <code>priority-level:severe</code> tag.</p>
-</li>
-<li>
-<p>Send a POST request with a score of 0.5 (between <code>medium</code> 0.4 and <code>high</code> 0.6):</p>
-</li>
-</ol>
-<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
-  -X 'POST' \
-  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  &quot;score&quot;: 0.5
-  }'
-</code></pre>
-<ol start="4">
-<li>
-<p>Open the created case in Flowintel and verify that it carries the <code>priority-level:medium</code> tag.</p>
-</li>
-<li>
-<p>Send a POST request with a score of 0.1 (below all thresholds):</p>
-</li>
-</ol>
-<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
-  -X 'POST' \
-  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  &quot;score&quot;: 0.1
-  }'
-</code></pre>
-<ol start="6">
-<li>Open the created case in Flowintel and verify that it carries the <code>priority-level:baseline-minor</code> tag.</li>
-</ol>
-<h3>AC5: Metadata in case description</h3>
-<ol>
-<li>Send a POST request with additional metadata fields:</li>
-</ol>
-<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
-  -X 'POST' \
-  'http://localhost:8000/api/v0.1/incident/suspicious_login' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  &quot;score&quot;: 0.65,
+  &quot;priority_level&quot;: &quot;priority-level:medium&quot;,
   &quot;title&quot;: &quot;Suspicious login from unknown IP&quot;,
-  &quot;source_system&quot;: &quot;<a href="SIEM.html#SIEM-001">SIEM-001</a>&quot;,
-  &quot;affected_user&quot;: &quot;jsmith&quot;,
-  &quot;notes&quot;: &quot;Multiple failed attempts followed by successful login&quot;
+  &quot;description&quot;: {
+    &quot;source_system&quot;: &quot;<a href="SIEM.html#SIEM-001">SIEM-001</a>&quot;,
+    &quot;affected_user&quot;: &quot;jsmith&quot;,
+    &quot;notes&quot;: &quot;Multiple failed attempts followed by successful login&quot;
+  }
   }'
 </code></pre>
 <ol start="2">
 <li>Open the created case in Flowintel using the returned <code>link</code>.</li>
-<li>Verify that the case description contains the additional fields provided in the request body: <code>source_system</code>, <code>affected_user</code>, and <code>notes</code>.</li>
+<li>Verify that the case description contains the fields provided in the <code>description</code> object: <code>source_system</code>, <code>affected_user</code>, and <code>notes</code>.</li>
 </ol>
 <h2>Expected outcome</h2>
 <p><strong>AC1:</strong> All the validations in steps 2 to 5 succeed.</p>
 <p><strong>AC2:</strong> Successful validation on steps 2 and 3.</p>
-<p><strong>AC3:</strong> Successful validation on step 2.</p>
-<p><strong>AC4:</strong> Priority tags match the configured thresholds as validate sin steps 2, 4 and 6.</p>
-<p><strong>AC5:</strong> Metadata fields from the request body appear in the case description in Flowintel.</p>
+<p><strong>AC3:</strong> The priority tag of each created case matches the <code>priority_level</code> sent in the request; steps 2, 3, 5 and 6 are successfully validated.</p>
+<p><strong>AC4:</strong> The <code>description</code> fields from the request body appear in the case description in Flowintel.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-055">SRS-055 DECIPHER service: incidents endpoint</a></p>
 <p><em>Child links:</em> <a href="TRP.html#TRP-025">TRP-025 Test incidents endpoint</a></p>
 <table>
@@ -2225,7 +2206,7 @@ transitive-use
 </tr>
 <tr>
 <td>version</td>
-<td>0.4</td>
+<td>0.5</td>
 </tr>
 </tbody>
 </table>

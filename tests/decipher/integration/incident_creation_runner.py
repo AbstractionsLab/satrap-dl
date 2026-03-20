@@ -34,14 +34,13 @@ def test_incident_creation_api(base_url: str = "http://host.docker.internal:8000
         # Test 1: Create incident case
         print(f"\nStep 1: Creating incident case for 'suspicious_login' scenario...")
         print(f"\nIncident Request Data:")
-        print(f"  Score: {incident_data['score']}")
+        print(f"  Priority: {incident_data['priority_level']}")
         print(f"  Title: {incident_data['title']}")
-        print(f"  Extra fields: {len(incident_data) - 2} additional metadata fields")
         
         response = httpx.post(
-            f"{base_url}/api/v0.1/incident/suspicious_login",
+            f"{base_url}/api/v0.1/incident",
             json=incident_data,
-            timeout=10.0
+            timeout=8
         )
         
         if response.status_code == 200:
@@ -51,11 +50,8 @@ def test_incident_creation_api(base_url: str = "http://host.docker.internal:8000
             print(f"\nResponse:")
             print(json.dumps(result, indent=2))
             
-        elif response.status_code == 404:
-            print(f"\nError 404: Unknown alert type or scenario not found")
-            print(f"   {json.dumps(response.json(), indent=2)}")
-        elif response.status_code == 400:
-            print(f"\nError 400: Invalid incident data")
+        elif response.status_code == 422:
+            print(f"\nError 422: Invalid incident data")
             print(f"   {json.dumps(response.json(), indent=2)}")
         elif response.status_code == 500:
             print(f"\nError 500: Flowintel case creation failed")
@@ -78,11 +74,9 @@ def main():
 
     # with PyFlowintel.from_config(str(DECIPHER_CONFIG_PATH)) as client:
     #     ids = [e.get("id") for e in client.cases.list_all()]
-    #     print(ids)
-    #     
+
     #     for r in ids:
-            # if r in range(148, 206):
-    #         if r>100:
+    #         if r in range(213, 236):
     #             try:
     #                 client.cases.delete(r)
     #             except Exception as e:

@@ -1,5 +1,24 @@
-# 0.4 (2026-03-16)
+# 0.5 (2026-03-20)
+
 ## Added
+
+- Unit tests for `flowintel_connector.py` addressing the modifications to the DECIPHER incident endpoint described below
+
+## Modified
+
+- The DECIPHER incident endpoint has been redesigned to support scenario-agnostic case creation:
+    - A scenario is no longer required as a URL parameter but passed optionally as part of the request body
+    - A priority level is now required as part of the request body
+- The main implementation changes concern the API, request data model and the Flowintel connector
+- Technical specifications have been updated accordingly:
+    - SRS-055, ARC-008, ARC-011 and SWD-009, SWD-011, SWD-013 and SWD-014
+- Validation tests and reports have been updated
+
+
+# 0.4 (2026-03-16)
+
+## Added
+
 - DECIPHER REST service for supporting the incident handling pipeline described in the README of DECIPHER
     - Support for RADAR `suspicious_login` threat scenario
     - Integration with MISP and Flowintel for IOC search and case creation
@@ -9,12 +28,15 @@
 - Product presentation website
 
 ## Modified
+
 - The project has been restructured to host both satrap and decipher Python packages with unified dependency management, testing, deployment artifacts, and documentation.
 - The traceability website has been restructured and updated as per C5DEC SpecEngine v1.2
+
 
 # 0.3 (2026-02-07)
 
 ## Added
+
 - Folder to host the DECIPHER Python package, foreseen in the upcoming Beta release
 - Artifacts for containerized deployment of the DECIPHER infrastructure stack (MISP, Flowintel)
 - Arguments to the `satrap etl` command for setting remote download timeouts (`-mct` and `-mrt`)
@@ -23,13 +45,16 @@
 - MRSs and SRSs for DECIPHER and PyFlowintel
 
 ## Modified
+
 - The main README has been split into dedicated READMEs per sub-project for readability
 - SATRAP-DL's requirements have been updated as per the Alpha and Beta phases
 - The traceability website reflects the updates to the tech specs
 - The publishing engine has been updated as per the C5-DEC's latest version
 
 ## Fixed
+
 - Rename test methods with duplicated names in `tests/file_util_test.py`
+
 
 # 0.2 (2025-06-18)
 
@@ -61,7 +86,8 @@
 - A bug that returned only the last read alias instead of the full list when retrieving this value
 - Improve error handling in several functions
 
-**Note:** The `docs/codedocs` folder will be updated only at the Beta release, as the content is actively changing
+**Note:** The `docs/codedocs` folder will be updated only at the stable release (v1.0), as the content is actively changing
+
 
 # 0.1.1 (2025-04-22)
 

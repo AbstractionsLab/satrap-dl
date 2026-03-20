@@ -23,6 +23,7 @@ attributes:
       ### Acceptance criteria
       ...
     vm: 'Test (T), Review of design (R), Inspection (I), Analysis (A)'
+    version: 0.5
 
   publish:
     - type

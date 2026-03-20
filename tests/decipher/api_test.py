@@ -7,6 +7,7 @@ from unittest.mock import Mock, patch
 from fastapi.testclient import TestClient
 
 from decipher.api import app, ANALYZE_URL, INCIDENT_URL, LIST_ANALYZERS_URL, GET_ANALYZER_URL, HEALTH_URL
+from decipher.models import MISP_PRIORITY_LEVELS
 
 
 class TestAnalysisAPI(unittest.TestCase):
@@ -22,6 +23,8 @@ class TestAnalysisAPI(unittest.TestCase):
         self.mock_flowintel_client = Mock()
         self.mock_flowintel_client.cases.create.return_value = {"case_id": 42}
         self.mock_flowintel_client.cases.delete.return_value = {}
+        self.mock_flowintel_client.templates.find_case_temp_by_title.return_value = {"id": 1}
+        self.mock_flowintel_client.templates.create_case_from_template.return_value = {"case_id": 42}
         
         # Patch PyFlowintel.from_config to return our mock client
         self.patcher = patch('decipher.casemanagement.flowintel_connector.PyFlowintel.from_config')
@@ -118,11 +121,13 @@ class TestAnalysisAPI(unittest.TestCase):
 
     # Tests for incident endpoint
     def test_create_incident_success_with_description(self):
-        """Should create incident case with valid score and description."""
-        payload = {"score": 0.75, "description": "Multiple suspicious login attempts from external IP"}
+        """Should create incident case with valid priority_level and description fields."""
+        payload = {
+            "priority_level": "priority-level:high",
+            "description": {"description": "Multiple suspicious login attempts from external IP"},
+        }
 
-        url = INCIDENT_URL.format(alert_type="suspicious_login")
-        response = self.client.post(url, json=payload)
+        response = self.client.post(INCIDENT_URL, json=payload)
 
         self.assertEqual(response.status_code, 200)
         data = response.json()
@@ -132,70 +137,46 @@ class TestAnalysisAPI(unittest.TestCase):
         self.assertGreater(data["id"], 0)
 
     def test_create_incident_success_minimal(self):
-        """Should create incident case with only score (minimal request)."""
-        payload = {"score": 0.5}
+        """Should create incident case with only priority_level (minimal request)."""
+        payload = {"priority_level": "priority-level:medium"}
 
-        url = INCIDENT_URL.format(alert_type="suspicious_login")
-        response = self.client.post(url, json=payload)
+        response = self.client.post(INCIDENT_URL, json=payload)
 
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertIn("id", data)
         self.assertIn("link", data)
 
-    def test_create_incident_score_boundaries(self):
-        """Should accept valid score boundaries (0.0, 0.5, 1.0)."""
-        for score in [0.0, 0.5, 1.0]:
-            payload = {"score": score}
-            url = INCIDENT_URL.format(alert_type="suspicious_login")
-            response = self.client.post(url, json=payload)
-            self.assertEqual(response.status_code, 200, f"Failed for score={score}")
+    def test_create_incident_all_valid_priority_levels(self):
+        """Should accept all valid MISP priority-level taxonomy tags."""
+        valid_levels = MISP_PRIORITY_LEVELS
+        for level in valid_levels:
+            payload = {"priority_level": level}
+            response = self.client.post(INCIDENT_URL, json=payload)
+            self.assertEqual(response.status_code, 200, f"Failed for priority_level={level}")
 
-    def test_create_incident_score_below_min_400(self):
-        """Should reject score below 0.0."""
-        payload = {"score": -0.1}
+    def test_create_incident_invalid_priority_level_422(self):
+        """Should reject an invalid MISP priority level."""
+        payload = {"priority_level": "priority-level:unknown"}
+        response = self.client.post(INCIDENT_URL, json=payload)
+        self.assertEqual(response.status_code, 422)
 
-        url = INCIDENT_URL.format(alert_type="suspicious_login")
-        response = self.client.post(url, json=payload)
+    def test_create_incident_missing_priority_level_422(self):
+        """Should reject request without priority_level."""
+        payload = {"title": "Missing priority_level"}
+        response = self.client.post(INCIDENT_URL, json=payload)
+        self.assertEqual(response.status_code, 422)
 
-        self.assertEqual(response.status_code, 422)  # Pydantic validation error
+    def test_create_incident_with_template_id(self):
+        """Should create incident case when template_id is provided."""
+        payload = {
+            "priority_level": "priority-level:high",
+            "template_id": "suspicious_login",
+            "title": "Login anomaly detected",
+        }
 
-    def test_create_incident_score_above_max_400(self):
-        """Should reject score above 1.0."""
-        payload = {"score": 1.1}
+        response = self.client.post(INCIDENT_URL, json=payload)
 
-        url = INCIDENT_URL.format(alert_type="suspicious_login")
-        response = self.client.post(url, json=payload)
-
-        self.assertEqual(response.status_code, 422)  # Pydantic validation error
-
-    def test_create_incident_missing_score_400(self):
-        """Should reject request without score."""
-        payload = {"description": "Missing score"}
-
-        url = INCIDENT_URL.format(alert_type="suspicious_login")
-        response = self.client.post(url, json=payload)
-
-        self.assertEqual(response.status_code, 422)  # Pydantic validation error
-
-    def test_create_incident_invalid_alert_type_404(self):
-        """Should return 404 for unknown alert type."""
-        payload = {"score": 0.75}
-
-        url = INCIDENT_URL.format(alert_type="unknown_type")
-        response = self.client.post(url, json=payload)
-
-        self.assertEqual(response.status_code, 404)
-        self.assertIn("Unknown alert type", response.json()["detail"])
-
-    def test_create_incident_extra_fields_allowed(self):
-        """Should allow extra fields in request for extensibility."""
-        payload = {"score": 0.65, "description": "Test incident", "alert_id": "alert-12345", "source": "automated", "custom_field": "custom_value"}
-
-        url = INCIDENT_URL.format(alert_type="suspicious_login")
-        response = self.client.post(url, json=payload)
-
-        # Should succeed despite extra fields
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertIn("id", data)

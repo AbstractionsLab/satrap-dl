@@ -120,7 +120,7 @@ SATRAP-DL is licensed under the [GNU Affero General Public License (AGPL) v3.0](
 
 ## Acknowledgments
 
-SATRAP-DL is a sub-project of the [CyFORT](https://abstractionslab.com/index.php/research-and-development/cyfort) project, "Cloud Cybersecurity Fortress of Open Resources and Tools for Resilience". CyFORT is co-funded by the Ministry of the Economy of Luxembourg, in the context of the EC-approved [IPCEI-CIS](https://ec.europa.eu/commission/presscorner/detail/en/ip_23_6246).
+SATRAP-DL is a sub-project of the [CyFORT](https://abstractionslab.com/index.php/research-and-development/cyfort) project, "Cloud Cybersecurity Fortress of Open Resources and Tools for Resilience", co-funded by the Ministry of the Economy of Luxembourg in the context of the EC-approved [IPCEI-CIS](https://ec.europa.eu/commission/presscorner/detail/en/ip_23_6246).
 
 
 ## Contact

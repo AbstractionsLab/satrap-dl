@@ -14,7 +14,7 @@ from pyflowintel import FlowintelConnectionError, PyFlowintel
 
 from decipher.api import INCIDENT_URL
 from decipher.commons.log_utils import get_logger
-from decipher.settings import DEFAULT_API_PORT, DECIPHER_CONFIG_PATH
+from decipher.settings import DEFAULT_API_PORT, DECIPHER_CONFIG_PATH, FLOWINTEL_CASE_URL
 
 logger = get_logger(__name__)
 
@@ -45,18 +45,18 @@ def skip_if_no_service(cls):
 
     return cls
 
-def _incident_url(alert_type: str) -> str:
+def _incident_url() -> str:
     """Build the full incident endpoint URL."""
-    return f"{TEST_BASE_URL}{INCIDENT_URL.format(alert_type=alert_type)}"
+    return f"{TEST_BASE_URL}{INCIDENT_URL}"
 
 
 @skip_if_no_service
 class TestIncidentCreationWithCaseBundle(unittest.TestCase):
     """Integration tests for incident creation using a full RADAR case bundle.
 
-    Exercises POST /incident/{alert_type} with a complete
-    case bundle payload that matches the RADAR output format. The response
-    is captured once in setUpClass and verified across individual test methods.
+    Exercises POST /incident with a complete case bundle payload that matches
+    the RADAR output format. The response is captured once in setUpClass and
+    verified across individual test methods.
     """
 
     @classmethod
@@ -65,7 +65,7 @@ class TestIncidentCreationWithCaseBundle(unittest.TestCase):
             cls.incident_payload = json.load(f)
 
         cls.response = httpx.post(
-            _incident_url("suspicious_login"),
+            _incident_url(),
             json=cls.incident_payload,
             timeout=TEST_TIMEOUT,
         )
@@ -98,6 +98,7 @@ class TestIncidentCreationWithCaseBundle(unittest.TestCase):
         self.assertIn("link", self.result)
         self.assertIsInstance(self.result["link"], str)
         self.assertTrue(self.result["link"])
+        self.assertIn(FLOWINTEL_CASE_URL, self.result["link"])
 
 
 @skip_if_no_service
@@ -125,22 +126,21 @@ class TestIncidentCreationScenarios(unittest.TestCase):
             pyflowint.close()
 
 
-    def _post_incident(self, alert_type: str, payload: dict) -> httpx.Response:
+    def _post_incident(self, payload: dict) -> httpx.Response:
         """Send a POST request to the incident endpoint.
 
         Args:
-            alert_type: Alert type path parameter.
             payload: Request body as a dictionary.
 
         Returns:
             The HTTP response.
         """
-        return httpx.post(_incident_url(alert_type), json=payload, timeout=TEST_TIMEOUT)
+        return httpx.post(_incident_url(), json=payload, timeout=TEST_TIMEOUT)
 
-    def test_minimal_request_score_only(self):
-        """Endpoint should accept a request containing only the mandatory score field."""
+    def test_minimal_request_priority_level_only(self):
+        """Endpoint should accept a request containing only the mandatory priority_level field."""
         response = self._post_incident(
-            "suspicious_login", {"score": 0.33, "title": "Minimal request test"}
+            {"priority_level": "priority-level:low", "title": "Minimal request test"}
         )
         self.assertEqual(response.status_code, 200)
         data = response.json()
@@ -148,69 +148,19 @@ class TestIncidentCreationScenarios(unittest.TestCase):
         self.assertIn("link", data)
         self.__class__.cases.append(data["id"])
 
-    def test_score_boundary_zero(self):
-        """Score of 0.0 (minimum boundary) must be accepted."""
-        response = self._post_incident(
-            "suspicious_login", {"score": 0.0, "title": "Boundary test score-0.0"}
-        )
-        self.assertEqual(response.status_code, 200)
-        self.__class__.cases.append(response.json()["id"])
-
-    def test_score_boundary_one(self):
-        """Score of 1.0 (maximum boundary) must be accepted."""
-        response = self._post_incident(
-            "suspicious_login", {"score": 1.0, "title": "Boundary test score-1.0"}
-        )
-        self.assertEqual(response.status_code, 200)
-        self.__class__.cases.append(response.json()["id"])
-
-    def test_score_boundary_midpoint(self):
-        """Score of 0.5 must be accepted."""
-        response = self._post_incident(
-            "suspicious_login", {"score": 0.5, "title": "Boundary test score-0.5"}
-        )
-        self.assertEqual(response.status_code, 200)
-        self.__class__.cases.append(response.json()["id"])
-
-    def test_extra_fields_allowed(self):
-        """Extra metadata fields beyond score should be accepted for extensibility."""
+    def test_description_fields_in_description_dict(self):
+        """Extra metadata in the 'description' field should be accepted."""
         payload = {
-            "score": 0.65,
-            "title": "Integration test with extra fields",
-            "source": "test_runner",
-            "custom_field": "custom_value",
+            "priority_level": "priority-level:medium",
+            "title": "Integration test with description fields",
+            "description": {"source": "test_runner", "custom_field": "custom_value"},
         }
-        response = self._post_incident("suspicious_login", payload)
+        response = self._post_incident(payload)
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertIn("id", data)
         self.assertGreater(data["id"], 0)
-
-
         self.__class__.cases.append(data["id"])
-
-    def test_unknown_alert_type_returns_404(self):
-        """Unknown alert type path parameter should return HTTP 404."""
-        response = self._post_incident("unknown_type", {"score": 0.5})
-        self.assertEqual(response.status_code, 404)
-        self.assertIn("Unknown alert type", response.json()["detail"])
-
-    def test_score_above_max_returns_422(self):
-        """Score above 1.0 must be rejected with HTTP 422 (Pydantic validation error)."""
-        response = self._post_incident("suspicious_login", {"score": 1.1})
-        self.assertEqual(response.status_code, 422)
-
-    def test_score_below_min_returns_422(self):
-        """Score below 0.0 must be rejected with HTTP 422 (Pydantic validation error)."""
-        response = self._post_incident("suspicious_login", {"score": -0.1})
-        self.assertEqual(response.status_code, 422)
-
-    def test_missing_score_returns_422(self):
-        """Request without score field must be rejected with HTTP 422 (Pydantic validation error)."""
-        response = self._post_incident(
-            "suspicious_login", {"title": "No score provided"}
-        )
-        self.assertEqual(response.status_code, 422)
 
 
 if __name__ == "__main__":
