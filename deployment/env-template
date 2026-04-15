@@ -289,6 +289,8 @@ MISP_SYNCSERVERS_1_PULL_RULES=
 # Flowintel
 #############
 
+FLOWINTEL_VERSION=3.0.0
+
 # FlowIntel: PostgreSQL
 FLOWINTEL_POSTGRES_DB=flowintel
 FLOWINTEL_POSTGRES_USER=flowintel

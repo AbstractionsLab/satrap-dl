@@ -34,7 +34,7 @@ cp env-template .env
 - `MISP_ADMIN_ORG` - Organization name (default: `ORGNAME`)
 
 **FlowIntel:**
-- `FLOWINTEL_APP_IP` - Application bind IP (default: `0.0.0.0`)
+- `FLOWINTEL_VERSION` - Version of FlowIntel to deploy (default: `3.0.0`, latest tests run with this version)
 - `FLOWINTEL_APP_PORT` - Application port (default: `7006`)
 
 For comprehensive documentation on all available environment variables, please refer to the official sources. E.g., [MISP Docker official documentation](https://github.com/MISP/misp-docker#readme).

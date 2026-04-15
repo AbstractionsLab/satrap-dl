@@ -20,7 +20,8 @@ services:
     restart: unless-stopped
 
   flowintel:
-    image: ghcr.io/flowintel/flowintel:2.3.0
+    image: ghcr.io/flowintel/flowintel:${FLOWINTEL_VERSION:-3.0.0}
+    platform: linux/amd64
     command: bash ./launch.sh -ld
     ports:
       - '${FLOWINTEL_APP_PORT:-7006}:7006'

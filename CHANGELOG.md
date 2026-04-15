@@ -1,4 +1,11 @@
-# 0.5 (2026-03-20)
+# 0.5.1 (2026-04-15)
+
+## Added
+
+- FLOWINTEL_VERSION environment variable to the `docker-compose.flowintel.yml` and `env-template` files, for specifying the version of Flowintel to deploy. Default value is `3.0.0`
+
+
+# 0.5 (2026-03-19)
 
 ## Added
 
