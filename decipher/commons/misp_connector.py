@@ -5,7 +5,7 @@ Supports IOC lookups, event correlation, and bulk searches.
 
 from typing import Any
 
-from pymisp import ExpandedPyMISP, MISPEvent, MISPAttribute, MISPSighting, PyMISPError
+from pymisp import PyMISP, MISPEvent, MISPAttribute, MISPSighting, PyMISPError
 
 from decipher.commons.log_utils import get_logger
 from decipher.scoringengine.datamodels import (
@@ -37,7 +37,7 @@ class MISPDataExtractor:
         url: MISP instance URL.
         api_key: MISP API authentication key.
         verify_ssl: Whether to verify SSL certificates.
-        client: Underlying ExpandedPyMISP client instance.
+        client: Underlying PyMISP client instance.
     """
 
     def __init__(
@@ -61,14 +61,14 @@ class MISPDataExtractor:
         self.url = url
         self.api_key = api_key
         self.verify_ssl = verify_ssl
-        self.client: ExpandedPyMISP | None = None
+        self.client: PyMISP | None = None
 
         if not url or not api_key:
             logger.warning("MISP URL or API key not configured - MISP client disabled")
             return
 
         try:
-            self.client = ExpandedPyMISP(url, api_key, verify_ssl, timeout=timeout)
+            self.client = PyMISP(url, api_key, verify_ssl, timeout=timeout)
             logger.info(f"MISP client initialized: {url}")
         except PyMISPError as e:
             raise PyMISPError(f"MISP client init failed: {e}") from e

@@ -6,6 +6,7 @@ threat intelligence from MISP if available.
 """
 
 from pydantic import BaseModel
+from datetime import datetime
 
 from .base import BaseAnalyzer, AnalysisResult
 from .registry import AnalyzerRegistry
@@ -41,7 +42,7 @@ class SuspiciousLoginAlert(BaseModel):
     username: str
     target_host: str
     src_ips: list[str]
-    timestamp: str
+    timestamp: datetime
 
 
 @AnalyzerRegistry.register
@@ -88,18 +89,17 @@ class SuspiciousLoginAnalyzer(BaseAnalyzer, MISPEnrichmentMixin):
                 {
                     "ip-src": alert.src_ips,
                     "ip-dst": [alert.target_host],
-                    "target-user": [alert.username],
-                    # "other": [f"{alert.username}@{alert.target_host}", alert.username, alert.target_host],
+                    "target-user": [alert.username]
                 },
                 extra_search_params=config.misp_search,
             )
             analysis_report["misp_events_found"] = [e.id for e in misp_event_data]
         except UnavailableMISPClientError as e:
             analysis_report["misp_available"] = "False"
-            analysis_report["log_summary"] = [str(e)]
+            analysis_report["log_summary"].append(str(e))
             misp_event_data = []
         except MISPEnrichmentError as e:
-            analysis_report["log_summary"] = [str(e)]
+            analysis_report["log_summary"].append(str(e))
             misp_event_data = []
 
         # Calculate alert severity score

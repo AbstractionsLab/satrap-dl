@@ -1,0 +1,138 @@
+{
+  "clusters": [],
+  "description": "Suspicious or unauthorized login attempts to a system",
+  "notes": null,
+  "tags": [
+    "tlp:amber"
+  ],
+  "tasks_template": [
+    {
+      "clusters": [],
+      "description": "Automated search for IOCs in MISP and preliminary scoring",
+      "notes": [],
+      "subtasks": [
+        {
+          "description": "Search for related indicators of compromise in MISP."
+        },
+        {
+          "description": "Run preliminary scoring on the incoming alert."
+        }
+      ],
+      "tags": [],
+      "time_required": "1h",
+      "title": "Automated analysis from incoming alert",
+      "urls_tools": [
+        {
+          "name": "MISP instance"
+        },
+        {
+          "name": "DECIPHER scoring engine"
+        }
+      ],
+      "uuid": "f1a2b3c4-5d6e-4f7a-8b9c-0d1e2f3a4b5c",
+      "version": 1
+    },
+    {
+      "clusters": [],
+      "description": "Review authentication logs, network logs, and system logs to identify the scope of the suspicious activity. Search Wazuh for follow-on success logins or lateral movement.",
+      "notes": [],
+      "subtasks": [
+        {
+          "description": "Review authentication and system logs for the affected account."
+        },
+        {
+          "description": "Search Wazuh for successful logins or signs of lateral movement."
+        }
+      ],
+      "tags": [
+        "course-of-action:passive=\"discover\""
+      ],
+      "time_required": null,
+      "title": "Log Review and Correlation",
+      "urls_tools": [
+        {
+          "name": "Wazuh"
+        },
+        {
+          "name": "SIEM / log search"
+        }
+      ],
+      "uuid": "a9b8c7d6-e5f4-4a3b-2c1d-0e9f8a7b6c5d",
+      "version": 1
+    },
+    {
+      "clusters": [],
+      "description": "Contact the affected user to verify login attempts. Determine if the user recognizes the activity and gather additional context about their account usage patterns.",
+      "notes": [],
+      "subtasks": [
+        {
+          "description": "Contact the user and confirm whether they initiated the login activity."
+        },
+        {
+          "description": "Document the user's account usage patterns and any recent changes."
+        }
+      ],
+      "tags": [],
+      "time_required": "1h",
+      "title": "User Interview and Verification",
+      "urls_tools": [],
+      "uuid": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+      "version": 1
+    },
+    {
+      "clusters": [],
+      "description": "Implement containment measures including password resets, session termination, and account monitoring. Block suspicious IP addresses if necessary and implement additional security controls.",
+      "notes": [],
+      "subtasks": [
+        {
+          "description": "Reset passwords and terminate active sessions for the affected account."
+        },
+        {
+          "description": "Block suspicious source IP addresses at the perimeter or identity provider."
+        }
+      ],
+      "tags": [],
+      "time_required": "2h",
+      "title": "Containment and Remediation",
+      "urls_tools": [
+        {
+          "name": "Identity provider / IAM console"
+        },
+        {
+          "name": "Firewall / network controls"
+        }
+      ],
+      "uuid": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+      "version": 1
+    },
+    {
+      "clusters": [],
+      "description": "Document all findings, actions taken, and recommendations. Create incident report and update security team. Identify lessons learned and preventive measures.",
+      "notes": [],
+      "subtasks": [
+        {
+          "description": "Draft and attach the final incident report."
+        },
+        {
+          "description": "Log agreed follow-up actions and preventive measures for tracking."
+        }
+      ],
+      "tags": [
+        "workflow:todo=\"release-requested\""
+      ],
+      "time_required": "2h",
+      "title": "Documentation and Reporting",
+      "urls_tools": [
+        {
+          "name": "Reporting template"
+        }
+      ],
+      "uuid": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+      "version": 1
+    }
+  ],
+  "time_required": "8h",
+  "title": "[DECIPHER] Suspicious Login Activity",
+  "uuid": "c3f9a7e2-1d45-4b8f-9c6a-2e0d3f5b7a91",
+  "version": 1
+}

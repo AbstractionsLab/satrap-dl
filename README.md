@@ -125,3 +125,5 @@ SATRAP-DL is a sub-project of the [CyFORT](https://abstractionslab.com/index.php
 
 ## Contact
 For more information about the project, feedback, questions or feature requests, feel free to contact us at Abstractions Lab: info@abstractionslab.lu
+
+**Community feedback is welcome!**

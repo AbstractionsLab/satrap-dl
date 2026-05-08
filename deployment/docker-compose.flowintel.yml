@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
 
   flowintel:
-    image: ghcr.io/flowintel/flowintel:${FLOWINTEL_VERSION:-3.0.0}
+    image: ghcr.io/flowintel/flowintel:${FLOWINTEL_VERSION:-3.1.0}
     platform: linux/amd64
     command: bash ./launch.sh -ld
     ports:
@@ -39,6 +39,8 @@ services:
       - valkey
     volumes:
       - flowintel-data:/var/lib/flowintel
+      # Bind mount the local flowintel-templates directory to the container's repositories directory
+      - ./flowintel-templates:/home/flowintel/app/modules/repositories
     restart: unless-stopped
 
 volumes:

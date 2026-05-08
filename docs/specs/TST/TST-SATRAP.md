@@ -5,9 +5,9 @@ level: 1
 links: []
 normative: false
 ref: ''
-reviewed: 99b37OJSEjOsAhGbeu8vrE-0Wg9goHsm_5FoNcxbVx4=
+reviewed: ioVXcrT0_NwozTABFDle_UmGl-1ZnPBkBKQw1PQ63Ck=
 ---
 
-# SATRAP validation test specifications
+# SATRAP validation tests
 
-All the tests in this section assume the testing user has obtained a copy of the satrap-dl project from an official repository.
+All the test specifications in this section assume the testing user has obtained a copy of the satrap-dl project from an official repository.

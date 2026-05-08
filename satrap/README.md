@@ -175,23 +175,20 @@ For additional test execution options, see the [installation page](../docs/manua
 For software validation test cases and reports, please refer to the test case specifications ([TST](https://abstractionslab.github.io/satrap-dl/traceability/TST.html)) and test campaign results ([TRP](https://abstractionslab.github.io/satrap-dl/traceability/TRP.html#TRP-SATRAP)) on our [traceability web page](https://abstractionslab.github.io/satrap-dl/traceability/index.html).
 
 ## Project status
-As of March 2025, this repository hosts the Alpha version of SATRAP.
-For this release, efforts have largely gone into building the core components and foundations of the project, in particular, defining the knowledge base schema, implementing the ETL process and building an initial minimal set of demonstrative functions for the analysis of CTI.
+This repository hosts a stable, yet basic version of SATRAP in terms of CTI analysis functionality. The release provides the core components and foundations of the project, in particular, the knowledge base schema, the ETL process, the CTI analysis engine and a minimal set of demonstrative functions for the analysis of CTI as a Python library.
 
-In its current stage, the analytical capabilities of SATRAP can be leveraged primarily through queries written in TypeQL, the native language of TypeDB. The upcoming Beta phase mainly addresses the development and extension of the analysis capabilities of SATRAP and their exposure in the toolkit library.
+The project is intended to serve as an extensible baseline with a simple deployment model and a clean architecture, customizable depending on specific use cases and requirements.
 
-⚠️ **Alpha Software Disclaimer**: Under active development. May include incomplete features and bugs. Not intended for production use.
-The schema of the CTI SKB is subject to change as we need to introduce missing STIX metadata objects and deal with updated and revoked STIX objects.
+⚠️ **Disclaimer**: Although this software is stable, we recommend conducting a thorough security assessment before deploying SATRAP in production.
 
 ## Roadmap
-The most immediate tasks on the roadmap include:
 
-* Extend and improve the elementary analysis capabilities of the Alpha release and provide a stable native Python library API.
+We may consider the integration of data from existing open-source semantic CTI repositories, e.g. [MITRE D3FEND](https://d3fend.mitre.org/) in a future release.
+
+**Further features that may be implemented upon request**:
+
+* Extend and improve the elementary analysis capabilities of the native Python library API (on a use case basis).
 * Define a platform-independent API (e.g., a REST API) enabling programmatic access to the services provided by SATRAP.
-* Add support for ingesting STIX 2.1 custom and metadata objects.
-* Transform TypeQL results into STIX2.1 objects (reverse ETL).
-* Add support for automated ingestion of data from open-source threat intelligence platforms and from [IDPS-ESCAPE](https://github.com/AbstractionsLab/idps-escape), including a strategy for data maintenance.
 * Create further playbooks to demonstrate the use of SATRAP for automating reasoning tasks in common CTI investigative scenarios.
-* Study the integration of visual explanations in VS Code and Jupyter Notebooks
-
-Future releases consider the integration of data from existing open-source semantic CTI repositories, e.g. [MITRE D3FEND](https://d3fend.mitre.org/) and the migration to TypeDB 3.0, released in 2025.
+* Migration to TypeDB `3.x`
+* Transform TypeQL results into STIX2.1 objects (reverse ETL).

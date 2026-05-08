@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "satrap-dl"
-version = "0.2"
+version = "1.0"
 description = "SATRAP-DL (Semi-Automated Threat Reconnaissance and Analysis Powered by DECIPHER Logic) is a suite for logic-based CTI analysis (satrap) and automated incident handling (decipher)."
 authors = ["Itzel Vazquez Sandoval <itzel@abstractionslab.lu>", "Arash Atashpendar <arash@abstractionslab.lu>", "Sven Angel <sven.angel@proton.me>"]
 readme = "README.md"

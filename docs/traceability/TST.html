@@ -21,7 +21,7 @@
           <nav id="TOC" class="nav nav-stacked fixed sidebar">
               <h3>Table of Contents</h3>
 <ul>
-<li><a href="#TST-SATRAP">1 SATRAP validation test specifications</a><ul>
+<li><a href="#TST-SATRAP">1 SATRAP validation tests</a><ul>
 <li><a href="#TST-001">1.1 Verify data modelling artifacts</a></li>
 <li><a href="#TST-002">1.2 Verify software engineering practices</a></li>
 <li><a href="#TST-003">1.3 Verify STIX and reasoning engine</a></li>
@@ -42,7 +42,7 @@
 <li><a href="#TST-020">1.18 Verify enforcement of semantic data integrity</a></li>
 </ul>
 </li>
-<li><a href="#TST-DECIPHER">2 DECIPHER validation test specifications</a><ul>
+<li><a href="#TST-DECIPHER">2 DECIPHER validation tests</a><ul>
 <li><a href="#TST-021">2.1 Test containerized deployment</a></li>
 <li><a href="#TST-022">2.2 Test DECIPHER REST service and API</a></li>
 <li><a href="#TST-028">2.3 Test analysis endpoint core behavior</a></li>
@@ -53,12 +53,16 @@
 <li><a href="#TST-027">2.8 Test extensible analyzer framework</a></li>
 </ul>
 </li>
+<li><a href="#TST-SATRAP-DL">3 SATRAP-DL validation tests</a><ul>
+<li><a href="#TST-029">3.1 Retrieve software identification details</a></li>
+</ul>
+</li>
 </ul>
           </nav>
       </div>
       <div class="col-lg-8" id="main">
-        <h1 id="TST-SATRAP">1 SATRAP validation test specifications <small>TST-SATRAP</small></h1>
-<p>All the tests in this section assume the testing user has obtained a copy of the satrap-dl project from an official repository.</p>
+        <h1 id="TST-SATRAP">1 SATRAP validation tests <small>TST-SATRAP</small></h1>
+<p>All the test specifications in this section assume the testing user has obtained a copy of the satrap-dl project from an official repository.</p>
 <h2 id="TST-001">1.1 Verify data modelling artifacts <small><a href="TST.html#TST-001">TST-001</a></small></h2>
 <h2>Preconditions and setup actions</h2>
 <ul>
@@ -1286,8 +1290,8 @@ transitive-use
 </tr>
 </tbody>
 </table>
-<h1 id="TST-DECIPHER">2 DECIPHER validation test specifications <small>TST-DECIPHER</small></h1>
-<p>All the tests in this section assume the testing user has obtained a copy of the satrap-dl project from an official repository.</p>
+<h1 id="TST-DECIPHER">2 DECIPHER validation tests <small>TST-DECIPHER</small></h1>
+<p>All the tests specifications in this section assume the testing user has obtained a copy of the satrap-dl project from an official repository.</p>
 <h2 id="TST-021">2.1 Test containerized deployment <small><a href="TST.html#TST-021">TST-021</a></small></h2>
 <p>Validate the DECIPHER infrastructure stack deployment using the containerized deployment scripts and configuration files.</p>
 <h2>Preconditions and setup actions</h2>
@@ -1726,10 +1730,10 @@ transitive-use
 <ol>
 <li>Login with an <code>Admin</code> user into MISP and ensure that the following taxonomies are enabled ("Event actions" $\rightarrow$ "List taxonomies"): admiralty-scale, tlp, type, nis2.</li>
 <li>Go to "Input filters" $\rightarrow$ "Warninglists" and enable the <code>cisco-umbrella-blockpage-ipv4</code> warning list.</li>
-<li>From the project root folder, go to <code>tests/decipher/integration</code> and update the <code>push_misp_events.sh</code> script with the URL and API key of your MISP instance.</li>
+<li>From the project root folder, go to <code>tests/decipher/runners</code> and update the <code>push_misp_events.sh</code> script with the URL and API key of your MISP instance.</li>
 <li>Run the script to create test events in MISP:</li>
 </ol>
-<pre><code>cd tests/decipher/integration
+<pre><code>cd tests/decipher/runners
 ./push_misp_events.sh
 </code></pre>
 <ol start="5">
@@ -1799,7 +1803,7 @@ transitive-use
 </li>
 </ol>
 <blockquote>
-<p><code>tests/decipher/integration/push_misp_events.sh</code></p>
+<p><code>tests/decipher/runners/push_misp_events.sh</code></p>
 </blockquote>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Supported analysis for threat scenario: suspicious login</a>, <a href="SRS.html#SRS-052">SRS-052 Analysis endpoint: IOC search in MISP for CTI enrichment</a>, <a href="SRS.html#SRS-054">SRS-054 Analysis endpoint: optional creation of prioritized case</a></p>
 <p><em>Child links:</em> <a href="TRP.html#TRP-022">TRP-022 Test full workflow of analysis endpoint</a></p>
@@ -1833,7 +1837,7 @@ transitive-use
 </tr>
 <tr>
 <td>test_data</td>
-<td>tests/decipher/integration/events_simulator.py</td>
+<td>tests/decipher/runners/events_simulator.py</td>
 </tr>
 <tr>
 <td>version</td>
@@ -2279,6 +2283,90 @@ transitive-use
 <tr>
 <td>version</td>
 <td>0.4</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TST-SATRAP-DL">3 SATRAP-DL validation tests <small>TST-SATRAP-DL</small></h1>
+<p>All the test specifications in this section assume the testing user has obtained a copy of the satrap-dl project from an official repository.</p>
+<h2 id="TST-029">3.1 Retrieve software identification details <small><a href="TST.html#TST-029">TST-029</a></small></h2>
+<p>Validate that any deployment build of SATRAP-DL provides accessible means to retrieve version and identification details through both CLI and REST API interfaces.</p>
+<h2>Preconditions and setup actions</h2>
+<ul>
+<li>Docker Engine (or daemon) running with execution privileges for the testing user</li>
+<li>SATRAP running in a Dockerized environment (see the <a href="https://github.com/AbstractionsLab/satrap-dl/blob/main/satrap/README.md#getting-started">SATRAP README - Getting started</a>)</li>
+<li>DECIPHER REST service running at http://localhost:8000 (see the <a href="https://github.com/AbstractionsLab/satrap-dl/tree/main/decipher#getting-started">DECIPHER README - Getting started</a>).
+<em>Note: if a different host/port is used, update the test steps accordingly</em></li>
+<li>Access to a shell with <code>curl</code> and standard CLI tools</li>
+<li>Access to a web browser</li>
+</ul>
+<h2>Test steps</h2>
+<ol>
+<li>
+<p>From the project root folder, execute the SATRAP CLI command:</p>
+<p><code>./satrap.sh --version</code> or <code>./satrap.sh -V</code></p>
+</li>
+<li>
+<p>Send a curl request to the root endpoint of the DECIPHER REST API:
+    <code>curl http://localhost:8000</code></p>
+</li>
+<li>
+<p>In a web browser access the URL: <code>http://localhost:8000/docs</code></p>
+</li>
+</ol>
+<h2>Expected outcome</h2>
+<ol>
+<li>Both commands return: <code>SATRAP v1.0</code>.</li>
+<li>The response body corresponds to the following JSON structure:</li>
+</ol>
+<pre><code class="language-json">{
+  &quot;service&quot;: &quot;DECIPHER Analysis API&quot;,
+  &quot;version&quot;: &quot;v1&quot;,
+  &quot;docs&quot;: &quot;/docs&quot;,
+  &quot;redoc&quot;: &quot;/redoc&quot;,
+  &quot;health&quot;: &quot;/health&quot;,
+  &quot;analyzers&quot;: &quot;/api/v1/analyzers&quot;
+}
+</code></pre>
+<ol start="3">
+<li>The DECIPHER API docs are accessible and clearly show the version <code>v1</code> in the title and in the endpoint's URLs, e.g., <code>/api/v1/incident</code></li>
+</ol>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-038">SRS-038 Software identification</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-027">TRP-027 Test software identification with version</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux (Dockerized SATRAP deployment environment), Web browser, REST API client (e.g., curl)</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Stable</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>2</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>version</td>
+<td>1.0</td>
 </tr>
 </tbody>
 </table>

@@ -9,6 +9,7 @@ import json
 import httpx
 from decipher.analyzers.registry import AnalyzerRegistry
 from decipher.commons.log_utils import setup_logging, get_logger
+from decipher.settings import API_VERSION
 
 
 setup_logging(enable_file_logging=False)  # Console only for testing
@@ -69,7 +70,7 @@ def test_via_rest_api(base_url: str = "http://host.docker.internal:8000"):
     try:
         # Test 1: List available analyzers
         print(f"\n🔍 Step 1: Discovering available analyzers...")
-        response = httpx.get(f"{base_url}/api/v0.1/analyzers", timeout=5.0)
+        response = httpx.get(f"{base_url}/api/{API_VERSION}/analyzers", timeout=5.0)
         
         if response.status_code == 200:
             analyzers = response.json()
@@ -80,7 +81,7 @@ def test_via_rest_api(base_url: str = "http://host.docker.internal:8000"):
         # Test 2: Analyze the alert
         print(f"\nStep 2: Analyzing suspicious login alert...")
         response = httpx.post(
-            f"{base_url}/api/v0.1/analyze/suspicious_login",
+            f"{base_url}/api/{API_VERSION}/analyze/suspicious_login",
             json=alert_data,
             timeout=10.0
         )

@@ -10,7 +10,7 @@ from fastapi import FastAPI, HTTPException, Path, Body
 from pydantic import ValidationError
 
 from .analyzers import AnalyzerRegistry
-from .settings import API_VERSION, BASE_URL
+from .settings import API_VERSION, BASE_URL, MISP_URL, MISP_API_KEY
 from .commons.log_utils import setup_logging, get_logger
 from .models import AnalysisResult, IncidentRequest, IncidentResponse
 from .casemanagement.flowintel_connector import CaseCreationError
@@ -21,7 +21,6 @@ logger = get_logger(__name__)
 
 # Endpoint URL constants
 LIST_ANALYZERS_URL = f"{BASE_URL}/analyzers"
-GET_ANALYZER_URL = f"{BASE_URL}/analyzers/{{alert_type}}"
 ANALYZE_URL = f"{BASE_URL}/analyze/{{alert_type}}"
 INCIDENT_URL = f"{BASE_URL}/incident"
 HEALTH_URL = "/health"
@@ -37,6 +36,13 @@ async def lifespan(app: FastAPI):
     logger = get_logger(__name__)
     logger.info("DECIPHER API server starting up")
     logger.info(f"Registered analyzers: {AnalyzerRegistry.list_types()}")
+
+    # Validate critical service credentials exist at startup
+    if not MISP_URL or not MISP_API_KEY:
+        logger.warning(
+            "MISP is not fully configured, thus, the analysis will return a default score of 0. "
+            "Make sure that MISP_URL and MISP_API_KEY are set in the YAML config file (default: /config/decipher-settings.yaml)."
+        )
 
     yield
 
@@ -125,7 +131,7 @@ def analyze_alert(
     summary="Create incident case from priority level and optional metadata",
     responses={
         200: {"description": "Incident case created successfully"},
-        422: {"description": "Invalid or missing priority_level (must be a valid MISP priority-level taxonomy tag)"},
+        422: {"description": "Invalid/missing priority_level (must be a tag from the MISP priority-level taxonomy) or invalid template_id (must be a positive integer)"},
         500: {"description": "Flowintel case creation failed"},
     },
     tags=["Incident creation"],
@@ -138,7 +144,7 @@ def create_incident(
             {
                 "priority_level": "priority-level:high",
                 "title": "Multiple suspicious login attempts from external IP",
-                "template_id": "suspicious_login",
+                "template_id": 3,
                 "description": {"system_affected": "My database server", "detected_by": "SIEM"},
             }
         ],
@@ -150,7 +156,7 @@ def create_incident(
     Request body:
         `priority_level`: Required MISP priority-level taxonomy tag (e.g. priority-level:high or high)
         `title`: Optional case title; a default is assigned if absent
-        `template_id`: Optional case template identifier
+        `template_id`: Optional case template identifier from Flowintel
         `description`: Optional additional key-value pairs included in the case description
 
     Returns IncidentResponse containing:
@@ -192,39 +198,6 @@ def list_analyzers():
     return result
 
 
-# @app.get(
-#     GET_ANALYZER_URL,
-#     summary="Get analyzer details",
-#     responses={
-#         200: {"description": "Analyzer details"},
-#         404: {"description": "Unknown alert type"},
-#     },
-#     tags=["Information"]
-# )
-# def get_analyzer(
-#     alert_type: str = Path(..., description=f"Alert type identifier (see options: {LIST_ANALYZERS_URL})"),
-# ):
-#     """
-#     Get detailed information about a specific analyzer.
-
-#     Returns the analyzer's description and full JSON schema for input validation.
-#     """
-#     analyzer_cls = AnalyzerRegistry.get_registered_classes().get(alert_type)
-
-#     if not analyzer_cls:
-#         registered = ", ".join(AnalyzerRegistry.list_types()) or "(none)"
-#         raise HTTPException(
-#             status_code=404,
-#             detail=f"Unknown alert type: '{alert_type}'. Available: [{registered}]",
-#         )
-
-#     return {
-#         "alert_type": alert_type,
-#         "description": analyzer_cls.__doc__.strip(),
-#         "schema": analyzer_cls.schema.model_json_schema(),
-#     }
-
-
 @app.get(
     HEALTH_URL,
     summary="DECIPHER service health check",
@@ -235,6 +208,7 @@ def health_check():
     Returns service status and count of loaded analyzers.
     """
     return {
+        "version": f"{API_VERSION}",
         "status": "ok",
         "service": "decipher-api",
         "analyzers_loaded": len(AnalyzerRegistry.list_types()),
@@ -256,5 +230,5 @@ def root():
         "docs": "/docs",
         "redoc": "/redoc",
         "health": "/health",
-        "analyzers": f'"/api/{API_VERSION}/analyzers"',
+        "analyzers": f"/api/{API_VERSION}/analyzers"
     }

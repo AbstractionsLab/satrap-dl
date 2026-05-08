@@ -69,6 +69,9 @@ MISP_ENCRYPTION_KEY=
 MISP_ENABLE_BACKGROUND_UPDATES=
 # use a different attachments_dir. defaults to /var/www/MISP/app/files
 MISP_ATTACHMENTS_DIR=
+# base url for health checks, defaults to 'https://localhost'. Update if the
+# MISP core HTTP(S) ports change
+HEALTHCHECK_BASE_URL=
 
 # By default, a daily synchronization is performed, but you can modify this by changing the push and pull frequency (in seconds).
 # MISP_CRON_PULLALL="86400"
@@ -289,7 +292,7 @@ MISP_SYNCSERVERS_1_PULL_RULES=
 # Flowintel
 #############
 
-FLOWINTEL_VERSION=3.0.0
+FLOWINTEL_VERSION=3.1.0
 
 # FlowIntel: PostgreSQL
 FLOWINTEL_POSTGRES_DB=flowintel

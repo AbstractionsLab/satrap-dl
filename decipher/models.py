@@ -30,13 +30,12 @@ class IncidentRequest(BaseModel):
 
     priority_level: str = Field(..., description="MISP priority-level taxonomy tag (e.g. priority-level:high)")
     title: str | None = None
-    template_id: str | None = None
+    template_id: int | None = None
     description: dict | None = Field(
         default_factory=dict,
         description="Optional additional key-value pairs to include in the case description",
-        example={"system_affected": "My database server", "detected_by": "SIEM"},
+        examples=[{"system_affected": "My database server", "detected_by": "SIEM"}],
     )
-    #model_config = ConfigDict(extra="allow")  # Allow additional fields, var name must be 'model_config' for Pydantic v2
 
     @field_validator("priority_level")
     @classmethod
@@ -44,6 +43,13 @@ class IncidentRequest(BaseModel):
         if v not in MISP_PRIORITY_LEVELS:
             valid = ", ".join(sorted(MISP_PRIORITY_LEVELS))
             raise ValueError(f"Invalid MISP priority level '{v}'. Valid values: [{valid}]")
+        return v
+
+    @field_validator("template_id")
+    @classmethod
+    def validate_template_id(cls, v: int | None) -> int | None:
+        if v is not None and v <= 0:
+            raise ValueError("template_id must be greater than 0")
         return v
 
 
@@ -70,6 +76,7 @@ class AnalysisResult(BaseModel):
     analyzed_scenario: str
     severity: float
     report: dict
+    # Pydantic creates a copy of defaults of mutable type per instance
     created_case: dict = {"id": 0, "link": ""}
 
     def __str__(self):

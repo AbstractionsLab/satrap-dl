@@ -5,6 +5,7 @@ Unit tests for alert analyzers.
 import re
 import unittest
 from unittest.mock import MagicMock, patch
+from datetime import datetime
 
 from pydantic import ValidationError
 
@@ -19,7 +20,7 @@ _VALID_ALERT = {
     "username": "jdoe",
     "target_host": "192.168.0.10",
     "src_ips": ["10.0.0.1", "10.0.0.2"],
-    "timestamp": "2026-02-23T12:00:00Z",
+    "timestamp": "2026-02-23T12:00:00",
 }
 
 def _fake_score(score: float = 0.5) -> FinalScoreResult:
@@ -110,7 +111,7 @@ class TestSuspiciousLoginAlert(unittest.TestCase):
         self.assertEqual(alert.username, _VALID_ALERT["username"])
         self.assertEqual(alert.src_ips, _VALID_ALERT["src_ips"])
         self.assertEqual(alert.target_host, _VALID_ALERT["target_host"])
-        self.assertEqual(alert.timestamp, _VALID_ALERT["timestamp"])
+        self.assertEqual(alert.timestamp, datetime.fromisoformat(_VALID_ALERT["timestamp"]))
 
     def test_missing_field_raises_validation_error(self):
         """A missing required field should raise a ValidationError."""

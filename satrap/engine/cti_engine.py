@@ -7,7 +7,7 @@ from re import match
 from typedb.driver import Entity
 
 from satrap.datamanagement.typedb.typedb_constants import NON_EMPTY_DB, NON_EMPTY_SERVER
-from satrap.datamanagement.typedb.typedbhandler import TypeDBHandler
+from satrap.datamanagement.typedb.queryhandler import TypeDBQueryHandler
 import satrap.engine.query_statements as cons
 from satrap.engine.result_structures import Group, InferredAnswer, Mnemonic
 from satrap.commons.log_utils import logger
@@ -18,7 +18,7 @@ class CTIEngine:
     CTIEngine is responsible for providing functionality to assist with CTI analysis.
 
     Attributes:
-        db_manager (TypeDBHandler): An instance of TypeDBHandler to interact with the CTI database.
+        db_manager (TypeDBQueryHandler): An instance of TypeDBQueryHandler to interact with the CTI database.
     """
 
     def __init__(self, db_uri: str, db_name: str):
@@ -28,14 +28,14 @@ class CTIEngine:
 
     def __enter__(self):
         """
-        :raises ValueError: if the creation of the TypeDBHandler fails
+        :raises ValueError: if the creation of the TypeDBQueryHandler fails
         """
         if not self.server_address:
             raise ValueError(NON_EMPTY_SERVER)
         if not self.database_name:
             raise ValueError(NON_EMPTY_DB)
 
-        self.db_manager = TypeDBHandler(self.server_address, self.database_name)
+        self.db_manager = TypeDBQueryHandler(self.server_address, self.database_name)
         return self
 
     def __exit__(self, _exception_type, _exception_value, traceback):
@@ -242,7 +242,7 @@ class CTIEngine:
         )
         logger.debug("Techniques by all groups:\n%s" %query)
         result = self.db_manager.get_query(query, inference)
-        return TypeDBHandler.dict_from_answers(result, "eid", "t_name")
+        return TypeDBQueryHandler.dict_from_answers(result, "eid", "t_name")
 
     def explain_techniques_used_by(
         self, group_mitre_ids: list[str], technique_stix_id: str = None
@@ -327,7 +327,7 @@ class CTIEngine:
             f"get {cons.XREF_ID_VAR}, $sdo_name;"
         )
         result = self.db_manager.get_query(query)
-        return TypeDBHandler.dict_from_answers(result, "eid", "sdo_name")
+        return TypeDBQueryHandler.dict_from_answers(result, "eid", "sdo_name")
 
     def get_mitigations_for_sdo(self, stix_id) -> dict:
         """
@@ -341,7 +341,7 @@ class CTIEngine:
         """
         query = cons.MITIGATIONS_OF.format(stix_id)
         mit = self.db_manager.get_query(query)
-        return TypeDBHandler.dict_from_answers(mit, "mitigation-id", "mitigation-name")
+        return TypeDBQueryHandler.dict_from_answers(mit, "mitigation-id", "mitigation-name")
 
     def get_mitig_rel_tech(self, group_mitre_id=None, group_name=None):
         """
@@ -362,7 +362,7 @@ class CTIEngine:
             cons.MITIGATIONS_REL_TECHNIQUE.format(name), inference=True
         )
         logger.debug(cons.MITIGATIONS_REL_TECHNIQUE.format(name))
-        return TypeDBHandler.dict_from_answers(mit, "sid", "mitigation-name")
+        return TypeDBQueryHandler.dict_from_answers(mit, "sid", "mitigation-name")
 
     def explain_mitig_rel_tech(
         self, group_stix_id, technique_stix_id
@@ -418,7 +418,7 @@ class CTIEngine:
             f"sort {cons.XREF_ID_VAR};"
         )
         result = self.db_manager.get_query(query)
-        return TypeDBHandler.dict_from_answers(result, "eid", "name")
+        return TypeDBQueryHandler.dict_from_answers(result, "eid", "name")
 
     def get_all_techniques(self, subtechniques=True):
         """
@@ -440,7 +440,7 @@ class CTIEngine:
             f"sort {cons.XREF_ID_VAR};"
         )
         result = self.db_manager.get_query(query)
-        return TypeDBHandler.dict_from_answers(result, "eid", "name")
+        return TypeDBQueryHandler.dict_from_answers(result, "eid", "name")
 
     def filter_groups_keywords(self, keywords=None, all=True) -> list[Group]:
         """

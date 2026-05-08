@@ -49,9 +49,9 @@ class TestCreateCaseFromBundleSuccess(unittest.TestCase):
     def test_custom_title_included_in_case(self):
         """Custom title should appear in the title passed to cases.create."""
         create_case_from_bundle(_make_bundle(title="Login Alert"))
-        # get the arguments were passed to the mock when called
+        # get the arguments that were passed to the mock when called
         call_args = self.client.cases.create.call_args
-        title_arg = call_args.args[0]
+        title_arg = call_args.args[0] # title is the only mandatory argument for the create call
         self.assertIn("Login Alert", title_arg)
 
     def test_default_title_when_not_provided(self):
@@ -72,7 +72,7 @@ class TestCreateCaseFromBundleSuccess(unittest.TestCase):
         kwargs = self.client.cases.create.call_args.kwargs
         self.assertIn("priority-level:high", kwargs["tags"])
 
-    def test_bare_priority_level_normalized(self):
+    def test_priority_level_normalized(self):
         """A bare level (e.g. 'medium') should be normalized to 'priority-level:medium'."""
         create_case_from_bundle(_make_bundle(priority_level="medium"))
         kwargs = self.client.cases.create.call_args.kwargs
@@ -93,15 +93,23 @@ class TestCreateCaseFromBundleSuccess(unittest.TestCase):
         self.assertEqual(kwargs["description"], "")
 
     def test_unknown_template_id_falls_back_to_no_template(self):
-        """An unrecognized template_id should still create a case without a template."""
-        create_case_from_bundle(_make_bundle(template_id="nonexistent_template"))
-        self.client.cases.create.assert_called_once()
+        """Unknown template_id should log a warning and fall back to creating case without template."""
+        # Mock the templates.find_case_temp_by_id to return no template found
+        self.client.templates.find_case_temp_by_id.return_value = {"message": "Case template not found"}   
+        with self.assertLogs("decipher.casemanagement.flowintel_connector", level="WARNING") as log:
+            create_case_from_bundle(_make_bundle(template_id=1))       
+        # Verify the warning was logged about missing template
+        self.assertTrue(any("No Flowintel template found with ID 1" in message for message in log.output))
 
-    def test_known_template_id_still_creates_case(self):
-        """A valid catalog template_id should ultimately produce a created case."""
-        result = create_case_from_bundle(_make_bundle(template_id="suspicious_login"))
-        self.assertEqual(result, 7)
+    def test_known_template_id_creates_case(self):
+        """Known template_id should create a case with the specified template."""
+        # Mock the templates.find_case_temp_by_id to return a valid template
+        self.client.templates.find_case_temp_by_id.return_value = {"id": 1, "name": "Test Template"}
+        with self.assertLogs("decipher.casemanagement.flowintel_connector", level="INFO") as log:
+            create_case_from_bundle(_make_bundle(template_id=1))
+        # Verify the case was created with the template
         self.client.cases.create.assert_called_once()
+        self.assertTrue(any("currently unsupported" in message for message in log.output))
 
 
 class TestCreateCaseFromBundleErrors(unittest.TestCase):

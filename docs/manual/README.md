@@ -2,14 +2,11 @@
 
 Welcome to the SATRAP-DL user manual. This documentation provides comprehensive guidance for using the SATRAP and DECIPHER components of the SATRAP-DL suite.
 
-
 **[SATRAP User Manual](/docs/manual/satrap/README.md)** — Comprehensive documentation for SATRAP, the knowledge-driven CTI analysis platform
-  - Installation, setup, and quick start guides
-  - User interfaces (CLI, Python library, Jupyter notebooks)
-  - Analysis techniques and sample playbooks
-  - Core concepts and knowledge model
 
-**[DECIPHER User Manual](/docs/manual/decipher/)** — Documentation for the DECIPHER service supporting automated incident handling pipelines
+**[DECIPHER User Manual](/docs/manual/decipher/README.md)** — Documentation for the DECIPHER service supporting automated incident handling pipelines
+
+For documentation on PyFlowintel, the Python client for Flowintel, see the [PyFlowintel GitHub repository](https://github.com/AbstractionsLab/PyFlowintel).
 
 ## Quick Links
 

@@ -30,7 +30,7 @@ SCORING_CONFIG_PATH = CONFIG_DIR / "decipher-scoring-cfg.yaml"
 # -----------------------------------------------------------
 DEFAULT_API_HOST = "0.0.0.0"
 DEFAULT_API_PORT = 8000
-API_VERSION = "v0.1"
+API_VERSION = "v1"
 BASE_URL = os.path.join("/api", API_VERSION)
 
 
@@ -80,7 +80,7 @@ except ValueError:
     MISP_TIMEOUT: int = 5
 
 # Flowintel instance
-_flowint_url: str = _flowintel_cfg.get("base_url", "").rstrip("/api")
+_flowint_url: str = _flowintel_cfg.get("base_url", "").removesuffix("/api")
 FLOWINTEL_CASE_URL: str = _flowintel_cfg.get("case_url", _flowint_url) + "/case"
 
 # Logging

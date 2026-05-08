@@ -70,9 +70,10 @@ class InferenceExplanation:
         )
 
 
-class TypeDBHandler:
+class TypeDBQueryHandler:
     """
-    TypeDBHandler is a class that provides methods to interact with a TypeDB database.
+    This class provides methods for querying a TypeDB database with specific inputs and output formats
+    including inference explanations.
     """
 
     def __init__(self, server_address, database_name):

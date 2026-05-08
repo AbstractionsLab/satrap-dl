@@ -1,3 +1,22 @@
+# 1.0 (2026-05-08)
+
+## Added
+
+- Flowintel templates folder (`deployment/flowintel-templates/`) acting as a CyFORT incident templates repository
+- User manual for DECIPHER
+
+## Modified
+
+- The DECIPHER REST service has been updated to rely on the new Flowintel templates repository
+- The new `flowintel-templates` directory is mounted to the Flowintel container's central repository of templates
+- The default FLOWINTEL_VERSION environment variable has been updated to `3.1.0` in the `docker-compose.flowintel.yml` and `env-template` files
+- API unit tests to cover the updates described above have been created/updated
+- Technical specs, user manuals, READMEs, code docs and traceability artifacts have been updated and enriched
+
+## Fixed
+- A bug in the deployment artifacts that caused a MISP core container to show always an unhealthy status when the misp_base_url and port were not the default ones
+
+
 # 0.5.1 (2026-04-15)
 
 ## Added

@@ -125,8 +125,8 @@ class EventScoreResult:
             f"  (threat={self.threat_level_value:.2f},"
             f" tags_mult={self.tags_multiplier:.2f})",
             f"├─ Confidence: {self.confidence:.3f}",
-            f"├─– Assessment:  {self.c_analysis:.3f}",
-            f"└─– Evidence: {self.c_evidence:.3f}"
+            f"├─ – Assessment:  {self.c_analysis:.3f}",
+            f"└─ – Evidence: {self.c_evidence:.3f}"
             f"  (From {len(self.attribute_breakdowns)} attribute(s))",
         ]
         for i, ab in enumerate(self.attribute_breakdowns, start=1):

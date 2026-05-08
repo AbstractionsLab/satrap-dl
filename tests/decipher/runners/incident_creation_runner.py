@@ -9,7 +9,7 @@ from pathlib import Path
 import httpx
 from pyflowintel import PyFlowintel
 from decipher.commons.log_utils import setup_logging, get_logger
-from decipher.settings import DECIPHER_CONFIG_PATH
+from decipher.settings import DECIPHER_CONFIG_PATH, API_VERSION
 
 
 setup_logging(enable_file_logging=False)  # Console only for testing
@@ -38,7 +38,7 @@ def test_incident_creation_api(base_url: str = "http://host.docker.internal:8000
         print(f"  Title: {incident_data['title']}")
         
         response = httpx.post(
-            f"{base_url}/api/v0.1/incident",
+            f"{base_url}/api/{API_VERSION}/incident",
             json=incident_data,
             timeout=8
         )

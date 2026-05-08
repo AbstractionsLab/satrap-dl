@@ -10,7 +10,7 @@ in the targeted MISP instance by an administrator.
 If tags are not enabled, the events will be created without tags.
 """
 
-from pymisp import ExpandedPyMISP, MISPEvent
+from pymisp import PyMISP, MISPEvent
 import argparse
 import random
 
@@ -147,7 +147,7 @@ def _severity_to_threat_level(severity: str) -> int:
     return mapping.get(severity.lower(), 4)
 
 
-def create_misp_events(misp: ExpandedPyMISP, dry_run: bool = True) -> list[MISPEvent]:
+def create_misp_events(misp: PyMISP, dry_run: bool = True) -> list[MISPEvent]:
     created_events = []
     
     for event_data in SIMULATED_EVENTS:
@@ -209,7 +209,7 @@ def main():
     print(f"MISP URL: {args.url}")
     print(f"Dry run: {not args.push}")
     
-    misp = ExpandedPyMISP(args.url, args.api_key, ssl=False, timeout=15)
+    misp = PyMISP(args.url, args.api_key, ssl=False, timeout=15)
     created = create_misp_events(misp, dry_run=not args.push)
     
     print(f"\n{'Created' if args.push else 'Would create'} {len(created)} events")

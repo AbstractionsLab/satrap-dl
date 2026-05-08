@@ -1,5 +1,5 @@
 from typing import NamedTuple
-from satrap.datamanagement.typedb.typedbhandler import InferenceExplanation
+from satrap.datamanagement.typedb.queryhandler import InferenceExplanation
 
 
 class InferredAnswer(NamedTuple):

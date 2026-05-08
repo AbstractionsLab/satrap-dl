@@ -53,12 +53,16 @@
 <li><a href="#TRP-026">2.8 TCER: extensible analyzer framework</a></li>
 </ul>
 </li>
+<li><a href="#TRP-SATRAP-DL">3 SATRAP-DL general aspects</a><ul>
+<li><a href="#TRP-027">3.1 Test software identification with version</a></li>
+</ul>
+</li>
 </ul>
           </nav>
       </div>
       <div class="col-lg-8" id="main">
         <h1 id="TRP-SATRAP">1 SATRAP <small>TRP-SATRAP</small></h1>
-<p>Test result records for the SATRAP CTI analysis platform.</p>
+<p>Test result reports for the SATRAP CTI analysis platform.</p>
 <h2 id="TRP-001">1.1 TCER: modelling <small><a href="TRP.html#TRP-001">TRP-001</a></small></h2>
 <p>This test case execution result (TCER) reports the outcome of verifying modelling artifacts.</p>
 <h2>Relevant test environment and configuration details</h2>
@@ -1478,7 +1482,7 @@
 </tbody>
 </table>
 <h1 id="TRP-DECIPHER">2 DECIPHER <small>TRP-DECIPHER</small></h1>
-<p>Test result records for DECIPHER (Detection, Enrichment, Correlation, Incident, Playbook, Handling, Escalation and Recovery).</p>
+<p>Test result reports for DECIPHER (Detection, Enrichment, Correlation, Incident, Playbook, Handling, Escalation and Recovery).</p>
 <h2 id="TRP-019">2.1 Test containerized deployment <small><a href="TRP.html#TRP-019">TRP-019</a></small></h2>
 <h2>Relevant test environment and configuration details</h2>
 <ul>
@@ -2208,6 +2212,88 @@
 <tr>
 <td>verification-method</td>
 <td>I</td>
+</tr>
+</tbody>
+</table>
+<h1 id="TRP-SATRAP-DL">3 SATRAP-DL general aspects <small>TRP-SATRAP-DL</small></h1>
+<p>Test result reports concerning general aspects across the SATRAP-DL project, mostly related to non-functional requirements.</p>
+<h2 id="TRP-027">3.1 Test software identification with version <small><a href="TRP.html#TRP-027">TRP-027</a></small></h2>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: aligned with test case specification</li>
+<li>Hardware deviations: N/A</li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the step-wise alignment or deviation with respect to the expected outcome of the covered test case.</p>
+<p><strong>Test case step 1</strong>: Verify that the SATRAP CLI has a command for retrieving the software name and version</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The command is available and returns the expected version string.</li>
+</ul>
+<pre><code class="language-bash">$ ./satrap.sh -V
+SATRAP v1.0
+$ ./satrap.sh --version
+SATRAP v1.0
+</code></pre>
+<p><strong>Test case step 2</strong>: Verify that DECIPHER REST API root endpoint provides the service version and identification details</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The root endpoint provides the expected JSON response with version and identification details.</li>
+</ul>
+<p><strong>Test case step 3</strong>: Verify that the DECIPHER API documentation is accessible and clearly indicates the version in the title and endpoint URLs.</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The API documentation is accessible at the expected URL and clearly shows the version in the title and endpoint URLs.</li>
+</ul>
+<p><img alt="Response score" src="./assets/trp-027-step3.png" title="DECIPHER API Docs" width="70%" /></p>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawless</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See screenshots and terminal output above.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawless</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<p><em>Parent links:</em> <a href="TST.html#TST-029">TST-029 Retrieve software identification details</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2026-05-07</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>IVS</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td><span style="color:green"><strong>0 = flawless</strong></span></td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>3</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>T</td>
 </tr>
 </tbody>
 </table>

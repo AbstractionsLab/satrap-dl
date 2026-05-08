@@ -5,9 +5,9 @@ level: 1
 links: []
 normative: false
 ref: ''
-reviewed: 8ACGHRKnEW7I7-uu9toiG3-3NnqVhwOgA0x3dSIbbE4=
+reviewed: zyguYoABuh2Ya1AwBX5yzVgSQYHvzvjnvIHct4m7JCM=
 ---
 
 # SATRAP
 
-Test result records for the SATRAP CTI analysis platform.
+Test result reports for the SATRAP CTI analysis platform.

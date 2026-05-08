@@ -54,9 +54,12 @@ DECIPHER uses three YAML configuration files located in the `/config/` folder at
 - **`decipher-runtime-cfg.yaml`** — Runtime options, e.g., whether MISP and/or Flowintel shall be used in the analysis. No restart needed.
 - **`decipher-scoring-cfg.yaml`** — Threat scoring weights. Changes take effect without restart.
 
-Copy each template file in the [config templates folder](../config/) into a file where `.template` is removed from the name (e.g., `decipher-settings.template.yaml` $\rightarrow$ `decipher-settings.yaml`) and update the copied files with your settings.
+Copy each template file in the [config templates folder](../config/) into a new file, removing `.template` from the name (e.g., `decipher-settings.template.yaml` $\rightarrow$ `decipher-settings.yaml`). Then,  update the copied files with your settings.
 
-See the corresponding templates for detailed parameter descriptions.
+You will find detailed descriptions of the parameters included in the corresponding templates.
+
+**Note:** The verification of SSL certificates when connecting to a MISP instance is disabled by default. For production use, this option must be enabled by setting the `verify_ssl` option to `true` in the `decipher-settings.yaml` file.
+
 
 ### Setup
 
@@ -100,13 +103,13 @@ curl http://localhost:8000/health
 List available analyzers:
 
 ```bash
-curl http://localhost:8000/api/v0.1/analyzers
+curl http://localhost:8000/api/v1/analyzers
 ```
 
 Analyze a suspicious login alert:
 
 ```bash
-curl -X POST http://localhost:8000/api/v0.1/analyze/suspicious_login \
+curl -X POST http://localhost:8000/api/v1/analyze/suspicious_login \
   -H "Content-Type: application/json" \
   -d '{
     "username": "admin",
@@ -119,7 +122,7 @@ curl -X POST http://localhost:8000/api/v0.1/analyze/suspicious_login \
 Create an incident case (typically after performing analysis).
 
 ```bash
-curl -X POST http://localhost:8000/api/v0.1/incident \
+curl -X POST http://localhost:8000/api/v1/incident \
   -H "Content-Type: application/json" \
   -d '{
     "priority_level": "high",
@@ -134,7 +137,7 @@ curl -X POST http://localhost:8000/api/v0.1/incident \
 See the API documentation at `http://localhost:8000/docs` for more details.
 
 ### Examples
-Find sample scripts for testing the analysis and incident creation endpoints in the `tests/decipher/integration` folder. A script for ingesting test data in MISP is included too.
+Find sample scripts for testing the analysis and incident creation endpoints in the `tests/decipher/runners` folder. A script for ingesting test data in MISP is included too.
 
 
 ## Unit tests
@@ -148,15 +151,19 @@ poetry run ./run_tests.sh decipher
 
 
 ## Project status
-Currently, DECIPHER provides minimal functionality to enable a fully automated incident handling pipeline. Future iterations consider the extensions and refinements described in the Roadmap.
 
-⚠️ **Alpha Software Disclaimer**: DECIPHER is a SATRAP-DL component under active development. May include incomplete features and bugs. Not intended for production use.
+DECIPHER provides a stable REST service with a baseline functionality to enable a fully automated incident handling pipeline. Future development directions are described in the Roadmap.
+
+⚠️ **Disclaimer**: DECIPHER is released as a stable version, yet, it has been tested and validated in a controlled environment. Conduct a thorough security assessment before deploying this component in production.
 
 ## Roadmap
 
-- Add analyzers for new threat scenarios (next: ransomware, increased log volume)
+A low-priority item is to integrate SATRAP in the CTI analysis phase to leverage logic-based reasoning capabilities.
+
+**Further features that may be implemented upon request**:
+
+- Add analyzers for new threat scenarios
 - Refine the CTI scoring formula based on other available tags, object grouping and [MISP decaying models](https://github.com/MISP/misp-decaying-models)
-- Integrate SATRAP in the CTI analysis phase to leverage logic-based reasoning capabilities
-- Support the use of templates for diverse threat scenarios when creating cases (related to [PyFlowintel](https://github.com/AbstractionsLab/PyFlowintel) and [Flowintel features](https://github.com/flowintel/flowintel-roadmap/issues/15))
+- Identify and integrate templates for creating cases in diverse threat scenarios
 - Create playbooks for post-incident analysis integrated with SATRAP
 - Add external playbook recommendations based on threat scenarios

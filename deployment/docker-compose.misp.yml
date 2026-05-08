@@ -114,7 +114,7 @@ services:
       misp-modules:
         condition: service_healthy
     healthcheck:
-      test: curl -ks ${MISP_BASE_URL:-https://localhost}/users/heartbeat > /dev/null || exit 1
+      test: curl -ks ${HEALTHCHECK_BASE_URL:-https://localhost}/users/heartbeat > /dev/null || exit 1
       interval: 2s
       timeout: 1s
       retries: 3

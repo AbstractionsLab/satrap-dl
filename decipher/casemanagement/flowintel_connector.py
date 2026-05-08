@@ -8,14 +8,13 @@ Supports template-based case creation with customizable fields.
 from datetime import datetime
 from typing import Any
 from pyflowintel import FlowintelConnectionError, PyFlowintel, PyflowintelException
-from pyflowintel.commons.utils import read_json
 from pyflowintel.commons.exceptions import PyflowintelConfigurationError
 
 from decipher.runtime_settings import load_decipher_runtime_cfg
 from decipher.models import IncidentRequest
 from decipher.casemanagement.template_catalog import CASE_TEMPLATES
 from decipher.commons.log_utils import get_logger
-from decipher.settings import AnalysisScenario, DECIPHER_CONFIG_PATH, FLOWINTEL_TEMPLATES_DIR
+from decipher.settings import AnalysisScenario, DECIPHER_CONFIG_PATH
 
 logger = get_logger(__name__)
 
@@ -47,10 +46,8 @@ def create_case_from_bundle(case_bundle: IncidentRequest) -> int:
         "tags": [priority_tag],
     }
 
-    template = CASE_TEMPLATES.get(case_bundle.template_id) if case_bundle.template_id else None
-
     try:
-        if template:
+        if case_bundle.template_id:
             case_id = _create_case_with_template(client, case_bundle.template_id, title, payload)
         else:
             case_id = _create_case_without_template(client, title, payload)
@@ -87,8 +84,8 @@ def create_case_for_scenario(
     case_payload = {"description": description, "tags": [priority_tag]}
 
     try:
-        # @TODO: Temporarily creating case without template since tags are currently not supported
-        # when editing a case through the Flowintel API. To be changed in future releases.
+        # @TODO: Temporarily creating case without template since the Flowintel API does not support
+        # editing tags in a case created from a template. To be uncommented in future releases if Flowintel is fixed.
         # template_id = _get_template_id_for_scenario(client, scenario)
         # if template_id == 0:
         # logger.warning(f"No template for '{scenario}'. Creating case without template.")
@@ -158,7 +155,11 @@ def _default_case_title(scenario: AnalysisScenario) -> str:
 
 def _create_case_with_template(client: PyFlowintel, template_id: int, title: str, payload: dict) -> int:
     """
-    Create a Flowintel case using a template from the catalog.
+    Create a Flowintel case using a template from the Flowintel repository.
+
+    Note: Due to current Flowintel API limitations (tags are ignored when creating a case from a template), 
+    for now this function verifies the template exists but always creates a case without a template.
+    This is expected to be updated once Flowintel supports tags in template-based case creation.
 
     Args:
         client: PyFlowintel client instance.
@@ -169,7 +170,16 @@ def _create_case_with_template(client: PyFlowintel, template_id: int, title: str
     Returns:
         ID of the created case, or 0 if creation failed.
     """
-    logger.info("Case from template currently unsupported. Creating case without template...")
+    try:
+        response = client.templates.find_case_temp_by_id(template_id)
+        flowintel_id = response.get("id", 0)
+        if flowintel_id == 0:
+            logger.warning(f"No Flowintel template found with ID {template_id}. Creating case without template.")
+        else:
+            logger.info("Case from template currently unsupported. Creating case without template...")
+    except FlowintelConnectionError:
+        logger.error(f"Connection failed finding template with id '{template_id}'.")
+        raise
     return _create_case_without_template(client, title, payload)
 
 
@@ -207,37 +217,12 @@ def _get_template_id_for_scenario(client: PyFlowintel, scenario: AnalysisScenari
         response = client.templates.find_case_temp_by_title(title)
         flowintel_id = response.get("id", 0)
         if flowintel_id == 0:
-            logger.warning(f"No Flowintel template found with title: {title}. Creating template...")
-            return _create_template_for_scenario(client, scenario)
+            logger.warning(f"No Flowintel template found with title: {title}.")
     except FlowintelConnectionError:
         logger.error(f"Connection failed getting template for '{scenario}'.")
         raise
 
     return flowintel_id
-
-
-def _create_template_for_scenario(client: PyFlowintel, scenario: AnalysisScenario) -> int:
-    """
-    Create a new case template in Flowintel from the template in the catalog.
-    """
-    template = CASE_TEMPLATES.get(scenario.value)
-
-    if template is None:
-        logger.warning(f"No template data available for '{scenario}'")
-        return 0
-
-    try:
-        template_data = read_json(str(FLOWINTEL_TEMPLATES_DIR / template.filename))
-        response = client.templates.create_case_template(template_data)
-        template_id = response.get("template_id", 0)
-        logger.info(f"Flowintel template created for '{scenario}': {template_id}")
-        return template_id
-    except ValueError as e:
-        logger.error(f"Fail to read template file for '{scenario}': {e}")
-        return 0
-    except PyflowintelException as e:
-        logger.error(f"Flowintel case template creation failed for '{scenario}': {e}")
-        return 0
 
 
 def _assign_priority_tag(analysis_score: float) -> str:

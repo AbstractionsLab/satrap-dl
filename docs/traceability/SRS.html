@@ -49,10 +49,9 @@
 <li><a href="#SRS-041">1.25 Configuration management mechanism</a></li>
 <li><a href="#SRS-042">1.26 Command line interface (CLI)</a></li>
 <li><a href="#SRS-043">1.27 TypeDB Studio</a></li>
-<li><a href="#SRS-044">1.28 Open-source TIP integration</a></li>
-<li><a href="#SRS-045">1.29 CTI analysis engine</a></li>
-<li><a href="#SRS-046">1.30 CTI analysis toolbox</a></li>
-<li><a href="#SRS-047">1.31 OSINT feeds configuration and catalog</a></li>
+<li><a href="#SRS-045">1.28 CTI analysis engine</a></li>
+<li><a href="#SRS-046">1.29 CTI analysis toolbox</a></li>
+<li><a href="#SRS-047">1.30 OSINT feeds configuration and catalog</a></li>
 </ul>
 </li>
 <li><a href="#SRS-DECIPHER">2 DECIPHER</a><ul>
@@ -86,6 +85,7 @@
 <li><a href="#SRS-040">3.15 Authentication and authorization</a></li>
 <li><a href="#SRS-058">3.16 Encrypted data transport for external service connections</a></li>
 <li><a href="#SRS-016">3.17 API based on OAS</a></li>
+<li><a href="#SRS-044">3.18 Open-source TIP integration</a></li>
 </ul>
 </li>
 </ul>
@@ -102,7 +102,7 @@ or on type theory such as TypeQL.</p>
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-001">MRS-001 Semantic data model</a>, <a href="MRS.html#MRS-015">MRS-015 Semantic relations preservation</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="TST.html#TST-001">TST-001 Verify data modelling artifacts</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-001">TST-001 Verify data modelling artifacts</a>, <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <table>
 <thead>
 <tr>
@@ -138,7 +138,7 @@ Possible candidates are the PERA model and the graph model implemented by TypeDB
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-002">MRS-002 CTI knowledge base</a>, <a href="MRS.html#MRS-015">MRS-015 Semantic relations preservation</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="TST.html#TST-001">TST-001 Verify data modelling artifacts</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-001">TST-001 Verify data modelling artifacts</a>, <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <table>
 <thead>
 <tr>
@@ -172,7 +172,7 @@ Possible candidates are the PERA model and the graph model implemented by TypeDB
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-002">MRS-002 CTI knowledge base</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-001">TST-001 Verify data modelling artifacts</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-015">ARC-015 SATRAP context diagram</a>, <a href="TST.html#TST-001">TST-001 Verify data modelling artifacts</a></p>
 <table>
 <thead>
 <tr>
@@ -541,7 +541,7 @@ This requirement addresses the integration of organizational CTI (internal and s
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-015">MRS-015 Semantic relations preservation</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a>, <a href="TST.html#TST-004">TST-004 Verify STIX 2.1-based data model</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="TST.html#TST-004">TST-004 Verify STIX 2.1-based data model</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <table>
 <thead>
 <tr>
@@ -801,7 +801,7 @@ db connections; file paths) in a dedicated configuration file.</p>
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-045">MRS-045 STIX compliance</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="TST.html#TST-003">TST-003 Verify STIX and reasoning engine</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-003">TST-003 Verify STIX and reasoning engine</a>, <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <table>
 <thead>
 <tr>
@@ -943,6 +943,7 @@ of the CTI SKB (TypeQL), in terms of the STIX 2.1 data model.</p>
 <h3>Acceptance criteria</h3>
 <p>None</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-019">MRS-019 Exporting inferred CTI</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-003">ARC-003 ETL high-level design</a>, <a href="ARC.html#ARC-004">ARC-004 ETL components</a></p>
 <table>
 <thead>
 <tr>
@@ -1021,7 +1022,7 @@ Thus, I want the CLI to provide at least the following commands:</p>
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-020">MRS-020 Interactive frontend</a>, <a href="MRS.html#MRS-033">MRS-033 File-based SKB update</a>, <a href="MRS.html#MRS-034">MRS-034 Frontend cross-platform support</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-014">TST-014 Test command line interface (CLI)</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-014">ARC-014 SATRAP command-line interface design</a>, <a href="TST.html#TST-014">TST-014 Test command line interface (CLI)</a></p>
 <table>
 <thead>
 <tr>
@@ -1055,7 +1056,7 @@ Thus, I want the CLI to provide at least the following commands:</p>
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-020">MRS-020 Interactive frontend</a>, <a href="MRS.html#MRS-028">MRS-028 Native query execution</a>, <a href="MRS.html#MRS-029">MRS-029 Frontend design</a>, <a href="MRS.html#MRS-032">MRS-032 User-controlled CTI curation</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-008">TST-008 Test setup + MITRE ATT&amp;CK ingestion</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-015">ARC-015 SATRAP context diagram</a>, <a href="TST.html#TST-008">TST-008 Test setup + MITRE ATT&amp;CK ingestion</a></p>
 <table>
 <thead>
 <tr>
@@ -1082,73 +1083,14 @@ Thus, I want the CLI to provide at least the following commands:</p>
 </tr>
 </tbody>
 </table>
-<h2 id="SRS-044">1.28 Open-source TIP integration <small><a href="SRS.html#SRS-044">SRS-044</a></small></h2>
-<p>SATRAP-DL SHALL adopt both MISP and OpenCTI as open-source TIPs (Threat Intelligence Platform) for
-central storage and management of threat intelligence data.</p>
-<h3>Rationale</h3>
-<p>To host and manage CTI data, by relying on stable and mature solutions, without reinventing the wheel.
-The choice of integrating a well-established open-source TIP would</p>
-<ul>
-<li>provide a solution capable of ingesting, storing,
-and distributing threat intelligence data from various sources, including
-open-source feeds, commercial feeds, and internal sources.</li>
-<li>provide a user-friendly interface for analysts to search, filter, and visualize
-threat intelligence data.</li>
-<li>support integration with other security  tools and platforms, such as SIEM (Security Information and Event Management)
-systems, SOAR (Security Orchestration, Automation, and Response) platforms,
-and threat intelligence sharing platforms.</li>
-<li>support standardized formats for threat intelligence data, such as STIX (Structured
-Threat Information Expression) and TAXII (Trusted Automated Exchange of
-Indicator Information), to facilitate interoperability with other systems.</li>
-<li>support the ability to create and manage threat intelligence
-feeds, including the ability to schedule updates and manage data retention
-policies.</li>
-<li>support the ability to create and manage threat intelligence reports, including the ability to generate reports in
-various formats, such as PDF, HTML, and CSV.</li>
-<li>support the ability to create and manage threat intelligence dashboards, including the
-ability to customize the layout and content of the dashboards.</li>
-<li>support the ability to create and manage threat intelligence alerts,
-including the ability to configure alert thresholds and notification
-mechanisms.</li>
-</ul>
-<h3>Acceptance criteria</h3>
-<p>See validation test case specification</p>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-012">MRS-012 CyFORT CTI repository</a>, <a href="MRS.html#MRS-039">MRS-039 CTI SKB content: from IDPS-ESCAPE</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-017">TST-017 Verify open-source TIP integration</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>A</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>5</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>R</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Alpha</td>
-</tr>
-</tbody>
-</table>
-<h2 id="SRS-045">1.29 CTI analysis engine <small><a href="SRS.html#SRS-045">SRS-045</a></small></h2>
+<h2 id="SRS-045">1.28 CTI analysis engine <small><a href="SRS.html#SRS-045">SRS-045</a></small></h2>
 <p>SATRAP SHALL have a component in charge of the CTI analysis operational logic, mediating the interaction between the service layer and the data layer.</p>
 <h3>Rationale</h3>
 <p>For separation of duties in SATRAP and to support automation of CTI analysis tasks.</p>
 <h3>Acceptance criteria</h3>
 <p>None</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-024">MRS-024 CTI analysis</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-019">TST-019 Verify layered architecture of SATRAP</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-013">ARC-013 CTI analysis subsystem design</a>, <a href="TST.html#TST-019">TST-019 Verify layered architecture of SATRAP</a></p>
 <table>
 <thead>
 <tr>
@@ -1179,7 +1121,7 @@ mechanisms.</li>
 </tr>
 </tbody>
 </table>
-<h2 id="SRS-046">1.30 CTI analysis toolbox <small><a href="SRS.html#SRS-046">SRS-046</a></small></h2>
+<h2 id="SRS-046">1.29 CTI analysis toolbox <small><a href="SRS.html#SRS-046">SRS-046</a></small></h2>
 <p>SATRAP SHALL have a component providing end-user functionality accessible programmatically via the frontend.
 This functionality consists primarily of parametrizable high-level CTI queries.</p>
 <h3>Rationale</h3>
@@ -1187,7 +1129,7 @@ This functionality consists primarily of parametrizable high-level CTI queries.<
 <h3>Acceptance criteria</h3>
 <p>None</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-023">MRS-023 Query parameterization</a>, <a href="MRS.html#MRS-025">MRS-025 SATRAP-DL service</a>, <a href="MRS.html#MRS-037">MRS-037 SATRAP as software library</a></p>
-<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-019">TST-019 Verify layered architecture of SATRAP</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-001">ARC-001 SATRAP: System structure overview</a>, <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="ARC.html#ARC-013">ARC-013 CTI analysis subsystem design</a>, <a href="TST.html#TST-019">TST-019 Verify layered architecture of SATRAP</a></p>
 <table>
 <thead>
 <tr>
@@ -1218,7 +1160,7 @@ This functionality consists primarily of parametrizable high-level CTI queries.<
 </tr>
 </tbody>
 </table>
-<h2 id="SRS-047">1.31 OSINT feeds configuration and catalog <small><a href="SRS.html#SRS-047">SRS-047</a></small></h2>
+<h2 id="SRS-047">1.30 OSINT feeds configuration and catalog <small><a href="SRS.html#SRS-047">SRS-047</a></small></h2>
 <p>The CyFORT CTI repository instantiated by MISP and/or OpenCTI SHOULD ingest a pre-configured set of OSINT feeds, informed
 by a catalog documenting relevant feeds per application domain (e.g. energy sector, space sector, IT company, etc.).</p>
 <h3>Rationale</h3>
@@ -1992,7 +1934,7 @@ Then, define configurable source reliability and information credibility mapping
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-005">TST-005 Verify centralized management</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-005">TST-005 Verify centralized management</a></p>
 <table>
 <thead>
 <tr>
@@ -2026,7 +1968,7 @@ Then, define configurable source reliability and information credibility mapping
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-044">MRS-044 Modular architecture</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-005">TST-005 Verify centralized management</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-002">ARC-002 Logical view of SATRAP</a>, <a href="TST.html#TST-005">TST-005 Verify centralized management</a></p>
 <table>
 <thead>
 <tr>
@@ -2450,6 +2392,7 @@ Sanitization may include removing, replacing, encoding, or escaping unwanted cha
 <h3>Acceptance criteria</h3>
 <p>See validation test case specification</p>
 <p><em>Parent links:</em> <a href="MRS.html#MRS-053">MRS-053 Secure programming compliance</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-014">ARC-014 SATRAP command-line interface design</a>, <a href="TST.html#TST-029">TST-029 Retrieve software identification details</a></p>
 <table>
 <thead>
 <tr>
@@ -2584,6 +2527,65 @@ segments. VPN tunnels terminate at network gateways; application-layer TLS ensur
 <tr>
 <td>release</td>
 <td>FID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-044">3.18 Open-source TIP integration <small><a href="SRS.html#SRS-044">SRS-044</a></small></h2>
+<p>SATRAP-DL SHALL adopt either MISP or OpenCTI as an open-source TIP (Threat Intelligence Platform) for
+central storage and management of threat intelligence data.</p>
+<h3>Rationale</h3>
+<p>To host and manage CTI data, by relying on stable and mature solutions, without reinventing the wheel.
+The choice of integrating a well-established open-source TIP would</p>
+<ul>
+<li>provide a solution capable of ingesting, storing,
+and distributing threat intelligence data from various sources, including
+open-source feeds, commercial feeds, and internal sources.</li>
+<li>provide a user-friendly interface for analysts to search, filter, and visualize
+threat intelligence data.</li>
+<li>support integration with other security  tools and platforms, such as SIEM (Security Information and Event Management)
+systems, SOAR (Security Orchestration, Automation, and Response) platforms,
+and threat intelligence sharing platforms.</li>
+<li>support standardized formats for threat intelligence data, such as STIX (Structured
+Threat Information Expression) and TAXII (Trusted Automated Exchange of
+Indicator Information), to facilitate interoperability with other systems.</li>
+<li>support the ability to create and manage threat intelligence
+feeds, including the ability to schedule updates and manage data retention
+policies.</li>
+<li>support the ability to create and manage threat intelligence reports, including the ability to generate reports in
+various formats, such as PDF, HTML, and CSV.</li>
+<li>support the ability to create and manage threat intelligence dashboards, including the
+ability to customize the layout and content of the dashboards.</li>
+<li>support the ability to create and manage threat intelligence alerts,
+including the ability to configure alert thresholds and notification
+mechanisms.</li>
+</ul>
+<h3>Acceptance criteria</h3>
+<p>See validation test case specification</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-012">MRS-012 CyFORT CTI repository</a>, <a href="MRS.html#MRS-039">MRS-039 CTI SKB content: from IDPS-ESCAPE</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-015">ARC-015 SATRAP context diagram</a>, <a href="TST.html#TST-017">TST-017 Verify open-source TIP integration</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>A</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>R</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Alpha</td>
 </tr>
 </tbody>
 </table>

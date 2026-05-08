@@ -5,9 +5,9 @@ level: 2
 links: []
 normative: false
 ref: ''
-reviewed: KYTerJw7DZzcXcBQkp82Y8FQFxiIi6wjQSjacs4XwjQ=
+reviewed: a1x1jrmE8W7UTmNSKUav57EORREEvYlg3ifZr7sBCcQ=
 ---
 
 # DECIPHER
 
-Test result records for DECIPHER (Detection, Enrichment, Correlation, Incident, Playbook, Handling, Escalation and Recovery).
+Test result reports for DECIPHER (Detection, Enrichment, Correlation, Incident, Playbook, Handling, Escalation and Recovery).

@@ -20,8 +20,6 @@ The core of SATRAP consists of a knowledge representation system (KRS) of cyber 
 
 The KRS of SATRAP is implemented using [TypeDB](https://typedb.com/), a polymorphic database with a native symbolic reasoning engine. The use of TypeDB allows SATRAP to implement analytic functions in the domain of CTI on top of an integrated core, where the knowledge base and the reasoning engine are natively coupled allowing for an efficient execution of inference tasks. 
 
-The Alpha release of SATRAP comes with a predefined set of functions that demonstrate potential uses of automated reasoning capabilities applied to the CTI domain, leveraging the STIX 2.1 data model and semantic technologies.
+SATRAP comes with a predefined set of functions that demonstrate potential uses of automated reasoning capabilities applied to the CTI domain, leveraging the STIX 2.1 data model and semantic technologies.
 
-This manual covers aspects related to the installation, setup, usage and core concepts behind the purpose and design of the Alpha version of SATRAP.
-
-Further updates are expected as the project develops.
+This manual covers aspects related to the installation, setup, usage and core concepts behind the purpose and design of SATRAP.
