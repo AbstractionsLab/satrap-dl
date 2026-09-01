@@ -17,9 +17,11 @@ This allows operators to:
 - Quickly disable failing integrations (MISP, Flowintel)
 - Experiment with different analyzer configurations
 
-## Setup
+The two reloadable files are re-read whenever their modification time changes, so saving an edit is enough for it to apply to the next analysis request.
 
-1. Create a copy of the template files n the `/config` folder, removing the `.template` suffix:
+## REST service setup
+
+1. Create a copy of the template files in the `/config` folder, removing the `.template` suffix:
 
     ```sh
     cp config/decipher-settings.template.yaml config/decipher-settings.yaml
@@ -37,23 +39,29 @@ Service-level configuration for logging and integrations. Changes to this file r
 
 ```yaml
 logging:
-  level: INFO          # DEBUG, INFO, WARNING, ERROR
+  level: "info"               # debug, info, warning, error
+  enable_file_logging: false
 ```
 
-- **level**: Logging verbosity (case-insensitive). Use `DEBUG` for troubleshooting, `INFO` for production.
+- **level**: Logging verbosity (case-insensitive). Use `debug` for troubleshooting, `info` for production.
+- **enable_file_logging**: Whether to write the logs to a file under `logs/decipher/` in addition to standard output (default: `false`). In the containerized deployment, the log directory needs a writable bind mount for this option to work; see the [deployment reference](./deployment.md#security-of-the-decipher-api-container).
 
 ### MISP integration
 
 ```yaml
 misp:
-  url: "http://localhost:80"
+  url: "https://localhost"
   api_key: "your-misp-api-key"
-  verify_ssl: true
+  verify_ssl: false
+  timeout: 5
 ```
 
 - **url**: MISP instance URL.
 - **api_key**: MISP API key for authentication.
 - **verify_ssl**: SSL certificates verification. By default this parameter is set to `false` for convenience in development or testing environments. For production environments, it is recommended to set this parameter to `true` and ensure that the MISP instance has valid SSL certificates.
+- **timeout**: Connection timeout in seconds for the requests sent to MISP (default: `5`).
+
+The four MISP settings can also be provided through the environment variables `MISP_URL`, `MISP_API_KEY`, `MISP_VERIFY_SSL` and `MISP_TIMEOUT`, which take precedence over the values in the file. If the URL or the API key resolves to an empty value, the service starts with a warning and every analysis returns a severity of `0`.
 
 ### Flowintel integration
 
@@ -74,12 +82,16 @@ Runtime options that control settings for the analysis endpoint. Changes to thes
 
 ### Analysis options
 
-* **enable_misp_search**: Whether to enable the use of a MISP instance for searching IOCs (default: `true`). This parameter is intended for testing purposes, allowing to disable MISP search when a MISP instance is not available.
-* **enable_case_creation**: Whether to enable Flowintel case creation in the `/analyze` endpoint (default: `false`). Note that this setting is independent from the `/incident` endpoint, which always creates a case in Flowintel if the Flowintel integration is configured in `decipher-settings.yaml`.
+* **enable_misp_search**: Whether to enable the use of a MISP instance for searching IOCs (`true` in the shipped template). This parameter is intended for testing purposes, allowing to disable MISP search when a MISP instance is not available. When it is off, the analysis returns a severity of `0` with a report stating that the search is disabled, without contacting MISP.
+* **enable_case_creation**: Whether to enable Flowintel case creation in the `/analyze` endpoint (`false` in the shipped template). Note that this setting is independent from the `/incident` endpoint, which always creates a case in Flowintel if the Flowintel integration is configured in `decipher-settings.yaml`.
+
+Both options fall back to `false` when the key, or the whole file, is missing. The file is read again at every analysis request, so edits take effect on the next call.
 
 ### MISP search options
 * **limit**: Maximum number of attributes retrieved in a MISP search(default: `1000`)
-* **event_timestamp**: Filter for events modified/created after a timestamp, e.g. `7d`, `5h`, `15m` (default: `10d`). This parameter is used to limit the scope of MISP searches to recent events, which are more likely to be relevant for active threats.
+* **event_timestamp**: Filter for events modified/created after a timestamp, e.g. `7d`, `5h`, `15m` (default: `7d`). This parameter is used to limit the scope of MISP searches to recent events, which are more likely to be relevant for active threats.
+* **enforce_warninglist**: Whether to exclude attributes found in an enabled MISP warninglist from the search results (default: `true`). Excluded attributes contribute no evidence to the severity score. The [suspicious web scanning analyzer](./web_scn_analyzer.md#identified-scanners) overrides this to `false` by design, since it reports warninglist matches as analyst context without altering the score.
+* **max_values_per_type**: Maximum number of IOC values searched per attribute type (default: `50`). All the values of an attribute type are searched in a single request, so this setting bounds the size of each request when an alert reports a large number of indicators, for example a long list of probed paths. Values beyond the limit are reported in the logs and left out of the search.
 
 ### Priority thresholds 
 
@@ -127,7 +139,7 @@ Details about the scoring computation can be found in the [technical specificati
 
 ### Severity computation
 
-Severity is derived from the MISP event threat level and threat-indicating tags (e.g. `mitre-attack-pattern`).
+Severity is derived from the MISP event threat level and threat-indicating tags.
 
 **Threat level mapping**
 
@@ -147,7 +159,7 @@ Map MISP event threat levels to severity scores. Undefined threat levels map to 
 tags_multiplier: 1.3
 ```
 
-Applied when threat-indicating tags are present in the event or any attribute. The final severity is computed as:
+Applied when the matched MISP event carries a tag identifying a threat, that is, a tag whose name contains `mitre-attack-pattern` or `mitre-intrusion-set`. Only tags at the event level are considered. The final severity is computed as:
 
 ```
 Severity = min(1.0, threat_level × tags_multiplier)
@@ -186,6 +198,36 @@ attribute_weights:
   admiralty: 0.4     # Weight for Admiralty scale assessment
 ```
 
+The sightings contribution is computed from the true and false positive sightings recorded on the attribute and needs no configuration.
+
+**Admiralty scale mappings**
+
+Grades of the [Admiralty scale](https://www.misp-project.org/taxonomies.html) taxonomy, mapped to confidence factors. Source reliability runs from `a` to `g`, information credibility from `1` to `6`.
+
+```yaml
+admiralty_source_reliability:
+  a: 1.00  # Completely reliable
+  b: 0.80  # Usually reliable
+  c: 0.60  # Fairly reliable
+  d: 0.40  # Not usually reliable
+  e: 0.20  # Unreliable
+  f: 0.10  # Cannot be judged / reliability unknown
+  g: 0.00  # Deliberately misleading
+
+admiralty_info_credibility:
+  "1": 1.00  # Confirmed by other sources
+  "2": 0.80  # Probably true
+  "3": 0.60  # Possibly true
+  "4": 0.40  # Doubtful
+  "5": 0.20  # Improbable
+  "6": 0.00  # Truth cannot be judged
+```
+
+The two grades are combined with a geometric mean, so a weak grade on either axis suppresses the result and cannot be compensated by the other. Admiralty tags set on an attribute take precedence over the ones set on its event; an absent tag counts as `0.0`, not as a neutral value.
+
+**Unused parameters**
+
+The `impacted_sector` block present in the template is not read by the scoring engine. It is kept as a placeholder for a future refinement of the model.
 
 ### Customizing the scoring model
 
@@ -205,6 +247,26 @@ confidence_weights:
   analysis: 0.4      # Decreased from 0.5
   empirical: 0.6     # Increased from 0.5
 ```
+
+## MISP instance setup
+
+DECIPHER relies on specific MISP tags to determine the confidence in the score and to create simulation events for testing.
+
+We recommend to enable the following set of taxonomies in MISP and make use of them in your events to benefit from the DECIPHER features.
+
+ | Taxonomy | Used by |
+ |---|---|
+ | admiralty-scale | scoring engine, confidence computation |
+ | priority-level | case management, priority tags of the created cases |
+ | tlp | tests |
+ | type | tests |
+
+ Login with an Admin user into MISP and go to the "Event actions" → "List taxonomies" menu.
+
+The severity multiplier is driven by the MITRE ATT&CK galaxies instead of a taxonomy: an event tagged with `misp-galaxy:mitre-attack-pattern` or `misp-galaxy:mitre-intrusion-set` receives the `tags_multiplier`.
+
+The analyzers also make use of MISP warninglists, which are disabled in a fresh instance. See [MISP warninglists](./web_scn_analyzer.md#misp-warninglists) for the setup tool that enables the ones used by DECIPHER.
+
 
 ## Additional configuration
 See the [deployment README](/deployment/README.md) for infrastructure-level configuration.

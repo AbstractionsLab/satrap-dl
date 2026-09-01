@@ -1,0 +1,47 @@
+# Excludes files that no image needs (metadata, caches, local venvs, 
+# locally generated runtime data) from the build context.
+# Applies to every Dockerfile in this repository.
+
+# Version control
+.git
+.gitignore
+.github
+
+# Python bytecode / caches
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+**/*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+**/.venv/
+**/venv/
+**/.env
+
+# Editors / OS files
+.vscode/
+.idea/
+**/.DS_Store
+
+# SATRAP-DL specs images
+docs/specs/ARC/assets/arc-[0-9][0-9][0-9]-????????????.svg
+docs/specs/SWD/assets/swd-[0-9][0-9][0-9]-????????????.svg
+
+# log files
+**/*.log
+
+# SATRAP - Locally generated runtime data
+**/assets/logs/*
+**/assets/stixdata/*
+
+# DECIPHER - configuration files
+/config/*.yaml
+/config/*.yml
+# include config templates
+!/config/*.template.yaml
+
+# SATRAP-DL docs
+tutorials

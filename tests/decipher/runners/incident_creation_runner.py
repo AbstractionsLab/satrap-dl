@@ -6,7 +6,7 @@ with a RADAR case bundle including score, title, and additional metadata.
 """
 import json
 from pathlib import Path
-import httpx
+import httpx2
 from pyflowintel import PyFlowintel
 from decipher.commons.log_utils import setup_logging, get_logger
 from decipher.settings import DECIPHER_CONFIG_PATH, API_VERSION
@@ -37,7 +37,7 @@ def test_incident_creation_api(base_url: str = "http://host.docker.internal:8000
         print(f"  Priority: {incident_data['priority_level']}")
         print(f"  Title: {incident_data['title']}")
         
-        response = httpx.post(
+        response = httpx2.post(
             f"{base_url}/api/{API_VERSION}/incident",
             json=incident_data,
             timeout=8
@@ -58,7 +58,7 @@ def test_incident_creation_api(base_url: str = "http://host.docker.internal:8000
             print(f"   {json.dumps(response.json(), indent=2)}")
         else:
             print(f"\nError {response.status_code}: {response.text}")
-    except httpx.TimeoutException:
+    except httpx2.TimeoutException:
         print(f"\nTimeout: Request took too long")
     except Exception as e:
         print(f"\nUnexpected error: {e}")

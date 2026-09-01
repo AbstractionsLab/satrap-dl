@@ -1,0 +1,508 @@
+[
+  {
+    "name": "[TEST] Critical: SQL injection scanning campaign against public web apps",
+    "description": "Automated probing of login and configuration endpoints with sqlmap, attributed to an active exploitation campaign. Covers the maximum-score path: high threat level, MITRE tag multiplier, completed analysis, attribute-level Admiralty tags and true-positive sightings, and a match on every IOC type in the ioc_mapping (ip-src, url, uri, user-agent, http-method).",
+    "timedelta": 3,
+    "alert_data": {
+      "src_ip": [
+        "91.240.118.172"
+      ],
+      "uri": [
+        "/wp-login.php",
+        "http://owncloud.abc.lu/index.php?id=1%20OR%201=1",
+        "/.env"
+      ],
+      "user_agents": [
+        "sqlmap/1.7.2#stable (http://sqlmap.org)"
+      ],
+      "http_method": [
+        "POST",
+        "GET"
+      ],
+      "target_host": "owncloud.abc.lu",
+      "detection_chain": [
+        [
+          1001,
+          "request burst from single source"
+        ],
+        [
+          1002,
+          "known scanner user-agent"
+        ],
+        [
+          1003,
+          "sql injection pattern in query string"
+        ]
+      ]
+    },
+    "misp_attributes": [
+      {
+        "type": "ip-src",
+        "value": "91.240.118.172",
+        "comment": "Scanning source, bulletproof hosting range",
+        "sightings": {
+          "true_positives": 4,
+          "false_positives": 0
+        },
+        "tags": [
+          {
+            "name": "admiralty-scale:source-reliability=\"a\""
+          },
+          {
+            "name": "admiralty-scale:information-credibility=\"1\""
+          }
+        ]
+      },
+      {
+        "type": "uri",
+        "value": "/wp-login.php",
+        "comment": "Probed endpoint, CMS login"
+      },
+      {
+        "type": "url",
+        "value": "http://owncloud.abc.lu/index.php?id=1%20OR%201=1",
+        "comment": "Probed URL carrying an sql injection payload"
+      },
+      {
+        "type": "uri",
+        "value": "/.env",
+        "comment": "Probed endpoint, secrets file. Shared with the reconnaissance event to exercise multi-event aggregation"
+      },
+      {
+        "type": "user-agent",
+        "value": "sqlmap/1.7.2#stable (http://sqlmap.org)",
+        "comment": "Scanner tool signature",
+        "sightings": {
+          "true_positives": 2,
+          "false_positives": 0
+        },
+        "tags": [
+          {
+            "name": "admiralty-scale:source-reliability=\"a\""
+          },
+          {
+            "name": "admiralty-scale:information-credibility=\"2\""
+          }
+        ]
+      },
+      {
+        "type": "http-method",
+        "value": "POST",
+        "comment": "Observed request method"
+      },
+      {
+        "type": "ip-dst",
+        "value": "203.0.113.10",
+        "comment": "Scanned endpoint"
+      }
+    ],
+    "tags": [
+      {
+        "name": "misp-galaxy:mitre-attack-pattern=\"Active Scanning - T1595\""
+      },
+      {
+        "name": "admiralty-scale:source-reliability=\"a\""
+      },
+      {
+        "name": "admiralty-scale:information-credibility=\"1\""
+      },
+      {
+        "name": "tlp:amber"
+      },
+      {
+        "name": "type:OSINT"
+      }
+    ],
+    "expected_severity": "high",
+    "analysis_stage": 2,
+    "expected_outcome": {
+      "approx_score": 0.997,
+      "severity_band": "severe",
+      "priority_tag": "priority-level:severe",
+      "identified_scanners": "empty mapping",
+      "case_created": true,
+      "notes": "Matches this event on all IOC types plus the shared '/.env' uri of the reconnaissance event, so score_events aggregates two events via noisy-OR."
+    }
+  },
+  {
+    "name": "[TEST] Medium: Directory and method enumeration with Nikto",
+    "description": "Web server reconnaissance detected through scanner user-agent and uncommon HTTP methods. Covers the path where the alert source IP is unknown to MISP and the match comes from url/uri, user-agent and http-method only, with Admiralty grades inherited from the event (no attribute-level tags) and a false-positive-dominated sighting record.",
+    "timedelta": 20,
+    "alert_data": {
+      "src_ip": [
+        "198.18.44.9"
+      ],
+      "uri": [
+        "/.env",
+        "/server-status"
+      ],
+      "user_agents": [
+        "Mozilla/5.00 (Nikto/2.5.0) (Evasions:None) (Test:Port Check)"
+      ],
+      "http_method": [
+        "PROPFIND",
+        "TRACE"
+      ],
+      "target_host": "intranet.abc.lu",
+      "detection_chain": [
+        [
+          2001,
+          "uncommon http method"
+        ],
+        [
+          2002,
+          "high 404 ratio"
+        ]
+      ]
+    },
+    "misp_attributes": [
+      {
+        "type": "user-agent",
+        "value": "Mozilla/5.00 (Nikto/2.5.0) (Evasions:None) (Test:Port Check)",
+        "comment": "Nikto default signature, frequently reported as a false positive",
+        "sightings": {
+          "true_positives": 1,
+          "false_positives": 2
+        }
+      },
+      {
+        "type": "uri",
+        "value": "/.env",
+        "comment": "Probed endpoint, secrets file. Shared with the sqlmap campaign event"
+      },
+      {
+        "type": "uri",
+        "value": "/server-status",
+        "comment": "Probed endpoint, Apache status page",
+        "sightings": {
+          "true_positives": 3,
+          "false_positives": 0
+        }
+      },
+      {
+        "type": "http-method",
+        "value": "PROPFIND",
+        "comment": "WebDAV method used for enumeration"
+      },
+      {
+        "type": "ip-src",
+        "value": "185.242.226.75",
+        "comment": "Source of the reported reconnaissance. Deliberately different from the alert source IP"
+      }
+    ],
+    "tags": [
+      {
+        "name": "admiralty-scale:source-reliability=\"b\""
+      },
+      {
+        "name": "admiralty-scale:information-credibility=\"3\""
+      },
+      {
+        "name": "tlp:amber"
+      },
+      {
+        "name": "type:CYBINT"
+      }
+    ],
+    "expected_severity": "medium",
+    "analysis_stage": 2,
+    "expected_outcome": {
+      "approx_score": 0.466,
+      "severity_band": "medium",
+      "priority_tag": "priority-level:medium",
+      "identified_scanners": "empty mapping",
+      "case_created": true,
+      "notes": "No MITRE tag, so no severity multiplier. Admiralty grades resolve from the event-level tags returned as inherited attribute tags."
+    }
+  },
+  {
+    "name": "[TEST] High: Exploitation attempts from a public scanning service range",
+    "description": "Malicious probing originating from an IP that belongs to a known internet-wide scanning service. Covers acceptance criterion 4 together with the rule that a warninglist match must not reduce the score: the source IP is reported in identified-scanners and still contributes to the severity score alongside the user-agent and uri matches, because warninglist enforcement is disabled for this scenario.",
+    "timedelta": 8,
+    "alert_data": {
+      "src_ip": [
+        "66.240.192.138"
+      ],
+      "uri": [
+        "/cgi-bin/.%2e/%2e%2e/bin/sh",
+        "/actuator/env"
+      ],
+      "user_agents": [
+        "Mozilla/5.0 (compatible; Nmap Scripting Engine; https://nmap.org/book/nse.html)"
+      ],
+      "http_method": [
+        "GET"
+      ],
+      "target_host": "10.20.30.40:8080",
+      "timestamp": "2026-08-25T03:02:11Z",
+      "detection_chain": [
+        [
+          3001,
+          "path traversal pattern"
+        ],
+        [
+          3002,
+          "actuator endpoint probing"
+        ],
+        [
+          3003,
+          "confirmed exploitation attempt"
+        ]
+      ]
+    },
+    "misp_attributes": [
+      {
+        "type": "ip-src",
+        "value": "66.240.192.138",
+        "comment": "Known public scanning service IP. Reported in identified-scanners and kept in the IOC search results, so it contributes to the score"
+      },
+      {
+        "type": "user-agent",
+        "value": "Mozilla/5.0 (compatible; Nmap Scripting Engine; https://nmap.org/book/nse.html)",
+        "comment": "NSE signature observed in the exploitation attempts",
+        "sightings": {
+          "true_positives": 2,
+          "false_positives": 0
+        },
+        "tags": [
+          {
+            "name": "admiralty-scale:source-reliability=\"b\""
+          },
+          {
+            "name": "admiralty-scale:information-credibility=\"2\""
+          }
+        ]
+      },
+      {
+        "type": "uri",
+        "value": "/actuator/env",
+        "comment": "Spring Boot actuator endpoint probed for credential leakage"
+      },
+      {
+        "type": "uri",
+        "value": "/cgi-bin/.%2e/%2e%2e/bin/sh",
+        "comment": "Path traversal attempt"
+      }
+    ],
+    "tags": [
+      {
+        "name": "admiralty-scale:source-reliability=\"c\""
+      },
+      {
+        "name": "admiralty-scale:information-credibility=\"3\""
+      },
+      {
+        "name": "tlp:amber"
+      }
+    ],
+    "expected_severity": "high",
+    "analysis_stage": 1,
+    "expected_outcome": {
+      "approx_score": 0.667,
+      "severity_band": "high",
+      "priority_tag": "priority-level:high",
+      "identified_scanners": "non-empty: 66.240.192.138 maps to the name of the warninglist that contains it",
+      "case_created": true,
+      "notes": "Requires the corresponding scanning-service warninglist to be enabled in MISP. The severity score must be identical whether or not the warninglist is enabled."
+    }
+  },
+  {
+    "name": "[TEST] Undefined: Research scanner inventory",
+    "description": "Inventory of legitimate internet-wide research scanners, published as research-scanner objects. Covers the search_research_scanner_matches path and acceptance criterion 6: identified-scanners is populated while the severity score stays 0, because the matching event carries an undefined threat level, so no case is created.",
+    "timedelta": 48,
+    "alert_data": {
+      "src_ip": [
+        "167.94.138.34"
+      ],
+      "uri": [
+        "/",
+        "/favicon.ico"
+      ],
+      "user_agents": [
+        "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
+      ],
+      "http_method": [
+        "GET"
+      ],
+      "target_host": "www.abc.lu",
+      "timestamp": "2026-08-23T14:00:00Z"
+    },
+    "misp_objects": [
+      {
+        "name": "research-scanner",
+        "comment": "Censys internet-wide scanning infrastructure",
+        "attributes": [
+          {
+            "object_relation": "scanning_ip",
+            "type": "ip-src",
+            "value": "167.94.138.34"
+          },
+          {
+            "object_relation": "scanning_host",
+            "type": "hostname",
+            "value": "scanner-34.sfj.corp.censys.io"
+          },
+          {
+            "object_relation": "project",
+            "type": "text",
+            "value": "Censys Internet-Wide Scanning"
+          },
+          {
+            "object_relation": "domain",
+            "type": "domain",
+            "value": "censys.io"
+          }
+        ]
+      },
+      {
+        "name": "research-scanner",
+        "comment": "Academic measurement project",
+        "attributes": [
+          {
+            "object_relation": "scanning_ip",
+            "type": "ip-src",
+            "value": "141.212.123.17"
+          },
+          {
+            "object_relation": "project",
+            "type": "text",
+            "value": "University of Michigan Scan Project"
+          },
+          {
+            "object_relation": "domain",
+            "type": "domain",
+            "value": "scan.security.engin.umich.edu"
+          }
+        ]
+      }
+    ],
+    "tags": [
+      {
+        "name": "tlp:clear"
+      },
+      {
+        "name": "type:OSINT"
+      }
+    ],
+    "expected_severity": "undefined",
+    "analysis_stage": 2,
+    "expected_outcome": {
+      "approx_score": 0.0,
+      "severity_band": "none",
+      "identified_scanners": "non-empty: each matched source IP maps to its research-scanner project and domain (e.g. 'PROJECT - Censys Internet-Wide Scanning; DOMAIN - censys.io'), plus any matching warninglist name",
+      "case_created": false,
+      "notes": "The undefined threat level yields severity 0, so the event contributes 0 to the noisy-OR aggregation and the score stays 0 even though MISP events were found."
+    }
+  },
+  {
+    "name": "[TEST] Low: Aggressive SEO crawler enumeration",
+    "description": "High-volume but benign crawling reported with a weak evidence base. Covers the low end of the scale: low threat level, initial analysis stage, weak Admiralty grades and false-positive-only sightings produce a non-zero score below every configured priority threshold. The alert omits http_method and detection_chain to exercise the optional-field branches.",
+    "timedelta": 30,
+    "alert_data": {
+      "src_ip": [
+        "46.229.168.146"
+      ],
+      "uri": [
+        "/robots.txt",
+        "/sitemap.xml"
+      ],
+      "user_agents": [
+        "Mozilla/5.0 (compatible; SemrushBot/7~bl; +http://www.semrush.com/bot.html)"
+      ],
+      "target_host": "shop.abc.lu",
+      "timestamp": "2026-08-24T06:30:00Z"
+    },
+    "misp_attributes": [
+      {
+        "type": "user-agent",
+        "value": "Mozilla/5.0 (compatible; SemrushBot/7~bl; +http://www.semrush.com/bot.html)",
+        "comment": "Commercial SEO crawler, repeatedly reported as a false positive",
+        "sightings": {
+          "true_positives": 0,
+          "false_positives": 3
+        }
+      },
+      {
+        "type": "uri",
+        "value": "/robots.txt",
+        "comment": "Standard crawler entry point"
+      },
+      {
+        "type": "ip-src",
+        "value": "46.229.168.146",
+        "comment": "Crawler source address"
+      }
+    ],
+    "tags": [
+      {
+        "name": "admiralty-scale:source-reliability=\"c\""
+      },
+      {
+        "name": "admiralty-scale:information-credibility=\"4\""
+      },
+      {
+        "name": "tlp:red"
+      }
+    ],
+    "expected_severity": "low",
+    "analysis_stage": 0,
+    "expected_outcome": {
+      "approx_score": 0.085,
+      "severity_band": "below all priority thresholds",
+      "priority_tag": "priority-level:baseline-minor",
+      "identified_scanners": "empty mapping",
+      "case_created": true,
+      "notes": "The initial analysis stage zeroes the analyst-judgment half of the confidence and the false-positive record zeroes the sightings contribution."
+    }
+  },
+  {
+    "name": "[TEST] Undefined: Unrelated scanning campaign, zero-match control",
+    "description": "Background threat intelligence intentionally sharing no IOC with its own alert data. Covers acceptance criterion 6 in the strict case: no MISP event matches any alert IOC and the source IP is not a known scanning source, so the severity score is 0, identified-scanners is empty and no case is created. The alert carries only the required fields.",
+    "timedelta": 60,
+    "alert_data": {
+      "src_ip": [
+        "203.113.7.221"
+      ],
+      "uri": [
+        "/nonexistent-probe-path-zero-match"
+      ],
+      "user_agents": [
+        "curl/8.7.1"
+      ]
+    },
+    "misp_attributes": [
+      {
+        "type": "ip-src",
+        "value": "5.188.206.14",
+        "comment": "Source of an unrelated campaign"
+      },
+      {
+        "type": "uri",
+        "value": "/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php",
+        "comment": "Probed endpoint of an unrelated campaign"
+      },
+      {
+        "type": "user-agent",
+        "value": "Go-http-client/1.1",
+        "comment": "Generic client of an unrelated campaign"
+      }
+    ],
+    "tags": [
+      {
+        "name": "tlp:amber"
+      },
+      {
+        "name": "type:CYBINT"
+      }
+    ],
+    "expected_severity": "undefined",
+    "analysis_stage": 0,
+    "expected_outcome": {
+      "approx_score": 0.0,
+      "severity_band": "none",
+      "identified_scanners": "empty mapping",
+      "case_created": false,
+      "notes": "misp_events_found must be empty and score_breakdown must contain no event result."
+    }
+  }
+]

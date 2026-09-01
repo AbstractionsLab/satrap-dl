@@ -115,28 +115,18 @@ class TestCreateCaseFromBundleSuccess(unittest.TestCase):
 class TestCreateCaseFromBundleErrors(unittest.TestCase):
     """Error-path tests for create_case_from_bundle."""
 
+    def test_unavailable_error_is_catchable_as_case_creation_error(self):
+        """Callers handling CaseCreationError must also catch an unavailable Flowintel."""
+        self.assertTrue(issubclass(UnavailablePyFlowintelError, CaseCreationError))
+
     def test_configuration_error_raises_unavailable_error(self):
         """PyflowintelConfigurationError during client init should raise UnavailablePyFlowintelError."""
         with patch(_PYFLOW_CLIENT, side_effect=PyflowintelConfigurationError("bad config")):
             with self.assertRaises(UnavailablePyFlowintelError):
                 create_case_from_bundle(_make_bundle())
 
-    def test_unavailable_error_is_subclass_of_case_creation_error(self):
-        """UnavailablePyFlowintelError must be catchable as CaseCreationError."""
-        with patch(_PYFLOW_CLIENT, side_effect=PyflowintelConfigurationError("bad config")):
-            with self.assertRaises(CaseCreationError):
-                create_case_from_bundle(_make_bundle())
-
-    def test_flowintel_api_error_raises_case_creation_error(self):
-        """A PyflowintelException during case creation should be wrapped in CaseCreationError."""
-        client = _make_client()
-        client.cases.create.side_effect = PyflowintelException("API timeout")
-        with patch(_PYFLOW_CLIENT, return_value=client):
-            with self.assertRaises(CaseCreationError):
-                create_case_from_bundle(_make_bundle())
-
-    def test_case_creation_error_chains_original_exception(self):
-        """CaseCreationError should expose the original PyflowintelException as __cause__."""
+    def test_flowintel_api_error_is_wrapped_and_chained(self):
+        """A PyflowintelException should be wrapped in CaseCreationError, keeping its cause."""
         original = PyflowintelException("upstream failure")
         client = _make_client()
         client.cases.create.side_effect = original

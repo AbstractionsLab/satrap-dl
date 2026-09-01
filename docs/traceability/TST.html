@@ -51,6 +51,7 @@
 <li><a href="#TST-026">2.6 Test analysis endpoint graceful degradation</a></li>
 <li><a href="#TST-025">2.7 Test incidents endpoint</a></li>
 <li><a href="#TST-027">2.8 Test extensible analyzer framework</a></li>
+<li><a href="#TST-030">2.9 Test analysis scenario: suspicious web scanning</a></li>
 </ul>
 </li>
 <li><a href="#TST-SATRAP-DL">3 SATRAP-DL validation tests</a><ul>
@@ -1805,7 +1806,7 @@ transitive-use
 <blockquote>
 <p><code>tests/decipher/runners/push_misp_events.sh</code></p>
 </blockquote>
-<p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Supported analysis for threat scenario: suspicious login</a>, <a href="SRS.html#SRS-052">SRS-052 Analysis endpoint: IOC search in MISP for CTI enrichment</a>, <a href="SRS.html#SRS-054">SRS-054 Analysis endpoint: optional creation of prioritized case</a></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Threat scenario analysis: suspicious login</a>, <a href="SRS.html#SRS-052">SRS-052 Analysis endpoint: IOC search in MISP for CTI enrichment</a>, <a href="SRS.html#SRS-054">SRS-054 Analysis endpoint: optional creation of prioritized case</a></p>
 <p><em>Child links:</em> <a href="TRP.html#TRP-022">TRP-022 Test full workflow of analysis endpoint</a></p>
 <table>
 <thead>
@@ -2016,7 +2017,7 @@ transitive-use
   - the printed output contains <code>HTTP 200</code>.
   - <code>severity</code> is greater than 0.
   - <code>report</code> contains a message in <code>log_summary</code> indicating case creation failure.</p>
-<p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Supported analysis for threat scenario: suspicious login</a>, <a href="SRS.html#SRS-052">SRS-052 Analysis endpoint: IOC search in MISP for CTI enrichment</a>, <a href="SRS.html#SRS-054">SRS-054 Analysis endpoint: optional creation of prioritized case</a></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Threat scenario analysis: suspicious login</a>, <a href="SRS.html#SRS-052">SRS-052 Analysis endpoint: IOC search in MISP for CTI enrichment</a>, <a href="SRS.html#SRS-054">SRS-054 Analysis endpoint: optional creation of prioritized case</a></p>
 <p><em>Child links:</em> <a href="TRP.html#TRP-024">TRP-024 Test analysis endpoint graceful degradation</a></p>
 <table>
 <thead>
@@ -2286,6 +2287,250 @@ transitive-use
 </tr>
 </tbody>
 </table>
+<h2 id="TST-030">2.9 Test analysis scenario: suspicious web scanning <small><a href="TST.html#TST-030">TST-030</a></small></h2>
+<p>Validate the scenario-specific behavior of the <code>suspicious_nt_scanning</code> threat scenario: the reporting of known, likely-legitimate scanning sources in the <code>identified-scanners</code> field, the invariance of the severity score with respect to those matches, and the default case creation decision.</p>
+<p>The behavior shared by all analysis scenarios (request and response structure, unknown alert type, internal failures, and the <code>enable_case_creation</code> and <code>enable_misp_search</code> toggles) is covered by <a href="TST.html#TST-028">TST-028</a> and is not repeated here.</p>
+<h2>Preconditions</h2>
+<ul>
+<li>DECIPHER stack running (<code>cd deployment &amp;&amp; ./decipher_up.sh --all</code>)</li>
+<li>A reachable MISP and Flowintel instance set in <code>config/decipher-settings.yaml</code> with valid API keys for a <code>User</code> role (MISP).</li>
+<li><code>config/decipher-runtime-cfg.yaml</code> with the following settings:<ul>
+<li><code>enable_misp_search: true</code></li>
+<li><code>enable_case_creation: true</code></li>
+<li><code>event_timestamp: 7d</code></li>
+<li><code>enforce_warninglist: true</code></li>
+</ul>
+</li>
+<li>Access to a shell with <code>curl</code> and <code>jq</code></li>
+<li>A MISP user with <code>Admin</code> role and an API key for this user</li>
+<li>The MISP attribute <code>71.6.199.23</code> of type <code>ip-src</code> is not present in the MISP instance (check with "Event actions" $\rightarrow$ "Search attributes").</li>
+</ul>
+<h2>Setup actions</h2>
+<ol>
+<li>Login with an <code>Admin</code> user into MISP and ensure that the following taxonomies are enabled ("Event actions" $\rightarrow$ "List taxonomies"): admiralty-scale, tlp, type.</li>
+<li>Enable warninglists related to public scanning services (in case of error, check the name of the decipher running container with <code>docker ps</code>):</li>
+</ol>
+<pre><code class="language-sh">docker exec decipher-api-1 \
+  python -m decipher.tools.warninglists_mgr enable --api-key &lt;misp-admin-key&gt;
+</code></pre>
+<ol start="3">
+<li>From the project root folder, go to <code>tests/decipher/runners</code> and update the <code>push_misp_events.sh</code> script with the URL and the API key of your MISP instance.</li>
+<li>Run the script to create the web scanning test events in MISP:</li>
+</ol>
+<pre><code class="language-sh">cd tests/decipher/runners
+./push_misp_events.sh
+</code></pre>
+<ol start="5">
+<li>Login into MISP with the test user and verify that the 6 events defined in <code>tests/decipher/data/web_scanning_events.json</code>, identifiable by the "Info" description starting with <code>[TEST]</code>, are present, and that the event "[TEST] Undefined: Research scanner inventory" contains two <code>research-scanner</code> objects.</li>
+<li>In MISP, search for warninglists containing the IP address <code>66.240.192.138</code> ("Input filters" $\rightarrow$ "Warninglists" $\rightarrow$ "Search in Warninglists") and note the names as <code>&lt;scanner-wl&gt;</code>.</li>
+<li>Run <code>rm -rf .venv-pymisp</code> in <code>tests/decipher/runners</code> to remove the Python environment created for pushing events to MISP.</li>
+</ol>
+<h2>Test dependencies</h2>
+<ul>
+<li><a href="TST.html#TST-028">TST-028</a> executed successfully (analysis endpoint core behavior)</li>
+</ul>
+<h2>Test steps</h2>
+<h3>AC1, AC2, AC5: Analysis with matching threat intelligence</h3>
+<ol>
+<li>Send the POST request with the alert data of the sqlmap campaign event:</li>
+</ol>
+<pre><code class="language-sh">curl -s \
+  -X 'POST' \
+  'http://localhost:8000/api/v1/analyze/suspicious_nt_scanning' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;src_ip&quot;: [&quot;91.240.118.172&quot;],
+  &quot;uri&quot;: [&quot;/app-login.php&quot;, &quot;http://owncloud.abc.lu/index.php?id=1%20OR%201=1&quot;, &quot;/.env&quot;],
+  &quot;user_agents&quot;: [&quot;sqlmap/1.7.2#stable (http://sqlmap.org)&quot;],
+  &quot;http_method&quot;: [&quot;POST&quot;, &quot;GET&quot;],
+  &quot;target_host&quot;: &quot;lhc.abc.lu&quot;
+  }' | jq
+</code></pre>
+<ol start="2">
+<li>Go to the Flowintel case at the URL returned in <code>created_case.link</code>.</li>
+</ol>
+<h3>AC3: Warninglist match reported for a public scanning service</h3>
+<ol>
+<li>Send the POST request with the alert data of the exploitation attempt within a wanringlisted scanning service range:</li>
+</ol>
+<pre><code class="language-sh">curl -s \
+  -X 'POST' \
+  'http://localhost:8000/api/v1/analyze/suspicious_nt_scanning' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;src_ip&quot;: [&quot;66.240.192.138&quot;],
+  &quot;uri&quot;: [&quot;/cgi-bin/.%2e/%2e%2e/bin/sh&quot;, &quot;/actuator/env&quot;],
+  &quot;user_agents&quot;: [&quot;Mozilla/5.0 (compatible; Nmap Scripting Engine; https://nmap.org/book/nse.html)&quot;],
+  &quot;http_method&quot;: [&quot;GET&quot;],
+  &quot;target_host&quot;: &quot;10.20.30.40:8080&quot;,
+  &quot;timestamp&quot;: &quot;2026-08-25T03:02:11Z&quot;,
+  &quot;detection_chain&quot;: [[3001, &quot;path traversal pattern&quot;], [3002, &quot;actuator endpoint probing&quot;]]
+  }' | jq
+</code></pre>
+<ol start="2">
+<li>Verify in MISP that the event "[TEST] High: Exploitation attempts from a public scanning service range" is listed in <code>report.misp_events_found</code>.</li>
+</ol>
+<h3>AC3: Research scanner match reported from MISP objects</h3>
+<ol>
+<li>Send the POST request with the alert data of the research scanner inventory event:</li>
+</ol>
+<pre><code class="language-sh">curl -s \
+  -X 'POST' \
+  'http://localhost:8000/api/v1/analyze/suspicious_nt_scanning' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;src_ip&quot;: [&quot;167.94.138.34&quot;, &quot;141.212.123.17&quot;],
+  &quot;uri&quot;: [&quot;/&quot;, &quot;/favicon.ico&quot;],
+  &quot;user_agents&quot;: [&quot;Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)&quot;],
+  &quot;http_method&quot;: [&quot;GET&quot;],
+  &quot;target_host&quot;: &quot;www.abc.lu&quot;,
+  &quot;timestamp&quot;: &quot;2026-08-23T14:00:00Z&quot;
+  }' | jq
+</code></pre>
+<ol start="2">
+<li>Go to the Flowintel case at the URL returned in <code>created_case.link</code>.</li>
+</ol>
+<h3>AC6: No matching threat intelligence</h3>
+<ol>
+<li>Send the POST request with the alert data of the zero-match control event, whose source IP address is no known scanner:</li>
+</ol>
+<pre><code class="language-sh">curl -s \
+  -X 'POST' \
+  'http://localhost:8000/api/v1/analyze/suspicious_nt_scanning' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;src_ip&quot;: [&quot;203.113.7.221&quot;],
+  &quot;uri&quot;: [&quot;/nonexistent-probe-path-zero-match&quot;],
+  &quot;user_agents&quot;: [&quot;curl/8.7.1&quot;]
+  }' | jq
+</code></pre>
+<ol start="2">
+<li>Send the same request with <code>src_ip</code> replaced by a known scanning source with no threat intelligence attached to it:</li>
+</ol>
+<pre><code class="language-sh">curl -s \
+  -X 'POST' \
+  'http://localhost:8000/api/v1/analyze/suspicious_nt_scanning' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;src_ip&quot;: [&quot;71.6.199.23&quot;],
+  &quot;uri&quot;: [&quot;/nonexistent-probe-path-zero-match&quot;],
+  &quot;user_agents&quot;: [&quot;curl/8.7.1&quot;]
+  }' | jq
+</code></pre>
+<h3>Clean up</h3>
+<ol>
+<li>Delete the <code>[TEST]</code> events created in MISP and the cases created in Flowintel.</li>
+</ol>
+<h2>Expected outcome</h2>
+<h3>AC1, AC2, AC5: Analysis with matching threat intelligence</h3>
+<ol>
+<li>The following holds in the response:<ul>
+<li><code>analyzed_scenario</code> is <code>suspicious_nt_scanning</code>.</li>
+<li><code>severity</code> is approximately 0.987.</li>
+<li><code>report.misp_events_found</code> contains the IDs of the "SQL injection scanning campaign against public web apps".</li>
+<li><code>report.score_breakdown</code> contains a breakdown of the event with <code>event_id</code>, <code>score</code>, <code>severity</code>, <code>confidence</code> and an <code>attribute_breakdowns</code> list.</li>
+<li><code>report.identified-scanners</code> is an empty list, since the source IP address matches no known scanning source.</li>
+<li><code>created_case.id</code> is non-zero and <code>created_case.link</code> points to the created case.</li>
+</ul>
+</li>
+<li>The following holds in the case page:<ul>
+<li>The case has a <code>priority-level:severe</code> tag</li>
+<li>The case description contains the section "Scenario", referring to suspicious network/web scanning, "Alert information" with the data sent in the POST request, "Severity score", "Score breakdown" with the per-event and per-attribute contributions, and "Additional information" with the <code>log_summary</code>, <code>identified-scanners</code>, <code>misp_available</code> and <code>misp_events_found</code> entries.</li>
+<li>The description ends with a note stating that the <code>identified-scanners</code> field is contextual only and does not reduce the severity score.</li>
+</ul>
+</li>
+</ol>
+<h3>AC3: Warninglist match reported for a public scanning service</h3>
+<ol>
+<li>The following holds in the response:<ul>
+<li><code>severity</code> is approximately 0.667.</li>
+<li><code>report.identified-scanners</code> contains one entry for the source IP address <code>66.240.192.138</code>, naming <code>&lt;scanner-wl&gt;</code> as the matching source.</li>
+<li><code>created_case.id</code> is non-zero.</li>
+</ul>
+</li>
+<li>The validation succeeds.</li>
+</ol>
+<h3>AC3: Research scanner match reported from MISP objects</h3>
+<ol>
+<li>The following holds in the response:<ul>
+<li><code>report.identified-scanners</code> contains an entry per source IP address, mapping <code>167.94.138.34</code> to the project and domain labels of the Censys <code>research-scanner</code> object and <code>141.212.123.17</code> to those of the University of Michigan one.</li>
+<li><code>report.misp_events_found</code> contains the ID of the research scanner inventory event.</li>
+<li><code>severity</code> is 0, since the undefined threat level of the matched event contributes no severity, and no priority threshold is reached.</li>
+<li><code>created_case.id</code> is non-zero: the case is created in spite of the zero score, because the known-scanner context is evidence for the analyst.</li>
+</ul>
+</li>
+<li>The case description contains the information of both matching IPs in the "identified-scanners" section.</li>
+</ol>
+<h3>AC6: No matching threat intelligence</h3>
+<ol>
+<li>The following holds in the response:<ul>
+<li><code>severity</code> is 0.</li>
+<li><code>report.misp_events_found</code> is an empty list and <code>report.score_breakdown</code> contains no event result.</li>
+<li><code>report.identified-scanners</code> is an empty list.</li>
+<li><code>created_case.id</code> is 0, <code>created_case.link</code> is an empty string and <code>report.log_summary</code> states that no case was created because no threat intelligence was found for the alert IOCs.</li>
+</ul>
+</li>
+<li>The response is as in step 1, except that <code>report.identified-scanners</code> contains an entry mapping <code>71.6.199.23</code> to <code>&lt;scanner-wl&gt;</code> and that a case is created, with <code>created_case.id</code> non-zero and a <code>priority-level:baseline-minor</code> tag. The severity score remains 0, that is, the known-scanner match does not raise it.</li>
+</ol>
+<h2>Additional coverage by automated tests</h2>
+<p>The uncovered parts of the acceptance criteria in <a href="SRS.html#SRS-059">SRS-059</a> are verified by the unit and integration tests as outlined below.</p>
+<ul>
+<li><strong>AC1</strong>, alert schema and IOCs mapping: <code>TestNetworkScanningAlert</code> and <code>TestNetworkScanningIOCSearch</code> in <code>tests/decipher/network_scanning_test.py</code>.</li>
+<li><strong>AC1</strong> and <strong>AC2</strong>, structure of the analysis result: <code>TestScoringAndExtension</code> and <code>TestCaseCreation</code> in <code>tests/decipher/scenario_analyzer_test.py</code>, and <code>TestAnalysisResultModel</code> in <code>tests/decipher/analyzers_test.py</code>.</li>
+<li><strong>AC3</strong>, content of the <code>identified-scanners</code> field: <code>TestNetworkScanningIdentifiedScanners</code> in <code>tests/decipher/network_scanning_test.py</code>, <code>TestIdentifyKnownScanners</code> in <code>tests/decipher/misp_enrichment_test.py</code>, and <code>TestCheckWarninglists</code> and <code>TestSearchObjectMatches</code> in <code>tests/decipher/misp_connector_test.py</code>. The lookup of <code>research-scanner</code> objects at the level of the MISP connector, against a live MISP instance, is additionally covered by <code>TestSearchObjectMatches</code> in <code>tests/decipher/integration/misp_research_scanner_test.py</code>.</li>
+<li><strong>AC4</strong>, invariance of the score: <code>TestNetworkScanningIdentifiedScanners</code> and <code>TestNetworkScanningIOCSearch</code> in <code>tests/decipher/network_scanning_test.py</code>, and <code>TestSearchIoc</code> in <code>tests/decipher/misp_connector_test.py</code>.</li>
+<li><strong>AC6</strong>, case creation decision at severity 0: <code>TestNetworkScanningCaseSuppression</code> in <code>tests/decipher/network_scanning_test.py</code>.</li>
+<li><strong>AC7</strong>, MISP unavailable or disabled: <code>TestMISPSearchDisabled</code> and <code>TestCTIRetrieval</code> in <code>tests/decipher/scenario_analyzer_test.py</code>, and <code>TestNetworkScanningIdentifiedScanners</code> in <code>tests/decipher/network_scanning_test.py</code> for the failure of the scanner lookup itself.</li>
+</ul>
+<blockquote>
+<p><code>tests/decipher/runners/events_simulator.py</code>
+<code>tests/decipher/runners/push_misp_events.sh</code></p>
+</blockquote>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-059">SRS-059 Threat scenario analysis: suspicious web scanning</a></p>
+<p><em>Child links:</em> <a href="TRP.html#TRP-028">TRP-028 Test analysis scenario: suspicious web scanning</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>platform</td>
+<td>GNU/Linux, MISP, Flowintel</td>
+</tr>
+<tr>
+<td>execution_type</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>verification_method</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Stable</td>
+</tr>
+<tr>
+<td>complexity</td>
+<td>3</td>
+</tr>
+<tr>
+<td>test_data</td>
+<td>tests/decipher/data/web_scanning_events.json</td>
+</tr>
+<tr>
+<td>version</td>
+<td>1.1</td>
+</tr>
+</tbody>
+</table>
 <h1 id="TST-SATRAP-DL">3 SATRAP-DL validation tests <small>TST-SATRAP-DL</small></h1>
 <p>All the test specifications in this section assume the testing user has obtained a copy of the satrap-dl project from an official repository.</p>
 <h2 id="TST-029">3.1 Retrieve software identification details <small><a href="TST.html#TST-029">TST-029</a></small></h2>
@@ -2343,6 +2588,10 @@ transitive-use
 <tr>
 <td>platform</td>
 <td>GNU/Linux (Dockerized SATRAP deployment environment), Web browser, REST API client (e.g., curl)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>execution_type</td>

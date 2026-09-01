@@ -10,5 +10,6 @@ from .registry import AnalyzerRegistry
 
 # Import analyzers to trigger registration
 from . import suspicious_login  # noqa: F401
+from . import network_scanning  # noqa: F401
 
 __all__ = ["BaseAnalyzer", "AnalysisResult", "AnalyzerRegistry"]

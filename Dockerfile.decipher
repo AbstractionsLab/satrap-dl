@@ -1,50 +1,81 @@
-# DECIPHER Analysis API Docker Image
+# syntax=docker/dockerfile:1
 #
-# Build: docker build -f Dockerfile.decipher -t decipher-api:1.0.0 .
-# Run:   docker run -p 8000:8000 decipher-api:1.0.0
+# Image for the DECIPHER analysis REST API (FastAPI served by Uvicorn).
+#
+# Multi-stage build that ships just the Poetry virtual environment and
+# the decipher source (excluding satrap), run as a non-root system user.
+#
+# Build: docker compose -f deployment/docker-compose.decipher.yml build
+# Run: ./decipher_up.sh --api
+#
 
-FROM python:3.11-slim
+## ------------------------------------------------------------------
+# Build stage: install only decipher's dependencies into the Poetry venv
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PYTHONPATH=/app \
-    POETRY_VERSION=1.8.0 \
-    POETRY_VIRTUALENVS_CREATE=false
+FROM python:3.12-slim-trixie AS builder
+
+ENV PIP_DEFAULT_TIMEOUT=100 \
+	POETRY_VERSION=1.8.5 \
+	POETRY_NO_INTERACTION=1 \
+	# create a .venv inside the project dir instead of at a hashed path under ~/.cache
+	POETRY_VIRTUALENVS_IN_PROJECT=1
+
+WORKDIR /satrap-dl
+
+RUN pip install --no-cache-dir "poetry==${POETRY_VERSION}"
+COPY pyproject.toml poetry.lock ./
+
+# Install only the decipher runtime dependencies into /satrap-dl/.venv
+# The satrap and decipher root packages are not installed (--no-root)
+RUN poetry install --only main,decipher --no-root
+
+# Remove pip from the venv (not needed at runtime) to reduce vulnerabilities.
+# The import check fails the build if pip survives the uninstall.
+RUN poetry run python -m pip uninstall -y pip \
+	&& ! poetry run python -c "import pip" 2>/dev/null
+
+## ------------------------------------------------------------------
+# Runtime stage: requires the same base image from the build stage for portability of the venv
+FROM python:3.12-slim-trixie AS runtime
+
+ENV PYTHONUNBUFFERED=1 \
+	PYTHONFAULTHANDLER=1
 
 ENV PROJECT_HOME=/satrap-dl
+ENV API_USER=decipher
+
+# OS security patches for the base image's Debian packages.
+RUN apt-get update \
+	&& apt-get upgrade -y \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Non-root system group + user, with a home folder for $HOME to resolve to a writable, user-owned path
+RUN groupadd --system ${API_USER} \
+	&& useradd --system --gid ${API_USER} --create-home --home-dir /home/${API_USER} ${API_USER}
 
 WORKDIR ${PROJECT_HOME}
 
-# Install system dependencies and Poetry
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && pip install --no-cache-dir "poetry==$POETRY_VERSION"
+# Add the pre-built venv path to PATH for the dependencies + interpreter,
+# and the decipher root folder to the Python import path so that the interpreter
+# finds the decipher modules regardless of the working directory.
+ENV PATH="${PROJECT_HOME}/.venv/bin:${PATH}" \
+	PYTHONPATH="${PROJECT_HOME}"
 
-# Copy dependency files
-COPY pyproject.toml poetry.lock ./
+# Copy the venv from the previous stage and the project files.
+# Deliberately left owned by root to prevent (compromised) user modifications
+COPY --from=builder /satrap-dl/.venv ${PROJECT_HOME}/.venv
+COPY decipher/ ${PROJECT_HOME}/decipher/
+# configuration templates (.dockerignore excludes the operational *.yaml files)
+COPY config/ ${PROJECT_HOME}/config/
 
-# Install only DECIPHER dependencies (no satrap, dev, or docs groups)
-RUN poetry install --only main,decipher --no-interaction --no-root
+USER ${API_USER}
 
-# Copy application code
-COPY decipher/ ./decipher/
-
-# # Copy configuration files required at runtime
-COPY config/ ./config/
-
-# Install the project ignoring questions from poetry
-# Splitting the 'install' for efficient image rebuilding when only code changes
-RUN poetry install --only-root --no-interaction
-
-# Create non-root user for security and ensure ownership of app files
-RUN useradd --create-home --shell /bin/bash decipher \
-    && chown -R decipher:decipher ${PROJECT_HOME} ${PROJECT_HOME}/config
-USER decipher
-
-# Expose API port, allow override with environment variable
+# Expose API port
 EXPOSE 8000
+
+# Probe the API from inside the container using the standard library
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+	CMD ["python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
 
 # Run the API server
 CMD ["uvicorn", "decipher.api:app", "--host", "0.0.0.0", "--port", "8000"]

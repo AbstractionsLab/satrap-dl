@@ -10,11 +10,18 @@ analysis:
 
 
 # MISP search parameters (optional)
+# defaults are given
 misp_search:
   # Max. number of attributes retrieved
   limit: 1000
   # Filter for events modified/created after the given timestamp (now - event_timestamp)
   event_timestamp: 7d # E.g. 7d, 5h, 15m
+  # Exclude attributes found in any enabled MISP warninglist from the search results.
+  # This parameter can be overridden per function call, e.g. in the network-scanning analyzer
+  enforce_warninglist: true
+  # Max. number of IOC values searched per attribute type in a single request, 
+  # Values beyond the limit are reported in the logs and left out of the search
+  max_values_per_type: 50
 
 
 # Scoring thresholds for case prioritization (default values are shown, adjust as needed)

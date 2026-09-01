@@ -5,7 +5,7 @@ Supports IOC lookups, event correlation, and bulk searches.
 
 from typing import Any
 
-from pymisp import PyMISP, MISPEvent, MISPAttribute, MISPSighting, PyMISPError
+from pymisp import PyMISP, MISPEvent, MISPAttribute, MISPObject, MISPSighting, PyMISPError
 
 from decipher.commons.log_utils import get_logger
 from decipher.scoringengine.datamodels import (
@@ -24,6 +24,10 @@ from decipher.settings import MISP_URL, MISP_API_KEY, MISP_VERIFY_SSL, MISP_TIME
 
 
 logger = get_logger(__name__)
+
+DEFAULT_EVENT_TIMESTAMP = "7d"
+DEFAULT_SEARCH_RESULT_LIMIT = 1000
+DEFAULT_MAX_VALUES_PER_TYPE = 50
 
 
 class MISPDataExtractor:
@@ -77,18 +81,21 @@ class MISPDataExtractor:
         """Check if MISP client is available and connected."""
         return self.client is not None
 
-    def search_ioc(self, ioc_type: str, value: str, additional_params: dict[str, Any] = None) -> list[MISPAttribute]:
+    def search_ioc(self, ioc_type: str, value: str | list[str], additional_params: dict[str, Any] = None) -> list[MISPAttribute]:
         """
-        Search MISP for a specific IOC by type and value. Attributes in enabled warninglists are excluded from the results.
-        
-        The search timeframe and result limit can be set in the configuration file. If not set, 
-        the search defaults to events in the last 15 days without limit on the number of results
-        returned.
+        Search MISP for IOCs of a given type.
+
+        The search timeframe, result limit and warninglist enforcement can be set in the
+        configuration file or by the caller. If not set, the search defaults to events in
+        the last 7 days, without a limit of 1000 results returned, and excludes
+        attributes found in enabled warninglists in the MISP instance.
 
         Args:
             ioc_type: MISP attribute type (e.g., 'ip-src', 'ip-dst', 'domain', 'target-user').
-            value: IOC value to search for.
-            additional_params: Additional MISP search parameters.
+            value: IOC value, or list of values, to search for. MISP matches any of the
+                values given in a list, so a whole list is resolved in a single request.
+            additional_params: Additional MISP search parameters. Recognized keys are
+                'event_timestamp', 'limit' and 'enforce_warninglist'.
         Returns:
             List of MISPAttribute objects matching the search criteria, including
             the containing MISP Event.
@@ -96,6 +103,8 @@ class MISPDataExtractor:
         Raises:
             PyMISPError: If search fails.
         """
+        params = additional_params or {}
+
         try:
             search_params = {
                 "controller": "attributes",
@@ -104,13 +113,11 @@ class MISPDataExtractor:
                 "include_sightings": True,
                 "include_context": True,
                 "include_event_tags": True,
-                "enforce_warninglist": True,
+                "enforce_warninglist": params.get("enforce_warninglist", True),
+                "event_timestamp": params.get("event_timestamp", DEFAULT_EVENT_TIMESTAMP),
+                "limit": params.get("limit", DEFAULT_SEARCH_RESULT_LIMIT),
                 "pythonify": True
             }
-
-            if additional_params is not None:
-                search_params["event_timestamp"] = additional_params.get("event_timestamp", "15d")
-                search_params["limit"] = additional_params.get("limit", None)
 
             results = self.client.search(**search_params)
             return results
@@ -118,28 +125,45 @@ class MISPDataExtractor:
             logger.error(f"MISP search failed for {ioc_type}={value}: {e}")
             raise
 
-    def bulk_search_iocs(self, iocs: dict[str, list[str]], extra_search_params: dict[str, Any] = None) -> list[EventData]:
+    def bulk_search_iocs(
+            self, 
+            iocs: dict[str, list[str]], 
+            extra_search_params: dict[str, Any] = None,
+            core_ioc_types: set[str] | None = None,
+            min_att_per_ev: int | None = None,
+        ) -> list[EventData]:
         """
         Perform searches for IOCs across multiple attribute types.
 
         Args:
             iocs: Dictionary associating MISP attribute types to lists of values to be searched for.
                   Example: {"ip-src": ["1.2.3.4", "5.6.7.8"], "domain": ["evil.com"]}
-            extra_search_params: Additional parameters for the MISP search.
+            extra_search_params: Additional parameters for the MISP search. The number of
+                values searched per attribute type is capped by 'max_values_per_type'.
+            core_ioc_types: Attribute types whose match makes a found event relevant.
+                If None, no attribute type is deemed relevant on its own.
+            min_att_per_ev: Number of matched attributes a found event must exceed to
+                be relevant. If None, the number of attributes is not considered.
 
         Returns:
-            Aggregated list of EventData objects with deduplication by event_id.
+            Aggregated list of EventData objects with deduplication by event_id,
+            restricted to the events deemed relevant.
         """
+        max_values = (extra_search_params or {}).get(
+            "max_values_per_type", DEFAULT_MAX_VALUES_PER_TYPE
+        )
         all_attrs = []
 
         for ioc_type, values in iocs.items():
-            for value in values:
-                try:
-                    attributes_found = self.search_ioc(ioc_type, value, extra_search_params)
-                    all_attrs.extend(attributes_found)
-                except PyMISPError as e:
-                    logger.warning(f"Failed to search {ioc_type}={value}: {e}")
-                    continue
+            search_list = self._prepare_search_values(ioc_type, values, max_values)
+            if not search_list:
+                continue
+            try:
+                attributes_found = self.search_ioc(ioc_type, search_list, extra_search_params)
+                all_attrs.extend(attributes_found)
+            except PyMISPError as e:
+                logger.warning(f"Failed to search {len(search_list)} value(s) of type {ioc_type}: {e}")
+                continue
 
         if not all_attrs:
             logger.info(f"No events found for IOCs of type: {list(iocs.keys())}")
@@ -153,12 +177,223 @@ class MISPDataExtractor:
                 events_dict[event_id] = (attr.Event, [])
             events_dict.get(event_id)[1].append(attr)
 
+        selected_events = self.filter_relevant_events(
+            events_dict, relevant_att=core_ioc_types, min_att_num=min_att_per_ev)
+
         # Convert to EventData
-        event_data_list = self._misp_to_decipher_data(events_dict.values())
+        event_data_list = self._misp_to_decipher_data(selected_events.values())
         logger.debug(
             f"Found {len(event_data_list)} MISP events across {len(iocs)} IOC types"
         )
         return event_data_list
+
+    @staticmethod
+    def filter_relevant_events(
+        events: dict[int, tuple[MISPEvent, list[MISPAttribute]]],
+        relevant_att: set[str] | None = None,
+        min_att_num: int | None = None,
+    ) -> dict[int, tuple[MISPEvent, list[MISPAttribute]]]:
+        """
+        Select the events holding attributes considered relevant.
+
+        An event is kept if it holds at least one attribute of a type in
+        `relevant_att` or if it holds more than `min_att_num` attributes. The
+        criteria are optional and combined disjunctively; if none is given, no
+        filtering is applied.
+
+        Args:
+            events: Mapping of event id to the MISP event and the attributes
+                found for it.
+            relevant_att: MISP attribute types (e.g. 'ip-src') making an event
+                relevant. If None, no type is deemed relevant on its own.
+            min_att_num: Number of attributes an event must exceed to be
+                relevant. If None, the number of attributes is not considered.
+
+        Returns:
+            The entries of `events` meeting at least one criterion, in the
+            input order. The input mapping itself if no criterion is given.
+        """
+        if relevant_att is None and min_att_num is None:
+            return events
+
+        relevant_types = relevant_att or set()
+
+        return {
+            event_id: (event, attributes)
+            for event_id, (event, attributes) in events.items()
+            if (min_att_num is not None and len(attributes) > min_att_num)
+            or any(attr.type in relevant_types for attr in attributes)
+        }
+
+    @staticmethod
+    def _prepare_search_values(ioc_type: str, values: list[str], max_values: int) -> list[str]:
+        """
+        Prepare a list of values of one attribute type for a single MISP search.
+
+        Blank values are discarded and duplicates removed. If the size of the list exceeds
+        the max_values number, the list is pruned to bound the requested size and
+        any discarded value is logged.
+
+        Args:
+            ioc_type: MISP attribute type the values belong to, used for logging.
+            values: Values reported for that attribute type.
+            max_values: Maximum number of values to search for.
+
+        Returns:
+            The values to search for, in reporting order.
+        """
+        unique = list(dict.fromkeys(value for value in values if value and value.strip()))
+
+        if len(unique) > max_values:
+            logger.warning(
+                f"{len(unique)} values of type {ioc_type} exceed the limit of {max_values} "
+                f"per search. Ignoring: {unique[max_values:]}"
+            )
+            unique = unique[:max_values]
+
+        return unique
+
+    def check_warninglists(self, values: list[str]) -> dict[str, list[str]]:
+        """
+        Check IOC values against MISP's enabled warninglists.
+
+        Args:
+            values: IOC values to check (e.g. IP addresses).
+
+        Returns:
+            Mapping of each matched value to the names of the warninglists it
+            appears in. Values with no match are omitted.
+
+        Raises:
+            PyMISPError: If the warninglist check fails.
+        """
+        if not values:
+            return {}
+
+        try:
+            response = self.client.values_in_warninglist(values)
+        except PyMISPError as e:
+            logger.error(f"Warninglist check failed for {values}: {e}")
+            raise
+
+        # MISP answers with an empty list, not a dict, when no value matches
+        if not response:
+            return {}
+
+        if not isinstance(response, dict):
+            logger.warning(f"Unexpected warninglist response format: {response}")
+            return {}
+
+        return {
+            value: [entry.get("name") for entry in matches if entry.get("name")]
+            for value, matches in response.items()
+            if matches
+        }
+
+    def search_object_matches(
+        self,
+        misp_object_type: str,
+        values: list[str],
+        matching_att: str | None = None,
+        out_info: set[str] | None = None
+    ) -> dict[str, list[str]]:
+        """
+        Search MISP for objects of a given type referencing the given values.
+
+        A MISP object search matches a value in any attribute of the object,
+        so `matching_att` is used to restrict the match to a single attribute.
+
+        Args:
+            misp_object_type: Name of the MISP object template (e.g. 'research-scanner').
+            values: Values to look up (e.g. IP addresses or hostnames).
+            matching_att: Object's attribute (e.g. 'scanning_ip') where the value must appear. 
+                If None, a match in any attribute of the object is accepted.
+            out_info: Object's attributes (e.g. 'project') to report for each matched
+                object. Reported in alphabetical order. If None, no information is
+                reported and matched objects are represented by an empty string.
+
+        Returns:
+            Mapping of each matched value to the information reported for the
+            objects it matched. One entry per matched object, formatted as
+            "ATTRIBUTE - value(s)" pairs separated by '; '.
+
+        Raises:
+            PyMISPError: If the search fails.
+        """
+        scanners = {}
+
+        for value in values:
+            matches: list[str] = []
+            matched_uuids: set[str] = set()
+            try:
+                objects = self.client.search(
+                    controller="objects",
+                    object_name=misp_object_type,
+                    value=value,
+                    pythonify=True
+                )
+            except PyMISPError as e:
+                logger.error(f"{misp_object_type} search failed for {value}: {e}")
+                raise
+
+            for obj in objects:
+                if obj.uuid in matched_uuids:
+                    continue
+                # This post-search filter is needed because misp's search ignores 
+                # the 'type_attribute' parameter when using the controller "objects"
+                # A more costly solution but a workaround for the buggy parameter
+                if self._matches_attribute(obj, value, matching_att):
+                    matched_uuids.add(obj.uuid)
+                    matches.append(self._format_object_info(obj, out_info))
+
+            if matches:
+                scanners[value] = matches
+
+        logger.debug(f"Found '{misp_object_type}' objects for {list(scanners)}")
+        return scanners
+
+    @staticmethod
+    def _format_object_info(
+        misp_object: MISPObject, out_info: set[str] | None = None
+    ) -> str:
+        """
+        Report the values held by the given attributes of a MISP object.
+
+        Args:
+            misp_object: Object to read the attributes from.
+            out_info: Object's attributes to report, taken in alphabetical order
+                so that the result does not depend on the set iteration order.
+
+        Returns:
+            "ATTRIBUTE - value(s)" pairs separated by '; '. Attributes absent from
+            the object are skipped. Empty string if no attribute is reported.
+        """
+        info = []
+        for relation in sorted(out_info or ()):
+            att_values = [
+                attr.value
+                for attr in misp_object.get_attributes_by_relation(relation)
+                if attr.value
+            ]
+            if att_values:
+                info.append(f"{relation.upper()} - {', '.join(att_values)}")
+
+        return "; ".join(info)
+
+    @staticmethod
+    def _matches_attribute(
+        misp_object: MISPObject, value: str, matching_att: str | None = None
+    ) -> bool:
+        """Check whether the value is held by the given attribute of the object.
+
+        A `matching_att` of None accepts the value in any attribute.
+        """
+        attributes = (
+            misp_object.attributes
+            if matching_att is None
+            else misp_object.get_attributes_by_relation(matching_att)
+        )
+        return any(attr.value == value for attr in attributes)
 
     def _extract_attribute_cti_data(self, attribute: MISPAttribute) -> dict:
         """Extract relevant analysis data from a MISPAttribute object."""

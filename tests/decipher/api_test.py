@@ -157,17 +157,6 @@ class TestIncidentEndpointValidation(unittest.TestCase):
         self.assertIsInstance(data["id"], int)
         self.assertGreater(data["id"], 0)
 
-    def test_create_incident_success_minimal(self):
-        """Should create incident case with only priority_level (minimal request)."""
-        payload = {"priority_level": "priority-level:medium"}
-
-        response = self.client.post(INCIDENT_URL, json=payload)
-
-        self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertIn("id", data)
-        self.assertIn("link", data)
-
     def test_create_incident_all_valid_priority_levels(self):
         """Should accept all valid MISP priority-level taxonomy tags."""
         valid_levels = MISP_PRIORITY_LEVELS

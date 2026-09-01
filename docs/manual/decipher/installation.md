@@ -52,6 +52,14 @@ If you already have MISP and Flowintel instances running, simply run the DECIPHE
     curl http://localhost:8000/health
     ```
 
+    The published port is `API_PORT` from the `.env` file of the deployment folder, `8000` by default. See the [deployment reference](./deployment.md) for the environment variables of the stack.
+
+The `config/` folder of the host is mounted read-only in the container, so the runtime and scoring configurations can be edited on the host and take effect on the next analysis. Changes to `decipher-settings.yaml` still require restarting the container.
+
+### Next steps
+
+Before running an analysis, complete the [MISP instance setup](/docs/manual/decipher/configuration.md#misp-instance-setup) on the MISP instance configured in `config/decipher-settings.yaml`.
+
 ### Stopping the service
 
 ```bash
@@ -99,6 +107,8 @@ For a complete deployment of the DECIPHER infrastructure stack, including MISP a
     docker ps | grep decipher
     ```
 
+6. Set up the MISP instance: enable the taxonomies and the warninglists used by the analyzers, as described in [MISP instance setup](/docs/manual/decipher/configuration.md#misp-instance-setup).
+
 ### Stopping the full stack
 
 ```bash
@@ -114,7 +124,7 @@ The deployment scripts rely on the following Docker Compose files:
 - `docker-compose.misp.yml` — MISP integration
 - `docker-compose.flowintel.yml` — Flowintel integration
 
-Each configuration can be used independently for custom deployments. See the [deployment README](/deployment/README.md) for more details.
+Each configuration can be used independently for custom deployments. See the [deployment reference](./deployment.md) for more details.
 
 
 

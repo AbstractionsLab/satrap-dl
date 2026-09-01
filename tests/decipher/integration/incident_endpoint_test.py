@@ -9,7 +9,7 @@ import json
 import unittest
 from pathlib import Path
 
-import httpx
+import httpx2 as httpx
 from pyflowintel import FlowintelConnectionError, PyFlowintel
 
 from decipher.api import INCIDENT_URL

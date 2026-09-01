@@ -63,8 +63,10 @@
 <li><a href="#SRS-054">2.6 Analysis endpoint: optional creation of prioritized case</a></li>
 <li><a href="#SRS-055">2.7 DECIPHER service: incidents endpoint</a></li>
 <li><a href="#SRS-057">2.8 Runtime-configurable DECIPHER features</a></li>
-<li><a href="#SRS-051">2.9 Supported analysis for threat scenario: suspicious login</a></li>
-<li><a href="#SRS-056">2.10 Extensible analyzer framework</a></li>
+<li><a href="#SRS-056">2.9 Extensible analyzer framework</a></li>
+<li><a href="#SRS-051">2.10 Threat scenario analysis: suspicious login</a></li>
+<li><a href="#SRS-059">2.11 Threat scenario analysis: suspicious web scanning</a></li>
+<li><a href="#SRS-060">2.12 Multi-phase attack identification</a></li>
 </ul>
 </li>
 <li><a href="#SRS-NFun">3 Non-functional requirements</a><ul>
@@ -1320,9 +1322,9 @@ base that supports the setup of new SATRAP deployments in diverse application do
 <ol>
 <li>Accept a POST request with the identifier of one of the supported threat scenarios (a.k.a. alert type) as a parameter.</li>
 <li>Accept alert data for the selected threat scenario in the request body, validate it against the corresponding schema, and return structured error details in case of validation failure.</li>
-<li>Search for information on the alert IOCs in the integrated CTI platform (MISP).</li>
-<li>Compute a severity score using the retrieved threat intelligence, taking into account at least the following MISP concepts: event threat level, analysis stage, admiralty-scale tags, sighting counts, and presence of relevant threat identification tags (e.g., MITRE ATT&amp;CK tags).</li>
-<li>Optionally (set through a configuration file), create a prioritized case in Flowintel pre-populated with the alert data, score breakdown, and a priority tag assigned according to configurable thresholds. If a template is available for the specific threat scenario, I want the case to be aligned with the corresponding case template.</li>
+<li>Search for information on the alert IOCs in the integrated CTI platform (MISP) (<a href="SRS.html#SRS-052">SRS-052</a>).</li>
+<li>Compute a severity score using the retrieved threat intelligence, taking into account at least the following MISP concepts: event threat level, analysis stage, admiralty-scale tags, sighting counts, and presence of relevant threat identification tags (e.g., MITRE ATT&amp;CK tags) (<a href="SRS.html#SRS-053">SRS-053</a>).</li>
+<li>Optionally (set through a configuration file), create a prioritized case in Flowintel pre-populated with the alert data, score breakdown, and a priority tag assigned according to configurable thresholds. If a template is available for the specific threat scenario, I want the case to be aligned with the corresponding case template (<a href="SRS.html#SRS-054">SRS-054</a>).</li>
 <li>For each successfully processed request, return a structured machine-readable analysis result containing the identifier of the analyzed scenario, a severity score in [0, 1] calculated based on CTI aspects, the analysis report, and the ID and URL of the case created or 0 and an empty string if no case was created. The analysis report contains at least a breakdown of the score calculation, the ids of related events found in MISP, and a summary of errors or relevant log messages.</li>
 <li>Support additional threat scenarios without modification to the code of the existing ones.</li>
 </ol>
@@ -1817,67 +1819,7 @@ Then, define configurable source reliability and information credibility mapping
 </tr>
 </tbody>
 </table>
-<h2 id="SRS-051">2.9 Supported analysis for threat scenario: suspicious login <small><a href="SRS.html#SRS-051">SRS-051</a></small></h2>
-<p><em>As a</em> security engineer, <em>I want to</em> use the DECIPHER analysis endpoint to automatically obtain a CTI analysis score of alerts related to suspicious login activity, <em>so that</em> I can automate next steps in my incident handling workflow.</p>
-<p>Examples of suspicious login scenarios include:
-- failed-login burst: ≥ 5 failed login attempts with the same user within 60 seconds
-- impossible travel: a failed or successful login of a user from country X followed by a successful login of the same user from county Y, where the computed travel speed between X and Y exceeds 900 km/h (physically impossible without a plane).</p>
-<p>For this threat scenario, I want to:</p>
-<ol>
-<li>Make a POST request to the DECIPHER analysis endpoint with the <code>suspicious_login</code> alert/threat scenario identifier.</li>
-<li>Include in the body of my request the username, IP of the target host, source IP addresses, and timestamp of the detected activity.</li>
-</ol>
-<p>I want the DECIPHER REST service to:</p>
-<ol>
-<li>Find MISP events containing the alert IOCs mapped to the following MISP attribute types: alert.src_ips $\rightarrow$ "ip-src", alert.target_host $\rightarrow$ "ip-dst", alert.username $\rightarrow$ "target-user".</li>
-<li>Compute a severity score as specified in <a href="SRS.html#SRS-050">SRS-050</a> and <a href="SRS.html#SRS-053">SRS-053</a>.</li>
-<li>Give me the option, by means of a configuration file, to create a prioritized Flowintel case, using a template with predefined tasks for a suspicious login threat scenario.</li>
-<li>Return a structured analysis result as specified in <a href="SRS.html#SRS-050">SRS-050</a>.</li>
-</ol>
-<h3>Rationale</h3>
-<p>To reduce alert fatigue by automating the triage and escalation of suspicious login incidents, ensuring that responders only handle cases supported by threat intelligence evidence and receive the context needed to act immediately.</p>
-<h3>Acceptance criteria</h3>
-<ol>
-<li>A POST request to the DECIPHER analysis endpoint with the <code>suspicious_login</code> identifier and a body containing username, target host IP, source IP addresses, and timestamp triggers the analysis pipeline and returns a structured analysis result with a severity score and a score breakdown.</li>
-<li>When any IOC matches a known malicious indicator in the CTI platform, the resulting severity score is non-zero. If case creation is enabled in the runtime configuration file, a prioritized Flowintel case is created and the id and url returns as part of the analysis response.</li>
-<li>The created case carries a priority tag consistent with the computed severity score and the configured escalation thresholds, and includes the alert data and score breakdown in its description.</li>
-<li>When no matching threat intelligence is found for any of the alert IOCs, the severity score is 0 and no case is created.</li>
-<li>When the MISP service is unavailable, the analysis endpoint handles the failure gracefully, returning severity 0 and including an error message in the analysis report without interrupting the response.</li>
-<li>The pipeline operates end-to-end without manual intervention, from alert submission to case creation.</li>
-</ol>
-<p><em>Parent links:</em> <a href="MRS.html#MRS-035">MRS-035 Integration with open-source tools for incident handling</a>, <a href="MRS.html#MRS-038">MRS-038 Platform-independent API</a>, <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a>, <a href="MRS.html#MRS-060">MRS-060 Multi-scenario threat coverage and extensibility</a></p>
-<p><em>Child links:</em> <a href="TST.html#TST-023">TST-023 Test full workflow of analysis endpoint</a>, <a href="TST.html#TST-026">TST-026 Test analysis endpoint graceful degradation</a>, <a href="ARC.html#ARC-012">ARC-012 Analysis endpoint: support for suspicious login</a></p>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td>F</td>
-</tr>
-<tr>
-<td>importance</td>
-<td>4</td>
-</tr>
-<tr>
-<td>urgency</td>
-<td>4</td>
-</tr>
-<tr>
-<td>vm</td>
-<td>T</td>
-</tr>
-<tr>
-<td>release</td>
-<td>Beta</td>
-</tr>
-</tbody>
-</table>
-<h2 id="SRS-056">2.10 Extensible analyzer framework <small><a href="SRS.html#SRS-056">SRS-056</a></small></h2>
+<h2 id="SRS-056">2.9 Extensible analyzer framework <small><a href="SRS.html#SRS-056">SRS-056</a></small></h2>
 <p><em>As a</em> security developer, <em>I want</em> DECIPHER to enable the implementation of multiple threat scenario analyzers without modification to the core service logic, <em>so that</em> the platform can evolve to cover emerging threat types as operational needs grow.</p>
 <p>I want the analyzer framework to:</p>
 <ol>
@@ -1922,6 +1864,161 @@ Then, define configurable source reliability and information credibility mapping
 <tr>
 <td>release</td>
 <td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-051">2.10 Threat scenario analysis: suspicious login <small><a href="SRS.html#SRS-051">SRS-051</a></small></h2>
+<p><em>As a</em> security engineer, <em>I want to</em> use DECIPHER to obtain a CTI-based score of suspicious login activity alerts, <em>so that</em> I can inform the triage process in my automated incident handling workflow.</p>
+<p>Examples of suspicious login scenarios include:</p>
+<ul>
+<li>failed-login burst: ≥ 5 failed login attempts with the same user within 60 seconds</li>
+<li>impossible travel: a failed or successful login of a user from country X followed by a successful login of the same user from county Y, where the computed travel speed between X and Y exceeds 900 km/h (physically impossible without a plane).</li>
+</ul>
+<p>To run an analysis for this scenario, I want to:</p>
+<ol>
+<li>Make a POST request to the DECIPHER analysis endpoint with the <code>suspicious_login</code> alert/threat scenario identifier.</li>
+<li>Include in the body of my request the username, IP of the target host, source IP addresses, and timestamp of the detected activity.</li>
+</ol>
+<p>I want the DECIPHER REST service to implement the analysis endpoint logic defined in <a href="SRS.html#SRS-050">SRS-050</a>, applied to suspicious login alerts.</p>
+<h3>Rationale</h3>
+<p>To reduce alert fatigue by automating the triage and escalation of suspicious login incidents, ensuring that responders only handle cases supported by threat intelligence evidence and receive the context needed to act immediately.</p>
+<h3>Acceptance criteria</h3>
+<ol>
+<li>A POST request to the DECIPHER analysis endpoint with the <code>suspicious_login</code> identifier and a body containing username, target host IP, source IP addresses, and timestamp triggers the analysis pipeline and returns a structured analysis result with a severity score and a score breakdown.</li>
+<li>When any IOC matches a known malicious indicator in the CTI platform, the resulting severity score is non-zero. If case creation is enabled in the runtime configuration file, a prioritized Flowintel case is created and the id and url returns as part of the analysis response.</li>
+<li>The created case carries a priority tag consistent with the computed severity score and the configured escalation thresholds, and includes the alert data and score breakdown in its description.</li>
+<li>When no matching threat intelligence is found for any of the alert IOCs, the severity score is 0 and no case is created.</li>
+<li>When the MISP service is unavailable, the analysis endpoint handles the failure gracefully, returning severity 0 and including an error message in the analysis report without interrupting the response.</li>
+<li>The pipeline operates end-to-end without manual intervention, from alert submission to case creation.</li>
+</ol>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-035">MRS-035 Integration with open-source tools for incident handling</a>, <a href="MRS.html#MRS-038">MRS-038 Platform-independent API</a>, <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a>, <a href="MRS.html#MRS-060">MRS-060 Multi-scenario threat coverage and extensibility</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-023">TST-023 Test full workflow of analysis endpoint</a>, <a href="TST.html#TST-026">TST-026 Test analysis endpoint graceful degradation</a>, <a href="ARC.html#ARC-012">ARC-012 Analysis endpoint: support for suspicious login</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Beta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-059">2.11 Threat scenario analysis: suspicious web scanning <small><a href="SRS.html#SRS-059">SRS-059</a></small></h2>
+<p><em>As a</em> security engineer, <em>I want to</em> use DECIPHER to obtain a CTI-based severity score for detected network scanning alerts, <em>so that</em> I can distinguish malicious scanning from known-legitimate scanning and prioritize my triage accordingly.</p>
+<p>To run an analysis for this threat scenario, I want to:</p>
+<ol>
+<li>Make a POST request to the DECIPHER analysis endpoint with the <code>suspicious_nt_scanning</code> alert/threat scenario identifier.</li>
+<li>Include in the body of my request: the IP(s) of the scanning activity source, the requested URI path(s), and the observed User-Agent string(s); optionally: the used HTTP method(s), the target host name or ip, and the timestamp of the alert.</li>
+</ol>
+<p>I want the DECIPHER REST service to:</p>
+<ul>
+<li>implement the analysis endpoint logic defined in <a href="SRS.html#SRS-050">SRS-050</a>, applied to suspicious network scanning alerts,</li>
+<li>report when the alert's source IP corresponds to a known, likely-legitimate scanning source (e.g. a recognized security research project or public scanning service), naming the matching source so I can apply my own judgement.</li>
+</ul>
+<p>A match against a known, likely-legitimate scanning source must not alter the severity score. This implies that threat intelligence about a known-scanner indicator is considered for computing the score and the matches are reported separately.</p>
+<h3>Rationale</h3>
+<p>To reduce alert fatigue by automating the triage and escalation of web scanning incidents, ensuring that responders only handle cases supported by threat intelligence evidence and receive the context needed to act immediately.</p>
+<p>Distinguishing malicious scanning from legitimate internet-wide research or benign scanning services (e.g. Shodan, Censys) is a well-known precision problem for this threat scenario; reporting a match against known, likely-legitimate scanning sources explicitly lets the analyst apply that judgment without suppressing genuine findings, since a source IP can simultaneously belong to a known scanning service's range and pose a genuine malicious threat (e.g. compromised infrastructure repurposed by an attacker).</p>
+<h3>Acceptance criteria</h3>
+<p>Assuming that a MISP instance is running, reachable, and enabled in the DECIPHER REST service:</p>
+<ol>
+<li>A POST request to the DECIPHER analysis endpoint with the <code>suspicious_nt_scanning</code> identifier and a body containing source IP, uri, and user-agent strings, triggers the analysis pipeline and returns a structured analysis result with a severity score and a score breakdown.</li>
+<li>When events related to the given IOCs are found in MISP, the resulting severity score is non-zero. If case creation is enabled in the runtime configuration file, a prioritized Flowintel case is created and the id and url returned as part of the analysis response.</li>
+<li>The analysis response contains a field mapping each source IP that corresponds to a known, likely-legitimate scanning source reported in MISP to the names of the matching sources. If no such matches are found, this field is returned empty.</li>
+<li>The severity score is identical whether or not the matching sources are registered in MISP.</li>
+<li>A case created in step 2 has a priority tag consistent with the computed severity score and the configured escalation thresholds, and a description including the alert data, the contributing indicators with evidence, the score breakdown, and matching scanners.</li>
+<li>When no matching threat intelligence is found for any of the alert IOCs, the severity score is 0, regardless of whether the source IP corresponds to a known, likely-legitimate scanning source.</li>
+<li>Analysis requests with incomplete alert data or incorrect data types return an error message indicating the cause.</li>
+<li>When the MISP service is unavailable or disabled, the returned analysis report has severity 0 and an informative error message. The response does not include the field described in point 3 above as such information is meaningful only when a MISP search actually had place.</li>
+</ol>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-035">MRS-035 Integration with open-source tools for incident handling</a>, <a href="MRS.html#MRS-038">MRS-038 Platform-independent API</a>, <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a>, <a href="MRS.html#MRS-060">MRS-060 Multi-scenario threat coverage and extensibility</a></p>
+<p><em>Child links:</em> <a href="ARC.html#ARC-016">ARC-016 Analysis endpoint: suspicious network/web scanning</a>, <a href="TST.html#TST-030">TST-030 Test analysis scenario: suspicious web scanning</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>4</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Stable</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-060">2.12 Multi-phase attack identification <small><a href="SRS.html#SRS-060">SRS-060</a></small></h2>
+<p>As a security analyst, I want DECIPHER to analyze the detection trace that triggered an alert in my detection system so that I can identify potential multi-stage attacks in my infrastructure aligned with well-known threat frameworks (e.g. the Cyber Kill Chain, MITRE ATT&amp;CK).</p>
+<p>I want this analysis to be executed by default as part of the analysis of each of the specific threat scenarios whenever the detection trace is given as an alert field.</p>
+<h3>Rationale</h3>
+<p>A single detection rule match rarely proves malicious intent; instead, a chronologically ordered sequence of matches on the same source (e.g. reconnaissance, then credential access, then lateral movement) is a much stronger signal of a coordinated attack, yet, it is costly to reconstruct this attacks manually from raw rule identifiers.</p>
+<p>By mapping the detection trace against well-known threat frameworks, DECIPHER surfaces the attack's likely stage(s) alongside the severity score, as a cross-cutting capability applied whenever a detection trace is present, regardless of the threat scenario.</p>
+<h3>Acceptance criteria</h3>
+<p>...</p>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>4</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>3</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Stable</td>
 </tr>
 </tbody>
 </table>

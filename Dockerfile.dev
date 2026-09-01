@@ -1,82 +1,128 @@
 # syntax=docker/dockerfile:1
-FROM python:3.11
+#
+# Development image for SATRAP-DL, for use with VS Code Dev Containers.
+#
+# Python 3.12 is the highest version that can host the whole project
+# due to support for typedb-driver 2.29.7 and dependencies for doorstop 3.0b10
+#
+# Build: docker build -f Dockerfile.dev -t satrap-dl-dev .
+# Run: VS Code > "Dev Containers: Reopen in Container"
 
-# General environment settings
-ENV PYTHONFAULTHANDLER=1 \
-	# print output immediately in stdout
-	PYTHONUNBUFFERED=1 \
-	# Skips writing `__pycache__/` directories and `.pyc` files
-	# PYTHONDONTWRITEBYTECODE=1 \ 
-	# Doesn't save packages downloaded by pip in cache
+# Latest versions of Node and Mermaid at specification time
+ARG NODE_IMAGE=node:22-trixie-slim
+ARG MERMAID_CLI_VERSION=11.16.0
+
+## ------------------------------------------------------------------
+# Install Node.js and mmdc, on the same Debian release as the final stage below.
+# Separate stage as installing 'nodejs npm' with apt in Debian adds a second 
+# unnecessary interpreter (Python 3.13) to the image
+FROM ${NODE_IMAGE} AS nodetools
+
+ARG MERMAID_CLI_VERSION
+# docs/specs/SpecEngine/c5mermaid.py renders through the system Chromium located
+# by _find_system_chromium(), so Puppeteer's bundled Chrome is dead weight.
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+
+RUN npm install -g "@mermaid-js/mermaid-cli@${MERMAID_CLI_VERSION}" \
+	&& npm cache clean --force
+
+## ------------------------------------------------------------------
+FROM python:3.12-slim-trixie
+
+ARG POETRY_VERSION=1.8.5
+ARG USERNAME=alab
+
+ENV PYTHONUNBUFFERED=1 \
+	PYTHONFAULTHANDLER=1 \
 	PIP_NO_CACHE_DIR=1 \
-	# Skip check for pip upgrade (use base image version)
 	PIP_DISABLE_PIP_VERSION_CHECK=1 \
-	PIP_DEFAULT_TIMEOUT=90 \
-	POETRY_VERSION=1.8.0 \
-	POETRY_NO_INTERACTION=1
+	PIP_DEFAULT_TIMEOUT=100 \
+	POETRY_NO_INTERACTION=1 \
+	# the virtual environment is created explicitly below, at a fixed path
+	# outside the bind-mounted workspace instead of by poetry under ~/.cache
+	POETRY_VIRTUALENVS_CREATE=false \
+	PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
-# Project settings
-ENV user=alab \
-	SATRAP_FOLDER=satrap-dl
+# OS security patches plus the development toolchain:
+#   build-essential                gcc/g++/make, so that 'poetry add' and ad-hoc
+#                                  'pip install' can build a package with no
+#                                  prebuilt wheel for this platform. The
+#                                  Python headers are already in the slim image.
+#   git, openssh-client            version control; slim images ship no git
+#   graphviz                       'dot', used by the specification tooling
+#   chromium                       headless renderer driven by the Mermaid CLI
+#   bash-completion, less, procps  interactive shells and the VS Code server
+#   ca-certificates                TLS trust store for git, poetry and npm
+#   curl                           probing local APIs, never to fetch installers
+RUN apt-get update \
+	&& apt-get upgrade -y \
+	&& apt-get install -y --no-install-recommends \
+		bash-completion \
+		build-essential \
+		ca-certificates \
+		chromium \
+		curl \
+		git \
+		graphviz \
+		less \
+		openssh-client \
+		procps \
+	&& rm -rf /var/lib/apt/lists/* \
+	# The workspace bind mount may be owned by a uid other than the container
+	# user's, which makes git refuse to operate on it ("dubious ownership").
+	# --system survives the uid remap the Dev Containers extension performs.
+	&& git config --system --add safe.directory '*'
 
-# Keep separate to allow for the $user variable to be set before
-ENV PROJECT_HOME=/home/${user}/${SATRAP_FOLDER}/
+# Copy Node.js modules including symlinks from the previous stage
+COPY --from=nodetools /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=nodetools /usr/local/bin /usr/local/bin
 
-# Update base image's (Debian) package list, install required packages and clean up the list
-RUN apt-get update && \
-	apt-get install -y --no-install-recommends graphviz curl && \
-    rm -rf /var/lib/apt/lists/*
+# Delete identified unnecessary files copied above: yarn and yarnpkg are symlinks into
+# /opt (not copied) and docker-entrypoint.sh is only used by the Node image.
+# Then run each tool once to check that the commands work (an error fails this build)
+RUN rm -f /usr/local/bin/yarn /usr/local/bin/yarnpkg \
+		/usr/local/bin/docker-entrypoint.sh \
+	&& node --version > /dev/null \
+	&& mmdc --version > /dev/null \
+	&& npm --version > /dev/null
 
-# Install Node.js 20.x (required by Mermaid CLI / mmdc)
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y --no-install-recommends nodejs
+# Install Poetry in the base interpreter, deliberately outside the project virtual
+# environment, so the two dependency trees never mix.
+RUN pip install --no-cache-dir "poetry==${POETRY_VERSION}" \
+	&& poetry completions bash > /etc/bash_completion.d/poetry
 
-# Install Chromium (headless browser backend for Mermaid CLI)
-# RUN apt-get install -y chromium || apt-get install -y chromium-browser || true
-RUN apt-get update && \
-	(apt-get install -y --no-install-recommends chromium || \
-    apt-get install -y --no-install-recommends chromium-browser || true) && \
-    rm -rf /var/lib/apt/lists/*
+# Non-root user with a login shell. The Dev Containers extension remaps its uid to the host
+# user's and chowns its home folder, which is why the virtual environment lives under $HOME.
+RUN groupadd ${USERNAME} \
+	&& useradd --gid ${USERNAME} --create-home --shell /bin/bash ${USERNAME}
 
-# Install Mermaid CLI for rendering Mermaid diagrams in specs
-RUN npm install -g @mermaid-js/mermaid-cli && \
-    npm cache clean --force
+# Add the venv to the user PATH via the Unix convention: a script file in the designated
+# folder; the script is prefixed with z to increase the chance of this script running last.
+# This is needed because Debian's /etc/profile overwrites PATH for non-root users, discarding
+# the ENV PATH set further down; however, profile.d is sourced after that overwrite.
+# Only login shells ('bash -l', ssh, '#!/bin/bash -l' scripts) need this, not VS Code terminals.
+RUN printf 'PATH="/home/%s/.venv/bin:$PATH"\nexport PATH\n' "${USERNAME}" \
+	> /etc/profile.d/z-satrap-dl-venv.sh
 
-# Install pipx and add the installation folder to the PATH
-RUN python3 -m pip install pipx && python3 -m pipx ensurepath
+USER ${USERNAME}
 
-# Create a non-root user and set it as the current user
-RUN useradd -ms /bin/bash ${user}
-USER ${user}
+ENV VIRTUAL_ENV=/home/${USERNAME}/.venv
+RUN python -m venv ${VIRTUAL_ENV}
 
-# Add pipx installation folder to the PATH variable
-ENV PATH="/home/${user}/.local/bin:${PATH}"
+# The virtual environment first on PATH is what makes every 'docker exec'
+# session (that is, every VS Code terminal), the Python extension, the debugger
+# and the Jupyter kernels resolve this interpreter with no activation step.
+ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
 
-# Install poetry
-RUN pipx install "poetry==$POETRY_VERSION" \
-    && poetry completions bash >> ~/.bash_completion
+# Dependency manifests only; no project source is baked into the image.
+WORKDIR /home/${USERNAME}/deps
+COPY --chown=${USERNAME}:${USERNAME} pyproject.toml poetry.lock ./
 
-# Install Doorstop
-RUN pipx install doorstop==3.0b10
+# Install dependencies for all groups and exclude the source code (bind-mounted to the 
+# workspace by the devcontainer postCreateCommand) of satrap and decipher (--no-root).
+# NOTE: update if new optional groups are added to 'pyproject.toml'
+RUN poetry install --no-root --no-ansi --with specs,notebooks,dev
 
-# Create and set the working directory in the container
-WORKDIR ${PROJECT_HOME}
-
-# Copy dependency files from the host into the image's filesystem with non-root user as owner
-COPY --chown=${user}:${user} poetry.lock pyproject.toml ${PROJECT_HOME}
-
-# Install dependencies (cached until poetry.lock changes)
-RUN poetry install --no-root --no-ansi
-
-# Copy the project files ensuring they are owned by the non-root user (separately for build cache optimization)
-COPY --chown=${user}:${user} . ${PROJECT_HOME}
-
-# Install the project itself  --'s dependencies and create virtual env.
-RUN poetry install --only-root --no-ansi
-
-# when a container is started...
-
-# loading the virtual environment with 'CMD ["poetry", "shell"]' does not work 
-# here as the command requires an interactive shell already running;
-# this is an alternative way to launch a bash shell inside the venv
-ENTRYPOINT ["poetry", "run", "bash"]
+# The Dev Containers extension attaches to a running container and supplies its
+# own keep-alive process; this is only a sane default for a bare 'docker run'.
+CMD ["sleep", "infinity"]

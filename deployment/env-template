@@ -310,3 +310,17 @@ FLOWINTEL_APP_IP=0.0.0.0
 
 # FlowIntel: Flask
 FLOWINTEL_FLASK_ENV=production
+
+
+#############
+# DECIPHER
+#############
+
+# Tag of the locally built API image to run
+API_VERSION=1.0
+
+# Optional. Uncomment to override.
+# Host port on which the REST API is published (default: 8000). Accepts the
+# host_ip:port form to restrict the API to a single interface, for instance
+# 127.0.0.1:8000 to make it reachable from the host only.
+# API_PORT=8000

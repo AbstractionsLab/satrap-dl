@@ -1,134 +1,79 @@
 # Analyzers
 
-Analyzers are pluggable threat scenario handlers that implement the logic for detecting and analyzing specific types of security incidents. Each analyzer performs enrichment, scoring, and generates analysis reports tailored to its threat scenario.
+Analyzers are threat scenario handlers that implement the logic for analyzing and scoring specific types of security incidents relying on existing CTI. Each analyzer performs enrichment, scoring, and generates analysis reports tailored to its threat scenario.
 
-## Available analyzers
+The overall analysis process consists of:
 
-### Suspicious login analyzer
-
-Detects and analyzes potentially malicious login attempts.
-
-**Threat scenario:** A user account is accessed from an unusual location, multiple failed attempts, or known malicious source IP.
-
-**Endpoint:** `POST /api/v1/analyze/suspicious_login`
-
-**Required fields:**
-
-- `username` (string): Username attempting login
-- `target_host` (string): Target host IP or hostname
-- `src_ips` (array of strings): Source IP address(es)
-- `timestamp` (string): ISO 8601 formatted timestamp
-
-
-**Analysis process:**
-
-1. **IOC search in MISP** — Queries MISP for threat intelligence on source IPs, target host, and username
-2. **Event discovery** — Retrieves MISP events containing matching indicators of compromise
+1. **IOC search in MISP** — Queries MISP for threat intelligence on the scenario IOCs
+2. **Scenario-specific analysis** — Optional extra steps whose output is added to the report, such as the lookup for known scanning sources reported by the suspicious web scanning analyzer
 3. **Severity scoring** — Calculates threat severity based on:
    - Event threat level classification
-   - Presence of MITRE ATT&CK tags (technique mapping)
+   - Presence of tags identifying threats (e.g., MITRE ATT&CK techniques)
    - Analysis completion stage
    - Sightings and admiralty tags
 4. **Case creation** — Creates security case in Flowintel if enabled in the configuration
 
-**Example request:**
+The runtime configuration is reloaded at every call, so a change to `enable_misp_search`, `enable_case_creation`, the MISP search parameters or the priority thresholds applies to the next analysis without restarting the service.
 
-```bash
-curl -X POST http://localhost:8000/api/v1/analyze/suspicious_login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "admin",
-    "target_host": "100.43.11.26",
-    "src_ips": ["203.0.113.1"],
-    "timestamp": "2026-01-31T10:00:00Z"
-  }'
-```
+## Analysis result
 
-**Example response:**
+Every call to an `/analyze` endpoint returns the same structure, regardless of the threat scenario. The four top-level fields answer: what was analyzed, how severe it is, why, and where to follow up.
 
-```json
-{
-  "analyzed_scenario": "suspicious_login",
-  "severity": 0.0,
-  "report": {
-    "log_summary": [
-      "Case creation for analysis disabled in configuration."
-    ],
-    "misp_available": "True",
-	"misp_events_found":[],
-    "score_breakdown": []
-  },
-  "created_case": {
-    "id": 0,
-    "link": ""
-  }
-}
-```
+| Field | Type | How to read it |
+|---|---|---|
+| `analyzed_scenario` | string | The alert type that was analyzed, echoed back from the request |
+| `severity` | number in [0, 1] | The CTI severity score of the alert. `0` means no supporting threat intelligence was found, not that the alert is harmless |
+| `report` | dict | The evidence behind the score, plus notes on the analysis run |
+| `created_case` | dict | The `id` and `link` of the Flowintel case (optionally) opened after the analysis. An `id` of `0` and an empty `link` mean no case was created |
 
-## Creating a custom analyzer
+### Reading the report
 
-The analyzer framework is extensible. New analyzers can be added by implementing the `BaseAnalyzer` interface.
+The `report` object carries the following keys. Analyzers may add their own, for example `identified-scanners` in the [suspicious web scanning analyzer](./web_scn_analyzer.md).
 
+| Key | How to read it |
+|---|---|
+| `misp_available` | `"True"` or `"False"` as a string. `"False"` means the score was computed without any MISP intelligence, either because the search is disabled in the configuration or because MISP could not be reached |
+| `misp_events_found` | IDs of the MISP events that matched at least one of the alert IOCs. Use them to open the events in MISP and read the full intelligence. The key is absent when the IOC search did not run |
+| `score_breakdown` | One entry per matched MISP event, showing how each contributed to the score. Empty when nothing matched |
+| `log_summary` | Notes about the analysis execution, including any failure that was handled gracefully, for example an unreachable MISP or a failed case creation. Worth checking whenever a score looks lower than expected |
 
-1. Create a new file in `decipher/analyzers/` with the following structure:
+When `enable_misp_search` is off in the runtime configuration, the analysis stops before any lookup and the report reduces to `misp_available` set to `"False"` and a `log_summary` stating that the search is disabled. Neither `misp_events_found` nor `score_breakdown` is present, and the severity is `0`.
 
-```python
-from decipher.analyzers.base import BaseAnalyzer, AnalysisResult
-from decipher.analyzers.registry import AnalyzerRegistry
-from pydantic import BaseModel
+### Reading the score breakdown
 
-class NewScenarioAlert(BaseModel):
-    """Define your alert schema here"""
-    pass
+Each entry in `score_breakdown` explains one MISP event. Its score is the product of **severity**, how dangerous the intelligence says the threat is, and **confidence**, how much the intelligence can be trusted.
 
-@AnalyzerRegistry.register
-class NewScenarioAnalyzer(BaseAnalyzer):
-    """Brief description of what this analyzer does"""
-    alert_type = "alert_type_name"
-    schema = NewScenarioAlert
-    
-    def analyze(self, alert: BaseModel) -> AnalysisResult:
-        """Analyze the alert and return a result"""
+| Field | How to read it |
+|---|---|
+| `event_id` | The MISP event this entry refers to |
+| `score` | This event's contribution, `severity * confidence` |
+| `severity` | Threat severity, `threat_level_value * tags_multiplier`, capped at 1.0. Note that this is the severity of a single event, not the `severity` reported at the top level of the response |
+| `threat_level_value` | Derived from the threat level assigned to the event in MISP |
+| `tags_multiplier` | Raised above 1.0 when the event carries tags that identify a threat, such as a MITRE ATT&CK attack pattern or intrusion set |
+| `confidence` | Weighted combination of `c_analysis` and `c_evidence` |
+| `c_analysis` | Analyst judgment: how far the MISP event's investigation has progressed |
+| `c_evidence` | Empirical evidence: the combined confidence of all matched attributes |
+| `attribute_breakdowns` | Per attribute, `c_sightings` from the true and false positive sightings, `c_admiralty` from the Admiralty scale tags, and `c_attr` combining the two |
 
-        # Your implementation here
+An absent signal counts as zero rather than neutral: an event with no Admiralty tags, no sightings, or an undefined threat level lowers the score instead of leaving it unchanged. Conversely, evidence accumulates, so several matched events or attributes push the score higher than any of them would alone.
 
-        return AnalysisResult(
-            analyzed_scenario=self.alert_type,
-            severity=0, # example severity score
-            report="...",
-            created_case=None
-        )
-```
+### From score to priority
 
-2. Import your new analyzer in `decipher/analyzers/__init__.py` for automatic registration:
+The score determines the priority tag of the created case, following the configured priority thresholds. A score below every threshold still produces a case, tagged as `priority-level:baseline-minor`, when case creation is enabled. Both the thresholds and the weights of the scoring model are documented in the [configuration reference](./configuration.md).
 
-```python
-from . import new_scenario_analyzer # module name
-```
+An analyzer may additionally suppress case creation for a given analysis, in which case the reason is appended to `log_summary` and `created_case` keeps its zero id. The [suspicious web scanning analyzer](./web_scn_analyzer.md#case-creation) uses this to avoid opening cases with no supporting evidence.
 
-3. Inherit from `MISPEnrichmentMixin` for MISP enrichment functionality:
+See the pages of the built-in analyzers below for a complete example response.
 
-```python
-from decipher.analyzers.mixins.misp_enrichment import MISPEnrichmentMixin
+## Built-in analyzers
+DECIPHER ships with the following built-in analyzers:
 
-@AnalyzerRegistry.register
-class NewScenarioAnalyzer(BaseAnalyzer, MISPEnrichmentMixin):
-    # ... rest of implementation
-    
-    def analyze(self, alert):
-		...
-        # Enrich with MISP
-        ioc_mapping = {...}  # Map alert fields to MISP IOC types
-        enrichment = self.enrich_iocs_with_misp(ioc_mapping)
+- [Suspicious login](./susp_login_analyzer.md)
+- [Suspicious web scanning](./web_scn_analyzer.md)
 
-		...
-        
-```
+## Custom analyzers
 
-4. To load the new analyzer, make sure to rebuild the image of the DECIPHER API before starting the service.
-
-For further reference, see the existing `SuspiciousLoginAnalyzer` implementation in `decipher/analyzers/suspicious_login.py` for a complete example of an analyzer with MISP enrichment and scoring logic.
-
+The design of the analyzer package is extensible and flexible to support new analyzers. Follow this guide to [add your own analyzers](./custom_analyzer.md).
 
 ## Testing analyzers
 

@@ -40,6 +40,7 @@
 <li><a href="#ARC-010">2.6 Analysis endpoint: scoring data flow diagram</a></li>
 <li><a href="#ARC-012">2.7 Analysis endpoint: support for suspicious login</a></li>
 <li><a href="#ARC-011">2.8 REST service: incident endpoint interaction</a></li>
+<li><a href="#ARC-016">2.9 Analysis endpoint: suspicious network/web scanning</a></li>
 </ul>
 </li>
 </ul>
@@ -230,8 +231,8 @@
 <h2 id="ARC-006">2.2 DECIPHER infrastructure deployment diagram <small><a href="ARC.html#ARC-006">ARC-006</a></small></h2>
 <p>The DECIPHER infrastructure stack consists of four containerized services: the <strong>DECIPHER REST analysis API</strong>, the <strong>MISP</strong> threat intelligence platform, the <strong>Flowintel</strong> case management system, and the <strong>Wazuh</strong> SIEM with the <strong>RADAR</strong> active response module acting as the external alert source. The deployment of Wazuh/RADAR falls outside the scope of SATRAP-DL, yet, we include it here for depicting the complete context of the DECIPHER infrastructure.</p>
 <p>The diagram depicts a representative two-host deployment, yet, the number of nodes is flexible thanks to the containerized architecture. The Wazuh/RADAR subsystem runs on a dedicated IDPS-ESCAPE host and triggers analysis by posting alerts to the DECIPHER API over the network. MISP, Flowintel, and the DECIPHER API container are co-located on the SATRAP-DL host, each isolated in its own Docker network. A <code>config</code> volume mount supplies runtime configuration to the API container without rebuilding the image.</p>
-<!-- c5-mermaid-source:eyJjb2RlIjogIiUlIERlcGxveW1lbnQgZGlhZ3JhbSBcdTIwMTQgREVDSVBIRVIgaW5mcmFzdHJ1Y3R1cmUgc3RhY2tcblxuZmxvd2NoYXJ0IFRCXG5cbiAgICBzdWJncmFwaCB3YXp1aF9ob3N0W1wiSURQUy1FU0NBUEUgRG9ja2VyIGhvc3RcIl1cbiAgICAgICAgZGlyZWN0aW9uIFRCXG4gICAgICAgIHN1YmdyYXBoIHdhenVoX3N0YWNrW1wiV2F6dWggTWFuYWdlclwiXVxuICAgICAgICAgICAgZGlyZWN0aW9uIExSXG4gICAgICAgICAgICB3YXp1aF9tZ3JbXCI8Yj53YXp1aC1tYW5hZ2VyPC9iPjxici8+PGk+d2F6dWgvd2F6dWgtbWFuYWdlcjwvaT48YnIvPjxici8+U0lFTSAmIGFsZXJ0IGVuZ2luZVwiXVxuICAgICAgICAgICAgcmFkYXJbXCI8Yj5SQURBUjwvYj48YnIvPjxpPltTdWJzeXN0ZW1dPC9pPjxici8+PGJyLz5BY3RpdmUgUmVzcG9uc2UgbW9kdWxlLjxici8+VHJpZ2dlcnMgREVDSVBIRVIgb24gYWxlcnRcIl1cbiAgICAgICAgICAgIHdhenVoX21nciAtLT4gcmFkYXJcbiAgICAgICAgZW5kXG4gICAgZW5kXG5cbiAgICBzdWJncmFwaCBob3N0W1wiU0FUUkFQLURMIERvY2tlciBob3N0XCJdXG4gICAgICAgIGRpcmVjdGlvbiBUQlxuXG4gICAgICAgIHN1YmdyYXBoIGRlY2lwaGVyX3N0YWNrW1wiREVDSVBIRVIgfCAgbmV0d29yazogc2F0cmFwLWRsLW5ldFwiXVxuICAgICAgICAgICAgZGlyZWN0aW9uIExSXG4gICAgICAgICAgICBhcGlbXCI8Yj5hcGk8L2I+PGJyLz48aT5kZWNpcGhlci9hcGk6bGF0ZXN0PC9pPjxici8+PGJyLz5Vdmljb3JuICsgRmFzdEFQSTxici8+cG9ydCA4MDAwXCJdXG4gICAgICAgICAgICBjZmdbKFwiY29uZmlnLzxici8+PGk+dm9sdW1lIG1vdW50PC9pPlwiKV1cbiAgICAgICAgICAgIGNmZyAtLS0gYXBpXG4gICAgICAgIGVuZFxuXG4gICAgICAgIHN1YmdyYXBoIG1pc3Bfc3RhY2tbXCJNSVNQICB8ICBuZXR3b3JrOiBtaXNwLW5ldFwiXVxuICAgICAgICAgICAgZGlyZWN0aW9uIExSXG4gICAgICAgICAgICBtaXNwX2NvcmVbXCI8Yj5taXNwLWNvcmU8L2I+PGJyLz48aT5taXNwLWRvY2tlci9taXNwLWNvcmU8L2k+PGJyLz48YnIvPk1JU1Agd2ViIGFwcDxici8+cG9ydCA0NDNcIl1cbiAgICAgICAgICAgIG1pc3BfbW9kW1wiPGI+bWlzcC1tb2R1bGVzPC9iPjxici8+PGk+bWlzcC1kb2NrZXIvbWlzcC1tb2R1bGVzPC9pPjxici8+PGJyLz5FbnJpY2htZW50IG1vZHVsZXNcIl1cbiAgICAgICAgICAgIG1pc3BfZ3VhcmRbXCI8Yj5taXNwLWd1YXJkPC9iPjxici8+PGk+bWlzcC1kb2NrZXIvbWlzcC1ndWFyZDwvaT48YnIvPjxici8+UmVxdWVzdCBmaWx0ZXJpbmdcIl1cbiAgICAgICAgICAgIG1pc3BfZGJbKFwiZGI8YnIvPjxpPk1hcmlhREIgMTAuMTE8L2k+XCIpXVxuICAgICAgICAgICAgbWlzcF9yZWRpc1soXCJyZWRpczxici8+PGk+VmFsa2V5IDcuMjwvaT5cIildXG4gICAgICAgICAgICBtaXNwX21haWxbXCJtYWlsPGJyLz48aT5TTVRQIHJlbGF5PC9pPlwiXVxuICAgICAgICAgICAgbWlzcF9jb3JlIC0tPiBtaXNwX2RiICYgbWlzcF9yZWRpcyAmIG1pc3BfbW9kXG4gICAgICAgICAgICBtaXNwX2d1YXJkIC0tPiBtaXNwX2NvcmVcbiAgICAgICAgICAgIG1pc3BfY29yZSAtLT4gbWlzcF9tYWlsXG4gICAgICAgIGVuZFxuXG4gICAgICAgIHN1YmdyYXBoIGZsb3dpbnRlbF9zdGFja1tcIkZsb3dpbnRlbCB8ICBuZXR3b3JrOiBmbG93aW50ZWwtbmV0XCJdXG4gICAgICAgICAgICBkaXJlY3Rpb24gTFJcbiAgICAgICAgICAgIGZsb3dpbnRlbF9hcHBbXCI8Yj5mbG93aW50ZWw8L2I+PGJyLz48aT5mbG93aW50ZWwvZmxvd2ludGVsOjIuMy4wPC9pPjxici8+PGJyLz5DYXNlIG1hbmFnZW1lbnQgYXBwPGJyLz5wb3J0IDcwMDZcIl1cbiAgICAgICAgICAgIGZsb3dpbnRlbF9kYlsoXCJwb3N0Z3Jlc3FsPGJyLz48aT5Qb3N0Z3JlU1FMIDE3PC9pPlwiKV1cbiAgICAgICAgICAgIGZsb3dpbnRlbF9jYWNoZVsoXCJ2YWxrZXk8YnIvPjxpPlZhbGtleTwvaT5cIildXG4gICAgICAgICAgICBmbG93aW50ZWxfYXBwIC0tPiBmbG93aW50ZWxfZGIgJiBmbG93aW50ZWxfY2FjaGVcbiAgICAgICAgZW5kXG4gICAgZW5kXG5cbiAgICByYWRhciAgIC0tPnxcIkhUVFAgUE9TVCA6ODAwMDxici8+L2FwaS92MC4xL2FuYWx5emUve2FsZXJ0X3R5cGV9XCJ8IGFwaVxuICAgIGFwaSAtLT58XCJQeU1JU1AgLyBIVFRQUyA6NDQzXCJ8IG1pc3BfY29yZVxuICAgIGFwaSAtLT58XCJQeUZsb3dpbnRlbCAvIEhUVFAgOjcwMDZcInwgZmxvd2ludGVsX2FwcFxuXG4gICAgc3R5bGUgd2F6dWhfaG9zdCAgICAgZmlsbDp0cmFuc3BhcmVudCxzdHJva2U6I2Q0NTUwMCxzdHJva2Utd2lkdGg6MnB4LGNvbG9yOiNkNDU1MDAsc3Ryb2tlLWRhc2hhcnJheTo2IDNcbiAgICBzdHlsZSB3YXp1aF9zdGFjayAgICBmaWxsOiNmZGU4ZDgsc3Ryb2tlOiNkNDU1MDAsc3Ryb2tlLXdpZHRoOjEuNXB4LGNvbG9yOiNkNDU1MDBcbiAgICBzdHlsZSB3YXp1aF9tZ3IgICAgICBmaWxsOiNkNDU1MDAsY29sb3I6I2ZmZixzdHJva2U6I2EzM2IwMFxuICAgIHN0eWxlIHJhZGFyICAgICAgICAgIGZpbGw6I2Y1YTA2ZSxjb2xvcjojZmZmLHN0cm9rZTojZDQ1NTAwXG4gICAgc3R5bGUgaG9zdCAgICAgICAgICAgIGZpbGw6dHJhbnNwYXJlbnQsc3Ryb2tlOiM1NTUsc3Ryb2tlLXdpZHRoOjJweCxjb2xvcjojMzMzLHN0cm9rZS1kYXNoYXJyYXk6NiAzXG4gICAgc3R5bGUgZGVjaXBoZXJfc3RhY2sgIGZpbGw6I2RkZThmNSxzdHJva2U6IzExNjhiZCxzdHJva2Utd2lkdGg6MS41cHgsY29sb3I6IzExNjhiZFxuICAgIHN0eWxlIG1pc3Bfc3RhY2sgICAgICBmaWxsOiNlOGU4ZTgsc3Ryb2tlOiM1NTUsc3Ryb2tlLXdpZHRoOjEuNXB4LGNvbG9yOiMzMzNcbiAgICBzdHlsZSBmbG93aW50ZWxfc3RhY2sgZmlsbDojZThlOGU4LHN0cm9rZTojNTU1LHN0cm9rZS13aWR0aDoxLjVweCxjb2xvcjojMzMzXG4gICAgc3R5bGUgYXBpICAgICAgICAgICAgIGZpbGw6IzExNjhiZCxjb2xvcjojZmZmLHN0cm9rZTojMGU0ZDhjXG4gICAgc3R5bGUgY2ZnICAgICAgICAgICAgIGZpbGw6I2NmZTJmMyxjb2xvcjojMzMzLHN0cm9rZTojMTE2OGJkXG4gICAgc3R5bGUgbWlzcF9jb3JlICAgICAgIGZpbGw6IzZiNmI2Yixjb2xvcjojZmZmLHN0cm9rZTojNDQ0XG4gICAgc3R5bGUgbWlzcF9tb2QgICAgICAgIGZpbGw6IzlhOWE5YSxjb2xvcjojZmZmLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgbWlzcF9ndWFyZCAgICAgIGZpbGw6IzlhOWE5YSxjb2xvcjojZmZmLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgbWlzcF9kYiAgICAgICAgIGZpbGw6I2M4YzhjOCxjb2xvcjojMzMzLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgbWlzcF9yZWRpcyAgICAgIGZpbGw6I2M4YzhjOCxjb2xvcjojMzMzLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgbWlzcF9tYWlsICAgICAgIGZpbGw6I2M4YzhjOCxjb2xvcjojMzMzLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgZmxvd2ludGVsX2FwcCAgIGZpbGw6IzZiNmI2Yixjb2xvcjojZmZmLHN0cm9rZTojNDQ0XG4gICAgc3R5bGUgZmxvd2ludGVsX2RiICAgIGZpbGw6I2M4YzhjOCxjb2xvcjojMzMzLHN0cm9rZTojNzc3XG4gICAgc3R5bGUgZmxvd2ludGVsX2NhY2hlIGZpbGw6I2M4YzhjOCxjb2xvcjojMzMzLHN0cm9rZTojNzc3XG4iLCAiYXR0cnMiOiAid2lkdGg9XCI3NSVcIiJ9 -->
-<p><img alt="ARC-006 diagram 1" src="assets/arc-006-1151621ae971.svg" width="75%" /></p>
+<!-- c5-mermaid-source:eyJjb2RlIjogIiUlIERlcGxveW1lbnQgZGlhZ3JhbSBcdTIwMTQgREVDSVBIRVIgaW5mcmFzdHJ1Y3R1cmUgc3RhY2tcblxuZmxvd2NoYXJ0IFRCXG5cbiAgICBzdWJncmFwaCB3YXp1aF9ob3N0W1wiSURQUy1FU0NBUEUgRG9ja2VyIGhvc3RcIl1cbiAgICAgICAgZGlyZWN0aW9uIFRCXG4gICAgICAgIHN1YmdyYXBoIHdhenVoX3N0YWNrW1wiV2F6dWggTWFuYWdlclwiXVxuICAgICAgICAgICAgZGlyZWN0aW9uIExSXG4gICAgICAgICAgICB3YXp1aF9tZ3JbXCI8Yj53YXp1aC1tYW5hZ2VyPC9iPjxici8+PGk+d2F6dWgvd2F6dWgtbWFuYWdlcjwvaT48YnIvPjxici8+U0lFTSAmIGFsZXJ0IGVuZ2luZVwiXVxuICAgICAgICAgICAgcmFkYXJbXCI8Yj5SQURBUjwvYj48YnIvPjxpPltTdWJzeXN0ZW1dPC9pPjxici8+PGJyLz5BY3RpdmUgUmVzcG9uc2UgbW9kdWxlLjxici8+VHJpZ2dlcnMgREVDSVBIRVIgb24gYWxlcnRcIl1cbiAgICAgICAgICAgIHdhenVoX21nciAtLT4gcmFkYXJcbiAgICAgICAgZW5kXG4gICAgZW5kXG5cbiAgICBzdWJncmFwaCBob3N0W1wiU0FUUkFQLURMIERvY2tlciBob3N0XCJdXG4gICAgICAgIGRpcmVjdGlvbiBUQlxuXG4gICAgICAgIHN1YmdyYXBoIGRlY2lwaGVyX3N0YWNrW1wiREVDSVBIRVIgfCAgbmV0d29yazogc2F0cmFwLWRsLW5ldFwiXVxuICAgICAgICAgICAgYXBpW1wiPGI+YXBpPC9iPjxici8+PGk+ZGVjaXBoZXIvYXBpOmxhdGVzdDwvaT48YnIvPjxici8+VXZpY29ybiArIEZhc3RBUEk8YnIvPnBvcnQgODAwMFwiXVxuICAgICAgICAgICAgY2ZnWyhcImNvbmZpZy88YnIvPjxpPnZvbHVtZSBtb3VudDwvaT5cIildXG4gICAgICAgICAgICBhcGkgLS0tIGNmZ1xuICAgICAgICBlbmRcblxuICAgICAgICBzdWJncmFwaCBtaXNwX3N0YWNrW1wiTUlTUCAgfCAgbmV0d29yazogbWlzcC1uZXRcIl1cbiAgICAgICAgICAgIGRpcmVjdGlvbiBMUlxuICAgICAgICAgICAgbWlzcF9jb3JlW1wiPGI+bWlzcC1jb3JlPC9iPjxici8+PGk+bWlzcC1kb2NrZXIvbWlzcC1jb3JlPC9pPjxici8+PGJyLz5NSVNQIHdlYiBhcHA8YnIvPnBvcnRzIDgwLCA0NDNcIl1cbiAgICAgICAgICAgIG1pc3BfbW9kW1wiPGI+bWlzcC1tb2R1bGVzPC9iPjxici8+PGk+bWlzcC1kb2NrZXIvbWlzcC1tb2R1bGVzPC9pPjxici8+PGJyLz5FbnJpY2htZW50IG1vZHVsZXNcIl1cbiAgICAgICAgICAgIG1pc3BfZGJbKFwiZGI8YnIvPjxpPk1hcmlhREIgMTAuMTE8L2k+XCIpXVxuICAgICAgICAgICAgbWlzcF9yZWRpc1soXCJyZWRpczxici8+PGk+VmFsa2V5IDcuMjwvaT5cIildXG4gICAgICAgICAgICBtaXNwX21haWxbXCJtYWlsPGJyLz48aT5TTVRQIHJlbGF5PC9pPlwiXVxuICAgICAgICAgICAgbWlzcF9jb3JlIC0tPiBtaXNwX2RiICYgbWlzcF9yZWRpcyAmIG1pc3BfbW9kXG4gICAgICAgICAgICBtaXNwX2NvcmUgLS0+IG1pc3BfbWFpbFxuICAgICAgICBlbmRcblxuICAgICAgICBzdWJncmFwaCBmbG93aW50ZWxfc3RhY2tbXCJGbG93aW50ZWwgfCAgbmV0d29yazogZmxvd2ludGVsLW5ldFwiXVxuICAgICAgICAgICAgZGlyZWN0aW9uIExSXG4gICAgICAgICAgICBmbG93aW50ZWxfYXBwW1wiPGI+Zmxvd2ludGVsPC9iPjxici8+PGk+Zmxvd2ludGVsL2Zsb3dpbnRlbDwvaT48YnIvPjxici8+Q2FzZSBtYW5hZ2VtZW50IGFwcDxici8+cG9ydCA3MDA2XCJdXG4gICAgICAgICAgICBmbG93aW50ZWxfZGJbKFwicG9zdGdyZXNxbDxici8+PGk+UG9zdGdyZVNRTCAxNzwvaT5cIildXG4gICAgICAgICAgICBmbG93aW50ZWxfY2FjaGVbKFwidmFsa2V5PGJyLz48aT52YWxrZXkvdmFsa2V5PC9pPlwiKV1cbiAgICAgICAgICAgIGZsb3dpbnRlbF9hcHAgLS0+IGZsb3dpbnRlbF9kYiAmIGZsb3dpbnRlbF9jYWNoZVxuICAgICAgICBlbmRcbiAgICBlbmRcblxuICAgIHJhZGFyICAgLS0+fFwiSFRUUCBQT1NUIDo4MDAwPGJyLz4vYXBpL3YwLjEvYW5hbHl6ZS97YWxlcnRfdHlwZX1cInwgYXBpXG4gICAgYXBpIC0tPnxcIlB5TUlTUCAvIEhUVFBTIDo0NDNcInwgbWlzcF9jb3JlXG4gICAgYXBpIC0tPnxcIlB5Rmxvd2ludGVsIC8gSFRUUCA6NzAwNlwifCBmbG93aW50ZWxfYXBwXG5cbiAgICBzdHlsZSB3YXp1aF9ob3N0ICAgICBmaWxsOnRyYW5zcGFyZW50LHN0cm9rZTojZDQ1NTAwLHN0cm9rZS13aWR0aDoycHgsY29sb3I6I2Q0NTUwMCxzdHJva2UtZGFzaGFycmF5OjYgM1xuICAgIHN0eWxlIHdhenVoX3N0YWNrICAgIGZpbGw6I2ZkZThkOCxzdHJva2U6I2Q0NTUwMCxzdHJva2Utd2lkdGg6MS41cHgsY29sb3I6I2Q0NTUwMFxuICAgIHN0eWxlIHdhenVoX21nciAgICAgIGZpbGw6I2Q0NTUwMCxjb2xvcjojZmZmLHN0cm9rZTojYTMzYjAwXG4gICAgc3R5bGUgcmFkYXIgICAgICAgICAgZmlsbDojZjVhMDZlLGNvbG9yOiNmZmYsc3Ryb2tlOiNkNDU1MDBcbiAgICBzdHlsZSBob3N0ICAgICAgICAgICAgZmlsbDp0cmFuc3BhcmVudCxzdHJva2U6IzU1NSxzdHJva2Utd2lkdGg6MnB4LGNvbG9yOiMzMzMsc3Ryb2tlLWRhc2hhcnJheTo2IDNcbiAgICBzdHlsZSBkZWNpcGhlcl9zdGFjayAgZmlsbDojZGRlOGY1LHN0cm9rZTojMTE2OGJkLHN0cm9rZS13aWR0aDoxLjVweCxjb2xvcjojMTE2OGJkXG4gICAgc3R5bGUgbWlzcF9zdGFjayAgICAgIGZpbGw6I2U4ZThlOCxzdHJva2U6IzU1NSxzdHJva2Utd2lkdGg6MS41cHgsY29sb3I6IzMzM1xuICAgIHN0eWxlIGZsb3dpbnRlbF9zdGFjayBmaWxsOiNlOGU4ZTgsc3Ryb2tlOiM1NTUsc3Ryb2tlLXdpZHRoOjEuNXB4LGNvbG9yOiMzMzNcbiAgICBzdHlsZSBhcGkgICAgICAgICAgICAgZmlsbDojMTE2OGJkLGNvbG9yOiNmZmYsc3Ryb2tlOiMwZTRkOGNcbiAgICBzdHlsZSBjZmcgICAgICAgICAgICAgZmlsbDojY2ZlMmYzLGNvbG9yOiMzMzMsc3Ryb2tlOiMxMTY4YmRcbiAgICBzdHlsZSBtaXNwX2NvcmUgICAgICAgZmlsbDojNmI2YjZiLGNvbG9yOiNmZmYsc3Ryb2tlOiM0NDRcbiAgICBzdHlsZSBtaXNwX21vZCAgICAgICAgZmlsbDojOWE5YTlhLGNvbG9yOiNmZmYsc3Ryb2tlOiM3NzdcbiAgICBzdHlsZSBtaXNwX2RiICAgICAgICAgZmlsbDojYzhjOGM4LGNvbG9yOiMzMzMsc3Ryb2tlOiM3NzdcbiAgICBzdHlsZSBtaXNwX3JlZGlzICAgICAgZmlsbDojYzhjOGM4LGNvbG9yOiMzMzMsc3Ryb2tlOiM3NzdcbiAgICBzdHlsZSBtaXNwX21haWwgICAgICAgZmlsbDojYzhjOGM4LGNvbG9yOiMzMzMsc3Ryb2tlOiM3NzdcbiAgICBzdHlsZSBmbG93aW50ZWxfYXBwICAgZmlsbDojNmI2YjZiLGNvbG9yOiNmZmYsc3Ryb2tlOiM0NDRcbiAgICBzdHlsZSBmbG93aW50ZWxfZGIgICAgZmlsbDojYzhjOGM4LGNvbG9yOiMzMzMsc3Ryb2tlOiM3NzdcbiAgICBzdHlsZSBmbG93aW50ZWxfY2FjaGUgZmlsbDojYzhjOGM4LGNvbG9yOiMzMzMsc3Ryb2tlOiM3NzdcbiIsICJhdHRycyI6ICJ3aWR0aD1cIjc1JVwiIn0= -->
+<p><img alt="ARC-006 diagram 1" src="assets/arc-006-8bd49592d37f.svg" width="75%" /></p>
 <h3>Channels between trust boundaries</h3>
 <p><a href="SRS.html#SRS-058">SRS-058</a> requires TLS 1.2 or higher for all data in transit crossing a trust boundary.
 In the depicted diagram this would apply to the connections between the Wazuh/RADAR subsystem and the DECIPHER API if the IDPS-ESCAPE and SATRAP-DL hosts are located in different trust zones.</p>
@@ -420,7 +421,7 @@ Event scores are then aggregated into a final score via Noisy-OR.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-053">SRS-053 Analysis endpoint: CTI-driven scoring engine for MISP</a></p>
 <p><em>Child links:</em> <a href="SWD.html#SWD-014">SWD-014 DECIPHER microservice data model</a></p>
 <h2 id="ARC-012">2.7 Analysis endpoint: support for suspicious login <small><a href="ARC.html#ARC-012">ARC-012</a></small></h2>
-<p>The analysis of the suspicious login scenario aligns overall with the interaction diagram in <a href="ARC-009.md">ARC-009</a>. The specific data structure to validate the input from this threat scenario considers the following IOCs relevant in a suspicious login threat scenario:</p>
+<p>The analysis of the suspicious login scenario aligns overall with the interaction diagram in <a href="ARC.html#ARC-009">ARC-009</a>. The specific data structure to validate the input from this threat scenario considers the following IOCs relevant in a suspicious login threat scenario:</p>
 <table>
 <thead>
 <tr>
@@ -476,7 +477,7 @@ Event scores are then aggregated into a final score via Noisy-OR.</p>
 </tbody>
 </table>
 <p>For a detailed sequence diagram of the analysis flow, see <a href="SWD.html#SWD-008">SWD-008</a>.</p>
-<p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Supported analysis for threat scenario: suspicious login</a></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Threat scenario analysis: suspicious login</a></p>
 <p><em>Child links:</em> <a href="SWD.html#SWD-010">SWD-010 Analysis endpoint: <code>suspicious_login</code> request flow</a></p>
 <h2 id="ARC-011">2.8 REST service: incident endpoint interaction <small><a href="ARC.html#ARC-011">ARC-011</a></small></h2>
 <p>The incident creation endpoint receives a bundle with a priority level from the MISP <code>priority-level</code> taxonomy and creates a case in Flowintel assigning it the corresponding priority tag.
@@ -489,6 +490,126 @@ If an optional <code>template_id</code> is provided in the request body, the cas
 <p><img alt="ARC-011 diagram 1" src="assets/arc-011-2efdc793b532.svg" /></p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-055">SRS-055 DECIPHER service: incidents endpoint</a></p>
 <p><em>Child links:</em> <a href="SWD.html#SWD-009">SWD-009 Incident endpoint flow</a></p>
+<h2 id="ARC-016">2.9 Analysis endpoint: suspicious network/web scanning <small><a href="ARC.html#ARC-016">ARC-016</a></small></h2>
+<p>The suspicious network scanning activity scenario follows the general analysis-endpoint architecture in <a href="ARC.html#ARC-009">ARC-009</a>.</p>
+<h2>Input data structure</h2>
+<p>RADAR's scanning detection scenario considers the following detection criteria for potentially malicious web-scanning:</p>
+<ul>
+<li>HTTP requests carrying a "User-Agent" string associated with a known scanning tool (e.g. sqlmap, nikto, nmap)</li>
+<li>An abnormal rate of failed HTTP responses (401/403/404) from the same source IP within a short window</li>
+<li>Use of HTTP methods a normal client would not send (e.g. TRACE, PROPFIND).</li>
+</ul>
+<p>We design DECIPHER to be compatible with RADAR's alert information, which we consider that contains a generic enough baseline of IOCs for web scanning. Thus, the alert data structure received as input for the CTI analysis is conformed of:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src_ip</code></td>
+<td><code>list[str]</code></td>
+<td>Y</td>
+<td>IP address of the source of the scanning activity</td>
+</tr>
+<tr>
+<td><code>uri</code></td>
+<td><code>list[str]</code></td>
+<td>Y</td>
+<td>The requested (probed) URI path(s)</td>
+</tr>
+<tr>
+<td><code>user_agents</code></td>
+<td><code>list[str]</code></td>
+<td>Y</td>
+<td>Observed 'User-Agent' string(s) in the HTTP request</td>
+</tr>
+<tr>
+<td><code>http-method</code></td>
+<td><code>list[str]</code></td>
+<td>N</td>
+<td>The HTTP method(s) requested</td>
+</tr>
+<tr>
+<td><code>target_host</code></td>
+<td><code>str</code></td>
+<td>N</td>
+<td>Name of the scanned endpoint (for context only; not an IOC)</td>
+</tr>
+<tr>
+<td><code>timestamp</code></td>
+<td><code>datetime</code></td>
+<td>N</td>
+<td>ISO 8601 timestamp of the detected activity</td>
+</tr>
+</tbody>
+</table>
+<p>In addition, the <code>detection_chain</code> field of type <code>list[(int,str)]</code> can be used to provide a chronologically ordered list of detection rules (Wazuh rules for now) that resulted in the alert being triggered (e.g. burst $\rightarrow$ scanner UA $\rightarrow$ confirmed scan $\rightarrow$ exploitation pattern), as specified in <a href="SRS.html#SRS-060">SRS-060</a>.</p>
+<p><strong>Example of alert</strong></p>
+<pre><code>alert_data = {
+    &quot;src_ip&quot;: [&quot;203.0.113.42&quot;],
+    &quot;uri&quot;: [&quot;/wp-login.php&quot;, &quot;/admin/config.php&quot;],
+    &quot;user_agents&quot;: [&quot;sqlmap/1.7.2#stable (http://sqlmap.org)&quot;],
+    &quot;http_method&quot;: [&quot;TRACE&quot;, &quot;PROPFIND&quot;],
+    &quot;target_host&quot;: &quot;owncloud.abc.lu&quot;,
+    &quot;timestamp&quot;: &quot;2026-08-24T10:15:32Z&quot;,
+    &quot;detection_chain&quot;: [(1, &quot;burst&quot;), (2, &quot;scanner UA&quot;), (3, &quot;confirmed scan&quot;)]
+}
+</code></pre>
+<h2>IOCs in MISP</h2>
+<p>Conveniently, the MISP object <code>http-request</code> encapsulates all the relevant information from the alert. The alert fields map to the object's attributes as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Alert field</th>
+<th><code>http-request</code> attribute</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>src_ip</td>
+<td>ip-src</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>uri</td>
+</tr>
+<tr>
+<td>user_agents</td>
+<td>user-agent</td>
+</tr>
+<tr>
+<td>http_method</td>
+<td>http-method</td>
+</tr>
+<tr>
+<td>target_host</td>
+<td>hostname</td>
+</tr>
+</tbody>
+</table>
+<p>Ideally, we would like to find <code>http-request</code> objects containing more than one of the indicators.</p>
+<p>The way of ingesting CTI in MISP is far from standard, thus, we also search for MISP events containing the alert IOCs mapped to the same MISP attribute types without an object.</p>
+<p>The <code>research-scanner</code> MISP object is another relevant structure, used for reporting known scanning activity, e.g., from a known ongoing research project. Useful fields are: domain, project, scanning_host, scanning_ip, scheduled_start, scheduled_end and contact_email.</p>
+<h3>MISP warninglists</h3>
+<p><a href="https://github.com/misp/misp-warninglists">MISP warninglists</a> are lists of well-known indicators that can be associated to potential false positives, errors or mistakes.</p>
+<p>Malicious scanning is hard to distinguish from legitimate internet-wide research or benign scanning services (e.g. Shodan, Censys, academic research projects), since a source IP can appear in a threat feed and in a "known scanner" reference at the same time. To surface that context to the analyst without discarding genuine findings, the alert's <code>src_ip</code> values are additionally checked against misp-warninglists (a match returns the name of the matching list) and against <code>research-scanner</code> objects' <code>scanning_ip</code> attribute (a match returns the object's <code>project</code> or <code>domain</code> attribute).</p>
+<p>Warninglists are used exclusively for this contextual lookup. MISP's <code>enforceWarninglist</code> search parameter, which removes attributes hitting an enabled warninglist from the search results, is disabled for this scenario.</p>
+<h3>Scoring tags</h3>
+<p>MITRE ATT&amp;CK galaxy tags relevant to this scenario:
+- T1595.002 vulnerability scanning,
+- T1595.003 wordlist scanning</p>
+<h2>Analysis report</h2>
+<p>When a MISP instance is available and reachable and MISP search is enabled in the configuration, the analysis report must include the field <code>identified-scanners</code> of type <code>dict[str, list[str]]</code>, mapping a source IP to the sources it was found in. This field can contain:</p>
+<p>(a) an entry per matched source IP, holding the name of every matched misp-warninglist and/or research-scanner project or domain for that IP, or</p>
+<p>(b) an empty mapping when no match with registered scanners is found, which can be signaling a malicious scanning source.</p>
+<p>By design, a match on <code>identified-scanners</code> is contextual only; it does not alter the severity score computed by the scoring engine as suppressing or discounting the score on a match would risk masking potential threats from a compromised benign source.</p>
+<p>When MISP is unavailable or disabled in DECIPHER's configuration, the <code>identified-scanners</code> field must not be present.</p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-059">SRS-059 Threat scenario analysis: suspicious web scanning</a></p>
       </div>
     </div>
 </div>

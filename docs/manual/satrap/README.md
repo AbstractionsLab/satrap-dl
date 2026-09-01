@@ -6,6 +6,7 @@
 - [User interfaces](/docs/manual/satrap/interfaces.md)
 - [Running investigations](/docs/manual/satrap/playbooks.md)
 - [SATRAP fundamentals](/docs/manual/satrap/core_concepts.md)
+- [Deployment reference](/docs/manual/satrap/deployment_artifacts.md)
 
 
 ## Overview of SATRAP

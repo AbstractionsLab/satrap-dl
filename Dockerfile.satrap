@@ -1,0 +1,97 @@
+# syntax=docker/dockerfile:1
+#
+# Image for the `satrap` CLI.
+#
+# Multi-stage build that ships just the Poetry virtual environment and 
+# the satrap source (excluding decipher), run as a non-root user.
+#
+# Design note: 
+# The pyproject.toml file declares both the satrap and decipher packages,
+# so installing the project root (poetry install) would add the source code
+# of both packages into the image.
+#
+# To keep this as a satrap-only image:
+# 	1. in the build stage, only satrap's dependencies are installed into the venv
+#	2. in the runtime stage, the satrap source code path is placed at PYTHONPATH 
+#		so that when the ENTRYPOINT runs, Python can locate the satrap package on 
+#		its import path (sys.path)
+#
+# Build: ./build-satrap.sh
+# Run: ./satrap.sh
+
+## ------------------------------------------------------------------
+FROM python:3.12-slim-trixie AS builder
+
+ENV PIP_DEFAULT_TIMEOUT=100 \
+	POETRY_VERSION=1.8.5 \
+	POETRY_NO_INTERACTION=1 \
+	# create a .venv inside the project dir instead of at a hashed path under ~/.cache
+	POETRY_VIRTUALENVS_IN_PROJECT=1
+
+WORKDIR /satrap-dl
+
+RUN pip install --no-cache-dir "poetry==${POETRY_VERSION}"
+COPY pyproject.toml poetry.lock ./
+
+# Install only the satrap runtime dependencies into /satrap-dl/.venv
+# The satrap and decipher root packages are not installed (--no-root)
+RUN poetry install --only main,satrap --no-root
+
+# Remove the build-time tooling seeded by poetry (pip, setuptools) from the
+# venv; not needed at runtime and the seeded versions are not controlled by
+# poetry.lock, plus decreases the vulnerability surface.
+# The import checks fail the build if anything survives.
+RUN poetry run python -m pip uninstall -y setuptools wheel \
+	&& poetry run python -m pip uninstall -y pip \
+	&& ! poetry run python -c "import setuptools" 2>/dev/null \
+	&& ! poetry run python -c "import pip" 2>/dev/null
+
+## ------------------------------------------------------------------
+FROM python:3.12-slim-trixie AS runtime
+
+ENV PYTHONUNBUFFERED=1 \
+	PYTHONFAULTHANDLER=1
+
+ENV APP_USER=satrap
+ENV PROJECT_HOME=/satrap-dl
+ENV USER_HOME=/home/${APP_USER}
+
+# OS security patches for the base image's Debian packages.
+RUN apt-get update \
+	&& apt-get upgrade -y \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Non-root system group + user. The home folder is created for $HOME to
+# resolve to a writable, user-owned path; the application lives in PROJECT_HOME
+RUN groupadd --system ${APP_USER} \
+	&& useradd --system --gid ${APP_USER} --create-home --home-dir ${USER_HOME} ${APP_USER}
+
+WORKDIR ${PROJECT_HOME}
+
+# add the pre-built venv to PATH for the dependencies + interpreter; 
+# PYTHONPATH adds the satrap source code to the import path, to be resolved at runtime
+ENV PATH="${PROJECT_HOME}/.venv/bin:${PATH}" \
+	PYTHONPATH="${PROJECT_HOME}"
+
+# copy the venv from the previous stage and the project files;
+# deliberately owned by root to prevent (compromised) user modifications
+COPY --from=builder /satrap-dl/.venv ${PROJECT_HOME}/.venv
+COPY pyproject.toml ${PROJECT_HOME}/pyproject.toml
+COPY satrap/ ${PROJECT_HOME}/satrap/
+# copy folder for running the satrap tl test command
+COPY tests/satrap/data ${PROJECT_HOME}/tests/satrap/data/
+
+# Change ownership of folders written at runtime by the user
+RUN chown ${APP_USER}:${APP_USER} \
+	${PROJECT_HOME}/satrap/assets/logs \
+	${PROJECT_HOME}/satrap/assets/stixdata
+
+# Precompile all .py files to .pyc at build time (source is immutable after this point),
+# skipping runtime hash/mtime checks for faster cold starts and showing docstring
+# syntax warnings from typedb only at build time
+RUN python -m compileall -q --invalidation-mode unchecked-hash ${PROJECT_HOME}
+
+USER ${APP_USER}
+
+ENTRYPOINT ["python", "-m", "satrap.frontend.satrap_cli"]
+CMD ["-h"]

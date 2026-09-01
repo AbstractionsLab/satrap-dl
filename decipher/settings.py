@@ -39,6 +39,7 @@ BASE_URL = os.path.join("/api", API_VERSION)
 # ----------------------------------------------------------
 class AnalysisScenario(Enum):
     SUSPICIOUS_LOGIN = "suspicious_login"
+    NETWORK_SCANNING = "suspicious_nt_scanning"
 
 
 # ----------------------------------------------------------

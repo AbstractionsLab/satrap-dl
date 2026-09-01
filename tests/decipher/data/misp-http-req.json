@@ -1,0 +1,76 @@
+[
+  {
+    "name": "[TEST] High: Web scanning campaign reported as a single http-request object",
+    "description": "Threat intelligence published as one http-request MISP object. Tests the object-based IOC search path, where all indicators of the alert are found within a single object instead of loose event attributes.",
+    "timedelta": 5,
+    "misp_objects": [
+      {
+        "name": "http-request",
+        "comment": "HTTP request observed during an sql injection scanning campaign",
+        "attributes": [
+          {
+            "object_relation": "ip-src",
+            "type": "ip-src",
+            "value": "194.187.176.128",
+            "comment": "Scanning source"
+          },
+          {
+            "object_relation": "uri",
+            "type": "uri",
+            "value": "/wp-login.php",
+            "comment": "Probed endpoint, CMS login"
+          },
+          {
+            "object_relation": "url",
+            "type": "url",
+            "value": "http://owncloud.abc.lu/index.php?id=1%20OR%201=1",
+            "comment": "Probed URL carrying an sql injection payload"
+          },
+          {
+            "object_relation": "user-agent",
+            "type": "user-agent",
+            "value": "sqlmap/1.7.2#stable (http://sqlmap.org)",
+            "comment": "Scanner tool signature"
+          },
+          {
+            "object_relation": "method",
+            "type": "http-method",
+            "value": "POST",
+            "comment": "Observed request method"
+          },
+          {
+            "object_relation": "host",
+            "type": "hostname",
+            "value": "cfl.lu",
+            "comment": "Scanned endpoint"
+          }
+        ]
+      }
+    ],
+    "tags": [
+      {
+        "name": "misp-galaxy:mitre-attack-pattern=\"Active Scanning - T1595\""
+      },
+      {
+        "name": "admiralty-scale:source-reliability=\"a\""
+      },
+      {
+        "name": "admiralty-scale:information-credibility=\"1\""
+      },
+      {
+        "name": "tlp:amber"
+      },
+      {
+        "name": "type:OSINT"
+      }
+    ],
+    "expected_severity": "high",
+    "analysis_stage": 2,
+    "expected_outcome": {
+      "severity_band": "high",
+      "identified_scanners": "empty",
+      "case_created": true,
+      "notes": "All the alert IOCs match attributes of the same http-request object, so a single MISP event is returned by the IOC search."
+    }
+  }
+]

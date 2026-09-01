@@ -4,7 +4,11 @@
 - [Configuration](/docs/manual/decipher/configuration.md)
 - [Quick start](/docs/manual/decipher/quick_start.md)
 - [Analyzers](/docs/manual/decipher/analyzers.md)
+  - [Suspicious login analyzer](/docs/manual/decipher/susp_login_analyzer.md)
+  - [Suspicious web scanning analyzer](/docs/manual/decipher/web_scn_analyzer.md)
+  - [Creating a custom analyzer](/docs/manual/decipher/custom_analyzer.md)
 - [DECIPHER fundamentals](/docs/manual/decipher/core_concepts.md)
+- [Deployment stack reference](/docs/manual/decipher/deployment.md)
 
 ## Overview of DECIPHER
 
@@ -14,7 +18,7 @@ DECIPHER implements a REST-based service that analyzes security alerts from pred
 
 ### Key capabilities
 
-- **Extensible REST API**: Analysis endpoints for diverse threat scenarios
+- **Extensible REST API**: Analysis endpoints for diverse threat scenarios. Two scenarios ship with the service, suspicious login and suspicious web scanning, and new ones are added by subclassing the shared analysis pipeline
 - **MISP enrichment**: Real-time indicator of compromise (IOC) search and threat intelligence retrieval
 - **Threat scoring**: Configurable severity score calculation based on threat level, confidence, sightings, and threat identification tags
 - **Case management**: Automated case creation in Flowintel with analysis reports and priority tags

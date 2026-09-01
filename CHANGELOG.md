@@ -1,3 +1,31 @@
+# 1.1 (2026-09-01)
+
+## Added
+
+- Docker Compose based deployment artifacts for SATRAP, in line with the DECIPHER deployment paradigm: `deployment/docker-compose.satrap.yml` (TypeDB service and a build-only satrap image) and the `deployment/satrap_up.sh` and `deployment/satrap_down.sh` entrypoint scripts.
+- DECIPHER analyzer supporting a network/web scanning threat scenario (`suspcious_nt_scanning`), scoring the alert IOCs (source IPs, probed URIs, user agents, HTTP methods) against MISP threat intelligence, and reporting known research or benign scanning sources as analyst context.
+- DECIPHER setup tool (`decipher/tools/warninglists_mgr.py`) to list, enable and disable MISP warninglists used by the analyzers, from the API container or from the dev environment.
+- `MISPCTIAnalyzer` as a base class for MISP-informed analyzers (CTI retrieval, scoring and case creation) with hooks for the scenario-specific logic.
+- Identification of benign and research scanners in the MISP connector, combining warninglist lookups with matches on `research-scanner` objects.
+- Filtering of the MISP events retrieved for an alert per IOC types and a minimum number of matched attributes per event.
+- MISP search parameters `enforce_warninglist` and `max_values_per_type` in the DECIPHER runtime configuration.
+- User manual page for the network/web scanning analyzer and a guide for developing custom analyzers.
+- Unit tests for the new analyzer, the generic scenario analyzer, the MISP connector and the enrichment mixin, plus an integration test for the research-scanner search.
+- Technical specifications for the suspicious network scanning scenario
+
+## Modified
+
+- The `misp_connector.py` and `misp_enrichment.py` modules have been enhanced with new functionality for searching and filtering.
+- Default MISP search parameters are now a 7-day event timeframe and a limit of 1000 results.
+- The `decipher.analyzers` package has been refactored to use the added `MISPCTIAnalyzer`.
+- The SATRAP Docker image for production has been enhanced, largely reducing size and vulnerabilities.
+- The security of the DECIPHER API Docker image has been improved: multi-stage build, non-root system user owning no application files, a healthcheck based on the standard library, and no `pip` in the shipped virtual environment, which removes its vendored dependency tree from the runtime stage.
+- The configuration mount in the DECIPHER API service is now read-only.
+- The SATRAP-DL dev image has been enhanced by fixing some bugs with shared venvs, reducing size and sharing a common base image in all 3 Dockerfiles.
+- Minor restructure of `pyproject.toml` and `devcontainer.json` for a cleaner deployment
+- Old scripts for building and initializing satrap have been removed.
+- Documentation has been updated to reflect the new deployment mode for SATRAP.
+
 # 1.0 (2026-05-08)
 
 ## Added

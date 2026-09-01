@@ -12,6 +12,8 @@ git clone https://github.com/AbstractionsLab/satrap-dl.git
 
 Then, proceed with one of the methods described below.
 
+For further details on the deployment scripts, see the [SATRAP deployment reference](./deployment_artifacts.md).
+
 **Note:** The name of the root folder might change depending on whether the source code is cloned or downloaded. Throughout the instructions, we will assume the root folder to be `satrap-dl`.
 
 ## SATRAP command-line interface
@@ -27,32 +29,32 @@ The command-line interface provides commands for setting up and populating a CTI
 
     ```sh
     cd satrap-dl
-    chmod +x *.sh
+    chmod +x satrap.sh deployment/satrap_up.sh deployment/satrap_down.sh
     ```
 
-1. Run the `init-satrap.sh` script to set up and run a TypeDB server connected to a `satrap-net` Docker network.
+1. From the `deployment` directory, run `satrap_up.sh` to bring up a TypeDB server (connected to the `satrap-net` Docker network, with a persistent `typedb-data` volume) and build the SATRAP Docker image.
 
     ```sh
-    ./init-satrap.sh
+    cd deployment
+    ./satrap_up.sh
+    cd ..
     ```
 
-1. Run the `build-satrap.sh` script to build a Docker image for SATRAP.
+    By default the TypeDB server is published on host port `1729` (for access from TypeDB Studio). To use a different host port, use the `-p <port>` parameter. E.g.:
 
     ```sh
-    ./build-satrap.sh
+    ./satrap_up.sh -p 1730
     ```
 
-1. Run `./satrap.sh` to display the help on the available commands or a specific command with:
+1. From the project root folder, run `./satrap.sh` to display the help on the available commands, or a specific command with:
 
     ```sh
     ./satrap.sh <command>
     ```
 
-If the `typedb` container is stopped for any reason, it can be safely launched again by re-running the `init-satrap.sh` script.
-
 
 ## SATRAP analysis platform in VS Code
-The recommended approach to benefit from the automated analysis functionality of the Alpha release is to deploy it in a development environment. This makes it easier to integrate SATRAP with other tools and libraries when carrying out CTI investigations.
+The recommended approach to benefit from the automated analysis functionality of the Python toolbox is to deploy it in a development environment. This makes it easier to integrate SATRAP with other tools and libraries when carrying out CTI investigations.
 
 ### Prerequisites
 
@@ -63,17 +65,17 @@ The recommended approach to benefit from the automated analysis functionality of
 ### Steps
 
 
-1. In a terminal, go to the project root folder and ensure execution rights on the scripts.
+1. In a terminal, go to the deployment folder and ensure execution rights on the SATRAP scripts.
 
     ```sh
-    cd satrap-dl
-    chmod +x *.sh
+    cd satrap-dl/deployment
+    chmod +x satrap_up.sh satrap_down.sh
     ```
 
-1. Run the `init-satrap.sh` script to set up and run a TypeDB server connected to a `satrap-net` Docker network.
+1. Use `satrap_up.sh` to set up and run a TypeDB server connected to the `satrap-net` Docker network.
 
     ```sh
-    ./init-satrap.sh
+    ./satrap_up.sh --typedb
     ```
 
 1. Open the project folder `satrap-dl` in VS Code.
@@ -126,12 +128,23 @@ or
 python -m unittest tests.satrap.etl.load.tl_sdo_test.TestTransformLoadSDO.test_opinion_enum
 ```
 
+The `typedb` service can be safely stopped with and restarted with `deployment/satrap_up.sh --typedb`.
 
-## Quick overview of the scripts
+## Bringing down SATRAP
 
-- **init-satrap.sh**: creates the Docker network *satrap-net*, downloads an image of TypeDB v2.29.0, and creates a typedb volume for persistent storage. Then, runs TypeDB in *satrap-net* mapped to the created volume. TypeDB is exposed on port `1729`.
-- **build-satrap.sh**: builds a Docker image for SATRAP.
-- **satrap.sh**: creates and runs a SATRAP Docker container connected to *satrap-net*, with a volume mapping the host code repository to the project home folder (`/home/root/satrap-dl`) within the SATRAP container.
+The deployment stack of SATRAP (TypeDB + SATRAP Docker image) can be stopped and optionally removed using the `deployment/satrap_down.sh` script.
+
+To stop TypeDB and remove the `satrap-net` network:
+
+```sh
+./satrap_down.sh
+```
+
+To also remove the typedb-data named volume (which deletes the knowledge base) and the satrap image:
+
+```sh
+./satrap_down.sh --purge
+```
 
 <br/>
 

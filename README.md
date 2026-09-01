@@ -1,8 +1,8 @@
 # SATRAP-DL
 
-SATRAP-DL, short for **Semi-Automated Threat Reconnaissance and Analysis Powered by DECIPHER Logic**, offers a suite of tools for computer-aided CTI analysis and automated incident handling informed by CTI, provided respectively by its sub-systems _SATRAP_ and _DECIPHER_.
+<img src="./docs/manual/_figures/2D2B2A_LOG_CyFORT+SATRAP-BetaLogo_v1.0.png" alt="cyfort_logo" width="415"/>
 
-<img src="./docs/manual/_figures/2D2B2A_LOG_CyFORT+SATRAP-BetaLogo_v1.0.png" alt="cyfort_logo" width="430"/>
+SATRAP-DL, short for **Semi-Automated Threat Reconnaissance and Analysis Powered by DECIPHER Logic**, offers a suite of tools for computer-aided cyber-threat intelligence (CTI) analysis and automated incident handling informed by CTI.
 
 For a visual stakeholder-oriented tour of SATRAP-DL, visit the **[product presentation page](https://abstractionslab.github.io/satrap-dl/website/product-presentation.html)**.
 
@@ -10,70 +10,46 @@ For a visual stakeholder-oriented tour of SATRAP-DL, visit the **[product presen
 
 ## Table of contents
 
-- [Overview](#overview)
 - [SATRAP-DL suite](#satrap-dl-suite)
+- [Quick map](#overview)
 - [Getting started](#getting-started)
-- [Unit and integration tests](#unit-and-integration-tests)
 - [Documentation and technical specifications](#documentation-and-technical-specifications)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
 - [Contact](#contact)
 
-## Overview
-
-This repository contains the source code and documentation of SATRAP-DL, including the [technical specifications](https://abstractionslab.github.io/satrap-dl/traceability/index.html). SATRAP-DL has been developed in alignment with the [C5-DEC](https://github.com/AbstractionsLab/c5dec) method. Among others, C5-DEC prescribes and supports (with the C5-DEC CAD software) the storage, interlinking and processing of all software development life cycle (SDLC) artifacts in a unified manner.
-
 ## SATRAP-DL suite
 
 - [**SATRAP**](satrap/README.md) provides a platform for (semi-)automated analysis of CTI based on a knowledge representation system for explainable inference. It aims to reduce the manual effort involved in correlating threat intelligence and deriving actionable conclusions, while keeping the analysis over STIX 2.1 CTI data traceable.
 
-- [**DECIPHER**](decipher/README.md) provides an extensible REST service for real-time analysis of alert information and incident case creation for streamlined investigations of threat scenarios.
+- [**DECIPHER**](decipher/README.md) provides an extensible REST service for real-time analysis and severity scoring of alert information and incident case creation for streamlined investigations of threat scenarios.
 
 - [**PyFlowintel**](https://github.com/AbstractionsLab/PyFlowintel) is a Python library for interacting with the case management platform [Flowintel](https://github.com/flowintel/flowintel) through its REST API. PyFlowintel is used to support automated pipelines in DECIPHER.
 
-## Getting started
+## Quick map
 
-This repository is organized as follows:
+This repository contains the source code, [technical specifications](https://abstractionslab.github.io/satrap-dl/traceability/index.html), and user documentation of SATRAP-DL, developed based on the [C5-DEC SSDLC](https://github.com/AbstractionsLab/c5dec/blob/main/docs/manual/ssdlc.md) methodology and associated [C5-DEC CAD](https://abstractionslab.github.io/c5dec/website/product-presentation.html) software.
+
+The repository is organized as follows:
 
 - [satrap/](satrap/): SATRAP Python package (KRS, ETL, CLI, analysis toolbox)
-- [decipher/](decipher/): DECIPHER Python package (analysis service REST API)
-- [deployment/](deployment/): artifacts to deploy the operational environment of DECIPHER (SATRAP will be included in the future)
-- [docs/](docs/): user manual, notebooks, specs, and traceability artifacts
+- [decipher/](decipher/): DECIPHER Python package (analysis REST service)
+- [deployment/](deployment/): artifacts to deploy the operational environments of DECIPHER and SATRAP
+- [docs/](docs/): user manuals, notebooks, specs, and traceability artifacts
 - [tests/](tests/): unit and integration tests
 - [tutorials/](tutorials/): workshop and tutorial materials
-- [.devcontainer/](.devcontainer/): VS Code configuration for a ready-to-use containerized development environment
+- [.devcontainer/](.devcontainer/): VS Code configuration for a ready-to-use containerized development environment.
 
-### Installation
+The PyFlowintel library is hosted in a [separate repository](https://github.com/AbstractionsLab/PyFlowintel).
 
-SATRAP-DL uses [Poetry](https://python-poetry.org/) for dependency management. Both SATRAP and DECIPHER dependencies are managed in `pyproject.toml` and can be installed selectively.
+## Getting started
 
-Install all dependencies (SATRAP, DECIPHER and dev dependencies).
+For detailed setup and usage instructions of each sub-system, please refer to the corresponding [SATRAP](satrap/README.md) or [DECIPHER](decipher/README.md) README.
 
-```bash
-poetry install
-```
+### Developers
+For deploying a containerized development environment for the whole SATRAP-DL project in Visual Studio Code ... See the installation section in the user manual for details.
 
-Install only SATRAP dependencies.
-
-```bash
-poetry install --only main,satrap
-```
-
-Install only DECIPHER dependencies.
-
-```bash
-poetry install --only main,decipher
-```
-
-Install all dependencies plus dependencies for jupyter notebooks.
-
-```bash
-poetry install --with notebooks
-```
-
-For detailed setup and usage instructions of each sub-system, please refer to the corresponding README using the links above.
-
-## Unit and integration tests
+#### Unit and integration tests
 
 The repository includes a single script to run tests for both SATRAP and DECIPHER.
 
@@ -82,23 +58,18 @@ The repository includes a single script to run tests for both SATRAP and DECIPHE
 ./run_tests.sh
 ```
 
-- Run only SATRAP tests
+- Run only either SATRAP or DECIPHER tests
 ```bash
-./run_tests.sh satrap
+./run_tests.sh <satrap|decipher>
 ```
 
-- Run only DECIPHER tests
-```bash
-./run_tests.sh decipher
-```
-
-Individual test modules, classes and cases can be run using the `unittest` module. For example:
+- Run individual test modules, classes and cases using the `unittest` module. For example:
 
 ```sh
 python -m unittest tests.satrap.file_util_test
 ```
 
-For more details about the test suites, see the README files of each project.
+See the README files of each project for more details about the test suites.
 
 ## Documentation and technical specifications
 
@@ -120,7 +91,7 @@ SATRAP-DL is licensed under the [GNU Affero General Public License (AGPL) v3.0](
 
 ## Acknowledgments
 
-SATRAP-DL is a sub-project of the [CyFORT](https://abstractionslab.com/index.php/research-and-development/cyfort) project, "Cloud Cybersecurity Fortress of Open Resources and Tools for Resilience", co-funded by the Ministry of the Economy of Luxembourg in the context of the EC-approved [IPCEI-CIS](https://ec.europa.eu/commission/presscorner/detail/en/ip_23_6246).
+SATRAP-DL is a sub-project of [CyFORT](https://abstractionslab.com/index.php/research-and-development/cyfort), "Cloud Cybersecurity Fortress of Open Resources and Tools for Resilience", co-funded by the Ministry of the Economy of Luxembourg in the context of the EC-approved [IPCEI-CIS](https://ec.europa.eu/commission/presscorner/detail/en/ip_23_6246) project.
 
 
 ## Contact

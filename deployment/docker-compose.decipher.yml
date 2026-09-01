@@ -11,22 +11,20 @@ services:
     build:
       context: ..
       dockerfile: Dockerfile.decipher
-    image: decipher/api:${VERSION:-latest}
-    pull_policy: never         # Do not pull from registry, use local build
+    image: decipher/api:${API_VERSION:-latest}
+    # Do not pull from registry, use local build
+    pull_policy: never
     ports:
       - "${API_PORT:-8000}:8000"
     networks:
       - satrap-dl-net
     volumes:
-      - ../config:/satrap-dl/config  # Mount host's config folder to container
+      # Mount host's config folder to container, read-only
+      - ../config:/satrap-dl/config:ro
+    # Disable container processes from gaining new privileges
+    security_opt:
+      - no-new-privileges:true
     restart: unless-stopped
-    # Potentially useful for dependency checks, currently not needed
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:${API_PORT:-8000}/health"]
-    #   interval: 30s
-    #   timeout: 10s
-    #   start_period: 10s
-    #   retries: 3
 
 networks:
   satrap-dl-net:

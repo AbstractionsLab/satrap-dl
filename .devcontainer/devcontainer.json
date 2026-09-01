@@ -14,6 +14,13 @@
 		// "options": ["--tag", "satrap-dev:0.1"]
 	},
 
+	// Fixed container path, independent of the name of the local clone folder;
+	// the image expects the workspace here (see Dockerfile.dev).
+	"workspaceFolder": "/workspaces/cti-analysis-platform",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/cti-analysis-platform,type=bind",
+
+	"remoteUser": "alab",
+
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
@@ -26,8 +33,15 @@
 		"7006": { "onAutoForward": "ignore" }
 	},
 
-	// Uncomment the next line to run commands after the container is created.
-	"postCreateCommand": "pip install black",
+	// Editable install of the root packages from the bind mount. --only-root
+	// activates no dependency groups, so it stays offline, runs in about a
+	// second, and cannot drift from the group list baked into the image.
+	"postCreateCommand": "poetry install --only-root --no-ansi",
+
+	// import satrap and import decipher work even if postCreateCommand is skipped.
+	"containerEnv": {
+		"PYTHONPATH": "/workspaces/cti-analysis-platform"
+	},
 
 	// Configure tool-specific properties.
 	"customizations": {
@@ -40,7 +54,7 @@
 				"typedb.typeql"
 			],
             "settings": {
-                "python.formatting.provider": "black",
+				"python.defaultInterpreterPath": "/home/alab/.venv/bin/python",
 				"cSpell.enabled": true,
 				"cSpell.words": [
 					"STIX",
@@ -51,8 +65,5 @@
         }
 	},
 
-	// run the command in the dockerfile, i.e., do not override it with 
-	// the default one by devcontainer
-	"overrideCommand": false,
-	"runArgs": ["-it", "--network", "satrap-net"]
+	"runArgs": ["--network", "satrap-net"]
 }

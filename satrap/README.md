@@ -76,27 +76,26 @@ Below we describe the deployment of the command-line interface. For the deployme
 
     ```sh
     cd satrap-dl
-	```
-	```sh
-    chmod +x *.sh
     ```
-
-1. Run the [init-satrap.sh](../init-satrap.sh) script to set up and run a TypeDB server connected to a `satrap-net` Docker network.
 
     ```sh
-    ./init-satrap.sh
+    chmod +x *.sh deployment/*.sh
     ```
 
-    TypeDB is exposed on port `1729` of the TypeDB Docker container.
-1. Run the [build-satrap.sh](../build-satrap.sh) script to build a Docker image for SATRAP.
+1. Run the [satrap_up.sh](../deployment/satrap_up.sh) script to bring up a persistent TypeDB server on a `satrap-net` Docker network and build the SATRAP Docker image.
 
     ```sh
-    ./build-satrap.sh
+    ./deployment/satrap_up.sh
     ```
+
+    TypeDB is exposed on host port `1729` by default; pass `-p PORT` to use a different port.
+
+    **Note:** The same script supports several deployment options. See the manual for details.
 
 At this point, the CLI can be used as described in the [Usage](#usage) section below.
 
-If the `typedb` container is stopped for any reason, it can be safely launched again by re-running the [init-satrap.sh](../init-satrap.sh) script.
+### Bring down SATRAP
+Run [satrap_down.sh](../deployment/satrap_down.sh) to stop TypeDB and optionally remove the knowledge base volume and the SATRAP image. See the manual for details.
 
 ## Usage
 ### Configuration parameters

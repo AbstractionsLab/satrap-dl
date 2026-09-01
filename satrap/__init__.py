@@ -11,8 +11,10 @@ import tomllib
 __project__ = "SATRAP"
 __description__ = "Cyber threat Intelligence powered by automated reasoning."
 
-# Load settings from pyproject.toml if it exists
-_toml_file = "pyproject.toml"
+# Load settings from pyproject.toml if it exists.
+# Resolve the path relative to this package so that version and description 
+# resolve regardless of where the process is started.
+_toml_file = os.path.join(os.path.dirname(__file__), "..", "pyproject.toml")
 _toml_config = {}
 
 if os.path.exists(_toml_file):

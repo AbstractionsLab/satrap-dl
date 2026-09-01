@@ -51,6 +51,7 @@
 <li><a href="#TRP-024">2.6 Test analysis endpoint graceful degradation</a></li>
 <li><a href="#TRP-025">2.7 Test incidents endpoint</a></li>
 <li><a href="#TRP-026">2.8 TCER: extensible analyzer framework</a></li>
+<li><a href="#TRP-028">2.9 Test analysis scenario: suspicious web scanning</a></li>
 </ul>
 </li>
 <li><a href="#TRP-SATRAP-DL">3 SATRAP-DL general aspects</a><ul>
@@ -2212,6 +2213,311 @@
 <tr>
 <td>verification-method</td>
 <td>I</td>
+</tr>
+</tbody>
+</table>
+<h2 id="TRP-028">2.9 Test analysis scenario: suspicious web scanning <small><a href="TRP.html#TRP-028">TRP-028</a></small></h2>
+<h2>Relevant test environment and configuration details</h2>
+<ul>
+<li>Software deviations: aligned with test case specification</li>
+<li>Hardware deviations: aligned with test case specification</li>
+<li><code>&lt;scanner-wl&gt;</code>, the warninglists matching <code>66.240.192.138</code>, resolved to: <code>Shodan IP Ranges Used for Scanning</code> and <code>Shodan IP-Ranges, pot. used for Scanning</code></li>
+</ul>
+<h2>Test execution results</h2>
+<p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
+<h3>AC1, AC2, AC5: Analysis with matching threat intelligence</h3>
+<p><strong>TC step 1</strong>: Send the POST request with the sqlmap campaign alert data and verify the response.</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The request provided the response below, which contains all the expected fields and values. Event <code>184</code> in my MISP instance corresponds indeed to the referred SQL event and the case exists in Flowintel.</li>
+</ul>
+<pre><code>{
+  &quot;analyzed_scenario&quot;: &quot;suspicious_nt_scanning&quot;,
+  &quot;severity&quot;: 0.9876797515503988,
+  &quot;report&quot;: {
+    &quot;log_summary&quot;: [],
+    &quot;misp_available&quot;: &quot;True&quot;,
+    &quot;misp_events_found&quot;: [
+      184
+    ],
+    &quot;identified-scanners&quot;: [],
+    &quot;score_breakdown&quot;: [
+      {
+        &quot;event_id&quot;: 184,
+        &quot;score&quot;: 0.9876797515503988,
+        &quot;severity&quot;: 1.0,
+        &quot;confidence&quot;: 0.9876797515503988,
+        &quot;threat_level_value&quot;: 1.0,
+        &quot;tags_multiplier&quot;: 1.3,
+        &quot;c_analysis&quot;: 1.0,
+        &quot;c_evidence&quot;: 0.9753595031007976,
+        &quot;attribute_breakdowns&quot;: [
+          {
+            &quot;c_sightings&quot;: 0.6666666666666667,
+            &quot;c_admiralty&quot;: 1.0,
+            &quot;c_attr&quot;: 0.8
+          },
+          {
+            &quot;c_sightings&quot;: 0,
+            &quot;c_admiralty&quot;: 1.0,
+            &quot;c_attr&quot;: 0.4
+          },
+          {
+            &quot;c_sightings&quot;: 0.5,
+            &quot;c_admiralty&quot;: 0.8944271909999159,
+            &quot;c_attr&quot;: 0.6577708763999663
+          },
+          {
+            &quot;c_sightings&quot;: 0,
+            &quot;c_admiralty&quot;: 1.0,
+            &quot;c_attr&quot;: 0.4
+          }
+        ]
+      }
+    ]
+  },
+  &quot;created_case&quot;: {
+    &quot;id&quot;: 110,
+    &quot;link&quot;: &quot;http://localhost:7006/case/110&quot;
+  }
+}
+</code></pre>
+<p><strong>TC step 2</strong>: Flowintel case tag and description verification.</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The case carries the <code>priority-level:severe</code> tag. The description contains all the described sections and ends with the note stating that <code>identified-scanners</code> is contextual only.</li>
+</ul>
+<h3>AC3: Warninglist match reported for a public scanning service</h3>
+<p><strong>TC steps 1</strong>: Send a POST request with an IP in the range of a warninglisted scanning service</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The response contains <code>severity</code> 0.6665945. The field <code>report.identified-scanners</code> contains the single entry <code>66.240.192.138: ['Shodan IP Ranges Used for Scanning', 'Shodan IP-Ranges, pot. used for Scanning'];</code> which correspond to the names found in MISP for <code>&lt;scanner-wl&gt;</code>. The <code>created_case.id</code> is <code>112</code>.</li>
+</ul>
+<pre><code>{
+  &quot;analyzed_scenario&quot;: &quot;suspicious_nt_scanning&quot;,
+  &quot;severity&quot;: 0.6665945600000001,
+  &quot;report&quot;: {
+    &quot;log_summary&quot;: [],
+    &quot;misp_available&quot;: &quot;True&quot;,
+    &quot;misp_events_found&quot;: [
+      186
+    ],
+    &quot;identified-scanners&quot;: [
+      &quot;66.240.192.138: ['Shodan IP Ranges Used for Scanning', 'Shodan IP-Ranges, pot. used for Scanning'];&quot;
+    ],
+    &quot;score_breakdown&quot;: [
+      {
+        &quot;event_id&quot;: 186,
+        &quot;score&quot;: 0.6665945600000001,
+        &quot;severity&quot;: 1.0,
+        &quot;confidence&quot;: 0.6665945600000001,
+        &quot;threat_level_value&quot;: 1.0,
+        &quot;tags_multiplier&quot;: 1.0,
+        &quot;c_analysis&quot;: 0.5,
+        &quot;c_evidence&quot;: 0.83318912,
+        &quot;attribute_breakdowns&quot;: [
+          {
+            &quot;c_sightings&quot;: 0,
+            &quot;c_admiralty&quot;: 0.6,
+            &quot;c_attr&quot;: 0.24
+          },
+          {
+            &quot;c_sightings&quot;: 0,
+            &quot;c_admiralty&quot;: 0.6,
+            &quot;c_attr&quot;: 0.24
+          },
+          {
+            &quot;c_sightings&quot;: 0,
+            &quot;c_admiralty&quot;: 0.6,
+            &quot;c_attr&quot;: 0.24
+          },
+          {
+            &quot;c_sightings&quot;: 0.5,
+            &quot;c_admiralty&quot;: 0.8,
+            &quot;c_attr&quot;: 0.6200000000000001
+          }
+        ]
+      }
+    ]
+  },
+  &quot;created_case&quot;: {
+    &quot;id&quot;: 112,
+    &quot;link&quot;: &quot;http://localhost:7006/case/112&quot;
+  }
+}
+</code></pre>
+<p><strong>TC step 2</strong>: Warninglist filtering verification.</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The event "[TEST] High: Exploitation attempts from a public scanning service range" corresponds to the one listed in <code>report.misp_events_found</code>.</li>
+</ul>
+<h3>AC3: Research scanner match reported from MISP objects</h3>
+<p><strong>TC step 1</strong>: Send the POST request with the research scanner inventory alert data and verify the response.</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: All the validations hold as evidenced in the response:</li>
+</ul>
+<pre><code>{
+  &quot;analyzed_scenario&quot;: &quot;suspicious_nt_scanning&quot;,
+  &quot;severity&quot;: 0.0,
+  &quot;report&quot;: {
+    &quot;log_summary&quot;: [],
+    &quot;misp_available&quot;: &quot;True&quot;,
+    &quot;misp_events_found&quot;: [
+      187
+    ],
+    &quot;identified-scanners&quot;: [
+      &quot;167.94.138.34: ['Censys IP Ranges Used for Scanning', 'DOMAIN - censys.io; PROJECT - Censys Internet-Wide Scanning'];&quot;,
+      &quot;141.212.123.17: ['DOMAIN - scan.security.engin.umich.edu; PROJECT - University of Michigan Scan Project'];&quot;
+    ],
+    &quot;score_breakdown&quot;: [
+      {
+        &quot;event_id&quot;: 187,
+        &quot;score&quot;: 0.0,
+        &quot;severity&quot;: 0.0,
+        &quot;confidence&quot;: 0.5,
+        &quot;threat_level_value&quot;: 0.0,
+        &quot;tags_multiplier&quot;: 1.0,
+        &quot;c_analysis&quot;: 1.0,
+        &quot;c_evidence&quot;: 0.0,
+        &quot;attribute_breakdowns&quot;: [
+          {
+            &quot;c_sightings&quot;: 0,
+            &quot;c_admiralty&quot;: 0.0,
+            &quot;c_attr&quot;: 0.0
+          },
+          {
+            &quot;c_sightings&quot;: 0,
+            &quot;c_admiralty&quot;: 0.0,
+            &quot;c_attr&quot;: 0.0
+          }
+        ]
+      }
+    ]
+  },
+  &quot;created_case&quot;: {
+    &quot;id&quot;: 113,
+    &quot;link&quot;: &quot;http://localhost:7006/case/113&quot;
+  }
+}
+</code></pre>
+<p><strong>TC step 2</strong>: Flowintel case tag and description verification.</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The description reports both matched research scanners in the <code>identified-scanners</code> entry.</li>
+</ul>
+<h3>AC6: No matching threat intelligence</h3>
+<p><strong>TC step 1</strong>: Send the POST request with the zero-match control alert data and verify the response.</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The response shows all the values as expected reflection no CTI was found.</li>
+</ul>
+<pre><code>{
+  &quot;analyzed_scenario&quot;: &quot;suspicious_nt_scanning&quot;,
+  &quot;severity&quot;: 0.0,
+  &quot;report&quot;: {
+    &quot;log_summary&quot;: [
+      &quot;No case created: no threat intelligence found for the alert IOCs.&quot;
+    ],
+    &quot;misp_available&quot;: &quot;True&quot;,
+    &quot;misp_events_found&quot;: [],
+    &quot;identified-scanners&quot;: [],
+    &quot;score_breakdown&quot;: []
+  },
+  &quot;created_case&quot;: {
+    &quot;id&quot;: 0,
+    &quot;link&quot;: &quot;&quot;
+  }
+}
+</code></pre>
+<p><strong>TC step 2</strong>: Send the same request with a known scanning source as <code>src_ip</code> and verify the response.</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The expected values are observed in the response below and the case is created in Flowintel.</li>
+</ul>
+<p>DECIPHER API response:</p>
+<pre><code>{
+  &quot;analyzed_scenario&quot;: &quot;suspicious_nt_scanning&quot;,
+  &quot;severity&quot;: 0.0,
+  &quot;report&quot;: {
+    &quot;log_summary&quot;: [],
+    &quot;misp_available&quot;: &quot;True&quot;,
+    &quot;misp_events_found&quot;: [],
+    &quot;identified-scanners&quot;: [
+      &quot;71.6.199.23: ['Shodan IP Ranges Used for Scanning', 'Shodan IP-Ranges, pot. used for Scanning'];&quot;
+    ],
+    &quot;score_breakdown&quot;: []
+  },
+  &quot;created_case&quot;: {
+    &quot;id&quot;: 114,
+    &quot;link&quot;: &quot;http://localhost:7006/case/114&quot;
+  }
+}
+</code></pre>
+<p>Flowintel case description:</p>
+<pre><code>Scenario: Suspicious network/web scanning activity detected
+
+Alert information:
+src_ip=['71.6.199.23'] uri=['/nonexistent-probe-path-zero-match'] user_agents=['curl/8.7.1'] http_method=None target_host=None timestamp=None detection_chain=None
+
+Severity score: 0.0000
+
+Score breakdown:
+FINAL SCORE of 0 event(s): 0.0000
+
+Additional information:
+log_summary: []
+misp_available: True
+misp_events_found: []
+identified-scanners: [&quot;71.6.199.23: ['Shodan IP Ranges Used for Scanning', 'Shodan IP-Ranges, pot. used for Scanning'];&quot;]
+
+Note: The score is determined by a formula that quantifies the severity of a threat and the degree of confidence on the assessment. The identified-scanners field is contextual only (known research or benign scanning sources) and does not reduce the severity score. See details in the documentation of DECIPHER's scoring engine.
+</code></pre>
+<h3>Clean up</h3>
+<p>The test events were deleted from MISP, the created cases from Flowintel, and the temporary Python environment <code>.venv-pymisp</code> was removed.</p>
+<h3>Defect summary description</h3>
+<p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawless</strong></span></p>
+<h3>Text execution evidence</h3>
+<p>See terminal output of the requests included in each step.</p>
+<h3>Comments</h3>
+<p>N/A</p>
+<h2>Guide</h2>
+<ul>
+<li>Defect category: <span style="color:green"><strong>0 = flawless</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
+<li>Verification method (VM): Test (T), Review of design (R), Inspection (I), Analysis (A)</li>
+</ul>
+<p><em>Parent links:</em> <a href="TST.html#TST-030">TST-030 Test analysis scenario: suspicious web scanning</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test-date</td>
+<td>2026-08-31</td>
+</tr>
+<tr>
+<td>tester</td>
+<td>IVS</td>
+</tr>
+<tr>
+<td>defect-category</td>
+<td><span style="color:green"><strong>0 = flawless</strong></span></td>
+</tr>
+<tr>
+<td>passed-steps</td>
+<td>8</td>
+</tr>
+<tr>
+<td>failed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>not-executed-steps</td>
+<td>0</td>
+</tr>
+<tr>
+<td>release-version</td>
+<td>1.1</td>
+</tr>
+<tr>
+<td>verification-method</td>
+<td>T</td>
 </tr>
 </tbody>
 </table>

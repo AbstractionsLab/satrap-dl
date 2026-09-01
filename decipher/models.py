@@ -74,7 +74,7 @@ class AnalysisResult(BaseModel):
     """
 
     analyzed_scenario: str
-    severity: float
+    severity: float = Field(..., ge=0, le=1, description="Severity score for the alert data in [0,1]")
     report: dict
     # Pydantic creates a copy of defaults of mutable type per instance
     created_case: dict = {"id": 0, "link": ""}
