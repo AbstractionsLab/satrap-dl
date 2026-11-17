@@ -60,7 +60,7 @@ DECIPHER supports escalation and triage of incidents to helping to maintain a pr
 
 After incident containment, recovery and remediation actions are executed. DECIPHER may support tracking recovery actions (e.g. in the case management system) but does not automate them. 
 
-For full automation of the DECIPHER pipeline, including recovery actions, we strongly recommend integration with [RADAR](https://github.com/AbstractionsLab/idps-escape/tree/main/docs/manual/radar_docs).
+For full automation of the DECIPHER pipeline, including recovery actions, we strongly recommend [integration with RADAR](/docs/manual/decipher/radar-integration.md).
 
 <br/>
 

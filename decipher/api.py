@@ -101,6 +101,7 @@ def analyze_alert(
 
     Returns an AnalysisResult containing:
         `analyzed_scenario`: The alert type/scenario that was analyzed
+        `cti_lookup_result`: Outcome of the CTI enrichment (e.g. cti_found, misp_unavailable)
         `severity`: Severity score for the alert data in [0,1]
         `report`: Dictionary containing analyzer-specific analysis details
         `created_case`: ID of the created case, 0 if no case was created.
@@ -112,16 +113,19 @@ def analyze_alert(
             status_code=422,
             detail={
                 "message": f"Invalid data for alert type '{alert_type}'",
-                "errors": e.errors(),
+                # exclude the context as it may have non-(JSON)serializable objects, which would cause an error when creating the response
+                "errors": e.errors(include_context=False,include_url=False)
             },
         )
     except ValueError as e:
         logger.warning(str(e))
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
+        # log the error and keep the response message generic to prevent data leakage
+        logger.error(f"Unexpected error at analysis endpoint for alert type '{alert_type}': {e}", exc_info=True)
         raise HTTPException(
             status_code=500,
-            detail=f"Analysis failed: {str(e)}",
+            detail="Analysis failed due to an internal error. See the service logs for details.",
         )
 
 
@@ -166,12 +170,12 @@ def create_incident(
     try:
         return create_incident_case(incident)
     except CaseCreationError as e:
-        logger.error(f"Case creation error: {e}")
-        raise HTTPException(status_code=500, detail=f"Case creation failed: {str(e)}")
+        logger.error(f"Case creation error: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Case creation failed. See the service logs for details.")
     except Exception as e:
         logger.error(f"Unexpected error at incident endpoint: {e}", exc_info=True)
         raise HTTPException(
-            status_code=500, detail=f"Incident endpoint error: {str(e)}"
+            status_code=500, detail="Incident endpoint failed due to an internal error. See the service logs for details."
         )
 
 

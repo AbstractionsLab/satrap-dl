@@ -45,6 +45,21 @@ class TestSuspiciousLoginAlert(unittest.TestCase):
         alert = SuspiciousLoginAlert(**data)
         self.assertEqual(alert.username, _VALID_ALERT["username"])
 
+    def test_mandatory_empty_string_raises_validation_error(self):
+        """Empty or whitespace-only values in mandatory string fields should be rejected."""
+        for field in ("username", "target_host"):
+            for blank in ("", "  "):
+                with self.subTest(field=field, value=blank):
+                    with self.assertRaises(ValidationError) as ctx:
+                        SuspiciousLoginAlert(**{**_VALID_ALERT, field: blank})
+                    self.assertEqual(ctx.exception.errors()[0]["loc"][0], field)
+
+    def test_mandatory_string_is_stripped(self):
+        """Surrounding whitespace in mandatory string fields should be removed."""
+        alert = SuspiciousLoginAlert(**{**_VALID_ALERT, "username": "  jdoe ", "target_host": " 192.168.0.10"})
+        self.assertEqual(alert.username, "jdoe")
+        self.assertEqual(alert.target_host, "192.168.0.10")
+
 
 class TestSuspiciousLoginIOCSearch(unittest.TestCase):
     """Tests for the IOC mapping and the MISP search parameters of the scenario."""

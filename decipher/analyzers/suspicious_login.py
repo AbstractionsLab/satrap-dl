@@ -10,6 +10,7 @@ from datetime import datetime
 
 from .registry import AnalyzerRegistry
 from .scenario_analyzer import MISPCTIAnalyzer
+from ..models import NonEmptyStr, NonEmptyBlankList
 from ..settings import AnalysisScenario
 
 
@@ -24,9 +25,9 @@ class SuspiciousLoginAlert(BaseModel):
         timestamp: ISO 8601 timestamp of the alert.
     """
 
-    username: str
-    target_host: str
-    src_ips: list[str]
+    username: NonEmptyStr
+    target_host: NonEmptyStr
+    src_ips: NonEmptyBlankList
     timestamp: datetime
 
 

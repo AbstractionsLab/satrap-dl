@@ -1,3 +1,26 @@
+# 1.2 (2026-11-17)
+
+## Added
+
+- `cti_lookup_result` status code in the response of the DECIPHER analysis endpoint, summarizing the outcome of the CTI enrichment with MISP: `cti_found`, `no_cti_found`, `misp_lookup_error`, `misp_disabled` or `misp_unavailable`.
+- `misp_failed_lookups` entry in the analysis report, listing the MISP attribute types whose search failed.
+- Validation of non-empty mandatory fields in the alert schemas; blank values are rejected with HTTP 422 before any MISP query.
+- A guide and support artifacts for setting up an operational deployment of DECIPHER and RADAR, to support automated incident handling
+- Unit tests for the status code, the MISP error classification and the input validations.
+- Technical specifications for the analysis status code (ARC-017).
+
+## Modified
+
+- MISP errors are now classified as unavailability (connection, timeout, TLS or authentication failures, missing configuration) or lookup errors (any other failed query).
+- Failed searches for single IOC types are no longer silently skipped; they are reported as a lookup error, and the severity is computed over the events of the successful searches.
+- To prevent data leakage in error messages, HTTP 500 responses of the DECIPHER API return a generic message; error details are written to the server log only.
+- SRS-061, SWD-012, TSTs, and the DECIPHER user manual  have been updated accordingly.
+
+## Deprecated
+
+- The `misp_available` entry of the analysis report is deprecated and will be removed in a future version. Use `cti_lookup_result` instead.
+
+
 # 1.1 (2026-09-01)
 
 ## Added

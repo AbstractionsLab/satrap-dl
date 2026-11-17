@@ -1428,7 +1428,7 @@ transitive-use
 <li>Send a POST request to the analysis endpoint with valid <code>suspicious_login</code> alert data:</li>
 </ol>
 <pre><code>curl -X 'POST' \
-  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  'http://localhost:8000/api/v1/analyze/suspicious_login' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -1442,13 +1442,12 @@ transitive-use
 <li>Send a POST request to the incidents endpoint with a valid score and registered alert type:</li>
 </ol>
 <pre><code>curl -X 'POST' \
-  'http://localhost:8000/api/v0.1/incident' \
+  'http://localhost:8000/api/v1/incident' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
   &quot;priority_level&quot;: &quot;priority-level:high&quot;,
   &quot;title&quot;: &quot;Multiple suspicious login attempts from external IP&quot;,
-  &quot;template_id&quot;: &quot;suspicious_login&quot;,
   &quot;description&quot;: {
     &quot;system_affected&quot;: &quot;My database server&quot;,
     &quot;detected_by&quot;: &quot;SIEM&quot;
@@ -1459,7 +1458,7 @@ transitive-use
 <li>Send a GET request to the analyzers endpoint:</li>
 </ol>
 <pre><code>curl -X 'GET' \
-  'http://localhost:8000/api/v0.1/analyzers' \
+  'http://localhost:8000/api/v1/analyzers' \
   -H 'accept: application/json'
 </code></pre>
 <ol start="4">
@@ -1478,10 +1477,21 @@ transitive-use
 </code></pre>
 <h2>Expected outcome</h2>
 <ol>
-<li>The response is a JSON body containing the following fields: <code>"analyzed_scenario": "suspicious_login"</code>, <code>severity</code>, <code>report</code>, and <code>created_case</code>.</li>
-<li>The response is a JSON body with an <code>id</code> &gt; 0 and a non-empty <code>link</code>.</li>
+<li>
+<p>The response is a JSON body containing the following top-level fields:</p>
+<ul>
+<li><code>analyzed_scenario</code> with value <code>suspicious_login</code></li>
+<li><code>cti_lookup_result</code> with one of the values <code>cti_found</code>, <code>no_cti_found</code>, <code>misp_lookup_error</code>, <code>misp_disabled</code>, or <code>misp_unavailable</code></li>
+<li><code>severity</code>, a number in [0, 1]</li>
+<li><code>report</code>, an object with the analyzer-specific details</li>
+<li><code>created_case</code>, an object with the fields <code>id</code> and <code>link</code></li>
+</ul>
+</li>
+<li>
+<p>The response is a JSON body with an <code>id</code> &gt; 0 and a non-empty <code>link</code>.</p>
+</li>
 <li>The response is a JSON body listing all registered alert types, including <code>suspicious_login</code>, with their corresponding input schemas.</li>
-<li>The response is a JSON body containing <code>"status": "ok"</code>, <code>analyzers_loaded</code> (integer &gt;= 1), and <code>logging_level</code>.</li>
+<li>The response is a JSON body containing values for <code>version</code>, <code>status</code>, <code>service</code> (decipher-api), <code>analyzers_loaded</code> (integer &gt;= 1), <code>available_types</code> and <code>logging_level</code>.</li>
 <li>The response is a JSON body containing the service <code>version</code> and documentation references (<code>docs</code>, <code>redoc</code>).</li>
 <li>All responses from AC1 through AC5 are structured, machine-readable JSON.</li>
 </ol>
@@ -1509,7 +1519,7 @@ transitive-use
 </tr>
 <tr>
 <td>release</td>
-<td>Beta</td>
+<td>Stable</td>
 </tr>
 <tr>
 <td>complexity</td>
@@ -1521,12 +1531,12 @@ transitive-use
 </tr>
 <tr>
 <td>version</td>
-<td>0.5</td>
+<td>1.2</td>
 </tr>
 </tbody>
 </table>
 <h2 id="TST-028">2.3 Test analysis endpoint core behavior <small><a href="TST.html#TST-028">TST-028</a></small></h2>
-<p>Validate the core behavior of the analysis endpoint: request and response structure, input validation, error handling, and case creation configuration.</p>
+<p>Validate the core behavior of the analysis endpoint: request and response structure, input validation, error handling, case creation configuration, and the reporting of the CTI lookup result (<code>cti_lookup_result</code>).</p>
 <h2>Preconditions</h2>
 <ul>
 <li>Docker Engine (or daemon) running with execution privileges for the testing user</li>
@@ -1543,18 +1553,18 @@ transitive-use
 </ul>
 </li>
 <li>
-<p>Bring the DECIPHER stack up and ensure the DECIPHER service is reachable at http://localhost:8000 (<em>Note: if a different host/port is used for the REST service, update the curl commands accordingly</em>)</p>
-<p><code>./decipher_up.sh --all</code></p>
+<p>Bring the DECIPHER service up and ensure it is reachable at http://localhost:8000 (<em>Note: if a different host/port is used for the REST service, update the curl commands accordingly</em>)</p>
+<p><code>./decipher_up.sh --api</code></p>
 </li>
 </ol>
 <h2>Test steps</h2>
-<h3>AC1: Successful analysis with valid data</h3>
+<h3>Successful analysis with valid data (<a href="SRS.html#SRS-050">SRS-050</a> AC1, <a href="SRS.html#SRS-061">SRS-061</a> AC7)</h3>
 <ol>
 <li>Send a POST request to the <code>suspicious_login</code> analysis endpoint with valid alert data:</li>
 </ol>
 <pre><code>curl -w &quot; HTTP %{http_code}&quot; \
   -X 'POST' \
-  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  'http://localhost:8000/api/v1/analyze/suspicious_login' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -1564,13 +1574,13 @@ transitive-use
   &quot;timestamp&quot;: &quot;2026-03-10T08:30:00Z&quot;
   }'
 </code></pre>
-<h3>AC2: Analysis endpoint with invalid data</h3>
+<h3>Analysis endpoint with invalid data (<a href="SRS.html#SRS-050">SRS-050</a> AC2)</h3>
 <ol>
 <li>Send a POST request to the analysis endpoint with structurally invalid data (e.g., missing required fields):</li>
 </ol>
 <pre><code>curl -w &quot; HTTP %{http_code}&quot; \
   -X 'POST' \
-  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  'http://localhost:8000/api/v1/analyze/suspicious_login' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -1578,20 +1588,20 @@ transitive-use
   &quot;target_host&quot;: &quot;192.168.1.10&quot;
   }'
 </code></pre>
-<h3>AC3: Analysis endpoint with unregistered alert type</h3>
+<h3>Analysis endpoint with unregistered alert type (<a href="SRS.html#SRS-050">SRS-050</a> AC3)</h3>
 <ol>
 <li>Send a POST request to the analysis endpoint with an alert type that is not registered:</li>
 </ol>
 <pre><code>curl -w &quot; HTTP %{http_code}&quot; \
   -X 'POST' \
-  'http://localhost:8000/api/v0.1/analyze/nonexistent_scenario' \
+  'http://localhost:8000/api/v1/analyze/nonexistent_scenario' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
   &quot;username&quot;: &quot;jdoe&quot;
 }'
 </code></pre>
-<h3>AC4: Internal analysis failure</h3>
+<h3>Internal analysis failure (<a href="SRS.html#SRS-050">SRS-050</a> AC4)</h3>
 <ol>
 <li>Corrupt <code>config/decipher-runtime-cfg.yaml</code> with invalid YAML content. For example, replace the line:</li>
 </ol>
@@ -1605,7 +1615,7 @@ transitive-use
 </ol>
 <pre><code>curl -w &quot; HTTP %{http_code}&quot; \
   -X 'POST' \
-  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  'http://localhost:8000/api/v1/analyze/suspicious_login' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -1616,17 +1626,18 @@ transitive-use
   }'
 </code></pre>
 <ol start="3">
-<li>Verify that the response contains the string <code>HTTP 500</code>.</li>
+<li>Verify that the response contains the string <code>HTTP 500</code> and that its <code>detail</code> is a generic message that does not contain internal error details (e.g. no YAML parser messages or file paths).</li>
+<li>Inspect the DECIPHER service log (e.g. <code>docker logs decipher-api-1</code>) and verify that it contains the details of the internal error.</li>
 <li>Restore <code>config/decipher-runtime-cfg.yaml</code> to its original state by deleting the added <code>x</code>.</li>
 </ol>
-<h3>AC5: Case creation enabled</h3>
+<h3>Case creation enabled (<a href="SRS.html#SRS-050">SRS-050</a> AC5, <a href="SRS.html#SRS-061">SRS-061</a> AC7)</h3>
 <ol>
 <li>Set <code>enable_case_creation: true</code> in <code>config/decipher-runtime-cfg.yaml</code>.</li>
 <li>Send a POST request with valid alert data:</li>
 </ol>
 <pre><code>curl -w &quot; HTTP %{http_code}&quot; \
   -X 'POST' \
-  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  'http://localhost:8000/api/v1/analyze/suspicious_login' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -1637,7 +1648,7 @@ transitive-use
     }'
 </code></pre>
 <ol start="3">
-<li>Verify that the response field<code>created_case.id</code> is non-zero and the case with the returned ID exists at the URL returned in <code>created_case.link</code>.</li>
+<li>Verify that the response shows <code>HTTP 200</code>, the <code>created_case.id</code> is non-zero and the case with the returned ID exists at the URL returned in <code>created_case.link</code>.</li>
 <li>Verify that the description of the case contains the following sections:<ul>
 <li>Scenario: with reference to suspicious login</li>
 <li>Alert information: the data corresponds to data sent in the POST request</li>
@@ -1646,32 +1657,79 @@ transitive-use
 <li>Additional information: including log_summary, misp_available and misp_events_found rows.</li>
 </ul>
 </li>
-<li>Restore <code>enable_case_creation: false</code> after the test.</li>
+<li>Record the value of the top-level <code>cti_lookup_result</code> field of the response as <code>&lt;cti-result-case-enabled&gt;</code>.</li>
 </ol>
-<h3>AC6: Case creation disabled</h3>
+<h3>Case creation disabled (<a href="SRS.html#SRS-050">SRS-050</a> AC6, <a href="SRS.html#SRS-057">SRS-057</a> AC2, <a href="SRS.html#SRS-061">SRS-061</a> AC7)</h3>
 <ol>
-<li>Ensure <code>enable_case_creation: false</code> in <code>config/decipher-runtime-cfg.yaml</code>.</li>
-<li>Send a POST request with valid alert data (e.g. the one in AC1).</li>
+<li>Set <code>enable_case_creation: false</code> in <code>config/decipher-runtime-cfg.yaml</code>.</li>
+<li>Send the POST request of step 2 in "Case creation enabled".</li>
 <li>Verify that the response status is HTTP 200.</li>
 <li>Verify that <code>created_case.id</code> is 0 and <code>created_case.link</code> is an empty string.</li>
 <li>Verify that the <code>report</code> contains a message indicating that case creation is disabled in the <code>log_summary</code>.</li>
+<li>Verify that the top-level <code>cti_lookup_result</code> field of the response is equal to <code>&lt;cti-result-case-enabled&gt;</code>.</li>
 </ol>
-<h3>AC7: MISP search disabled</h3>
+<h3>MISP search disabled (<a href="SRS.html#SRS-050">SRS-050</a> AC7, <a href="SRS.html#SRS-057">SRS-057</a> AC1, <a href="SRS.html#SRS-061">SRS-061</a> AC4)</h3>
 <ol>
 <li>Set <code>enable_misp_search: false</code> in <code>config/decipher-runtime-cfg.yaml</code>.</li>
-<li>Send a POST request with valid alert data (e.g. the one in AC1).</li>
+<li>Send a POST request with valid alert data (e.g. the one in "Successful analysis with valid data").</li>
 <li>Verify that the response status is HTTP 200.</li>
-<li>Verify that in the <code>log_summary</code> of the <code>report</code> field in the response indicates that MISP search is disabled.</li>
+<li>Verify that the <code>severity</code> field of the response is 0.</li>
+<li>Verify that the top-level <code>cti_lookup_result</code> field of the response is <code>misp_disabled</code> and that the deprecated <code>report.misp_available</code> entry is <code>False</code>.</li>
+<li>Verify that the <code>report.log_summary</code> field of the response indicates that MISP search is disabled.</li>
 </ol>
+<h3>Mandatory fields without information (<a href="SRS.html#SRS-061">SRS-061</a> AC6)</h3>
+<ol>
+<li>Send a POST request in which the mandatory string field <code>username</code> contains only whitespace:</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v1/analyze/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;username&quot;: &quot;  &quot;,
+  &quot;target_host&quot;: &quot;192.168.1.10&quot;,
+  &quot;src_ips&quot;: [&quot;10.0.0.1&quot;],
+  &quot;timestamp&quot;: &quot;2026-03-10T08:30:00Z&quot;
+  }'
+</code></pre>
+<ol start="2">
+<li>Send a POST request in which the mandatory list field <code>src_ips</code> contains only empty or whitespace-only strings:</li>
+</ol>
+<pre><code>curl -w &quot; HTTP %{http_code}&quot; \
+  -X 'POST' \
+  'http://localhost:8000/api/v1/analyze/suspicious_login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  &quot;username&quot;: &quot;jdoe&quot;,
+  &quot;target_host&quot;: &quot;192.168.1.10&quot;,
+  &quot;src_ips&quot;: [&quot;&quot;, &quot; &quot;],
+  &quot;timestamp&quot;: &quot;2026-03-10T08:30:00Z&quot;
+  }'
+</code></pre>
 <h2>Expected outcome</h2>
-<p><strong>AC1:</strong> The printed output contains the string <code>HTTP 200</code> and a JSON response containing the following fields: <code>"analyzed_scenario": "suspicious_login"</code>, <code>severity</code>, <code>report</code>, and <code>created_case</code>.</p>
-<p><strong>AC2:</strong> The printed output contains the string <code>HTTP 422</code> and the response body contains an invalid data message with validation error details identifying the missing or invalid fields.</p>
-<p><strong>AC3:</strong> The printed output contains the string <code>HTTP 404</code> and a message informing about an unknown alert type.</p>
-<p><strong>AC4:</strong> The validation in step 3 succeeds.</p>
-<p><strong>AC5:</strong> Steps 3 and 4 are successfully validated.</p>
-<p><strong>AC6:</strong> The validations from steps 3 to 5 succeed.</p>
-<p><strong>AC7:</strong> Steps 3 and 4 are successfully validated.</p>
-<p><em>Parent links:</em> <a href="SRS.html#SRS-050">SRS-050 DECIPHER service: analysis endpoint</a>, <a href="SRS.html#SRS-057">SRS-057 Runtime-configurable DECIPHER features</a></p>
+<p><strong>Successful analysis with valid data:</strong> The printed output contains the string <code>HTTP 200</code> and a JSON response containing the following fields: <code>"analyzed_scenario": "suspicious_login"</code>, <code>cti_lookup_result</code>, <code>severity</code>, <code>report</code>, and <code>created_case</code>.</p>
+<p><strong>Analysis endpoint with invalid data:</strong> The printed output contains the string <code>HTTP 422</code> and the response body contains an invalid data message and a list of validation errors with details, identifying <code>src_ips</code> and <code>timestamp</code> as missing fields.</p>
+<p><strong>Analysis endpoint with unregistered alert type:</strong> The printed output contains the string <code>HTTP 404</code> and a message informing about an unknown alert type.</p>
+<p><strong>Internal analysis failure:</strong> The validations in steps 3 and 4 succeed.</p>
+<p><strong>Case creation enabled:</strong> Steps 3 and 4 are successfully validated, and <code>&lt;cti-result-case-enabled&gt;</code> is one of <code>cti_found</code>, <code>no_cti_found</code>, <code>misp_lookup_error</code>, <code>misp_disabled</code> or <code>misp_unavailable</code>.</p>
+<p><strong>Case creation disabled:</strong> The validations from steps 3 to 6 succeed.</p>
+<p><strong>MISP search disabled:</strong> The validations from steps 3 to 6 succeed.</p>
+<p><strong>Mandatory fields without information:</strong></p>
+<ol>
+<li>The printed output contains the string <code>HTTP 422</code>, and <code>detail.errors</code> contains an entry whose <code>loc</code> is <code>["username"]</code> with a message asking for at least 1 character.</li>
+<li>The printed output contains the string <code>HTTP 422</code>, and <code>detail.errors</code> contains an entry whose <code>loc</code> is <code>["src_ips"]</code> with a message stating that the list must contain at least one non-empty string.</li>
+</ol>
+<h2>Additional coverage by automated tests</h2>
+<p>Parts of the acceptance criteria verified by this test case that cannot be observed through the API are covered by the unit tests outlined below.</p>
+<ul>
+<li><strong><a href="SRS.html#SRS-050">SRS-050</a> AC6, <a href="SRS.html#SRS-057">SRS-057</a> AC2</strong>, case creation disabled without contacting Flowintel: <code>test_no_case_when_case_creation_is_disabled</code> (<code>tests/decipher/scenario_analyzer_test.py</code>).</li>
+<li><strong><a href="SRS.html#SRS-050">SRS-050</a> AC7, <a href="SRS.html#SRS-057">SRS-057</a> AC1</strong>, MISP search disabled with severity 0 and no MISP search issued: <code>test_analysis_stops_before_the_misp_lookup</code> (<code>tests/decipher/scenario_analyzer_test.py</code>).</li>
+<li><strong><a href="SRS.html#SRS-061">SRS-061</a> AC4</strong>, MISP disabled: <code>TestMISPSearchDisabled</code> in <code>tests/decipher/scenario_analyzer_test.py</code>.</li>
+<li><strong><a href="SRS.html#SRS-061">SRS-061</a> AC6</strong>, no query sent to MISP for a request with a blank mandatory field: <code>test_analyze_blank_mandatory_field_422_without_misp_query</code> in <code>tests/decipher/api_test.py</code>. Validation of the non-empty mandatory fields per scenario: <code>TestSuspiciousLoginAlert</code> in <code>tests/decipher/suspicious_login_test.py</code> and <code>TestNetworkScanningAlert</code> in <code>tests/decipher/network_scanning_test.py</code>.</li>
+</ul>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-050">SRS-050 DECIPHER service: analysis endpoint</a>, <a href="SRS.html#SRS-057">SRS-057 Runtime-configurable DECIPHER features</a>, <a href="SRS.html#SRS-061">SRS-061 DECIPHER analysis outcome status</a></p>
 <p><em>Child links:</em> <a href="TRP.html#TRP-021">TRP-021 Test analysis endpoint core behavior</a></p>
 <table>
 <thead>
@@ -1695,7 +1753,7 @@ transitive-use
 </tr>
 <tr>
 <td>release</td>
-<td>Beta</td>
+<td>Stable</td>
 </tr>
 <tr>
 <td>complexity</td>
@@ -1707,7 +1765,7 @@ transitive-use
 </tr>
 <tr>
 <td>version</td>
-<td>0.4</td>
+<td>1.2</td>
 </tr>
 </tbody>
 </table>
@@ -1752,7 +1810,7 @@ transitive-use
 </ol>
 <pre><code>curl -s \
   -X 'POST' \
-  'http://localhost:8000/api/v0.1/analyze/suspicious_login' \
+  'http://localhost:8000/api/v1/analyze/suspicious_login' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -1771,18 +1829,19 @@ transitive-use
 <ol>
 <li>In the <code>config/decipher-runtime-cfg.yaml</code> file, set <code>event_timestamp: 5m</code></li>
 <li>Send again the POST request of step 1 above.</li>
-<li>Set the <code>event_timestamp</code> value to <code>7d</code>.</li>
 </ol>
 <h3>Clean up</h3>
 <ol>
 <li>Run <code>rm -rf .venv-pymisp</code> to remove the Python environment created for pushing events to MISP.</li>
+<li>Set the <code>event_timestamp</code> value in <code>config/decipher-runtime-cfg.yaml</code> back to <code>7d</code>.</li>
 </ol>
 <h2>Expected outcome</h2>
 <h3>Analysis pipeline with matching event data</h3>
 <ol>
 <li>The following holds in the response:<ul>
-<li><code>report.misp_events_found</code> contains two IDs.</li>
-<li><code>severity</code> is greater than 0.</li>
+<li>the top-level <code>cti_lookup_result</code> field is <code>cti_found</code></li>
+<li><code>report.misp_events_found</code> contains two IDs</li>
+<li><code>severity</code> is greater than 0</li>
 <li><code>report.score_breakdown</code> contains a list with two objects. One of these objects has an <code>attribute_breakdowns</code> list with two elements and the other object and <code>attribute_breakdowns</code> list with one element.</li>
 </ul>
 </li>
@@ -1797,7 +1856,8 @@ transitive-use
 <h3>Runtime settings for MISP search</h3>
 <ol start="2">
 <li>The following holds in the response:<ul>
-<li><code>misp_available</code> is <code>True</code></li>
+<li>the top-level <code>cti_lookup_result</code> field is <code>no_cti_found</code></li>
+<li>the <code>report.misp_available</code> entry is <code>True</code></li>
 <li><code>report.misp_events_found</code> is an empty list.</li>
 <li><code>severity</code> is 0.</li>
 </ul>
@@ -1806,7 +1866,7 @@ transitive-use
 <blockquote>
 <p><code>tests/decipher/runners/push_misp_events.sh</code></p>
 </blockquote>
-<p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Threat scenario analysis: suspicious login</a>, <a href="SRS.html#SRS-052">SRS-052 Analysis endpoint: IOC search in MISP for CTI enrichment</a>, <a href="SRS.html#SRS-054">SRS-054 Analysis endpoint: optional creation of prioritized case</a></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-051">SRS-051 Threat scenario analysis: suspicious login</a>, <a href="SRS.html#SRS-052">SRS-052 Analysis endpoint: IOC search in MISP for CTI enrichment</a>, <a href="SRS.html#SRS-054">SRS-054 Analysis endpoint: optional creation of prioritized case</a>, <a href="SRS.html#SRS-061">SRS-061 DECIPHER analysis outcome status</a></p>
 <p><em>Child links:</em> <a href="TRP.html#TRP-022">TRP-022 Test full workflow of analysis endpoint</a></p>
 <table>
 <thead>
@@ -1842,7 +1902,7 @@ transitive-use
 </tr>
 <tr>
 <td>version</td>
-<td>0.4</td>
+<td>1.2</td>
 </tr>
 </tbody>
 </table>
@@ -2289,7 +2349,7 @@ transitive-use
 </table>
 <h2 id="TST-030">2.9 Test analysis scenario: suspicious web scanning <small><a href="TST.html#TST-030">TST-030</a></small></h2>
 <p>Validate the scenario-specific behavior of the <code>suspicious_nt_scanning</code> threat scenario: the reporting of known, likely-legitimate scanning sources in the <code>identified-scanners</code> field, the invariance of the severity score with respect to those matches, and the default case creation decision.</p>
-<p>The behavior shared by all analysis scenarios (request and response structure, unknown alert type, internal failures, and the <code>enable_case_creation</code> and <code>enable_misp_search</code> toggles) is covered by <a href="TST.html#TST-028">TST-028</a> and is not repeated here.</p>
+<p>The behavior shared by all analysis scenarios (request and response structure, unknown alert type, internal failures, and the <code>enable_case_creation</code> and <code>enable_misp_search</code> toggles) is covered by <a href="TST.html#TST-028">TST-028</a>, and is not repeated here. For <a href="SRS.html#SRS-061">SRS-061</a>, this test case verifies that the CTI lookup result (<code>cti_lookup_result</code>) is present at the top level of this scenario's response.</p>
 <h2>Preconditions</h2>
 <ul>
 <li>DECIPHER stack running (<code>cd deployment &amp;&amp; ./decipher_up.sh --all</code>)</li>
@@ -2431,6 +2491,7 @@ transitive-use
 <ol>
 <li>The following holds in the response:<ul>
 <li><code>analyzed_scenario</code> is <code>suspicious_nt_scanning</code>.</li>
+<li>the top-level <code>cti_lookup_result</code> field is <code>cti_found</code> (<a href="SRS.html#SRS-061">SRS-061</a> AC1, AC7).</li>
 <li><code>severity</code> is approximately 0.987.</li>
 <li><code>report.misp_events_found</code> contains the IDs of the "SQL injection scanning campaign against public web apps".</li>
 <li><code>report.score_breakdown</code> contains a breakdown of the event with <code>event_id</code>, <code>score</code>, <code>severity</code>, <code>confidence</code> and an <code>attribute_breakdowns</code> list.</li>
@@ -2448,6 +2509,7 @@ transitive-use
 <h3>AC3: Warninglist match reported for a public scanning service</h3>
 <ol>
 <li>The following holds in the response:<ul>
+<li>the top-level <code>cti_lookup_result</code> field is <code>cti_found</code>.</li>
 <li><code>severity</code> is approximately 0.667.</li>
 <li><code>report.identified-scanners</code> contains one entry for the source IP address <code>66.240.192.138</code>, naming <code>&lt;scanner-wl&gt;</code> as the matching source.</li>
 <li><code>created_case.id</code> is non-zero.</li>
@@ -2459,7 +2521,7 @@ transitive-use
 <ol>
 <li>The following holds in the response:<ul>
 <li><code>report.identified-scanners</code> contains an entry per source IP address, mapping <code>167.94.138.34</code> to the project and domain labels of the Censys <code>research-scanner</code> object and <code>141.212.123.17</code> to those of the University of Michigan one.</li>
-<li><code>report.misp_events_found</code> contains the ID of the research scanner inventory event.</li>
+<li><code>report.misp_events_found</code> contains the ID of the research scanner inventory event, and the top-level <code>cti_lookup_result</code> field is <code>cti_found</code>.</li>
 <li><code>severity</code> is 0, since the undefined threat level of the matched event contributes no severity, and no priority threshold is reached.</li>
 <li><code>created_case.id</code> is non-zero: the case is created in spite of the zero score, because the known-scanner context is evidence for the analyst.</li>
 </ul>
@@ -2469,6 +2531,7 @@ transitive-use
 <h3>AC6: No matching threat intelligence</h3>
 <ol>
 <li>The following holds in the response:<ul>
+<li>the top-level <code>cti_lookup_result</code> field is <code>no_cti_found</code> (<a href="SRS.html#SRS-061">SRS-061</a> AC2, AC7).</li>
 <li><code>severity</code> is 0.</li>
 <li><code>report.misp_events_found</code> is an empty list and <code>report.score_breakdown</code> contains no event result.</li>
 <li><code>report.identified-scanners</code> is an empty list.</li>
@@ -2486,12 +2549,13 @@ transitive-use
 <li><strong>AC4</strong>, invariance of the score: <code>TestNetworkScanningIdentifiedScanners</code> and <code>TestNetworkScanningIOCSearch</code> in <code>tests/decipher/network_scanning_test.py</code>, and <code>TestSearchIoc</code> in <code>tests/decipher/misp_connector_test.py</code>.</li>
 <li><strong>AC6</strong>, case creation decision at severity 0: <code>TestNetworkScanningCaseSuppression</code> in <code>tests/decipher/network_scanning_test.py</code>.</li>
 <li><strong>AC7</strong>, MISP unavailable or disabled: <code>TestMISPSearchDisabled</code> and <code>TestCTIRetrieval</code> in <code>tests/decipher/scenario_analyzer_test.py</code>, and <code>TestNetworkScanningIdentifiedScanners</code> in <code>tests/decipher/network_scanning_test.py</code> for the failure of the scanner lookup itself.</li>
+<li><strong><a href="SRS.html#SRS-061">SRS-061</a> AC5</strong> and <strong>AC7</strong>, a failure of the known-scanner lookup is reported as <code>misp_lookup_error</code> for this scenario: in <code>TestNetworkScanningIdentifiedScanners</code>. Validation of the non-empty mandatory fields of this scenario (<a href="SRS.html#SRS-061">SRS-061</a> AC6): <code>TestNetworkScanningAlert</code> in <code>tests/decipher/network_scanning_test.py</code>.</li>
 </ul>
 <blockquote>
 <p><code>tests/decipher/runners/events_simulator.py</code>
 <code>tests/decipher/runners/push_misp_events.sh</code></p>
 </blockquote>
-<p><em>Parent links:</em> <a href="SRS.html#SRS-059">SRS-059 Threat scenario analysis: suspicious web scanning</a></p>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-059">SRS-059 Threat scenario analysis: suspicious web scanning</a>, <a href="SRS.html#SRS-061">SRS-061 DECIPHER analysis outcome status</a></p>
 <p><em>Child links:</em> <a href="TRP.html#TRP-028">TRP-028 Test analysis scenario: suspicious web scanning</a></p>
 <table>
 <thead>
@@ -2527,7 +2591,7 @@ transitive-use
 </tr>
 <tr>
 <td>version</td>
-<td>1.1</td>
+<td>1.2</td>
 </tr>
 </tbody>
 </table>

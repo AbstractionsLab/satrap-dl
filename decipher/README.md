@@ -16,18 +16,20 @@ DECIPHER provides a REST-based service for analyzing security alerts from predef
 
 ## Overview
 
-CyFORT supports the implementation of an automated incident **(H)andling** pipeline enabled by the [Active Response module of RADAR](https://github.com/AbstractionsLab/idps-escape/blob/main/docs/manual/radar_docs/radar-active-response.md), a subsystem of [IDPS-ESCAPE](https://github.com/AbstractionsLab/idps-escape), and the DECIPHER REST analysis service hosted in this repository. Roughly, the workflow steps include:
+CyFORT supports the implementation of an automated incident **(H)andling** pipeline through [RADAR](https://github.com/AbstractionsLab/idps-escape/tree/main/docs/manual/radar_docs/README.md), a subsystem of [IDPS-ESCAPE](https://github.com/AbstractionsLab/idps-escape), and the DECIPHER REST analysis service hosted in this repository. Roughly, the workflow steps include:
 
 1. **(D)etect** and create alerts in [Wazuh](https://wazuh.com/) for the selected threat scenario.
 2. **(E)nrich** by searching for CTI related to the alert IOCs in [MISP](https://www.misp-project.org/).
 3. **(C)orrelate** and determine a CTI severity score via an automated preliminary analysis on the enriched alerts.
-4. Compute a [RADAR risk score](https://github.com/AbstractionsLab/idps-escape/blob/main/docs/manual/radar_docs/radar-risk-math.md) on the alert based on detection and CTI factors, and assign a triage tier.
+4. Compute a [RADAR risk score](https://github.com/AbstractionsLab/idps-escape/blob/main/docs/manual/radar_docs/radar-tuning.md#how-the-risk-score-is-built) on the alert based on detection and CTI factors, and assign a triage tier.
 5. **(E)scalate (I)ncidents** to prioritized cases in [Flowintel](https://flowintel.github.io/flowintel-doc/#/).
 6. Add relevant **(P)laybooks** to the case for further interactive analysis, e.g., [SATRAP playbooks](https://github.com/AbstractionsLab/satrap-dl/blob/main/docs/manual/playbooks.md) or [MISP playbooks](https://github.com/MISP/misp-playbooks).
 
 **(R)ecovery** actions are left to the judgment of incident responders. Yet, the CTI analysis and playbook outcomes can inform recovery decisions.
 
-This folder hosts the implementation of the DECIPHER analysis REST service, which deals with steps 2, 3, 5 and 6 of the described workflow.
+This folder hosts the code of the DECIPHER analysis REST service, which deals with steps 2, 3, 5 and 6 of the described workflow.
+
+For guidelines on how to deploy and integrate RADAR and DECIPHER to enable this workflow, see the [DECIPHER integration with RADAR](/docs/manual/decipher/radar-integration.md) section in the DECIPHER user manual.
 
 ## Features
 
@@ -40,7 +42,7 @@ This folder hosts the implementation of the DECIPHER analysis REST service, whic
 
 ## Getting started
 
-Here, we describe how to configure and run the REST service. For deployment of the whole DECIPHER infrastructure stack, see the [deployment README](/deployment/README.md). 
+Here, we describe how to configure and run the REST service. For deployment of the whole DECIPHER infrastructure stack, see the [deployment README](/deployment/README.md).
 
 ### Prerequisites
 

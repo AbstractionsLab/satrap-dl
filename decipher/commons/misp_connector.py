@@ -3,8 +3,11 @@ Provides a class for querying MISP threat intelligence platform.
 Supports IOC lookups, event correlation, and bulk searches.
 """
 
+from collections.abc import Callable
+from dataclasses import dataclass, field
 from typing import Any
 
+from requests.exceptions import ConnectionError, RequestException, Timeout
 from pymisp import PyMISP, MISPEvent, MISPAttribute, MISPObject, MISPSighting, PyMISPError
 
 from decipher.commons.log_utils import get_logger
@@ -28,6 +31,31 @@ logger = get_logger(__name__)
 DEFAULT_EVENT_TIMESTAMP = "7d"
 DEFAULT_SEARCH_RESULT_LIMIT = 1000
 DEFAULT_MAX_VALUES_PER_TYPE = 50
+AUTH_ERROR_STATUS_CODES = frozenset({401, 403})
+
+
+class UnavailableMISPClientError(Exception):
+    """
+    Raised when MISP cannot be used at all: the client is not configured, MISP
+    cannot be reached, or MISP rejects the credentials.
+    """
+
+    def __init__(self, message: str = "MISP client unavailable or incorrectly configured."):
+        super().__init__(message)
+
+
+@dataclass
+class BulkSearchResult:
+    """
+    Outcome of a search for IOCs of several attribute types.
+
+    Attributes:
+        events: Relevant events found by the searches that succeeded.
+        failed_types: Attribute types whose search failed.
+    """
+
+    events: list[EventData] = field(default_factory=list)
+    failed_types: list[str] = field(default_factory=list)
 
 
 class MISPDataExtractor:
@@ -59,27 +87,80 @@ class MISPDataExtractor:
             api_key: MISP API key.
             verify_ssl: Enable SSL certificate verification.
             timeout: Connection timeout in seconds.
+
         Raises:
-            PyMISPError: If connection to MISP fails.
+            UnavailableMISPClientError: If the MISP URL or API key is missing, or PyMISP cannot be initialized.
         """
         self.url = url
         self.api_key = api_key
         self.verify_ssl = verify_ssl
-        self.client: PyMISP | None = None
 
         if not url or not api_key:
-            logger.warning("MISP URL or API key not configured - MISP client disabled")
-            return
+            message = "Incomplete MISP client configuration: MISP URL or API key missing"
+            logger.error(message)
+            raise UnavailableMISPClientError(message)
 
         try:
-            self.client = PyMISP(url, api_key, verify_ssl, timeout=timeout)
+            self.client: PyMISP = PyMISP(url, api_key, verify_ssl, timeout=timeout)
             logger.info(f"MISP client initialized: {url}")
         except PyMISPError as e:
-            raise PyMISPError(f"MISP client init failed: {e}") from e
+            logger.error(f"MISP client init failed: {e}")
+            raise UnavailableMISPClientError(f"MISP client init failed: {e}") from e
 
-    def is_available(self) -> bool:
-        """Check if MISP client is available and connected."""
-        return self.client is not None
+    def _query_misp(self, context: str, request: Callable[..., Any], *args: Any, **kwargs: Any) -> Any:
+        """
+        Send a request to MISP and validate that the response does not report errors.
+
+        Args:
+            context: Description of the request, for the error messages.
+            request: PyMISP client method sending the request.
+            *args: Positional arguments of the request.
+            **kwargs: Keyword arguments of the request.
+
+        Returns:
+            The response returned by PyMISP.
+
+        Raises:
+            UnavailableMISPClientError: If MISP cannot be reached (connection
+                failure, TLS error or timeout) or rejects the credentials.
+            PyMISPError: If MISP answered with any other error, or the request
+                failed otherwise (e.g. connection dropped while receiving the response).
+        """
+        try:
+            response = request(*args, **kwargs)
+        except (ConnectionError, Timeout) as e:
+            logger.error(f"MISP unreachable during {context}: {e}")
+            raise UnavailableMISPClientError(f"MISP unreachable during {context}: {e}") from e
+        except RequestException as e:
+            raise PyMISPError(f"MISP request failed during {context}: {e}") from e
+        self._raise_on_error_response(response, context)
+        return response
+
+    @staticmethod
+    def _raise_on_error_response(response: Any, context: str) -> None:
+        """
+        Check a MISP response and raise errors if encountered instead of results.
+
+        This function deals with cases where PyMISP returns errors as
+        `{"errors": (status_code, message)}` instead of raising an exception.
+
+        Args:
+            response: Value returned by the PyMISP call.
+            context: Description of the request, for the error message.
+
+        Raises:
+            UnavailableMISPClientError: If MISP rejected the credentials (401, 403).
+            PyMISPError: If MISP answered with any other error.
+        """
+        if not isinstance(response, dict) or "errors" not in response:
+            return
+
+        errors = response["errors"]
+        status = errors[0] if isinstance(errors, (list, tuple)) and errors else None
+        if status in AUTH_ERROR_STATUS_CODES:
+            raise UnavailableMISPClientError(f"MISP rejected the credentials during {context}: {errors}")
+        # raise PyMISPError(f"MISP error during {context}: {errors}")
+        raise PyMISPError(errors)
 
     def search_ioc(self, ioc_type: str, value: str | list[str], additional_params: dict[str, Any] = None) -> list[MISPAttribute]:
         """
@@ -102,6 +183,7 @@ class MISPDataExtractor:
 
         Raises:
             PyMISPError: If search fails.
+            UnavailableMISPClientError: If MISP cannot be reached or rejects the credentials.
         """
         params = additional_params or {}
 
@@ -119,8 +201,7 @@ class MISPDataExtractor:
                 "pythonify": True
             }
 
-            results = self.client.search(**search_params)
-            return results
+            return self._query_misp(f"{ioc_type} search", self.client.search, **search_params)
         except PyMISPError as e:
             logger.error(f"MISP search failed for {ioc_type}={value}: {e}")
             raise
@@ -131,7 +212,7 @@ class MISPDataExtractor:
             extra_search_params: dict[str, Any] = None,
             core_ioc_types: set[str] | None = None,
             min_att_per_ev: int | None = None,
-        ) -> list[EventData]:
+        ) -> BulkSearchResult:
         """
         Perform searches for IOCs across multiple attribute types.
 
@@ -146,13 +227,22 @@ class MISPDataExtractor:
                 be relevant. If None, the number of attributes is not considered.
 
         Returns:
-            Aggregated list of EventData objects with deduplication by event_id,
-            restricted to the events deemed relevant.
+            A tuple with two lists:
+                - Events found deduplicated by event_id (empty list if none are found);
+                    the events are filtered using the `filter_relevant_events` method of this class.
+                - Attribute types whose search failed (empty list if none are found). 
+                    A failed search does not stop search of the remaining types.
+
+        Raises:
+            UnavailableMISPClientError: If MISP cannot be reached or rejects the credentials.
+                The remaining searches are not attempted.
+            Exception: If the events found cannot be converted to EventData.
         """
         max_values = (extra_search_params or {}).get(
             "max_values_per_type", DEFAULT_MAX_VALUES_PER_TYPE
         )
         all_attrs = []
+        failed_types = []
 
         for ioc_type, values in iocs.items():
             search_list = self._prepare_search_values(ioc_type, values, max_values)
@@ -162,12 +252,12 @@ class MISPDataExtractor:
                 attributes_found = self.search_ioc(ioc_type, search_list, extra_search_params)
                 all_attrs.extend(attributes_found)
             except PyMISPError as e:
-                logger.warning(f"Failed to search {len(search_list)} value(s) of type {ioc_type}: {e}")
-                continue
+                logger.warning(f"Failed to search {len(search_list)} value(s) of type {ioc_type} ('{search_list[0]}',...): {e}")
+                failed_types.append(ioc_type)
 
         if not all_attrs:
             logger.info(f"No events found for IOCs of type: {list(iocs.keys())}")
-            return []
+            return BulkSearchResult(failed_types=failed_types)
 
         # Group attributes by event_id (key)
         events_dict: dict[int, tuple[MISPEvent, list[MISPAttribute]]] = {}
@@ -185,7 +275,7 @@ class MISPDataExtractor:
         logger.debug(
             f"Found {len(event_data_list)} MISP events across {len(iocs)} IOC types"
         )
-        return event_data_list
+        return BulkSearchResult(event_data_list, failed_types)
 
     @staticmethod
     def filter_relevant_events(
@@ -266,12 +356,13 @@ class MISPDataExtractor:
 
         Raises:
             PyMISPError: If the warninglist check fails.
+            UnavailableMISPClientError: If MISP cannot be reached or rejects the credentials.
         """
         if not values:
             return {}
 
         try:
-            response = self.client.values_in_warninglist(values)
+            response = self._query_misp("warninglist check", self.client.values_in_warninglist, values)
         except PyMISPError as e:
             logger.error(f"Warninglist check failed for {values}: {e}")
             raise
@@ -319,6 +410,7 @@ class MISPDataExtractor:
 
         Raises:
             PyMISPError: If the search fails.
+            UnavailableMISPClientError: If MISP cannot be reached or rejects the credentials.
         """
         scanners = {}
 
@@ -326,7 +418,9 @@ class MISPDataExtractor:
             matches: list[str] = []
             matched_uuids: set[str] = set()
             try:
-                objects = self.client.search(
+                objects = self._query_misp(
+                    f"{misp_object_type} search",
+                    self.client.search,
                     controller="objects",
                     object_name=misp_object_type,
                     value=value,
@@ -430,61 +524,60 @@ class MISPDataExtractor:
 
         Returns:
             List of EventData objects ready for scoring engine.
+
+        Raises:
+            Exception: if any error occurs while converting MISP objects to EventData.
         """
         event_data_list = []
         logger.debug(f"--- Converting: {grouped_attributes}---")
-        try:
-            for event, attributes in grouped_attributes:
-                # Extract event-level fields
-                threat_level = self._to_scoring_threat_level(event.threat_level_id)
-                analysis = self._to_scoring_analysis(event.analysis)
+        for event, attributes in grouped_attributes:
+            # Extract event-level fields
+            threat_level = self._to_scoring_threat_level(event.threat_level_id)
+            analysis = self._to_scoring_analysis(event.analysis)
 
-                # Check for MITRE ATT&CK tags at event level
-                event_tags = [tag.name for tag in getattr(event, "Tag", [])]
-                logger.debug(f"Tags: {event_tags}")
-                has_mitre_threat_tags = any("mitre-attack-pattern" in tag or "mitre-intrusion-set" in tag for tag in event_tags)
+            # Check for MITRE ATT&CK tags at event level
+            event_tags = [tag.name for tag in getattr(event, "Tag", [])]
+            logger.debug(f"Tags: {event_tags}")
+            has_mitre_threat_tags = any("mitre-attack-pattern" in tag or "mitre-intrusion-set" in tag for tag in event_tags)
 
-                # Convert attributes - extract Admiralty tags from each attribute
-                attribute_data_list = []
-                for attr in attributes:
-                    # Extract sightings from attribute
-                    sightings = Sightings(
-                        true_positives=self._count_positive_sightings(
-                            getattr(attr, "sightings", [])
+            # Convert attributes - extract Admiralty tags from each attribute
+            attribute_data_list = []
+            for attr in attributes:
+                # Extract sightings from attribute
+                sightings = Sightings(
+                    true_positives=self._count_positive_sightings(
+                        getattr(attr, "sightings", [])
+                    ),
+                    false_positives=self._count_false_positive_sightings(
+                        getattr(attr, "sightings", [])
+                    ),
+                )
+
+                attribute_data_list.append(
+                    AttributeData(
+                        value=attr.value,
+                        type=attr.type,
+                        sightings=sightings,
+                        admiralty=self._extract_admiralty_from_tags(
+                            getattr(attr, "Tag", [])
                         ),
-                        false_positives=self._count_false_positive_sightings(
-                            getattr(attr, "sightings", [])
-                        ),
-                    )
-
-                    attribute_data_list.append(
-                        AttributeData(
-                            value=attr.value,
-                            type=attr.type,
-                            sightings=sightings,
-                            admiralty=self._extract_admiralty_from_tags(
-                                getattr(attr, "Tag", [])
-                            ),
-                        )
-                    )
-
-                # Ensure at least one attribute
-                if not attribute_data_list:
-                    attribute_data_list.append(AttributeData())
-
-                event_data_list.append(
-                    EventData(
-                        id=int(event.id),
-                        threat_level=threat_level,
-                        analysis=analysis,
-                        admiralty=AdmiraltyTags(),
-                        attributes=attribute_data_list,
-                        has_mitre_tags=has_mitre_threat_tags,
                     )
                 )
-        except Exception as e:
-            logger.error(f"Failed to convert MISP objects to EventData: {e}")
-            return []
+
+            # Ensure at least one attribute
+            if not attribute_data_list:
+                attribute_data_list.append(AttributeData())
+
+            event_data_list.append(
+                EventData(
+                    id=int(event.id),
+                    threat_level=threat_level,
+                    analysis=analysis,
+                    admiralty=AdmiraltyTags(),
+                    attributes=attribute_data_list,
+                    has_mitre_tags=has_mitre_threat_tags,
+                )
+            )
 
         return event_data_list
 
@@ -574,22 +667,22 @@ class MISPDataExtractor:
 _misp_data_extractor_instance: MISPDataExtractor | None = None
 
 
-def get_misp_extractor() -> MISPDataExtractor | None:
+def get_misp_extractor() -> MISPDataExtractor:
     """
     Get or create the shared MISP data extractor instance.
 
     Returns:
-        MISPDataExtractor instance if configured, None otherwise.
+        Shared MISPDataExtractor instance.
+
+    Raises:
+        UnavailableMISPClientError: If the MISP URL or API key is missing, or
+            PyMISP cannot be initialized.
     """
     global _misp_data_extractor_instance
 
     if _misp_data_extractor_instance is None:
-        try:
-            _misp_data_extractor_instance = MISPDataExtractor(
-                MISP_URL, MISP_API_KEY, MISP_VERIFY_SSL, MISP_TIMEOUT
-            )
-        except PyMISPError as e:
-            logger.error(f"Failed to create MISP data extractor. {e}")
-            return None
+        _misp_data_extractor_instance = MISPDataExtractor(
+            MISP_URL, MISP_API_KEY, MISP_VERIFY_SSL, MISP_TIMEOUT
+        )
 
     return _misp_data_extractor_instance

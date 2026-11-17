@@ -61,7 +61,7 @@ Besides the two mandatory members `case_headline` and `build_ioc_mapping()`, a s
 |---|---|
 | `misp_search_params(config)` | Adjust the MISP search parameters for this scenario. E.g., the network scanning analyzer uses it to force `enforce_warninglist` to `false` |
 | `extend_analysis(alert, report)` | Run additional analysis steps and add their output to the report, as the network scanning analyzer does for `identified-scanners` |
-| `retrieve_misp_cti(alert, config, report)` | Replace the CTI retrieval logic altogether. An override is responsible for setting `misp_available` and `misp_events_found` in the report and for recording lookup errors in `log_summary` |
+| `retrieve_misp_cti(alert, config, report)` | Replace the CTI retrieval logic altogether. An override is responsible for setting `misp_events_found` and `misp_failed_lookups` in the report and for recording lookup errors in `log_summary` |
 | `case_suppression_reason(severity, report)` | Return a message to skip case creation for this analysis, or `None` to create the case |
 | `case_notes` | Extra sentences appended to the scoring note in the case description, for scenario-specific caveats |
 

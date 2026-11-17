@@ -47,7 +47,7 @@ The PyFlowintel library is hosted in a [separate repository](https://github.com/
 For detailed setup and usage instructions of each sub-system, please refer to the corresponding [SATRAP](satrap/README.md) or [DECIPHER](decipher/README.md) README.
 
 ### Developers
-For deploying a containerized development environment for the whole SATRAP-DL project in Visual Studio Code ... See the installation section in the user manual for details.
+For deploying a containerized development environment for the whole SATRAP-DL project (SATRAP + DECIPHER + dev tools) in Visual Studio Code, follow the instructions in the [installation section](https://github.com/AbstractionsLab/satrap-dl/blob/main/docs/manual/satrap/installation.md#satrap-analysis-platform-in-vs-code) of the SATRAP user manual.
 
 #### Unit and integration tests
 

@@ -3,15 +3,26 @@ Unit tests for the MISP data extractor's IOC search, warninglist and object look
 """
 
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
+import requests.exceptions as req_excpt
 from pymisp import PyMISPError
 
 from decipher.commons.misp_connector import (
     DEFAULT_EVENT_TIMESTAMP,
     DEFAULT_MAX_VALUES_PER_TYPE,
     DEFAULT_SEARCH_RESULT_LIMIT,
+    BulkSearchResult,
     MISPDataExtractor,
+    UnavailableMISPClientError,
+    get_misp_extractor,
+)
+
+
+CONNECTION_FAILURES = (
+    req_excpt.ConnectionError("refused"),
+    req_excpt.SSLError("certificate verify failed"),
+    req_excpt.ReadTimeout("timed out"),
 )
 
 
@@ -59,6 +70,43 @@ class TestSearchIoc(unittest.TestCase):
     def test_pymisp_error_propagates(self):
         client = MagicMock()
         client.search.side_effect = PyMISPError("connection failed")
+        extractor = _extractor_with_client(client)
+
+        with self.assertRaises(PyMISPError):
+            extractor.search_ioc("ip-src", "203.0.113.42")
+
+    def test_rejected_credentials_raises_unavailable(self):
+        for status in (401, 403):
+            client = MagicMock()
+            client.search.return_value = {"errors": (status, {"message": "Authentication failed."})}
+            extractor = _extractor_with_client(client)
+
+            with self.subTest(status=status), self.assertRaises(UnavailableMISPClientError):
+                extractor.search_ioc("ip-src", "203.0.113.42")
+
+    def test_connection_failures_raises_unavailable(self):
+        for error in CONNECTION_FAILURES:
+            client = MagicMock()
+            client.search.side_effect = error
+            extractor = _extractor_with_client(client)
+
+            with self.subTest(error=type(error).__name__), self.assertRaises(UnavailableMISPClientError):
+                extractor.search_ioc("ip-src", "203.0.113.42")
+
+    def test_other_request_failures_raise_pymisp_error(self):
+        """A failure of a single request does not make MISP unavailable (ARC-017)."""
+        error = req_excpt.TooManyRedirects("redirect loop")
+        client = MagicMock()
+        client.search.side_effect = error
+        extractor = _extractor_with_client(client)
+
+        with self.subTest(error=type(error).__name__), self.assertRaises(PyMISPError) as ctx:
+            extractor.search_ioc("ip-src", "203.0.113.42")
+        self.assertNotIsInstance(ctx.exception, UnavailableMISPClientError)
+
+    def test_other_error_answer_raises_pymisp_error(self):
+        client = MagicMock()
+        client.search.return_value = {"errors": (400, {"message": "Invalid parameter."})}
         extractor = _extractor_with_client(client)
 
         with self.assertRaises(PyMISPError):
@@ -131,7 +179,36 @@ class TestBulkSearchIocs(unittest.TestCase):
         result = extractor.bulk_search_iocs({"uri": ["/a"], "ip-src": ["203.0.113.42"]})
 
         self.assertEqual(extractor.search_ioc.call_count, 2)
-        self.assertEqual(result, [])
+        self.assertEqual(result, BulkSearchResult(failed_types=["uri"]))
+
+    def test_dropped_transfer_on_one_type_does_not_stop_the_others(self):
+        client = MagicMock()
+        client.search.side_effect = [req_excpt.ChunkedEncodingError("connection broken"), []]
+        extractor = _extractor_with_client(client)
+
+        result = extractor.bulk_search_iocs({"uri": ["/a"], "ip-src": ["203.0.113.42"]})
+
+        self.assertEqual(client.search.call_count, 2)
+        self.assertEqual(result, BulkSearchResult(failed_types=["uri"]))
+
+    def test_event_conversion_failure_propagates(self):
+        """A failed conversion must not pass for a search without results."""
+        attribute = MagicMock(event_id=7, type="ip-src", sightings=[], Tag=[])
+        attribute.Event = MagicMock(id="not-a-number", threat_level_id="1", analysis="2", Tag=[])
+        extractor = _extractor_with_client(MagicMock())
+        extractor.search_ioc = MagicMock(return_value=[attribute])
+
+        with self.assertRaises(ValueError):
+            extractor.bulk_search_iocs({"ip-src": ["203.0.113.42"]})
+
+    def test_unavailable_misp_stops_the_remaining_searches(self):
+        """The remaining searches would fail alike."""
+        extractor = _extractor_with_client(MagicMock())
+        extractor.search_ioc = MagicMock(side_effect=[UnavailableMISPClientError("refused"), []])
+
+        with self.assertRaises(UnavailableMISPClientError):
+            extractor.bulk_search_iocs({"uri": ["/a"], "ip-src": ["203.0.113.42"]})
+        self.assertEqual(extractor.search_ioc.call_count, 1)
 
 
 class TestCheckWarninglists(unittest.TestCase):
@@ -185,6 +262,24 @@ class TestCheckWarninglists(unittest.TestCase):
 
         with self.assertRaises(PyMISPError):
             extractor.check_warninglists(["203.0.113.42"])
+
+    def test_error_answer_is_not_read_as_matches(self):
+        """An error answer is a dict like a match result, and must raise instead."""
+        client = MagicMock()
+        client.values_in_warninglist.return_value = {"errors": (403, {"message": "Forbidden"})}
+        extractor = _extractor_with_client(client)
+
+        with self.assertRaises(UnavailableMISPClientError):
+            extractor.check_warninglists(["203.0.113.42"])
+
+    def test_connection_failures_mean_unavailable(self):
+        for error in CONNECTION_FAILURES:
+            client = MagicMock()
+            client.values_in_warninglist.side_effect = error
+            extractor = _extractor_with_client(client)
+
+            with self.subTest(error=type(error).__name__), self.assertRaises(UnavailableMISPClientError):
+                extractor.check_warninglists(["203.0.113.42"])
 
 
 class TestSearchObjectMatches(unittest.TestCase):
@@ -423,6 +518,48 @@ class TestSearchObjectMatches(unittest.TestCase):
             extractor.search_object_matches(
                 "research-scanner", ["203.0.113.42"], "scanning_ip"
             )
+
+    def test_connection_failures_mean_unavailable(self):
+        for error in CONNECTION_FAILURES:
+            client = MagicMock()
+            client.search.side_effect = error
+            extractor = _extractor_with_client(client)
+
+            with self.subTest(error=type(error).__name__), self.assertRaises(UnavailableMISPClientError):
+                extractor.search_object_matches(
+                    "research-scanner", ["203.0.113.42"], "scanning_ip"
+                )
+
+
+class TestClientInitialization(unittest.TestCase):
+    """Tests for the creation of the MISP client and the shared extractor."""
+
+    @patch("decipher.commons.misp_connector.PyMISP", side_effect=PyMISPError("Unable to connect to MISP"))
+    def test_init_failure_means_unavailable(self, _pymisp):
+        with self.assertRaises(UnavailableMISPClientError) as ctx:
+            MISPDataExtractor("https://misp.example", "key")
+
+        self.assertIn("Unable to connect to MISP", str(ctx.exception))
+
+    @patch("decipher.commons.misp_connector.PyMISP")
+    def test_missing_url_or_key_means_unavailable(self, pymisp):
+        for url, key in (("", "key"), ("https://misp.example", "")):
+            with self.subTest(url=url, key=key), self.assertRaises(UnavailableMISPClientError):
+                MISPDataExtractor(url, key)
+        pymisp.assert_not_called()
+
+    @patch("decipher.commons.misp_connector._misp_data_extractor_instance", None)
+    @patch("decipher.commons.misp_connector.MISP_API_KEY", "key")
+    @patch("decipher.commons.misp_connector.MISP_URL", "https://misp.example")
+    @patch("decipher.commons.misp_connector.PyMISP")
+    def test_failed_creation_is_retried_on_the_next_call(self, pymisp):
+        client = MagicMock()
+        pymisp.side_effect = [PyMISPError("Unable to connect to MISP"), client]
+
+        with self.assertRaises(UnavailableMISPClientError):
+            get_misp_extractor()
+
+        self.assertIs(get_misp_extractor().client, client)
 
 
 if __name__ == "__main__":

@@ -6,9 +6,13 @@ Provides reusable methods for IOC lookups and event correlation.
 
 from typing import Any
 
-from decipher.commons.misp_connector import MISPDataExtractor, get_misp_extractor
+from decipher.commons.misp_connector import (
+    BulkSearchResult,
+    MISPDataExtractor,
+    UnavailableMISPClientError,
+    get_misp_extractor,
+)
 from decipher.commons.log_utils import get_logger
-from decipher.scoringengine.datamodels import EventData
 
 
 logger = get_logger(__name__)
@@ -32,12 +36,12 @@ class MISPEnrichmentMixin:
         initialization when MISP searches are disabled.
 
         Raises:
-            UnavailableMISPClientError: If the MISP client cannot be reached or is not configured.
+            UnavailableMISPClientError: If the MISP client is not configured or
+                cannot be initialized.
         """
         if self._misp_client is None:
             self._misp_client = get_misp_extractor()
-        if not self._misp_client or not self._misp_client.is_available():
-            raise UnavailableMISPClientError()
+
         return self._misp_client
 
     def search_iocs_in_misp(
@@ -46,12 +50,12 @@ class MISPEnrichmentMixin:
         extra_search_params: dict[str, Any] = None,
         core_ioc_types: set[str] | None = None,
         min_att_per_ev: int | None = None,
-    ) -> list[EventData]:
+    ) -> BulkSearchResult:
         """
         Enrich IOCs with MISP threat intelligence.
 
         Performs bulk IOC searches across MISP and returns EventData objects
-        ready for the scoring engine.
+        ready for the scoring engine, together with a list of attribute types whose search failed.
 
         Args:
             ioc_mapping: Dictionary mapping MISP attribute types to values.
@@ -69,19 +73,22 @@ class MISPEnrichmentMixin:
                 included in the result. If None, this filter is ignored.
 
         Returns:
-            List of EventData objects ready for scoring engine. Empty list if MISP no matches found
+            Tuple with EventData objects ready for the scoring engine, and 
+            the attribute types whose search failed. Empty list in case of
+            no matches or no failures, respectively.
 
         Raises:
-            UnavailableMISPClientError: If the MISP client is not available.
-            MISPEnrichmentError: If any error occurs during MISP enrichment (e.g. API errors, parsing issues).
+            UnavailableMISPClientError: If the MISP client is not available,
+                cannot be reached, or rejects the credentials.
+            MISPEnrichmentError: If an unknown error occurs during MISP enrichment (e.g. data format conversion).
         """
         try:
             logger.debug(f"Searching MISP for IOC types: {list(ioc_mapping.keys())}")
-            event_data = self.misp_client.bulk_search_iocs(
+            search_result = self.misp_client.bulk_search_iocs(
                 ioc_mapping, extra_search_params, core_ioc_types, min_att_per_ev
             )
-            logger.debug(f"MISP search returned {len(event_data)} events")
-            return event_data
+            logger.debug(f"MISP search returned {len(search_result.events)} events")
+            return search_result
         except UnavailableMISPClientError:
             raise
         except Exception as e:
@@ -102,8 +109,9 @@ class MISPEnrichmentMixin:
             the research-scanner project/domain labels it was found in.
 
         Raises:
-            UnavailableMISPClientError: If the MISP client is not available.
-            MISPEnrichmentError: If any error occurs during the lookup.
+            UnavailableMISPClientError: If the MISP client is not available, MISP
+                cannot be reached, or MISP rejects the credentials.
+            MISPEnrichmentError: If any other error occurs during the lookup.
         """
         try:
             logger.debug(f"Checking known-scanner status for: {values}")
@@ -129,10 +137,3 @@ class MISPEnrichmentMixin:
 class MISPEnrichmentError(Exception):
     """Custom exception for MISP enrichment errors."""
     pass
-
-
-class UnavailableMISPClientError(MISPEnrichmentError):
-    """Raised when the MISP client is unavailable."""
-
-    def __init__(self):
-        super().__init__("MISP client unavailable or incorrectly configured.")

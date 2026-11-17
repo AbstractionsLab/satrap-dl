@@ -8,6 +8,7 @@ from pydantic import ValidationError
 
 from decipher.analyzers import AnalyzerRegistry, AnalysisResult
 from decipher.analyzers.network_scanning import NetworkScanningAlert
+from decipher.models import CTILookupResult
 from decipher.settings import AnalysisScenario
 from tests.decipher.testing_utils import AnalyzerPipelineMixin, fake_runtime_cfg
 
@@ -60,6 +61,28 @@ class TestNetworkScanningAlert(unittest.TestCase):
         data = {**_VALID_ALERT, "unknown_field": "ignored"}
         alert = NetworkScanningAlert(**data)
         self.assertEqual(alert.src_ip, _VALID_ALERT["src_ip"])
+
+    def test_mandatory_list_without_info_raises_validation_error(self):
+        """An empty list, or a list of blank values only, should be rejected in mandatory fields."""
+        for field in ("src_ip", "uri", "user_agents"):
+            for blank in ([], [""], ["  ", ""]):
+                with self.subTest(field=field, value=blank):
+                    with self.assertRaises(ValidationError) as ctx:
+                        NetworkScanningAlert(**{**_VALID_ALERT, field: blank})
+                    self.assertEqual(ctx.exception.errors()[0]["loc"][0], field)
+
+    def test_mandatory_list_with_some_blank_values_accepted(self):
+        """A list with at least one non-blank value should be accepted in mandatory fields."""
+        for field in ("src_ip", "uri", "user_agents"):
+            with self.subTest(field=field):
+                alert = NetworkScanningAlert(**{**_VALID_ALERT, field: ["valid", "  "]})
+                self.assertEqual(getattr(alert, field), ["valid", "  "])
+
+    def test_blank_optional_fields_accepted(self):
+        """Optional fields are not checked for blank values."""
+        alert = NetworkScanningAlert(**{**_VALID_ALERT, "http_method": [], "target_host": ""})
+        self.assertEqual(alert.http_method, [])
+        self.assertEqual(alert.target_host, "")
 
 
 class TestNetworkScanningIOCSearch(unittest.TestCase):
@@ -142,10 +165,11 @@ class TestNetworkScanningIdentifiedScanners(AnalyzerPipelineMixin, unittest.Test
         self.assertNotIn("identified-scanners", result.report)
         self.assertTrue(
             any(
-                line.startswith("Error while searching for known scanners")
+                line.startswith("Known-scanner identification failed")
                 for line in result.report["log_summary"]
             )
         )
+        self.assertEqual(result.cti_lookup_result, CTILookupResult.MISP_LOOKUP_ERROR)
 
 
 class TestNetworkScanningCaseSuppression(AnalyzerPipelineMixin, unittest.TestCase):

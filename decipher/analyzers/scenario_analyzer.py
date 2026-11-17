@@ -11,11 +11,9 @@ from abc import abstractmethod
 from pydantic import BaseModel
 
 from .base import BaseAnalyzer, AnalysisResult
-from .mixins.misp_enrichment import (
-    MISPEnrichmentError,
-    MISPEnrichmentMixin,
-    UnavailableMISPClientError,
-)
+from .mixins.misp_enrichment import MISPEnrichmentError, MISPEnrichmentMixin
+from ..commons.misp_connector import UnavailableMISPClientError
+from ..models import CTILookupResult
 from ..scoringengine.datamodels import EventData, FinalScoreResult
 from ..casemanagement.flowintel_connector import (
     CaseCreationError,
@@ -35,6 +33,46 @@ SCORING_NOTE = (
 SCORING_NOTE_REFERENCE = (
     "See details in the documentation of DECIPHER's scoring engine."
 )
+
+# Ordered tuple defining the result to be reported (highest to lowest precedence (ARC-017))
+# when there is more that one outcome in the execution of the MISP queries set
+CTI_LOOKUP_RESULT_PRECEDENCE = (
+    CTILookupResult.MISP_DISABLED,
+    CTILookupResult.MISP_UNAVAILABLE,
+    CTILookupResult.MISP_LOOKUP_ERROR,
+    CTILookupResult.CTI_FOUND,
+    CTILookupResult.NO_CTI_FOUND,
+)
+
+
+def get_cti_lookup_err_code(error: UnavailableMISPClientError | MISPEnrichmentError) -> CTILookupResult:
+    """
+    Map a MISP enrichment error to the CTI lookup result it stands for.
+
+    Args:
+        error: Error raised by a MISP query.
+
+    Returns:
+        MISP_UNAVAILABLE for an unavailable client, MISP_LOOKUP_ERROR otherwise.
+    """
+    if isinstance(error, UnavailableMISPClientError):
+        return CTILookupResult.MISP_UNAVAILABLE
+    return CTILookupResult.MISP_LOOKUP_ERROR
+
+
+def misp_available_entry(lookup_result: CTILookupResult) -> str:
+    """
+    Derive the deprecated `misp_available` report entry from the CTI lookup result.
+
+    Args:
+        lookup_result: CTI lookup result of the analysis.
+
+    Returns:
+        "False" if the analysis could not use MISP (disabled or unavailable),
+        "True" otherwise.
+    """
+    unusable = lookup_result in (CTILookupResult.MISP_DISABLED, CTILookupResult.MISP_UNAVAILABLE)
+    return str(not unusable)
 
 
 class MISPCTIAnalyzer(BaseAnalyzer, MISPEnrichmentMixin):
@@ -95,9 +133,16 @@ class MISPCTIAnalyzer(BaseAnalyzer, MISPEnrichmentMixin):
         """
         Add scenario-specific analysis steps and input to the analysis report.
 
+        Propagate MISP errors since the analysis pipeline reports them 
+        in the `log_summary` and in the CTI lookup result.
+
         Args:
             alert: Validated alert data matching this analyzer's schema.
             report: Analysis report to be modified.
+
+        Raises:
+            UnavailableMISPClientError: If a MISP connection cannot be established.
+            MISPEnrichmentError: If a MISP lookup fails.
         """
 
     def case_suppression_reason(self, severity: float, report: dict) -> str | None:
@@ -138,17 +183,27 @@ class MISPCTIAnalyzer(BaseAnalyzer, MISPEnrichmentMixin):
         if not config.enable_misp_search:
             return AnalysisResult(
                 analyzed_scenario=self.alert_type,
+                cti_lookup_result=CTILookupResult.MISP_DISABLED,
                 severity=0,
                 report={
-                    "misp_available": "False",
+                    "misp_available": misp_available_entry(CTILookupResult.MISP_DISABLED),
                     "log_summary": ["MISP IOC search disabled in configuration"],
                 },
             )
 
-        analysis_report["misp_available"] = "True"
-        misp_event_data = self.retrieve_misp_cti(alert, config, analysis_report)
+        misp_event_data, lookup_result = self.retrieve_misp_cti(alert, config, analysis_report)
+        lookup_results = [lookup_result]
 
-        self.extend_analysis(alert, analysis_report)
+        if lookup_result != CTILookupResult.MISP_UNAVAILABLE:
+            try:
+                self.extend_analysis(alert, analysis_report)
+            except (UnavailableMISPClientError, MISPEnrichmentError) as e:
+                analysis_report["log_summary"].append(str(e))
+                lookup_results.append(get_cti_lookup_err_code(e))
+
+        # extract the result with the highest precedence (smallest position in the `key` tuple)
+        cti_lookup_result = min(lookup_results, key=CTI_LOOKUP_RESULT_PRECEDENCE.index)
+        analysis_report["misp_available"] = misp_available_entry(cti_lookup_result)
 
         # Calculate alert severity score
         scoring_result = calculator.score_events(misp_event_data)
@@ -161,6 +216,7 @@ class MISPCTIAnalyzer(BaseAnalyzer, MISPEnrichmentMixin):
 
         return AnalysisResult(
             analyzed_scenario=self.alert_type,
+            cti_lookup_result=cti_lookup_result,
             severity=scoring_result.score,
             report=analysis_report,
             created_case=created_case,
@@ -171,15 +227,15 @@ class MISPCTIAnalyzer(BaseAnalyzer, MISPEnrichmentMixin):
         alert: BaseModel,
         config: RuntimeSettings,
         analysis_report: dict,
-    ) -> list[EventData]:
+    ) -> tuple[list[EventData], CTILookupResult]:
         """
-        Retrieve events related to the IOCs from MISP and add execution information
-        to the given analysis_report. The events are filtered by `core_ioc_types` 
+        Retrieve events related to the IOCs from MISP and add details to the
+        given analysis_report. The events are filtered by `core_ioc_types`
         and `min_att_per_ev` if specified for the scenario.
 
         Override to modify the CTI retrieval analysis logic. Implementations are
         responsible for recording the outcome of the lookup in the report: set
-        `misp_available` and `misp_events_found`, and append any lookup error
+        `misp_events_found` and `misp_failed_lookups`, and append any lookup error
         to `log_summary`.
 
         Args:
@@ -188,26 +244,33 @@ class MISPCTIAnalyzer(BaseAnalyzer, MISPEnrichmentMixin):
             analysis_report: Analysis report to record the lookup outcome in.
 
         Returns:
-            MISP events matching the alert IOCs, empty if none were found or
-            the lookup failed.
+            MISP events matching the alert IOCs (empty if none were found or
+            MISP could not be queried) and the CTI lookup outcome code. 
+            When search of only some IOC types failed, the events found by the other 
+            searches are returned along with MISP_LOOKUP_ERROR status.
         """
         try:
-            misp_event_data = self.search_iocs_in_misp(
+            search_result = self.search_iocs_in_misp(
                 self.build_ioc_mapping(alert),
                 extra_search_params=self.misp_search_params(config),
                 core_ioc_types=self.core_ioc_types,
                 min_att_per_ev=self.min_att_per_ev
             )
-            analysis_report["misp_events_found"] = [e.id for e in misp_event_data]
-        except UnavailableMISPClientError as e:
-            analysis_report["misp_available"] = "False"
+        except (UnavailableMISPClientError, MISPEnrichmentError) as e:
             analysis_report["log_summary"].append(str(e))
-            misp_event_data = []
-        except MISPEnrichmentError as e:
-            analysis_report["log_summary"].append(str(e))
-            misp_event_data = []
+            return [], get_cti_lookup_err_code(e)
 
-        return misp_event_data
+        analysis_report["misp_events_found"] = [e.id for e in search_result.events]
+        analysis_report["misp_failed_lookups"] = list(search_result.failed_types)
+
+        if search_result.failed_types:
+            analysis_report["log_summary"].append(
+                f"MISP search failed for attribute types: {', '.join(search_result.failed_types)}. See logs for details."
+            )
+            return search_result.events, CTILookupResult.MISP_LOOKUP_ERROR
+        if search_result.events:
+            return search_result.events, CTILookupResult.CTI_FOUND
+        return [], CTILookupResult.NO_CTI_FOUND
 
     def _create_case(
         self,

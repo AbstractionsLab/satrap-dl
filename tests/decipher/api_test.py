@@ -7,6 +7,7 @@ from unittest.mock import Mock, patch
 from fastapi.testclient import TestClient
 
 from decipher.api import app, ANALYZE_URL, INCIDENT_URL, LIST_ANALYZERS_URL, HEALTH_URL
+from decipher.casemanagement.flowintel_connector import CaseCreationError
 from decipher.models import MISP_PRIORITY_LEVELS
 
 
@@ -88,6 +89,25 @@ class TestAPIValidations(unittest.TestCase):
         response = self.client.post(url, json=payload)
         self.assertEqual(response.status_code, 422)
         self.assertIn("errors", response.json()["detail"])
+
+    @patch("decipher.analyzers.scenario_analyzer.MISPCTIAnalyzer.search_iocs_in_misp")
+    def test_analyze_blank_mandatory_field_422_without_misp_query(self, search_iocs):
+        """Should return 422 for a blank mandatory field and send no query to MISP."""
+        payload = {
+            "username": "  ",
+            "target_host": "10.0.0.1",
+            "src_ips": ["185.220.100.1"],
+            "timestamp": "2026-01-31T10:00:00Z",
+        }
+
+        url = ANALYZE_URL.format(alert_type="suspicious_login")
+        response = self.client.post(url, json=payload)
+
+        self.assertEqual(response.status_code, 422)
+        errors = response.json()["detail"]["errors"]
+        self.assertEqual(errors[0]["loc"], ["username"])
+        self.assertEqual(errors[0]["type"], "string_too_short")
+        search_iocs.assert_not_called()
 
     def test_incident_invalid_priority_level_422(self):
         """Should reject an invalid MISP priority level."""
@@ -178,6 +198,32 @@ class TestIncidentEndpointValidation(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertIn("id", data)
+
+
+class TestAPIInternalErrors(unittest.TestCase):
+    """Internal error details are logged and not returned to the caller."""
+
+    INTERNAL_DETAIL = "connection to https://misp.internal:8443 failed"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.client = TestClient(app)
+
+    def assert_detail_logged_not_returned(self, response, log):
+        self.assertEqual(response.status_code, 500)
+        self.assertNotIn(self.INTERNAL_DETAIL, response.text)
+        self.assertTrue(any(self.INTERNAL_DETAIL in message for message in log.output))
+
+    @patch("decipher.api.AnalyzerRegistry.analyze")
+    def test_analysis_failure_detail_not_returned(self, analyze):
+        """Should return a generic 500 message when the analysis fails unexpectedly."""
+        analyze.side_effect = RuntimeError(self.INTERNAL_DETAIL)
+        url = ANALYZE_URL.format(alert_type="suspicious_login")
+
+        with self.assertLogs("decipher.api", level="ERROR") as log:
+            response = self.client.post(url, json={})
+
+        self.assert_detail_logged_not_returned(response, log)
 
 
 if __name__ == "__main__":

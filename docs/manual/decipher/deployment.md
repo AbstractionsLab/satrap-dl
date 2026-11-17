@@ -28,9 +28,17 @@ cp env-template .env
 ### Key Environment Variables
 
 **MISP Core:**
-- `MISP_BASE_URL` - The URL where MISP will be accessible (default: `https://localhost`)
+- `MISP_BASE_URL` - The URL where the MISP application will be accessible (default: `https://localhost`)
 - `MISP_ADMIN_EMAIL` - Admin user email (default: `admin@admin.test`)
 - `MISP_ADMIN_ORG` - Organization name (default: `ORGNAME`)
+- `MISP_CORE_HTTPS_PORT` - Defaults to 443; change if you have a service running in this port
+
+MISP builds the URLs to navigate the web application by appending paths to the base URL set in `MISP_BASE_URL`. If you use a non-default port, e.g., by setting the `*_PORT` variables or by tunneling the MISP's remote host default to a different local port, set the base URL with `<IP>:<PORT>`. E.g.:
+
+```
+MISP_CORE_HTTP_PORT=50001
+MISP_BASE_URL=https://localhost:50001
+```
 
 **FlowIntel:**
 - `FLOWINTEL_VERSION` - Version of FlowIntel to deploy (default: `3.1.0`, pinned in `env-template`)

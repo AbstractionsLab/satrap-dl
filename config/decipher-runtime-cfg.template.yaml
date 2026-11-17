@@ -6,6 +6,7 @@ analysis:
   # Enable search in MISP
   enable_misp_search: true
   # Enable creation of cases in Flowintel in the analysis
+  # Set always to 'false' when integrating with RADAR
   enable_case_creation: false
 
 

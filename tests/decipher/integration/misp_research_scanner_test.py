@@ -11,7 +11,7 @@ import unittest
 from pymisp import MISPEvent, MISPObject, PyMISPError
 
 from decipher.commons.log_utils import get_logger
-from decipher.commons.misp_connector import MISPDataExtractor
+from decipher.commons.misp_connector import MISPDataExtractor, UnavailableMISPClientError
 from decipher.settings import MISP_URL, MISP_API_KEY, MISP_VERIFY_SSL, MISP_TIMEOUT
 
 logger = get_logger(__name__)
@@ -30,9 +30,9 @@ def skip_if_no_misp(cls):
         extractor = MISPDataExtractor(
             MISP_URL, MISP_API_KEY, MISP_VERIFY_SSL, MISP_TIMEOUT
         )
-        if not extractor.is_available():
-            return unittest.skip("MISP client not configured")(cls)
         extractor.client.misp_instance_version
+    except UnavailableMISPClientError as e:
+        return unittest.skip(f"MISP client unavailable: {e}")(cls)
     except (PyMISPError, Exception) as e:
         return unittest.skip(f"MISP instance not reachable at {MISP_URL}: {e}")(cls)
 

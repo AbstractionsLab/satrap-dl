@@ -10,10 +10,7 @@ from datetime import datetime
 
 from .registry import AnalyzerRegistry
 from .scenario_analyzer import MISPCTIAnalyzer
-from .mixins.misp_enrichment import (
-    MISPEnrichmentError,
-    UnavailableMISPClientError,
-)
+from ..models import NonEmptyBlankList
 from ..settings import AnalysisScenario
 from ..runtime_settings import RuntimeSettings
 
@@ -33,9 +30,9 @@ class NetworkScanningAlert(BaseModel):
             resulted in the alert being triggered.
     """
 
-    src_ip: list[str]
-    uri: list[str]
-    user_agents: list[str]
+    src_ip: NonEmptyBlankList
+    uri: NonEmptyBlankList
+    user_agents: NonEmptyBlankList
     http_method: list[str] | None = None
     target_host: str | None = None
     timestamp: datetime | None = None
@@ -79,17 +76,16 @@ class NetworkScanningAnalyzer(MISPCTIAnalyzer):
         Args:
             alert: Validated network scanning alert data.
             report: Analysis report to record the analysis output in.
+
+        Raises:
+            UnavailableMISPClientError: If MISP cannot be used for the lookup.
+            MISPEnrichmentError: If the known-scanner lookup fails.
         """
-        try:
-            # report["identified-scanners"] = self.identify_known_scanners(alert.src_ip)
-            known_scanners = self.identify_known_scanners(alert.src_ip)
-            # WARNING: Temporary structure to support integration with RADAR
-            # to be removed in the upcoming release
-            report["identified-scanners"] =  [f"{k}: {v};" for k, v in known_scanners.items()]
-        except (UnavailableMISPClientError, MISPEnrichmentError) as e:
-            report["log_summary"].append(
-                f"Error while searching for known scanners: {str(e)}"
-            )
+        # report["identified-scanners"] = self.identify_known_scanners(alert.src_ip)
+        known_scanners = self.identify_known_scanners(alert.src_ip)
+        # WARNING: Temporary structure to support integration with RADAR
+        # to be removed in the upcoming release
+        report["identified-scanners"] =  [f"{k}: {v};" for k, v in known_scanners.items()]
 
     def case_suppression_reason(self, severity: float, report: dict) -> str | None:
         """

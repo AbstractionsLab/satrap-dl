@@ -41,6 +41,7 @@
 <li><a href="#ARC-012">2.7 Analysis endpoint: support for suspicious login</a></li>
 <li><a href="#ARC-011">2.8 REST service: incident endpoint interaction</a></li>
 <li><a href="#ARC-016">2.9 Analysis endpoint: suspicious network/web scanning</a></li>
+<li><a href="#ARC-017">2.10 Analysis result: status code for CTI enrichment outcome</a></li>
 </ul>
 </li>
 </ul>
@@ -610,6 +611,135 @@ If an optional <code>template_id</code> is provided in the request body, the cas
 <p>By design, a match on <code>identified-scanners</code> is contextual only; it does not alter the severity score computed by the scoring engine as suppressing or discounting the score on a match would risk masking potential threats from a compromised benign source.</p>
 <p>When MISP is unavailable or disabled in DECIPHER's configuration, the <code>identified-scanners</code> field must not be present.</p>
 <p><em>Parent links:</em> <a href="SRS.html#SRS-059">SRS-059 Threat scenario analysis: suspicious web scanning</a></p>
+<h2 id="ARC-017">2.10 Analysis result: status code for CTI enrichment outcome <small><a href="ARC.html#ARC-017">ARC-017</a></small></h2>
+<p>Every response of the analysis endpoint (<a href="ARC.html#ARC-009">ARC-009</a>) carries a top-level <code>cti_lookup_result</code> field that summarizes the outcome of the CTI enrichment with MISP, as specified in <a href="SRS.html#SRS-061">SRS-061</a>. The status values, the rules to derive them, and the changes required in the analysis pipeline are defined below.</p>
+<h2>Status values</h2>
+<p>The status is a string enumeration <code>CTILookupResult</code> defined in <code>decipher/models.py</code> and exposed as a required field of <code>AnalysisResult</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cti_found</code></td>
+<td>MISP was queried successfully and at least one MISP event was retained for scoring.</td>
+</tr>
+<tr>
+<td><code>no_cti_found</code></td>
+<td>MISP was queried successfully and no MISP event was retained for scoring.</td>
+</tr>
+<tr>
+<td><code>misp_lookup_error</code></td>
+<td>MISP was reached but a query failed (API error, error response, unparseable response). Note that in bulk search, this is the outcome if any of the searches fails.</td>
+</tr>
+<tr>
+<td><code>misp_disabled</code></td>
+<td>MISP search is disabled in the runtime configuration (<code>enable_misp_search: false</code>).</td>
+</tr>
+<tr>
+<td><code>misp_unavailable</code></td>
+<td>MISP is not configured, or the connection failed at request time (connection refused, timeout, TLS failure, authentication failure).</td>
+</tr>
+</tbody>
+</table>
+<p>The identifiers are part of the public API contract. New values may be added (e.g. benign-evidence states); existing values are never renamed or redefined. Consumers must tolerate unknown values.</p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;analyzed_scenario&quot;: &quot;suspicious_login&quot;,
+  &quot;cti_lookup_result&quot;: &quot;cti_found&quot;,
+  &quot;severity&quot;: 0.72,
+  &quot;report&quot;: {&quot;misp_available&quot;: &quot;True&quot;, &quot;misp_events_found&quot;: [1532], &quot;misp_failed_lookups&quot;: [], &quot;log_summary&quot;: [], &quot;score_breakdown&quot;: []},
+  &quot;created_case&quot;: {&quot;id&quot;: 0, &quot;link&quot;: &quot;&quot;}
+}
+</code></pre>
+<h2>Status derivation</h2>
+<p>The status is computed in <code>MISPCTIAnalyzer.analyze()</code> before case creation, and returned independently on whether case creation is enabled, suppressed, or fails.</p>
+<p>An analysis may run more than one MISP query: the IOC search and, optionally, scenario-specific lookups in <code>extend_analysis()</code> (e.g. the known-scanner lookup of the network scanning scenario, <a href="ARC.html#ARC-016">ARC-016</a>). When outcomes differ, the status with the highest precedence is reported:</p>
+<table>
+<thead>
+<tr>
+<th>Precedence</th>
+<th>Condition</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>enable_misp_search</code> is false</td>
+<td><code>misp_disabled</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Any MISP query raised <code>UnavailableMISPClientError</code></td>
+<td><code>misp_unavailable</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Any MISP query raised <code>MISPEnrichmentError</code> (other than the above), or the IOC search reports failed attribute types</td>
+<td><code>misp_lookup_error</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>misp_events_found</code> is not empty</td>
+<td><code>cti_found</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Otherwise</td>
+<td><code>no_cti_found</code></td>
+</tr>
+</tbody>
+</table>
+<p>On <code>misp_unavailable</code> and <code>misp_lookup_error</code>, the error message is appended to <code>log_summary</code> and the severity is computed over the events retrieved before or despite the error. Under <code>misp_unavailable</code> no events are retrieved and the severity is 0. Under <code>misp_lookup_error</code> the events of the successful searches are scored and listed in <code>misp_events_found</code>, and the MISP attribute types whose search failed are listed in <code>misp_failed_lookups</code>; since the Noisy-OR aggregation (<a href="ARC.html#ARC-010">ARC-010</a>) never decreases when events are added, the reported severity is a lower bound of the severity of a complete search. Case creation proceeds on that severity as in any other analysis.</p>
+<h3>Status assignment decision flow</h3>
+<!-- c5-mermaid-source:eyJjb2RlIjogImZsb3djaGFydCBURFxuICAgIHN0YXJ0KChzdGFydCkpIC0tPiBkaXNhYmxlZHtlbmFibGVfbWlzcF9zZWFyY2g8YnIvPmlzIGZhbHNlP31cbiAgICBkaXNhYmxlZCAtLT58eWVzfCBzX2Rpc2FibGVkW1wiPGI+bWlzcF9kaXNhYmxlZDwvYj5cIl1cbiAgICBkaXNhYmxlZCAtLT58bm98IHVuYXZhaWxhYmxle0FueSBNSVNQIHF1ZXJ5IHJhaXNlZDxici8+VW5hdmFpbGFibGVNSVNQQ2xpZW50RXJyb3I/fVxuICAgIHVuYXZhaWxhYmxlIC0tPnx5ZXN8IHNfdW5hdmFpbGFibGVbXCI8Yj5taXNwX3VuYXZhaWxhYmxlPC9iPlwiXVxuICAgIHVuYXZhaWxhYmxlIC0tPnxub3wgbG9va3VwX2Vycm9ye0FueSBNSVNQIHF1ZXJ5IHJhaXNlZDxici8+TUlTUEVucmljaG1lbnRFcnJvciwgb3IgdGhlIElPQzxici8+c2VhcmNoIHJlcG9ydHMgZmFpbGVkIGF0dHJpYnV0ZSB0eXBlcz99XG4gICAgbG9va3VwX2Vycm9yIC0tPnx5ZXN8IHNfbG9va3VwX2Vycm9yW1wiPGI+bWlzcF9sb29rdXBfZXJyb3I8L2I+XCJdXG4gICAgbG9va3VwX2Vycm9yIC0tPnxub3wgZXZlbnRze21pc3BfZXZlbnRzX2ZvdW5kPGJyLz5pcyBub3QgZW1wdHk/fVxuICAgIGV2ZW50cyAtLT58eWVzfCBzX2ZvdW5kW1wiPGI+Y3RpX2ZvdW5kPC9iPlwiXVxuICAgIGV2ZW50cyAtLT58bm98IHNfbm90X2ZvdW5kW1wiPGI+bm9fY3RpX2ZvdW5kPC9iPlwiXVxuIn0= -->
+<p><img alt="ARC-017 diagram 1" src="assets/arc-017-7f1820f0d80b.svg" /></p>
+<h2>Error classification</h2>
+<p>The statuses <code>misp_lookup_error</code> and <code>misp_unavailable</code> are distinguished by the scope of the failure:</p>
+<ul>
+<li>A failure that affects every query to MISP, independently whether a query was sent, makes MISP unusable for the analysis and persists until MISP or the DECIPHER configuration is fixed. Thus, it maps to <code>misp_unavailable</code></li>
+<li>A failure that affects a single query maps to <code>misp_lookup_error</code> since other queries of the same analysis, or later analyses, may still succeed.</li>
+</ul>
+<p>These cases should be handled by two independent exception classes:</p>
+<ul>
+<li><code>UnavailableMISPClientError</code>, defined in <code>decipher/commons/misp_connector.py</code>, maps to <code>misp_unavailable</code>. It is raised when:</li>
+<li>the MISP extractor cannot be created (missing URL or API key, or PyMISP initialization fails because MISP cannot be reached or rejects the key);</li>
+<li>a query fails with <code>requests.exceptions.ConnectionError</code> or <code>requests.exceptions.Timeout</code> (this includes TLS errors and connect/read timeouts);</li>
+<li>MISP answers a query with HTTP 401 or 403, meaning that the credentials are rejected. This cause is classified the same way whether it occurs when the extractor is created or at request time.</li>
+<li><code>MISPEnrichmentError</code>, defined in <code>decipher/analyzers/mixins/misp_enrichment.py</code>, maps to <code>misp_lookup_error</code> for any other failure while querying MISP or parsing its response.</li>
+</ul>
+<h2>Deprecation of <code>misp_available</code></h2>
+<p>The <code>misp_available</code> report entry is deprecated in favor of <code>cti_lookup_result</code> and kept in the analysis report for consumers of v1.0 and v1.1. It keeps its previous type and meaning and is derived from the status:</p>
+<table>
+<thead>
+<tr>
+<th><code>cti_lookup_result</code></th>
+<th><code>misp_available</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>misp_disabled</code>, <code>misp_unavailable</code></td>
+<td><code>"False"</code></td>
+</tr>
+<tr>
+<td>Any other value</td>
+<td><code>"True"</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>MISPCTIAnalyzer.analyze()</code> sets the entry once the status is computed, including in the early return taken when MISP search is disabled. Overrides of <code>retrieve_misp_cti()</code> no longer set it. The description of the <code>report</code> field in the API schema marks <code>misp_available</code> as deprecated, and the release notes of the version that introduces <code>cti_lookup_result</code> announce the deprecation encouraging new consumers to read <code>cti_lookup_result</code> instead.</p>
+<h2>Out of scope</h2>
+<ul>
+<li>Input validation errors are returned as HTTP 422 before any analysis runs (<a href="SRS.html#SRS-050">SRS-050</a>) and carry no analysis status.</li>
+<li>The health check endpoint does not query MISP and is not affected.</li>
+<li>The outcome of case creation stays in <code>created_case</code> and <code>log_summary</code>.</li>
+</ul>
+<p><em>Parent links:</em> <a href="SRS.html#SRS-061">SRS-061 DECIPHER analysis outcome status</a></p>
       </div>
     </div>
 </div>

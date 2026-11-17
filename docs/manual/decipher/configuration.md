@@ -251,8 +251,7 @@ confidence_weights:
 ## MISP instance setup
 
 DECIPHER relies on specific MISP tags to determine the confidence in the score and to create simulation events for testing.
-
-We recommend to enable the following set of taxonomies in MISP and make use of them in your events to benefit from the DECIPHER features.
+We recommend enabling the following set of taxonomies in MISP and using of them in your events to benefit from the DECIPHER features.
 
  | Taxonomy | Used by |
  |---|---|

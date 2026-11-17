@@ -1581,47 +1581,46 @@
 <h2 id="TRP-020">2.2 Test DECIPHER REST service and API <small><a href="TRP.html#TRP-020">TRP-020</a></small></h2>
 <h2>Relevant test environment and configuration details</h2>
 <ul>
-<li>Software deviations: aligned with test case specification, N/A</li>
-<li>Hardware deviations: aligned with test case specification, N/A</li>
+<li>Software deviations: aligned with test case specification</li>
+<li>Hardware deviations: aligned with test case specification</li>
 </ul>
 <h2>Test execution results</h2>
 <p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
 <p><strong>Test case step 1</strong>: Send a POST request to the analysis endpoint with valid suspicious_login data</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The API returned a valid JSON including analyzed_scenario, severity, report, and created_case. The scoring engine successfully processed the two source IPs provided.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The API returned a valid JSON including the 5 expected fields and values.</li>
 </ul>
-<pre><code class="language-json">{&quot;analyzed_scenario&quot;:&quot;suspicious_login&quot;,&quot;severity&quot;:0.0,&quot;report&quot;:{&quot;log_summary&quot;:[],&quot;misp_available&quot;:&quot;True&quot;,&quot;misp_events_found&quot;:[],&quot;score_breakdown&quot;:[]},&quot;created_case&quot;:{&quot;id&quot;:70,&quot;link&quot;:&quot;http://192.168.0.32:7006/case/70&quot;}}
+<pre><code class="language-json">{&quot;analyzed_scenario&quot;:&quot;suspicious_login&quot;,&quot;cti_lookup_result&quot;:&quot;no_cti_found&quot;,&quot;severity&quot;:0.0,&quot;report&quot;:{&quot;log_summary&quot;:[],&quot;misp_events_found&quot;:[],&quot;misp_failed_lookups&quot;:[],&quot;misp_available&quot;:&quot;True&quot;,&quot;score_breakdown&quot;:[]},&quot;created_case&quot;:{&quot;id&quot;:156,&quot;link&quot;:&quot;http://localhost:7006/case/156&quot;}}
 </code></pre>
 <p><strong>Test case step 2</strong>: Send a POST request to the incidents endpoint with a valid score</p>
 <ul>
 <li><span style="color:green"><strong>0 = flawless</strong></span>: The outcome contains an non-zero <code>ID</code>followed by the link of the case created in flowintel.</li>
 </ul>
-<pre><code class="language-json">{&quot;id&quot;:71,&quot;link&quot;:&quot;http://192.168.0.32:7006/case/71&quot;}
+<pre><code class="language-json">{&quot;id&quot;:157,&quot;link&quot;:&quot;http://localhost:7006/case/157&quot;}
 </code></pre>
 <p><strong>Test case step 3</strong>: Send a GET request to the analyzers endpoint</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The response correctly listed the registered alert types, including suspicious_login, along with their input schemas.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The response correctly listed the two registered alert types: "suspicious_login" and  "suspicious_nt_scanning", along with their description and input schema.</li>
 </ul>
-<pre><code class="language-json">{&quot;suspicious_login&quot;:{&quot;description&quot;:&quot;Analyzer for suspicious login attempts.&quot;,&quot;schema&quot;:{&quot;description&quot;:&quot;Schema for alerts related to suspicious login threat scenarios.\n\nAttributes:\n    username: The username used in the login attempt.\n    target_host: IP of the login target.\n    src_ips: List of IP addresses, origin of the login attempt.\n    timestamp: ISO 8601 timestamp of the alert.&quot;,&quot;properties&quot;:{&quot;username&quot;:{&quot;title&quot;:&quot;Username&quot;,&quot;type&quot;:&quot;string&quot;},&quot;target_host&quot;:{&quot;title&quot;:&quot;Target Host&quot;,&quot;type&quot;:&quot;string&quot;},&quot;src_ips&quot;:{&quot;items&quot;:{&quot;type&quot;:&quot;string&quot;},&quot;title&quot;:&quot;Src Ips&quot;,&quot;type&quot;:&quot;array&quot;},&quot;timestamp&quot;:{&quot;title&quot;:&quot;Timestamp&quot;,&quot;type&quot;:&quot;string&quot;}},&quot;required&quot;:[&quot;username&quot;,&quot;target_host&quot;,&quot;src_ips&quot;,&quot;timestamp&quot;],&quot;title&quot;:&quot;SuspiciousLoginAlert&quot;,&quot;type&quot;:&quot;object&quot;}}}
-</code></pre>
 <p><strong>Test case step 4</strong>: Send a GET request to the health endpoint</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The response is a JSON body containing "status": "ok", analyzers_loaded (integer &gt;= 1), and logging_level.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The response is a JSON body containing all the expected keys with the values below:</li>
 </ul>
-<pre><code class="language-json">{&quot;status&quot;:&quot;ok&quot;,&quot;service&quot;:&quot;decipher-api&quot;,&quot;analyzers_loaded&quot;:1,&quot;available_types&quot;:[&quot;suspicious_login&quot;],&quot;logging_level&quot;:&quot;INFO&quot;}
+<pre><code class="language-json">{&quot;version&quot;:&quot;v1&quot;,&quot;status&quot;:&quot;ok&quot;,&quot;service&quot;:&quot;decipher-api&quot;,&quot;analyzers_loaded&quot;:2,&quot;available_types&quot;:[&quot;suspicious_login&quot;,&quot;suspicious_nt_scanning&quot;],&quot;logging_level&quot;:&quot;DEBUG&quot;}
 </code></pre>
 <p><strong>Test case step 5</strong>: Send a GET request to the home endpoint (root /)</p>
 <ul>
 <li><span style="color:green"><strong>0 = flawless</strong></span>: The response is a JSON body containing the service version and documentation references (docs, redoc).</li>
 </ul>
-<pre><code class="language-json">{&quot;service&quot;:&quot;DECIPHER Analysis API&quot;,&quot;version&quot;:&quot;v0.1&quot;,&quot;docs&quot;:&quot;/docs&quot;,&quot;redoc&quot;:&quot;/redoc&quot;,&quot;health&quot;:&quot;/health&quot;,&quot;analyzers&quot;:&quot;/api/v0.1/analyzers&quot;}
+<pre><code class="language-json">{&quot;service&quot;:&quot;DECIPHER Analysis API&quot;,&quot;version&quot;:&quot;v1&quot;,&quot;docs&quot;:&quot;/docs&quot;,&quot;redoc&quot;:&quot;/redoc&quot;,&quot;health&quot;:&quot;/health&quot;,&quot;analyzers&quot;:&quot;/api/v1/analyzers&quot;}
 </code></pre>
+<p>All the responses above are JSON format as requested by AC6.</p>
 <h3>Defect summary description</h3>
 <p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawless</strong></span></p>
 <h3>Text execution evidence</h3>
 <p>See linked files (if any), e.g., screenshots, logs, etc.</p>
 <h3>Comments</h3>
-<p>For the setup step, configure MISP and Flowintel instances in <code>decipher-settings.yaml</code> and start the API, the service was successfully started using <code>./decipher_up.sh --api</code>.</p>
+<p>N/A</p>
 <h2>Guide</h2>
 <ul>
 <li>Defect category: <span style="color:green"><strong>0 = flawless</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
@@ -1638,11 +1637,11 @@
 <tbody>
 <tr>
 <td>test-date</td>
-<td>2026-03-20</td>
+<td>2026-11-09</td>
 </tr>
 <tr>
 <td>tester</td>
-<td>DMA</td>
+<td>IVS</td>
 </tr>
 <tr>
 <td>defect-category</td>
@@ -1662,7 +1661,7 @@
 </tr>
 <tr>
 <td>release-version</td>
-<td>0.5</td>
+<td>1.2</td>
 </tr>
 <tr>
 <td>verification-method</td>
@@ -1673,56 +1672,95 @@
 <h2 id="TRP-021">2.3 Test analysis endpoint core behavior <small><a href="TRP.html#TRP-021">TRP-021</a></small></h2>
 <h2>Relevant test environment and configuration details</h2>
 <ul>
-<li>Software deviations: aligned with test case specification, N/A</li>
-<li>Hardware deviations: aligned with test case specification, N/A</li>
+<li>Software deviations: aligned with test case specification</li>
+<li>Hardware deviations: aligned with test case specification</li>
 </ul>
 <h2>Test execution results</h2>
 <p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
-<h3>AC1: Successful analysis with valid data</h3>
+<h3>Successful analysis with valid data</h3>
 <p><strong>TC step 1</strong>: Send a POST request to the <code>suspicious_login</code> analysis endpoint with valid alert data and verify the response.</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The output contains the string <code>HTTP 200</code> and a JSON response with the fields <code>analyzed_scenario</code>, <code>severity</code>, <code>report</code>, and <code>created_case</code>.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The output contains the string <code>HTTP 200</code> and a JSON response with the expected fields.</li>
 </ul>
-<h3>AC2: Analysis endpoint with invalid data</h3>
+<p><code>json
+  {"analyzed_scenario":"suspicious_login","cti_lookup_result":"no_cti_found","severity":0.0,"report":{"log_summary":["Case creation for analysis disabled in configuration."],"misp_events_found":[],"score_breakdown":[]},"created_case":{"id":0,"link":""}} HTTP 200%</code></p>
+<h3>Analysis endpoint with invalid data</h3>
 <p><strong>TC step 1</strong>: Send a POST request to the analysis endpoint with structurally invalid data (missing required fields) and verify the response.</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The output contains the string <code>HTTP 422</code> and the response body details the validation error regarding missing or invalid fields.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The output contains the string <code>HTTP 422</code>; the response body contains the entries <code>detail.message</code>, with "Invalid data for alert type 'suspicious_login'", and <code>detail.errors</code> with a list of missing required fields: <code>src_ips</code> and <code>timestamp</code>.</li>
 </ul>
-<h3>AC3: Analysis endpoint with unregistered alert type</h3>
+<h3>Analysis endpoint with unregistered alert type</h3>
 <p><strong>TC step 1</strong>: Send a POST request to the analysis endpoint with an unregistered alert type and verify the response.</p>
 <ul>
 <li><span style="color:green"><strong>0 = flawless</strong></span>: The output contains the string <code>HTTP 404</code> and a message informing about the unknown alert type.</li>
 </ul>
-<h3>AC4: Internal analysis failure</h3>
-<p><strong>TC steps 1-4</strong>: Corrupt <code>config/decipher-runtime-cfg.yaml</code> with invalid YAML content, send a POST request with valid alert data, and verify that the response contains <code>HTTP 500</code>; then restore the file.</p>
+<h3>Internal analysis failure</h3>
+<p><strong>TC step 3</strong>: After corrupting the configuration file with invalid YAML content and sending a POST request with valid alert data (TC steps 1 and 2); verify that the response contains <code>HTTP 500</code> and a generic error message.</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: After corrupting the configuration file, the API successfully returned an <code>HTTP 500</code> error as expected.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The API successfully returned an <code>HTTP 500</code> error and the message <code>"Analysis failed due to an internal error. See the service logs for details."</code></li>
 </ul>
-<h3>AC5: Case creation enabled</h3>
+<p><strong>TC step 4</strong>: Check detailed error in decipher-api logs; then restore the config file (TC step 5).</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The DECIPHER service log showed the following message followed by the error trace:</li>
+</ul>
+<pre><code class="language-sh">[ERROR] 2026-11-05 14:41:59 - decipher.runtime_settings: Invalid file /satrap-dl/config/decipher-runtime-cfg.yaml. Verify the YAML syntax
+</code></pre>
+<h3>Case creation enabled</h3>
 <p><strong>TC steps 1-2</strong>: Set <code>enable_case_creation: true</code> in <code>config/decipher-runtime-cfg.yaml</code> and send a POST request with valid alert data.</p>
 <ul>
 <li><span style="color:green"><strong>0 = flawless</strong></span>: Request completed successfully.</li>
 </ul>
-<p><strong>TC steps 3-4</strong>: Verify that <code>created_case.id</code> is non-zero and the case exists in Flowintel with all required description sections.</p>
+<p><strong>TC steps 3-4</strong>: Verify successful HTTP response with non-zero <code>created_case.id</code> and a case in Flowintel with all required description sections.</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The field <code>created_case.id</code> is non-zero (Case ID 14) and the case exists in Flowintel. The case description contains all required sections (Scenario, Alert information, Severity score, Score breakdown, Additional information).</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: An <code>HTTP 200</code> response with <code>created_case.id</code> 153 was returned; the case exists in Flowintel. The case description contains all required sections (Scenario, Alert information, Severity score, Score breakdown, Additional information).</li>
 </ul>
-<h3>AC6: Case creation disabled</h3>
-<p><strong>TC steps 1-5</strong>: Ensure <code>enable_case_creation: false</code>, send a valid POST request, then verify the HTTP 200 status, that <code>created_case.id</code> is 0, and that <code>log_summary</code> indicates case creation is disabled.</p>
+<p><strong>TC steps 5</strong>: The response had <code>"cti_lookup_result":"no_cti_found"</code></p>
+<h3>Case creation disabled</h3>
+<p><strong>TC steps 1-5</strong>: Set <code>enable_case_creation: false</code>, send a valid POST request, then verify the HTTP 200 status, that <code>created_case.id</code> is 0 with no case link, and that <code>log_summary</code> indicates case creation is disabled.</p>
 <ul>
 <li><span style="color:green"><strong>0 = flawless</strong></span>: The response status is <code>HTTP 200</code>, <code>created_case.id</code> is 0, and the <code>log_summary</code> correctly indicates that case creation is disabled.</li>
 </ul>
-<h3>AC7: MISP search disabled</h3>
-<p><strong>TC steps 1-4</strong>: Set <code>enable_misp_search: false</code>, send a valid POST request, then verify the HTTP 200 status and that <code>log_summary</code> indicates MISP search is disabled.</p>
+<p><strong>TC steps 6</strong>: Verify that the CTI lookup result matches the previous test case</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The response status is <code>HTTP 200</code> and the <code>log_summary</code> correctly indicates that MISP IOC search is disabled in the configuration.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: <code>"cti_lookup_result":"no_cti_found"</code> is the same as for the case creation enabled test.</li>
 </ul>
+<h3>MISP search disabled</h3>
+<p><strong>TC steps 1-6</strong>: Set <code>enable_misp_search: false</code>, send a valid POST request, then verify the HTTP 200 status and expected values.</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The response status is <code>HTTP 200</code> and has the expected values for each key (formatted for readability):</li>
+</ul>
+<p><code>json
+  {
+    "analyzed_scenario": "suspicious_login",
+    "cti_lookup_result": "misp_disabled",
+    "severity": 0.0,
+    "report": {
+      "misp_available": "False",
+      "log_summary": [
+        "MISP IOC search disabled in configuration"
+      ]
+    },
+    "created_case": {"id": 0, "link": ""}
+  } HTTP 200%</code></p>
+<h3>Mandatory fields without information</h3>
+<p><strong>TC step 1</strong>: Empty string mandatory field</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: Response as expected:</li>
+</ul>
+<p><code>json
+  {"detail":{"message":"Invalid data for alert type 'suspicious_login'","errors":[{"type":"string_too_short","loc":["username"],"msg":"String should have at least 1 character","input":"  "}]}} HTTP 422%</code></p>
+<p><strong>TC step 1</strong>: Empty list mandatory field</p>
+<ul>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: Response as expected:</li>
+</ul>
+<p><code>json
+  {"detail":{"message":"Invalid data for alert type 'suspicious_login'","errors":[{"type":"value_error","loc":["src_ips"],"msg":"Value error, The list must contain at least one non-empty string","input":[""," "]}]}} HTTP 422%</code></p>
 <h3>Defect summary description</h3>
 <p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawless</strong></span></p>
 <h3>Text execution evidence</h3>
-<p>See linked files (if any), e.g., screenshots, logs, etc.</p>
+<p>See the output strings reported above.</p>
 <h3>Comments</h3>
-<p>N/A</p>
+<p>For simplicity, the number of passed steps reported in the summary corresponds to the number of sections tested (10, which is all of them) and implies that all the steps per section were executed.</p>
 <h2>Guide</h2>
 <ul>
 <li>Defect category: <span style="color:green"><strong>0 = flawless</strong></span>; <span style="color:SeaGreen"><strong>1 = insignificant defect</strong></span>; <span style="color:orange"><strong>2 = minor defect</strong></span>; <span style="color:DarkOrange"><strong>3 = major defect</strong></span>; <span style="color:red"><strong>4 = critical defect</strong></span></li>
@@ -1739,11 +1777,11 @@
 <tbody>
 <tr>
 <td>test-date</td>
-<td>2026-03-12</td>
+<td>2026-11-05</td>
 </tr>
 <tr>
 <td>tester</td>
-<td>DMA</td>
+<td>IVS</td>
 </tr>
 <tr>
 <td>defect-category</td>
@@ -1751,7 +1789,7 @@
 </tr>
 <tr>
 <td>passed-steps</td>
-<td>7</td>
+<td>10</td>
 </tr>
 <tr>
 <td>failed-steps</td>
@@ -1763,7 +1801,7 @@
 </tr>
 <tr>
 <td>release-version</td>
-<td>0.4</td>
+<td>1.2</td>
 </tr>
 <tr>
 <td>verification-method</td>
@@ -1774,23 +1812,23 @@
 <h2 id="TRP-022">2.4 Test full workflow of analysis endpoint <small><a href="TRP.html#TRP-022">TRP-022</a></small></h2>
 <h2>Relevant test environment and configuration details</h2>
 <ul>
-<li>Software deviations: aligned with test case specification, N/A</li>
-<li>Hardware deviations: aligned with test case specification, N/A</li>
+<li>Software deviations: aligned with test case specification</li>
+<li>Hardware deviations: aligned with test case specification</li>
 </ul>
 <h2>Test execution results</h2>
 <p>Here we report the results in terms of step-wise alignments or deviations with respect to the expected outcome of the covered test case.</p>
 <h3>Analysis pipeline with matching event data</h3>
 <p><strong>TC step 1</strong>: Send the POST request and verify the response fields (<code>misp_events_found</code>, <code>severity</code>, <code>score_breakdown</code>).</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The response from the API is successful (<code>HTTP 200</code>). The field <code>report.misp_events_found</code> contains two event IDs, the <code>severity</code> is greater than 0, and the <code>score_breakdown</code> contains the expected objects and attribute breakdowns.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The response from the API contains <code>"cti_lookup_result": "cti_found"</code>, <code>report.misp_events_found</code> contains event IDs 204 and 205, the <code>severity</code> is greater than 0, and the <code>score_breakdown</code> contains the expected objects and attribute breakdowns.</li>
 </ul>
 <p><strong>TC step 2</strong>: Verification of MISP event attributes matching.</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: Manual verification in MISP confirms that the events found by DECIPHER contain the attributes corresponding to the IOCs sent in the request.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: Manual verification in MISP confirms that the events found by DECIPHER contain attributes corresponding to the IOCs sent in the request.</li>
 </ul>
 <p><strong>TC step 3</strong>: Warninglist filtering verification.</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: The event "[TEST] Low: Regular user login from corporate network" was correctly excluded from the results as its attribute is part of the <code>cisco-umbrella-blockpage-ipv4</code> warning list.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: The event "[TEST] Low: Regular user login from corporate network" was correctly excluded from the results as its attribute <code>146.112.61.105</code> is part of the <code>cisco-umbrella-blockpage-ipv4</code> warninglist.</li>
 </ul>
 <p><strong>TC step 4</strong>: Flowintel case creation and content verification.</p>
 <ul>
@@ -1799,14 +1837,10 @@
 <h3>Runtime settings for MISP search</h3>
 <p><strong>TC steps 1-2</strong>: Runtime settings for MISP search - 5m window.</p>
 <ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: After updating <code>event_timestamp</code> to <code>5m</code>, the API correctly returns an empty list for <code>misp_events_found</code> and a <code>severity</code> of 0, validating the temporal filtering.</li>
-</ul>
-<p><strong>TC step 3</strong>:  Runtime settings for MISP search - 7d window.</p>
-<ul>
-<li><span style="color:green"><strong>0 = flawless</strong></span>: Restoring <code>event_timestamp</code> to <code>7d</code> allows the API to find the events again, confirming the configuration is updated dynamically.</li>
+<li><span style="color:green"><strong>0 = flawless</strong></span>: After updating <code>event_timestamp</code> to <code>5m</code>, all the expected outcomes hold in the API response, confirming that the configuration is updated dynamically.</li>
 </ul>
 <h3>Clean up</h3>
-<p>The temporary Python environment <code>.venv-pymisp</code> was successfully removed.</p>
+<p>the runtime settings for MISP search were set back to 7d and the temporary Python environment <code>.venv-pymisp</code> was successfully removed.</p>
 <h3>Defect summary description</h3>
 <p>Defect-free test execution, i.e., defect category: <span style="color:green"><strong>0 = flawless</strong></span></p>
 <h3>Text execution evidence</h3>
@@ -1829,11 +1863,11 @@
 <tbody>
 <tr>
 <td>test-date</td>
-<td>2026-03-12</td>
+<td>2026-11-10</td>
 </tr>
 <tr>
 <td>tester</td>
-<td>DMA</td>
+<td>IVS</td>
 </tr>
 <tr>
 <td>defect-category</td>
@@ -1841,7 +1875,7 @@
 </tr>
 <tr>
 <td>passed-steps</td>
-<td>7</td>
+<td>6</td>
 </tr>
 <tr>
 <td>failed-steps</td>
@@ -1853,7 +1887,7 @@
 </tr>
 <tr>
 <td>release-version</td>
-<td>0.4</td>
+<td>1.2</td>
 </tr>
 <tr>
 <td>verification-method</td>
@@ -2232,6 +2266,7 @@
 </ul>
 <pre><code>{
   &quot;analyzed_scenario&quot;: &quot;suspicious_nt_scanning&quot;,
+  &quot;cti_lookup_result&quot;: &quot;cti_found&quot;,
   &quot;severity&quot;: 0.9876797515503988,
   &quot;report&quot;: {
     &quot;log_summary&quot;: [],
@@ -2292,6 +2327,7 @@
 </ul>
 <pre><code>{
   &quot;analyzed_scenario&quot;: &quot;suspicious_nt_scanning&quot;,
+  &quot;cti_lookup_result&quot;: &quot;cti_found&quot;,
   &quot;severity&quot;: 0.6665945600000001,
   &quot;report&quot;: {
     &quot;log_summary&quot;: [],
@@ -2354,6 +2390,7 @@
 </ul>
 <pre><code>{
   &quot;analyzed_scenario&quot;: &quot;suspicious_nt_scanning&quot;,
+  &quot;cti_lookup_result&quot;: &quot;cti_found&quot;,
   &quot;severity&quot;: 0.0,
   &quot;report&quot;: {
     &quot;log_summary&quot;: [],
@@ -2407,6 +2444,7 @@
 </ul>
 <pre><code>{
   &quot;analyzed_scenario&quot;: &quot;suspicious_nt_scanning&quot;,
+  &quot;cti_lookup_result&quot;: &quot;no_cti_found&quot;,
   &quot;severity&quot;: 0.0,
   &quot;report&quot;: {
     &quot;log_summary&quot;: [
@@ -2430,6 +2468,7 @@
 <p>DECIPHER API response:</p>
 <pre><code>{
   &quot;analyzed_scenario&quot;: &quot;suspicious_nt_scanning&quot;,
+  &quot;cti_lookup_result&quot;: &quot;no_cti_found&quot;,
   &quot;severity&quot;: 0.0,
   &quot;report&quot;: {
     &quot;log_summary&quot;: [],
@@ -2489,7 +2528,7 @@ Note: The score is determined by a formula that quantifies the severity of a thr
 <tbody>
 <tr>
 <td>test-date</td>
-<td>2026-08-31</td>
+<td>2026-11-10</td>
 </tr>
 <tr>
 <td>tester</td>
@@ -2513,7 +2552,7 @@ Note: The score is determined by a formula that quantifies the severity of a thr
 </tr>
 <tr>
 <td>release-version</td>
-<td>1.1</td>
+<td>1.2</td>
 </tr>
 <tr>
 <td>verification-method</td>

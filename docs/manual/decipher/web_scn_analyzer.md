@@ -126,7 +126,7 @@ A zero score accompanied by a non-empty `identified-scanners` still produces a c
 [MISP warninglists](https://www.circl.lu/doc/misp/warninglists/) are lists of well-known indicators prone to be false positives, such as public DNS resolvers, CDN ranges or the address ranges of public scanning services.
 Warninglists are disabled in a fresh MISP instance.
 
-DECIPHER ships a convenient setup tool that enables a MISP administrator to enable/disable warninglists with a single command. A default set of warninglists used by the scanning analyzer (decipher/tools/wrnlst_defaults.py) is included along with the runner; we recommend modifying this list according to your needs.
+DECIPHER comes with a convenient setup tool that enables a MISP administrator to enable/disable warninglists with a single command. A default set of warninglists used by the scanning analyzer (`decipher/tools/wrnlst_defaults.py`) is included along with the runner; modify this list according to your needs.
 
 From the SATRAP-DL dev environment:
 
@@ -157,7 +157,7 @@ python -m decipher.tools.warninglists_mgr enable --names "Shodan IP Ranges Used 
 python -m decipher.tools.warninglists_mgr disable --ids 98 99
 ```
 
-Warninglists are selected by name because IDs are assigned by each MISP instance and differ across installations. Use the `list` command to obtain the names and IDs of your instance.
+**Note:** Warninglists are selected by name because IDs are automatically assigned by MISP and can differ across instances. Use the `list` command to obtain the names and IDs of your instance.
 
 <br/>
 

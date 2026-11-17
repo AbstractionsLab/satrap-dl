@@ -4,6 +4,7 @@ Shared test helpers for DECIPHER analyzer unit tests.
 
 from unittest.mock import MagicMock, patch
 
+from decipher.commons.misp_connector import BulkSearchResult
 from decipher.runtime_settings import RuntimeSettings
 from decipher.scoringengine.datamodels import AttributeData, EventData, FinalScoreResult
 
@@ -55,15 +56,13 @@ def fake_runtime_cfg(
 
 
 def mock_misp_client(
-    available: bool = True,
     ioc_results: list | None = None,
     warninglist_matches: dict | None = None,
     object_matches: dict | None = None,
 ) -> MagicMock:
     """Build a MagicMock standing in for a MISPDataExtractor instance."""
     client = MagicMock()
-    client.is_available.return_value = available
-    client.bulk_search_iocs.return_value = ioc_results or []
+    client.bulk_search_iocs.return_value = BulkSearchResult(events=list(ioc_results or []))
     client.check_warninglists.return_value = warninglist_matches or {}
     client.search_object_matches.return_value = object_matches or {}
     return client

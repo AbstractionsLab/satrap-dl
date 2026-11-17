@@ -28,12 +28,13 @@ Every call to an `/analyze` endpoint returns the same structure, regardless of t
 
 ### Reading the report
 
-The `report` object carries the following keys. Analyzers may add their own, for example `identified-scanners` in the [suspicious web scanning analyzer](./web_scn_analyzer.md).
+The `report` object carries the following keys/fields. Analyzers may add their own, for example `identified-scanners` in the [suspicious web scanning analyzer](./web_scn_analyzer.md).
 
 | Key | How to read it |
 |---|---|
-| `misp_available` | `"True"` or `"False"` as a string. `"False"` means the score was computed without any MISP intelligence, either because the search is disabled in the configuration or because MISP could not be reached |
-| `misp_events_found` | IDs of the MISP events that matched at least one of the alert IOCs. Use them to open the events in MISP and read the full intelligence. The key is absent when the IOC search did not run |
+| `misp_available` | Deprecated: read `cti_lookup_result` instead. `"True"` or `"False"` as a string. `"False"` means the score was computed without any MISP intelligence, either because the search is disabled in the configuration or because MISP could not be reached |
+| `misp_events_found` | IDs of the MISP events that matched at least one of the alert IOCs. Use them to open the events in MISP and read the full intelligence. This key is absent when the IOC search was not run |
+| `misp_failed_lookups` | MISP attribute types (e.g., `ip-src`), whose search returned errors; the severity is still computed with the results of the successful IOC searches, but the value may be lower. An empty list means that all the IOC searches were successfully run. The key is absent when the IOC search was not run |
 | `score_breakdown` | One entry per matched MISP event, showing how each contributed to the score. Empty when nothing matched |
 | `log_summary` | Notes about the analysis execution, including any failure that was handled gracefully, for example an unreachable MISP or a failed case creation. Worth checking whenever a score looks lower than expected |
 

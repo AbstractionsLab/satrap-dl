@@ -67,6 +67,7 @@
 <li><a href="#SRS-051">2.10 Threat scenario analysis: suspicious login</a></li>
 <li><a href="#SRS-059">2.11 Threat scenario analysis: suspicious web scanning</a></li>
 <li><a href="#SRS-060">2.12 Multi-phase attack identification</a></li>
+<li><a href="#SRS-061">2.13 DECIPHER analysis outcome status</a></li>
 </ul>
 </li>
 <li><a href="#SRS-NFun">3 Non-functional requirements</a><ul>
@@ -2015,6 +2016,69 @@ Then, define configurable source reliability and information credibility mapping
 <tr>
 <td>vm</td>
 <td>Test (T)</td>
+</tr>
+<tr>
+<td>release</td>
+<td>Stable</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SRS-061">2.13 DECIPHER analysis outcome status <small><a href="SRS.html#SRS-061">SRS-061</a></small></h2>
+<p><em>As a</em> consumer of DECIPHER analysis results (e.g. RADAR), <em>I want</em> every analysis response to carry a single status code/flag summarizing the outcome of the CTI enrichment, <em>so that</em> I can identify in a straightforward way what happened during the analysis execution (e.g. MISP available or not, lookup errors, etc.).</p>
+<p>I want the analysis status to:</p>
+<ol>
+<li>Be a top-level field of every analysis response, applied uniformly to all threat scenarios.</li>
+<li>Report one of the following values, with a self-describing identifier:<ul>
+<li>MISP available and CTI found;</li>
+<li>MISP available and no CTI found;</li>
+<li>MISP unavailable or unreachable;</li>
+<li>MISP disabled (in the runtime configuration);</li>
+<li>MISP lookup error: MISP was reached but the query failed (e.g. API error, unparseable response).</li>
+</ul>
+</li>
+<li>Be extensible with new values (e.g. benign-evidence states) without changing the meaning of existing ones.</li>
+</ol>
+<p>The status applies only to valid requests (as per <a href="SRS.html#SRS-050">SRS-050</a>); requests with invalid field values return input errors and no analysis is run.</p>
+<p>The <code>misp_available</code> field of the analysis report is deprecated in favor of this status.</p>
+<h3>Rationale</h3>
+<p>To capture the output of the analysis execution in one semantic item and provide it as a single machine- and human-readable code. The status code covers only the cti enrichment outcome; the outcome of case creation is handled separately.</p>
+<h3>Acceptance criteria</h3>
+<ol>
+<li>When MISP is reachable and threat intelligence is found for at least one alert IOC, the status indicates MISP available and CTI found.</li>
+<li>When MISP is reachable and no threat intelligence is found for any alert IOC, the status indicates MISP available and no CTI found.</li>
+<li>When the connection to MISP fails at request time (connection refused, timeout, authentication failure, or TLS failure), the status indicates only MISP unavailable or unreachable.</li>
+<li>When MISP search is disabled in the runtime configuration, the status indicates MISP disabled.</li>
+<li>When MISP is reached but the query fails (API error or unparseable response), the status indicates MISP lookup error.</li>
+<li>A request with no information in a mandatory field returns an HTTP validation error with details and no query is sent to MISP.</li>
+<li>For every supported threat scenario, the status is present at the top level of the analysis response, and its value is the same whether case creation is enabled, disabled, or fails.</li>
+<li>The API schema marks the <code>misp_available</code> report field as deprecated.</li>
+<li>The service health check reports the same result whether MISP is reachable or not.</li>
+</ol>
+<p><em>Parent links:</em> <a href="MRS.html#MRS-038">MRS-038 Platform-independent API</a>, <a href="MRS.html#MRS-058">MRS-058 Automated alert triage and case escalation guided by CTI</a></p>
+<p><em>Child links:</em> <a href="TST.html#TST-028">TST-028 Test analysis endpoint core behavior</a>, <a href="TST.html#TST-023">TST-023 Test full workflow of analysis endpoint</a>, <a href="TST.html#TST-030">TST-030 Test analysis scenario: suspicious web scanning</a>, <a href="ARC.html#ARC-017">ARC-017 Analysis result: status code for CTI enrichment outcome</a></p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>F</td>
+</tr>
+<tr>
+<td>importance</td>
+<td>5</td>
+</tr>
+<tr>
+<td>urgency</td>
+<td>5</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>T</td>
 </tr>
 <tr>
 <td>release</td>
